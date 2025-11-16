@@ -21,7 +21,8 @@ class SelectFavoriteScreen extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('¡Casino favorito guardado!')),
       );
-      context.go('/home');
+      // Redirigir a la pantalla de detalle del casino seleccionado
+      context.go('/casinos/$casinoId');
     }
 
     return Scaffold(

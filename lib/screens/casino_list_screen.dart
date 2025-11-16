@@ -1,5 +1,7 @@
 
-import 'package:casinoloyalty_flutter/providers/casino_providers.dart' show casinosProvider;
+import 'package:casinoloyalty_flutter/models/casino_model.dart';
+import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,45 +11,25 @@ class CasinoListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final casinos = ref.watch(casinosProvider);
+    final casinosAsync = ref.watch(casinosProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuestros Casinos'),
+        title: const Text('Casinos'),
       ),
-      body: casinos.when(
-        data: (data) => ListView.builder(
-          itemCount: data.length,
+      body: casinosAsync.when(
+        data: (casinos) => ListView.builder(
+          itemCount: casinos.length,
           itemBuilder: (context, index) {
-            final casino = data[index];
-            return Card(
-              margin: const EdgeInsets.all(8.0),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onTap: () => context.go('/casino/${casino.id}'),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 200.0,
-                      width: double.infinity,
-                      child: Image.asset(
-                        casino.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(casino.nombre),
-                      subtitle: Text(casino.ciudad),
-                      trailing: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  ],
-                ),
-              ),
+            final Casino casino = casinos[index];
+            return CasinoCard(
+              casino: casino,
+              onTap: () => context.go('/casinos/${casino.id}'),
             );
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(error.toString())),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:casinoloyalty_flutter/screens/event_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/scaffold_with_navigation.dart';
+import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,12 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return const SplashScreen();
+      },
+    ),
+    GoRoute(
+      path: '/select-favorite',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SelectFavoriteScreen();
       },
     ),
     

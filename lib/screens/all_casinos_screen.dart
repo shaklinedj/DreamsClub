@@ -2,6 +2,7 @@ import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AllCasinosScreen extends ConsumerWidget {
   const AllCasinosScreen({super.key});
@@ -20,7 +21,10 @@ class AllCasinosScreen extends ConsumerWidget {
           itemCount: casinos.length,
           itemBuilder: (context, index) {
             final casino = casinos[index];
-            return CasinoCard(casino: casino);
+            return CasinoCard(
+              casino: casino,
+              onTap: () => context.push('/all-casinos/${casino.id}'),
+            );
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),

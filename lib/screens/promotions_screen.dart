@@ -44,7 +44,7 @@ class PromotionsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () => context.go('/all-casinos'),
+                      onPressed: () => context.go('/select-favorite'),
                       child: const Text('Seleccionar un casino'),
                     ),
                   ],

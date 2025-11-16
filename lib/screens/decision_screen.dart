@@ -28,10 +28,10 @@ class _DecisionScreenState extends State<DecisionScreen> {
 
     if (favoriteCasinoId != null) {
       // Si hay un casino favorito, navega a su detalle
-      context.go('/casino/$favoriteCasinoId');
+      context.go('/all-casinos/$favoriteCasinoId');
     } else {
-      // Si no, navega a la pantalla de bienvenida/selección
-      context.go('/welcome');
+      // Si no, navega a la pantalla de selección de favorito
+      context.go('/select-favorite');
     }
   }
 

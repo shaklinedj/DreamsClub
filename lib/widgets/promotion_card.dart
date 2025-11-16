@@ -16,7 +16,7 @@ class PromotionCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.go('/promotion/${promotion.id}'),
+        onTap: () => context.push('/promotion/${promotion.id}'),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

@@ -4,7 +4,7 @@ class LocationService {
 	Future<Position> getCurrentLocation() async {
 		final serviceEnabled = await Geolocator.isLocationServiceEnabled();
 		if (!serviceEnabled) {
-			throw Exception('Los servicios de ubicación están desactivados.');
+			throw Exception('El servicio de ubicación está desactivado');
 		}
 
 		LocationPermission permission = await Geolocator.checkPermission();
@@ -12,18 +12,12 @@ class LocationService {
 			permission = await Geolocator.requestPermission();
 		}
 
-		if (permission == LocationPermission.denied) {
-			throw Exception('Permiso de ubicación denegado.');
-		}
-
-		if (permission == LocationPermission.deniedForever) {
-			throw Exception(
-					'Permiso de ubicación denegado permanentemente. Habilítalo en ajustes.');
+		if (permission == LocationPermission.deniedForever || permission == LocationPermission.denied) {
+			throw Exception('Permiso de ubicación denegado');
 		}
 
 		return Geolocator.getCurrentPosition(
-			desiredAccuracy: LocationAccuracy.medium,
+			locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
 		);
 	}
 }
-

@@ -2,6 +2,7 @@
 import 'package:casinoloyalty_flutter/providers/event_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class EventDetailScreen extends ConsumerWidget {
@@ -13,11 +14,23 @@ class EventDetailScreen extends ConsumerWidget {
     final int id = int.parse(eventId);
     final eventDetails = ref.watch(eventDetailsProvider(id));
 
-    return Scaffold(
-      body: eventDetails.when(
-        data: (event) {
-          return CustomScrollView(
-            slivers: [
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        final router = GoRouter.of(context);
+        if (router.canPop()) {
+          router.pop();
+        } else {
+          router.go('/events');
+        }
+      },
+      child: Scaffold(
+        body: eventDetails.when(
+          data: (event) {
+            return CustomScrollView(
+              slivers: [
               SliverAppBar(
                 expandedHeight: 250.0,
                 pinned: true,
@@ -94,6 +107,7 @@ class EventDetailScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
+      ),
       ),
     );
   }

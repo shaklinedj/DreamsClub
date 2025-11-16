@@ -21,7 +21,7 @@ class ProfileScreen extends ConsumerWidget {
         if (router.canPop()) {
           router.pop();
         } else {
-          router.go('/casinos');
+          router.go('/home');
         }
       },
       child: Scaffold(
@@ -36,7 +36,7 @@ class ProfileScreen extends ConsumerWidget {
               if (router.canPop()) {
                 router.pop();
               } else {
-                router.go('/casinos');
+                  router.go('/home');
               }
             },
           ),

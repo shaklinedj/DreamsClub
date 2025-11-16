@@ -10,6 +10,25 @@ class CasinoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageWidget = casino.imageUrl.startsWith('http')
+        ? Image.network(
+            casino.imageUrl,
+            height: 150,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                'assets/images/placeholder.jpg',
+                height: 150,
+                fit: BoxFit.cover,
+              );
+            },
+          )
+        : Image.asset(
+            casino.imageUrl,
+            height: 150,
+            fit: BoxFit.cover,
+          );
+
     return Card(
       margin: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -17,11 +36,7 @@ class CasinoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              casino.imageUrl,
-              height: 150,
-              fit: BoxFit.cover,
-            ),
+            imageWidget,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

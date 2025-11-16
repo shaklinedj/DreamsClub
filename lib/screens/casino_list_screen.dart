@@ -24,7 +24,7 @@ class CasinoListScreen extends ConsumerWidget {
             final Casino casino = casinos[index];
             return CasinoCard(
               casino: casino,
-              onTap: () => context.go('/casinos/${casino.id}'),
+              onTap: () => context.push('/all-casinos/${casino.id}'),
             );
           },
         ),

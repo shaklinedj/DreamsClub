@@ -40,3 +40,23 @@ La estructura del proyecto es la siguiente:
 - **Casino favorito:** Si el usuario no concede los permisos de ubicación, se le permite seleccionar un casino favorito de una lista.
 - **Promociones y eventos:** Las pantallas de promociones y eventos muestran la información correspondiente al casino principal (el más cercano o el favorito).
 - **Tema personalizado:** La aplicación utiliza un tema personalizado basado en la identidad de marca de Dreams.
+
+## Firebase (opcional)
+
+Este proyecto incluye la inicialización de Firebase (firebase_core). Para conectarlo con tu proyecto:
+
+1. Instala el CLI de FlutterFire y configura el proyecto:
+   ```bash
+   dart pub global activate flutterfire_cli
+   flutterfire configure --project=<tu-proyecto> --platforms=android,ios,web
+   ```
+2. Revisa que se haya generado `lib/firebase_options.dart` (reemplazará el placeholder existente).
+3. Android: coloca `android/app/google-services.json` y, si usas Gradle Groovy/KTS, aplica el plugin de Google Services.
+4. iOS: coloca `ios/Runner/GoogleService-Info.plist` y añade el archivo al target en Xcode.
+5. Web: verifica que `web/index.html` tenga las etiquetas de Firebase si el CLI las añadió.
+
+Luego instala dependencias y ejecuta:
+```bash
+flutter pub get
+flutter run
+```

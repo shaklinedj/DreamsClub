@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/casino_data.dart';
 import '../models/casino.dart';
-import '../data/casino_data.dart'; // Importa la lista de casinos
 
 class CasinoListScreen extends StatelessWidget {
   const CasinoListScreen({super.key});
@@ -21,13 +21,14 @@ class CasinoListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selecciona tu casino favorito'),
+        title: const Text('Selecciona un casino'),
       ),
       body: ListView.builder(
         itemCount: casinos.length,
         itemBuilder: (context, index) {
           final casino = casinos[index];
           return ListTile(
+            leading: Image.network(casino.imageUrl, width: 56, height: 56, fit: BoxFit.cover),
             title: Text(casino.name),
             subtitle: Text(casino.location),
             trailing: const Icon(Icons.arrow_forward_ios),

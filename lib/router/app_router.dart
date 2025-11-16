@@ -1,7 +1,7 @@
 
 import 'package:casinoloyalty_flutter/screens/casino_detail_screen.dart';
+import 'package:casinoloyalty_flutter/screens/casino_list_screen.dart';
 import 'package:casinoloyalty_flutter/screens/event_detail_screen.dart';
-import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/casinos',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
+        return const CasinoListScreen();
       },
     ),
     GoRoute(

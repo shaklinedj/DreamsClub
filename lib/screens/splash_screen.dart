@@ -14,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
+  bool _isNavigating = false;
 
   @override
   void initState() {
@@ -28,74 +29,54 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _startNavigationLogic() async {
-    // Start a 4-second timer
+    // Start a 4-second timer as a fallback.
     _timer = Timer(const Duration(seconds: 4), _navigate);
 
-    // Request location permission and get location
-    await _requestLocationAndNavigate();
+    // Attempt to speed up navigation by getting location permission early.
+    await _handleLocation();
   }
 
-  Future<void> _requestLocationAndNavigate() async {
+  Future<void> _handleLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the 
-      // App to enable the location services.
-       _navigate(); // Navigate after the timer or if location is disabled
-      return;
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, navigate after timeout
-        _navigate();
-        return;
-      }
-    }
-    
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      _navigate();
-      return;
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
     try {
-       await Geolocator.getCurrentPosition();
-       // If we get the location before the timer, navigate
-       if(_timer?.isActive ?? false) {
-          _timer?.cancel();
-         _navigate();
-       }
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) return; // Fallback to timer
+
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+          return; // Fallback to timer
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) return; // Fallback to timer
+
+      // Permissions are granted, we can try to navigate faster.
+      if (_timer?.isActive ?? false) {
+        _timer?.cancel();
+        _navigate();
+      }
     } catch (e) {
-       // If there is an error getting the location, navigate after timeout
-       _navigate();
+      // If any error occurs, just fallback to the timer.
     }
   }
 
-
   Future<void> _navigate() async {
-    if (!mounted) return;
+    if (_isNavigating || !mounted) return;
+    _isNavigating = true;
 
-    // Check for a favorite casino
     final prefs = await SharedPreferences.getInstance();
     final favoriteCasinoId = prefs.getInt('favoriteCasino');
 
-    if (!mounted) return;
-
-    if (favoriteCasinoId != null) {
-      // Navigate to the favorite casino's detail screen
-      context.go('/casino/$favoriteCasinoId');
-    } else {
-      // Navigate to the casino selection screen
-      context.go('/casinos');
+    if (mounted) {
+      if (favoriteCasinoId != null) {
+        context.go('/casino/$favoriteCasinoId');
+      } else {
+        context.go('/casinos');
+      }
     }
   }
 

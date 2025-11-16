@@ -41,6 +41,13 @@ class CasinoDetailScreen extends ConsumerWidget {
                 pinned: true,
                 stretch: true,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.casino),
+                    tooltip: 'Cambiar de casino',
+                    onPressed: () => context.go('/casinos'),
+                  ),
+                ],
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   titlePadding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 12.0),

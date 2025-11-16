@@ -1,4 +1,3 @@
-import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/event_model.dart';
 import 'package:casinoloyalty_flutter/models/promotion_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
@@ -8,54 +7,46 @@ import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:casinoloyalty_flutter/services/promotion_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final casinoServiceProvider = Provider<CasinoService>((ref) {
-  return CasinoService();
-});
+import '../models/casino_model.dart';
 
-final locationServiceProvider = Provider<LocationService>((ref) {
-  return LocationService();
-});
+// --- PROVIDERS DE SERVICIOS ---
 
-final favoriteCasinoServiceProvider = Provider<FavoriteCasinoService>((ref) {
-  return FavoriteCasinoService();
-});
+// Servicio de geolocalización
+final locationServiceProvider = Provider((ref) => LocationService());
 
-final promotionServiceProvider = Provider<PromotionService>((ref) {
-  return PromotionService();
-});
+// Servicio que maneja los datos de los casinos
+final casinoServiceProvider = Provider((ref) => CasinoService());
 
-final eventServiceProvider = Provider<EventService>((ref) {
-  return EventService();
-});
+// Servicio que maneja los datos de eventos
+final eventServiceProvider = Provider((ref) => EventService());
 
+// Servicio que maneja los datos de promociones
+final promotionServiceProvider = Provider((ref) => PromotionService());
+
+// Servicio para la gestión del casino favorito del usuario
+final favoriteCasinoServiceProvider = Provider((ref) => FavoriteCasinoService());
+
+
+// --- PROVIDERS DE DATOS (lectura de datos desde los servicios) ---
+
+/// Provider que obtiene la lista completa de todos los casinos.
 final casinosProvider = FutureProvider<List<Casino>>((ref) {
   return ref.watch(casinoServiceProvider).getAllCasinos();
 });
 
-final nearestCasinoProvider = FutureProvider<Casino>((ref) async {
-  final locationService = ref.watch(locationServiceProvider);
-  final casinoService = ref.watch(casinoServiceProvider);
-  final favoriteCasinoService = ref.watch(favoriteCasinoServiceProvider);
-
-  try {
-    final position = await locationService.getCurrentLocation();
-    return await casinoService.getNearestCasino(position.latitude, position.longitude);
-  } catch (e) {
-    final favoriteCasinoId = await favoriteCasinoService.getFavoriteCasino();
-    if (favoriteCasinoId != null) {
-      final casinos = await casinoService.getAllCasinos();
-      return casinos.firstWhere((casino) => casino.id == favoriteCasinoId);
-    }
-    throw Exception('Location permission denied and no favorite casino set.');
-  }
+/// Provider que obtiene la lista de promociones para un ID de casino específico.
+final promotionsProvider = FutureProvider.family<List<Promotion>, int>((ref, casinoId) {
+  return ref.watch(promotionServiceProvider).getPromotionsForCasino(casinoId);
 });
 
-final promotionsProvider = FutureProvider<List<Promotion>>((ref) async {
-  final casino = await ref.watch(nearestCasinoProvider.future);
-  return ref.watch(promotionServiceProvider).getPromotionsByCasino(casino.id);
+/// Provider que obtiene la lista de eventos para un ID de casino específico.
+final eventsProvider = FutureProvider.family<List<Event>, int>((ref, casinoId) {
+  return ref.watch(eventServiceProvider).getEventsForCasino(casinoId);
 });
 
-final eventsProvider = FutureProvider<List<Event>>((ref) async {
-  final casino = await ref.watch(nearestCasinoProvider.future);
-  return ref.watch(eventServiceProvider).getEventsByCasino(casino.id);
-});
+
+// --- PROVIDERS DE ESTADO DE LA UI ---
+
+/// Este provider contiene el ID del casino que está activo en la UI.
+/// Puede ser el más cercano (por GPS) o el favorito (seleccionado por el usuario).
+final activeCasinoIdProvider = StateProvider<int?>((ref) => null);

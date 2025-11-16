@@ -1,1 +1,30 @@
-# Blueprint de la App: Casino Loyalty\n\n## Resumen\n\nEste documento describe la arquitectura y el dise\u00f1o de la aplicaci\u00f3n Flutter \"Casino Loyalty\". La aplicaci\u00f3n permitir\u00e1 a los usuarios encontrar el casino m\u00e1s cercano seg\u00fan su ubicaci\u00f3n GPS. Tambi\u00e9n proporcionar\u00e1 informaci\u00f3n sobre casinos, eventos y promociones, y permitir\u00e1 a los usuarios mantener una lista de sus casinos favoritos.\n\n## Funcionalidades Implementadas\n\n*   **UI y Tema:**\n    *   Tema moderno y visualmente atractivo basado en Material Design 3.\n    *   Esquema de colores personalizado y tipograf\u00eda usando el paquete `google_fonts`.\n    *   Soporte para modo claro y oscuro con un interruptor de tema.\n*   **Navegaci\u00f3n:**\n    *   Enrutamiento declarativo usando el paquete `go_router`.\n    *   Barra de navegaci\u00f3n inferior para un f\u00e1cil acceso a las diferentes pantallas.\n*   **Gesti\u00f3n de Estado:**\n    *   Paquete `provider` para gestionar el estado de la aplicaci\u00f3n, incluyendo el tema y los casinos favoritos.\n*   **Funcionalidades Principales:**\n    *   **Pantalla de Inicio:** Muestra un mensaje de bienvenida y un resumen de la informaci\u00f3n.\n    *   **Pantalla de Casinos:**\n        *   Obtiene y muestra una lista de todos los casinos.\n        *   Permite a los usuarios marcar casinos como favoritos.\n        *   Los favoritos se guardan localmente usando `shared_preferences`.\n    *   **Pantalla de Eventos:** Muestra una lista de los pr\u0imos eventos.\n    *   **Pantalla de Promociones:** Muestra una lista de las promociones actuales.\n*   **Servicios:**\n    *   `CasinoService`: Obtiene los datos de los casinos.\n    *   `EventService`: Obtiene los datos de los eventos.\n    *   `PromotionService`: Obtiene los datos de las promociones.\n    *   `FavoriteCasinoService`: Gestiona los casinos favoritos.\n    *   `LocationService`: Proporcionar\u00e1 servicios basados en la ubicaci\u00f3n (en proceso de implementaci\u00f3n).\n\n## Plan Actual: Implementar Geolocalizaci\u00f3n\n\n1.  **Configurar Permisos**:\n    *   **Android**: A\u00f1adir `ACCESS_FINE_LOCATION` y `ACCESS_COARSE_LOCATION` al `AndroidManifest.xml`.\n    *   **iOS**: A\u00f1adir las claves `NSLocationWhenInUseUsageDescription` al `Info.plist`.\n2.  **Implementar `LocationService`**:\n    *   Crear una funci\u00f3n para solicitar permiso de ubicaci\u00f3n al usuario.\n    *   Crear una funci\u00f3n para obtener la posici\u00f3n actual del usuario (latitud y longitud).\n3.  **Integrar con la UI**:\n    *   Al iniciar la aplicaci\u00f3n, solicitar el permiso de ubicaci\u00f3n.\n    *   Una vez obtenida la ubicaci\u00f3n, calcular el casino m\u00e1s cercano y mostrarlo de forma destacada.\n
+# Blueprint de la Aplicación Casino Loyalty
+
+## Descripción General
+
+Esta aplicación permite a los usuarios de la cadena de casinos "Dreams" ver información sobre los diferentes casinos, sus promociones y eventos. También permite a los usuarios seleccionar un casino favorito para tener un acceso rápido a su información.
+
+## Estilo, Diseño y Características
+
+*   **Arquitectura:** Flutter con Riverpod para la gestión de estado.
+*   **Navegación:** `go_router` para una navegación robusta y basada en rutas.
+*   **Diseño:** Interfaz limpia y moderna, con un tema oscuro y tarjetas de casino visualmente atractivas que incluyen imágenes y gradientes.
+*   **Funcionalidades:**
+    *   **Detección de casino cercano:** (Funcionalidad futura)
+    *   **Selección de casino favorito:** Permite a los usuarios elegir un casino principal.
+    *   **Listado de casinos:** Muestra todos los casinos disponibles con imágenes y nombres en tarjetas interactivas.
+    *   **Detalles del casino:** Pantalla de detalles para cada casino.
+    *   **Promociones y Eventos:** Secciones dedicadas a mostrar promociones y eventos para el casino seleccionado, con mensajes claros cuando no hay datos disponibles.
+
+## Mejoras Recientes (Sesión Actual)
+
+*   **Corrección de Navegación:**
+    *   Se anidó la ruta de detalles del casino (`/casinos/:id`) dentro de la ruta de la lista (`/all-casinos`) para crear una jerarquía de navegación lógica.
+    *   Se cambió el método `context.go()` por `context.push()` en las tarjetas de casino para apilar la pantalla de detalles sobre la lista, preservando el historial de navegación y permitiendo al usuario volver atrás.
+*   **Solución de Visualización de Imágenes:**
+    *   Se unificaron los modelos de datos `Casino` en un solo archivo (`lib/models/casino_model.dart`), eliminando el conflicto y la duplicidad.
+    *   Se añadió el campo `imageUrl` al modelo unificado.
+    *   Se actualizaron los datos de ejemplo en `casino_service.dart` para incluir las rutas de las imágenes locales desde la carpeta `assets/images/`.
+    *   Se corrigió el widget `CasinoCard` para cargar las imágenes usando `AssetImage` en lugar de `NetworkImage`.
+*   **Mejora de la Experiencia de Usuario (UX):**
+    *   Se implementó una lógica en las pantallas de `EventsScreen` y `PromotionsScreen` para mostrar un mensaje centrado ("No hay eventos/promociones disponibles para este casino.") cuando la lista de datos está vacía. Esto evita pantallas en blanco y mejora la comunicación con el usuario.

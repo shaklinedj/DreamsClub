@@ -14,8 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Casino Loyalty',
-      theme: AppTheme.themeData,
+      theme: AppTheme.lightTheme, // Tema claro
+      darkTheme: AppTheme.darkTheme, // Tema oscuro
+      themeMode: ThemeMode.system, // Usar el tema del sistema
       routerConfig: appRouter,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

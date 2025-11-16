@@ -3,6 +3,7 @@ class Casino {
   final String nombre;
   final String ciudad;
   final String direccion;
+  final String imageUrl; // <-- CAMPO AÑADIDO
   final double latitud;
   final double longitud;
 
@@ -11,6 +12,7 @@ class Casino {
     required this.nombre,
     required this.ciudad,
     required this.direccion,
+    required this.imageUrl, // <-- CAMPO AÑADIDO
     required this.latitud,
     required this.longitud,
   });
@@ -21,6 +23,7 @@ class Casino {
       nombre: json['nombre'],
       ciudad: json['ciudad'],
       direccion: json['direccion'],
+      imageUrl: json['imageUrl'] ?? '', // <-- CAMPO AÑADIDO
       latitud: json['latitud'],
       longitud: json['longitud'],
     );

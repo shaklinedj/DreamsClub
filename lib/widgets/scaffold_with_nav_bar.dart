@@ -14,10 +14,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // Asegura que todos los items sean visibles
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.casino),
-            label: 'Casinos',
+            icon: Icon(Icons.star),
+            label: 'Mi Casino',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard),
@@ -27,9 +28,14 @@ class ScaffoldWithNavBar extends StatelessWidget {
             icon: Icon(Icons.event),
             label: 'Eventos',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            label: 'Explorar',
+          ),
         ],
         currentIndex: navigationShell.currentIndex,
         onTap: (index) {
+          // Navega a la nueva rama sin reiniciar el estado si ya estamos en ella
           navigationShell.goBranch(
             index,
             initialLocation: index == navigationShell.currentIndex,

@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FavoriteCasinoService {
   static const String _favoriteCasinoKey = 'favoriteCasino';
 
-  Future<void> saveFavoriteCasino(int casinoId) async {
+  Future<void> setFavoriteCasinoId(int casinoId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_favoriteCasinoKey, casinoId);
   }

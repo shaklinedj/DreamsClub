@@ -33,42 +33,16 @@ class CasinoDetailScreen extends ConsumerWidget {
             return const Center(child: Text('Casino no encontrado.'));
           }
 
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 250.0,
-                floating: false,
-                pinned: true,
-                stretch: true,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.casino),
-                    tooltip: 'Cambiar de casino',
-                    onPressed: () => context.go('/casinos'),
-                  ),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  titlePadding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 12.0),
-                  title: Text(
-                    casino.nombre,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      shadows: <Shadow>[
-                        Shadow(
-                            offset: Offset(0.0, 1.0),
-                            blurRadius: 6.0,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ],
-                    ),
-                  ),
-                  background: Image.asset(
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                 SizedBox(
+                  height: 250.0,
+                  width: double.infinity,
+                  child: Image.asset(
                     casino.imageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
+                     errorBuilder: (context, error, stackTrace) {
                       return Image.asset(
                         'assets/images/placeholder.jpg',
                         fit: BoxFit.cover,
@@ -76,21 +50,23 @@ class CasinoDetailScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        casino.ciudad,
+                        casino.nombre,
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium
                             ?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
+                      ),
+                       Text(
+                        casino.ciudad,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 24),
                       if (casino.hotel != null)
@@ -180,8 +156,8 @@ class CasinoDetailScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

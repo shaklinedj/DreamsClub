@@ -8,12 +8,21 @@ APP_NAME="DreamsFidelizacion"
 FIREBASE_APP_ID="1:326453914816:android:f9a04e57ae0461e6291125"
 TESTER_GROUP="testers"
 
-# --- 1. Verificación y Auto-Commit de Cambios ---
+# --- 1. Verificación y Commit Interactivo de Cambios ---
 echo "🔍 Verificando el estado de Git..."
 if ! git diff-index --quiet HEAD --; then
-    echo "⚠️  Se encontraron cambios sin confirmar. Creando un commit automático..."
+    echo "⚠️  Se encontraron cambios sin confirmar."
+    git status -s # Muestra un estado resumido de los cambios
+    echo "👇 Por favor, introduce un mensaje para el commit de estos cambios y presiona Enter:"
+    read -r COMMIT_MESSAGE
+    
+    # Si el mensaje está vacío, usar uno por defecto
+    if [ -z "$COMMIT_MESSAGE" ]; then
+        COMMIT_MESSAGE="chore: Commit de cambios previos al build"
+    fi
+
     git add .
-    git commit -m "chore: Auto-commit de cambios no guardados antes del build"
+    git commit -m "$COMMIT_MESSAGE"
     echo "✅ Cambios guardados en un nuevo commit."
 else
     echo "✅ Repositorio limpio."

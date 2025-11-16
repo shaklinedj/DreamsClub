@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Release Android (APK, QA)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "CHANNEL=qa BUILD_FORMAT=apk ./version_and_build.sh"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Release Android (AAB, Beta)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "CHANNEL=beta BUILD_FORMAT=aab ./version_and_build.sh"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Release Android (Prod)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "CHANNEL=prod BUILD_FORMAT=apk ./version_and_build.sh"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Start MCP: Firebase Server",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "cd .mcp/firebase && npm install && npm start"
+      ],
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

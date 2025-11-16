@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -20,13 +21,15 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CasinoListScreen();
       },
-    ),
-    GoRoute(
-      path: '/casino/:id',
-      builder: (BuildContext context, GoRouterState state) {
-        final String id = state.pathParameters['id']!;
-        return CasinoDetailScreen(casinoId: id);
-      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: ':id', // Ruta anidada para detalles del casino
+          builder: (BuildContext context, GoRouterState state) {
+            final String id = state.pathParameters['id']!;
+            return CasinoDetailScreen(casinoId: id);
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/promotion/:id',

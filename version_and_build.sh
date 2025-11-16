@@ -8,13 +8,16 @@ APP_NAME="DreamsFidelizacion"
 FIREBASE_APP_ID="1:326453914816:android:f9a04e57ae0461e6291125"
 TESTER_GROUP="testers"
 
-# --- 1. Verificación de Git ---
+# --- 1. Verificación y Auto-Commit de Cambios ---
 echo "🔍 Verificando el estado de Git..."
 if ! git diff-index --quiet HEAD --; then
-    echo "❌ Error: Tienes cambios sin confirmar. Por favor, haz un commit o descarta los cambios antes de ejecutar este script."
-    exit 1
+    echo "⚠️  Se encontraron cambios sin confirmar. Creando un commit automático..."
+    git add .
+    git commit -m "chore: Auto-commit de cambios no guardados antes del build"
+    echo "✅ Cambios guardados en un nuevo commit."
+else
+    echo "✅ Repositorio limpio."
 fi
-echo "✅ Repositorio limpio."
 
 # --- 2. Versionado ---
 full_version=$(grep 'version: ' pubspec.yaml | sed 's/version: //')

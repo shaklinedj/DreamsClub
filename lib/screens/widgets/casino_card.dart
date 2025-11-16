@@ -22,7 +22,8 @@ class CasinoCard extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             Ink.image(
-              image: AssetImage(casino.imageUrl), // CORREGIDO: AssetImage en lugar de NetworkImage
+              image: AssetImage(casino
+                  .imageUrl), // CORREGIDO: AssetImage en lugar de NetworkImage
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -47,10 +48,10 @@ class CasinoCard extends StatelessWidget {
               child: Text(
                 casino.nombre, // Corregido para usar 'nombre'
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      shadows: [const Shadow(blurRadius: 5, color: Colors.black87)],
-                    ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: [const Shadow(blurRadius: 5, color: Colors.black87)],
+                ),
               ),
             ),
           ],

@@ -21,9 +21,10 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
 
   Future<void> _decideInitialRoute() async {
     try {
-      final position = await ref.read(locationServiceProvider).getCurrentLocation();
+      final position =
+          await ref.read(locationServiceProvider).getCurrentLocation();
       final allCasinos = await ref.read(casinosProvider.future);
-      
+
       Casino? nearestCasino;
       double? minDistance;
 
@@ -45,9 +46,9 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
         ref.read(activeCasinoIdProvider.notifier).state = nearestCasino.id;
         context.go('/home');
       }
-
     } catch (e) {
-      final favoriteId = await ref.read(favoriteCasinoServiceProvider).getFavoriteCasino();
+      final favoriteId =
+          await ref.read(favoriteCasinoServiceProvider).getFavoriteCasino();
       if (mounted) {
         if (favoriteId != null) {
           ref.read(activeCasinoIdProvider.notifier).state = favoriteId;

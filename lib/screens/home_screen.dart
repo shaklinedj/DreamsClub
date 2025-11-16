@@ -21,6 +21,7 @@ class HomeScreen extends ConsumerWidget {
 
     // Muestra los detalles del casino activo
     // Usamos una clave para asegurar que el widget se reconstruya si el ID cambia
-    return CasinoDetailScreen(key: ValueKey(activeCasinoId), casinoId: activeCasinoId.toString());
+    return CasinoDetailScreen(
+        key: ValueKey(activeCasinoId), casinoId: activeCasinoId.toString());
   }
 }

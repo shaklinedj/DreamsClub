@@ -14,7 +14,8 @@ class ScaffoldWithNavBar extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Asegura que todos los items sean visibles
+        type: BottomNavigationBarType
+            .fixed, // Asegura que todos los items sean visibles
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.star),

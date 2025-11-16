@@ -35,6 +35,30 @@ class CasinoService {
         latitud: -53.1638,
         longitud: -70.9171,
         imageUrl: 'assets/images/pta-a-1.jpg'),
+    Casino(
+        id: 5,
+        nombre: 'Monticello',
+        ciudad: 'Mostazal',
+        direccion: 'Panamericana Sur, Km. 57, Mostazal',
+        latitud: -34.0733,
+        longitud: -70.7303,
+        imageUrl: 'assets/images/fachada-monticello.jpg'),
+    Casino(
+        id: 6,
+        nombre: 'Dreams Puerto Varas',
+        ciudad: 'Puerto Varas',
+        direccion: 'Del Salvador 21, Puerto Varas',
+        latitud: -41.3204,
+        longitud: -72.9839,
+        imageUrl: 'assets/images/pto-v-2.jpg'),
+    Casino(
+        id: 7,
+        nombre: 'Dreams Coyhaique',
+        ciudad: 'Coyhaique',
+        direccion: 'Magallanes 131, Coyhaique',
+        latitud: -45.5715,
+        longitud: -72.0694,
+        imageUrl: 'assets/images/coy-1.jpg'),
   ];
 
   Future<List<Casino>> getAllCasinos() async {

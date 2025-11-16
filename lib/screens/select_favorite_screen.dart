@@ -27,7 +27,9 @@ class SelectFavoriteScreen extends ConsumerWidget {
               onTap: () async {
                 // Guardar como favorito y establecer como activo
                 final navigator = GoRouter.of(context);
-                await ref.read(favoriteCasinoServiceProvider).setFavoriteCasinoId(casino.id);
+                await ref
+                    .read(favoriteCasinoServiceProvider)
+                    .setFavoriteCasinoId(casino.id);
                 ref.read(activeCasinoIdProvider.notifier).state = casino.id;
                 // Navegar a la pantalla principal
                 navigator.go('/home');

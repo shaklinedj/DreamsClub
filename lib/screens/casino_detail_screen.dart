@@ -69,7 +69,10 @@ class CasinoDetailScreen extends ConsumerWidget {
                     children: [
                       Text(
                         casino.ciudad,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                       ),
@@ -82,7 +85,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                         itemBuilder: (promotion) => ListTile(
                           leading: Icon(Icons.local_offer,
                               color: Theme.of(context).colorScheme.primary),
-                          title: Text(promotion.titulo, 
+                          title: Text(promotion.titulo,
                               style: Theme.of(context).textTheme.titleMedium),
                           subtitle: Text(promotion.descripcion),
                         ),

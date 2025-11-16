@@ -10,20 +10,32 @@ class AppTheme {
   // Definición de TextTheme con Google Fonts
   static final TextTheme _appTextTheme = TextTheme(
     displayLarge: GoogleFonts.oswald(fontSize: 57, fontWeight: FontWeight.bold),
-    displayMedium: GoogleFonts.oswald(fontSize: 45, fontWeight: FontWeight.w400),
+    displayMedium:
+        GoogleFonts.oswald(fontSize: 45, fontWeight: FontWeight.w400),
     displaySmall: GoogleFonts.oswald(fontSize: 36, fontWeight: FontWeight.w400),
-    headlineLarge: GoogleFonts.roboto(fontSize: 32, fontWeight: FontWeight.bold),
-    headlineMedium: GoogleFonts.roboto(fontSize: 28, fontWeight: FontWeight.w500),
-    headlineSmall: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w500),
+    headlineLarge:
+        GoogleFonts.roboto(fontSize: 32, fontWeight: FontWeight.bold),
+    headlineMedium:
+        GoogleFonts.roboto(fontSize: 28, fontWeight: FontWeight.w500),
+    headlineSmall:
+        GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w500),
     titleLarge: GoogleFonts.roboto(fontSize: 22, fontWeight: FontWeight.w500),
-    titleMedium: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-    titleSmall: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-    bodyLarge: GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-    bodyMedium: GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-    bodySmall: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-    labelLarge: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-    labelMedium: GoogleFonts.roboto(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-    labelSmall: GoogleFonts.openSans(fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+    titleMedium: GoogleFonts.roboto(
+        fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.15),
+    titleSmall: GoogleFonts.roboto(
+        fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
+    bodyLarge: GoogleFonts.openSans(
+        fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+    bodyMedium: GoogleFonts.openSans(
+        fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+    bodySmall: GoogleFonts.openSans(
+        fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+    labelLarge: GoogleFonts.roboto(
+        fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
+    labelMedium: GoogleFonts.roboto(
+        fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+    labelSmall: GoogleFonts.openSans(
+        fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
   );
 
   // Tema Claro
@@ -44,7 +56,8 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: const IconThemeData(color: _primaryColor),
-      titleTextStyle: _appTextTheme.headlineSmall?.copyWith(color: _primaryColor),
+      titleTextStyle:
+          _appTextTheme.headlineSmall?.copyWith(color: _primaryColor),
     ),
     textTheme: _appTextTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -83,9 +96,11 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: const IconThemeData(color: _primaryColor),
-      titleTextStyle: _appTextTheme.headlineSmall?.copyWith(color: _primaryColor),
+      titleTextStyle:
+          _appTextTheme.headlineSmall?.copyWith(color: _primaryColor),
     ),
-    textTheme: _appTextTheme.apply(bodyColor: Colors.white, displayColor: Colors.white),
+    textTheme: _appTextTheme.apply(
+        bodyColor: Colors.white, displayColor: Colors.white),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: _primaryVariantColor,

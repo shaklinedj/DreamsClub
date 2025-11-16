@@ -8,13 +8,15 @@ class EventService {
           casinoId: 1,
           titulo: 'Concierto en vivo',
           descripcion: 'Disfruta de la mejor música en vivo.',
-          fecha: DateTime.now()),
+          fecha: DateTime.now(),
+          imageUrl: 'https://picsum.photos/seed/event1/400/300'),
       Event(
           id: 2,
           casinoId: 1,
           titulo: 'Noche de Karaoke',
           descripcion: 'Demuestra tu talento en el escenario.',
-          fecha: DateTime.now()),
+          fecha: DateTime.now(),
+          imageUrl: 'https://picsum.photos/seed/event2/400/300'),
     ],
     2: [
       Event(
@@ -22,7 +24,8 @@ class EventService {
           casinoId: 2,
           titulo: 'Torneo de Poker',
           descripcion: 'Inscríbete y gana grandes premios.',
-          fecha: DateTime.now()),
+          fecha: DateTime.now(),
+          imageUrl: 'https://picsum.photos/seed/event3/400/300'),
     ],
   };
 

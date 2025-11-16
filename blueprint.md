@@ -28,3 +28,8 @@ Esta aplicación permite a los usuarios de la cadena de casinos "Dreams" ver inf
     *   Se corrigió el widget `CasinoCard` para cargar las imágenes usando `AssetImage` en lugar de `NetworkImage`.
 *   **Mejora de la Experiencia de Usuario (UX):**
     *   Se implementó una lógica en las pantallas de `EventsScreen` y `PromotionsScreen` para mostrar un mensaje centrado ("No hay eventos/promociones disponibles para este casino.") cuando la lista de datos está vacía. Esto evita pantallas en blanco y mejora la comunicación con el usuario.
+*   **Inclusión de Imágenes en Eventos y Promociones:**
+    *   Se añadieron imágenes a las secciones de eventos y promociones para mejorar la presentación visual.
+    *   Se modificaron los modelos de datos `Event` y `Promotion` para incluir un campo `imageUrl`.
+    *   Se actualizaron los servicios de datos `EventService` y `PromotionService` para proporcionar URLs de imágenes de marcador de posición (`picsum.photos`).
+    *   Se modificaron las pantallas `events_screen.dart`, `promotions_screen.dart`, y `casino_detail_screen.dart` para mostrar las imágenes junto con el título y la descripción.

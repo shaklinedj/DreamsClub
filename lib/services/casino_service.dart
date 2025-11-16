@@ -1,4 +1,3 @@
-
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/hotel_model.dart';
 import 'package:casinoloyalty_flutter/models/restaurante_model.dart';
@@ -13,7 +12,7 @@ class CasinoService {
         direccion: 'Av. Arturo Prat 2755, Iquique',
         latitud: -20.2464,
         longitud: -70.1437,
-        imageUrl: 'https://iquique.dreams.cl/wp-content/uploads/2021/09/hotel-1-1.jpg',
+        imageUrl: 'assets/images/iqq.jpg',
         hotel: Hotel(id: '1', casinoId: '1', nombre: 'Hotel Dreams Iquique', imageUrl: 'https://iquique.dreams.cl/wp-content/uploads/2021/09/hotel-1-1.jpg'),
         restaurantes: [
           Restaurante(id: '1', casinoId: '1', nombre: 'La Pampa', imageUrl: 'https://media-cdn.tripadvisor.com/media/photo-s/0a/01/29/73/la-pampa.jpg'),
@@ -27,7 +26,7 @@ class CasinoService {
         direccion: 'Av. Alemania 0945, Temuco',
         latitud: -38.7359,
         longitud: -72.5904,
-        imageUrl: 'https://temuco.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/temuco.jpg',
         hotel: Hotel(id: '2', casinoId: '2', nombre: 'Hotel Dreams Temuco', imageUrl: 'https://temuco.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '3', casinoId: '2', nombre: 'In', imageUrl: 'https://temuco.dreams.cl/wp-content/uploads/2021/10/in-1.jpg'),
@@ -41,7 +40,7 @@ class CasinoService {
         direccion: 'Carampangue 190, Valdivia',
         latitud: -39.8142,
         longitud: -73.2459,
-        imageUrl: 'https://valdivia.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/valdivia.jpg',
         hotel: Hotel(id: '3', casinoId: '3', nombre: 'Hotel Dreams Valdivia', imageUrl: 'https://valdivia.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '5', casinoId: '3', nombre: 'Doña Inés', imageUrl: 'https://valdivia.dreams.cl/wp-content/uploads/2021/10/dona-ines-1.jpg'),
@@ -55,7 +54,7 @@ class CasinoService {
         direccion: 'O\'Higgins 1235, Punta Arenas',
         latitud: -53.1638,
         longitud: -70.9171,
-        imageUrl: 'https://punta-arenas.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/pta-a.jpg',
         hotel: Hotel(id: '4', casinoId: '4', nombre: 'Hotel Dreams Punta Arenas', imageUrl: 'https://punta-arenas.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '7', casinoId: '4', nombre: 'Doña Inés', imageUrl: 'https://punta-arenas.dreams.cl/wp-content/uploads/2021/10/dona-ines-1.jpg'),
@@ -69,7 +68,7 @@ class CasinoService {
         direccion: 'Panamericana Sur, Km. 57, Mostazal',
         latitud: -34.0733,
         longitud: -70.7303,
-        imageUrl: 'https://www.monticello.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/fachada-monticello.jpg',
         hotel: Hotel(id: '5', casinoId: '5', nombre: 'Hotel Monticello', imageUrl: 'https://www.monticello.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '9', casinoId: '5', nombre: 'El Pescador', imageUrl: 'https://www.monticello.cl/wp-content/uploads/2021/10/el-pescador-1.jpg'),
@@ -84,7 +83,7 @@ class CasinoService {
         direccion: 'Del Salvador 21, Puerto Varas',
         latitud: -41.3204,
         longitud: -72.9839,
-        imageUrl: 'https://puerto-varas.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/pto-v.jpg',
         hotel: Hotel(id: '6', casinoId: '6', nombre: 'Hotel Dreams Puerto Varas', imageUrl: 'https://puerto-varas.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '12', casinoId: '6', nombre: 'Doña Inés', imageUrl: 'https://puerto-varas.dreams.cl/wp-content/uploads/2021/10/dona-ines-1.jpg'),
@@ -98,7 +97,7 @@ class CasinoService {
         direccion: 'Magallanes 131, Coyhaique',
         latitud: -45.5715,
         longitud: -72.0694,
-        imageUrl: 'https://coyhaique.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg',
+        imageUrl: 'assets/images/coy.jpg',
         hotel: Hotel(id: '7', casinoId: '7', nombre: 'Hotel Dreams Coyhaique', imageUrl: 'https://coyhaique.dreams.cl/wp-content/uploads/2021/09/hotel-1.jpg'),
         restaurantes: [
           Restaurante(id: '14', casinoId: '7', nombre: 'Donde el Chef', imageUrl: 'https://coyhaique.dreams.cl/wp-content/uploads/2021/10/donde-el-chef-1.jpg'),

@@ -39,9 +39,14 @@ class PromotionsScreen extends ConsumerWidget {
               final promotion = promotionList[index];
               return Card(
                 margin: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(promotion.titulo),
-                  subtitle: Text(promotion.descripcion),
+                child: Column(
+                  children: [
+                    Image.network(promotion.imageUrl),
+                    ListTile(
+                      title: Text(promotion.titulo),
+                      subtitle: Text(promotion.descripcion),
+                    ),
+                  ],
                 ),
               );
             },

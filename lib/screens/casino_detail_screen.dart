@@ -54,7 +54,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  background: Image.network(
+                  background: Image.asset(
                     casino.imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
@@ -114,8 +114,17 @@ class CasinoDetailScreen extends ConsumerWidget {
                         title: 'Promociones',
                         provider: promotionsProvider(id),
                         itemBuilder: (promotion) => ListTile(
-                          leading: Icon(Icons.local_offer,
-                              color: Theme.of(context).colorScheme.primary),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              promotion.imageUrl,
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.local_offer),
+                            ),
+                          ),
                           title: Text(promotion.titulo,
                               style: Theme.of(context).textTheme.titleMedium),
                           subtitle: Text(promotion.descripcion),
@@ -130,8 +139,17 @@ class CasinoDetailScreen extends ConsumerWidget {
                         title: 'Eventos',
                         provider: eventsProvider(id),
                         itemBuilder: (event) => ListTile(
-                          leading: Icon(Icons.event,
-                              color: Theme.of(context).colorScheme.primary),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              event.imageUrl,
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.event),
+                            ),
+                          ),
                           title: Text(event.titulo,
                               style: Theme.of(context).textTheme.titleMedium),
                           subtitle: Text(event.descripcion),

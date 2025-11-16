@@ -1,9 +1,11 @@
+
 class Event {
   final int id;
   final int casinoId; // Añadido
   final String titulo;
   final String descripcion;
   final DateTime fecha;
+  final String imageUrl; // Añadido
 
   Event({
     required this.id,
@@ -11,6 +13,7 @@ class Event {
     required this.titulo,
     required this.descripcion,
     required this.fecha,
+    required this.imageUrl, // Añadido
   });
 
   // El método fromJson no es necesario para datos locales, pero lo mantenemos por si acaso
@@ -21,6 +24,7 @@ class Event {
       titulo: json['titulo'],
       descripcion: json['descripcion'],
       fecha: DateTime.parse(json['fecha']),
+      imageUrl: json['imageUrl'], // Añadido
     );
   }
 }

@@ -39,9 +39,14 @@ class EventsScreen extends ConsumerWidget {
               final event = eventList[index];
               return Card(
                 margin: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text(event.titulo),
-                  subtitle: Text(event.descripcion),
+                child: Column(
+                  children: [
+                    Image.network(event.imageUrl),
+                    ListTile(
+                      title: Text(event.titulo),
+                      subtitle: Text(event.descripcion),
+                    ),
+                  ],
                 ),
               );
             },

@@ -28,6 +28,11 @@
     <string>Esta aplicación utiliza tu ubicación para encontrar los casinos más cercanos.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Esta aplicación utiliza tu ubicación para encontrar los casinos más cercanos y ofrecerte promociones personalizadas.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

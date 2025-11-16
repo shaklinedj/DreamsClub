@@ -1,5 +1,6 @@
 import 'package:casinoloyalty_flutter/models/promotion_model.dart';
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

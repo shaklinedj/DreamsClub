@@ -1,7 +1,12 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/event_model.dart';
+import 'package:casinoloyalty_flutter/models/hotel_model.dart';
 import 'package:casinoloyalty_flutter/models/promotion_model.dart';
-import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/models/restaurante_model.dart';
+import 'package:casinoloyalty_flutter/providers/casino_providers.dart' show casinosProvider;
+import 'package:casinoloyalty_flutter/providers/event_providers.dart';
+import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
+import 'package:casinoloyalty_flutter/providers/restaurant_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,7 +54,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  background: Image.asset(
+                  background: Image.network(
                     casino.imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
@@ -77,6 +82,32 @@ class CasinoDetailScreen extends ConsumerWidget {
                             ),
                       ),
                       const SizedBox(height: 24),
+                      if (casino.hotel != null)
+                        _buildHotelSection(context, casino.hotel!),
+                      const Divider(),
+                      _buildSection<Restaurante>(
+                        context,
+                        title: 'Restaurantes',
+                        provider: restaurantsProvider(id),
+                        itemBuilder: (restaurante) => ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              restaurante.imageUrl,
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.restaurant),
+                            ),
+                          ),
+                          title: Text(restaurante.nombre,
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ),
+                        emptyMessage:
+                            'No hay restaurantes disponibles en este momento.',
+                      ),
+                      const SizedBox(height: 16),
                       const Divider(),
                       _buildSection<Promotion>(
                         context,
@@ -122,10 +153,47 @@ class CasinoDetailScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildHotelSection(BuildContext context, Hotel hotel) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Hotel', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 12),
+        Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              Image.network(
+                hotel.imageUrl,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 200,
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child: Icon(Icons.hotel, size: 50, color: Colors.grey),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text(hotel.nombre,
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
   Widget _buildSection<T>(
     BuildContext context, {
     required String title,
-    required ProviderListenable<AsyncValue<List<T>>> provider,
+    required ProviderListenable provider,
     required Widget Function(T item) itemBuilder,
     required String emptyMessage,
   }) {
@@ -135,7 +203,7 @@ class CasinoDetailScreen extends ConsumerWidget {
         Text(title, style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 12),
         Consumer(builder: (context, ref, child) {
-          final asyncValue = ref.watch(provider);
+          final asyncValue = ref.watch(provider as ProviderListenable<AsyncValue<List<T>>>);
           return asyncValue.when(
             data: (items) {
               if (items.isEmpty) {

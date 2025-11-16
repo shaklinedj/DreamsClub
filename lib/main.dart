@@ -1,10 +1,13 @@
-import 'package:casinoloyalty_flutter/navigation/app_router.dart';
+import 'package:casinoloyalty_flutter/router/app_router.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+   initializeDateFormatting('es_ES', null).then((_) {
+    runApp(const ProviderScope(child: MyApp()));
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme, // Tema claro
       darkTheme: AppTheme.darkTheme, // Tema oscuro
       themeMode: ThemeMode.system, // Usar el tema del sistema
-      routerConfig: appRouter,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }

@@ -7,5 +7,5 @@ final eventServiceProvider = Provider<EventService>((ref) {
 });
 
 final eventsProvider = FutureProvider.family<List<Event>, int>((ref, casinoId) {
-  return ref.watch(eventServiceProvider).getEventsForCasino(casinoId);
+  return ref.watch(eventServiceProvider).getEventsByCasinoId(casinoId);
 });

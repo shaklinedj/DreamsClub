@@ -1,3 +1,4 @@
+
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/event_model.dart';
 import 'package:casinoloyalty_flutter/models/hotel_model.dart';
@@ -9,6 +10,8 @@ import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
 import 'package:casinoloyalty_flutter/providers/restaurant_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class CasinoDetailScreen extends ConsumerWidget {
   final String casinoId;
@@ -40,6 +43,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
+                  titlePadding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 12.0),
                   title: Text(
                     casino.nombre,
                     style: const TextStyle(
@@ -84,7 +88,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 24),
                       if (casino.hotel != null)
                         _buildHotelSection(context, casino.hotel!),
-                      const Divider(),
+                      if (casino.hotel != null) const Divider(height: 32),
                       _buildSection<Restaurante>(
                         context,
                         title: 'Restaurantes',
@@ -114,7 +118,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                         title: 'Promociones',
                         provider: promotionsProvider(id),
                         itemBuilder: (promotion) => ListTile(
-                          leading: ClipRRect(
+                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
                               promotion.imageUrl,
@@ -122,12 +126,17 @@ class CasinoDetailScreen extends ConsumerWidget {
                               height: 56,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.local_offer),
+                                  const Icon(Icons.local_offer, size: 32),
                             ),
                           ),
                           title: Text(promotion.titulo,
                               style: Theme.of(context).textTheme.titleMedium),
-                          subtitle: Text(promotion.descripcion),
+                          subtitle:  Text(
+                            promotion.descripcion,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                           onTap: () => context.go('/promotion/${promotion.id}'),
                         ),
                         emptyMessage:
                             'No hay promociones disponibles en este momento.',
@@ -147,12 +156,16 @@ class CasinoDetailScreen extends ConsumerWidget {
                               height: 56,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.event),
+                                  const Icon(Icons.event, size: 32),
                             ),
                           ),
                           title: Text(event.titulo,
                               style: Theme.of(context).textTheme.titleMedium),
-                          subtitle: Text(event.descripcion),
+                           subtitle: Text(
+                            DateFormat('d MMM, y', 'es_ES').format(event.fecha),
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ), 
+                          onTap: () => context.go('/event/${event.id}'),
                         ),
                         emptyMessage:
                             'No hay eventos programados en este momento.',
@@ -175,7 +188,7 @@ class CasinoDetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Hotel', style: Theme.of(context).textTheme.headlineSmall),
+        Text('Hotel', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         Card(
           clipBehavior: Clip.antiAlias,
@@ -211,31 +224,35 @@ class CasinoDetailScreen extends ConsumerWidget {
   Widget _buildSection<T>(
     BuildContext context, {
     required String title,
-    required ProviderListenable provider,
+    required ProviderListenable<AsyncValue<List<T>>> provider,
     required Widget Function(T item) itemBuilder,
     required String emptyMessage,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.headlineSmall),
+        Text(title, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         Consumer(builder: (context, ref, child) {
-          final asyncValue = ref.watch(provider as ProviderListenable<AsyncValue<List<T>>>);
+          final asyncValue = ref.watch(provider);
           return asyncValue.when(
             data: (items) {
               if (items.isEmpty) {
                 return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(child: Text(emptyMessage)),
+                  padding: const EdgeInsets.symmetric(vertical: 32.0),
+                  child: Center(child: Text(emptyMessage, style: Theme.of(context).textTheme.bodyMedium)),
                 );
               }
-              return ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: items.length,
-                itemBuilder: (context, index) => itemBuilder(items[index]),
-                separatorBuilder: (context, index) => const Divider(height: 1),
+              return Card(
+                 clipBehavior: Clip.antiAlias,
+                 margin: EdgeInsets.zero,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => itemBuilder(items[index]),
+                  separatorBuilder: (context, index) => const Divider(height: 1),
+                ),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),

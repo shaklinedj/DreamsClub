@@ -3,6 +3,7 @@ import 'package:casinoloyalty_flutter/screens/casino_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/decision_screen.dart';
 import 'package:casinoloyalty_flutter/screens/events_screen.dart';
 import 'package:casinoloyalty_flutter/screens/home_screen.dart';
+import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
@@ -23,6 +24,14 @@ final appRouter = GoRouter(
       path: '/select-favorite',
       builder: (context, state) => const SelectFavoriteScreen(),
     ),
+    GoRoute(
+      path: '/promotion/:id',
+      builder: (context, state) {
+        final promotionId = state.pathParameters['id']!;
+        return PromotionDetailScreen(promotionId: promotionId);
+      },
+    ),
+
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavBar(navigationShell: navigationShell);
@@ -52,26 +61,24 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        // Pestaña 4: Explorar todos los casinos
         StatefulShellBranch(
           routes: [
             GoRoute(
-                path: '/all-casinos',
-                builder: (context, state) => const AllCasinosScreen(),
-                routes: [
-                  // RUTA ANIDADA
-                  GoRoute(
-                    path: 'casinos/:id', // path relativo
-                    builder: (context, state) {
-                      final casinoId = state.pathParameters['id']!;
-                      return CasinoDetailScreen(casinoId: casinoId);
-                    },
-                  ),
-                ]),
+              path: '/all-casinos',
+              builder: (context, state) => const AllCasinosScreen(),
+              routes: [
+                GoRoute(
+                  path: ':id',
+                  builder: (context, state) {
+                    final casinoId = state.pathParameters['id']!; 
+                    return CasinoDetailScreen(casinoId: casinoId);
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ],
     ),
-    // La ruta de detalle del casino se ha movido para ser una sub-ruta de /all-casinos
   ],
 );

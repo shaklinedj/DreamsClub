@@ -1,30 +1,29 @@
 
 class Event {
   final int id;
-  final int casinoId; // Añadido
+  final int casinoId; 
   final String titulo;
   final String descripcion;
   final DateTime fecha;
-  final String imageUrl; // Añadido
+  final String imageUrl; 
 
   Event({
     required this.id,
-    required this.casinoId, // Añadido
+    required this.casinoId, 
     required this.titulo,
     required this.descripcion,
     required this.fecha,
-    required this.imageUrl, // Añadido
+    required this.imageUrl, 
   });
 
-  // El método fromJson no es necesario para datos locales, pero lo mantenemos por si acaso
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       id: json['id'],
-      casinoId: json['casinoId'], // Añadido
+      casinoId: json['casinoId'], 
       titulo: json['titulo'],
       descripcion: json['descripcion'],
       fecha: DateTime.parse(json['fecha']),
-      imageUrl: json['imageUrl'], // Añadido
+      imageUrl: json['imageUrl'], 
     );
   }
 }

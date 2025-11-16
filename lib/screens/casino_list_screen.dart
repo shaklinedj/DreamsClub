@@ -1,70 +1,53 @@
 
-import 'package:casinoloyalty_flutter/services/casino_service.dart';
+import 'package:casinoloyalty_flutter/providers/casino_providers.dart' show casinosProvider;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/casino_model.dart';
 
-class CasinoListScreen extends StatefulWidget {
+class CasinoListScreen extends ConsumerWidget {
   const CasinoListScreen({super.key});
 
   @override
-  State<CasinoListScreen> createState() => _CasinoListScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final casinos = ref.watch(casinosProvider);
 
-class _CasinoListScreenState extends State<CasinoListScreen> {
-  final CasinoService _casinoService = CasinoService();
-  late Future<List<Casino>> _casinosFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _casinosFuture = _casinoService.getAllCasinos();
-  }
-
-  Future<void> _setFavoriteAndNavigate(BuildContext context, Casino casino) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('favoriteCasino', casino.id);
-    await prefs.setDouble('favoriteCasinoLat', casino.latitud);
-    await prefs.setDouble('favoriteCasinoLng', casino.longitud);
-
-    if (context.mounted) {
-      context.go('/casinos/${casino.id}');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selecciona un casino'),
+        title: const Text('Nuestros Casinos'),
       ),
-      body: FutureBuilder<List<Casino>>(
-        future: _casinosFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No se encontraron casinos.'));
-          } else {
-            final casinos = snapshot.data!;
-            return ListView.builder(
-              itemCount: casinos.length,
-              itemBuilder: (context, index) {
-                final casino = casinos[index];
-                return ListTile(
-                  leading: Image.asset(casino.imageUrl, width: 56, height: 56, fit: BoxFit.cover),
-                  title: Text(casino.nombre),
-                  subtitle: Text(casino.ciudad),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () => _setFavoriteAndNavigate(context, casino),
-                );
-              },
+      body: casinos.when(
+        data: (data) => ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final casino = data[index];
+            return Card(
+              margin: const EdgeInsets.all(8.0),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () => context.go('/casino/${casino.id}'),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 200.0,
+                      width: double.infinity,
+                      child: Image.asset(
+                        casino.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    ListTile(
+                      title: Text(casino.nombre),
+                      subtitle: Text(casino.ciudad),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                    ),
+                  ],
+                ),
+              ),
             );
-          }
-        },
+          },
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text(error.toString())),
       ),
     );
   }

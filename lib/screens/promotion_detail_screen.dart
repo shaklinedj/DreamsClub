@@ -1,16 +1,8 @@
 
+import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:casinoloyalty_flutter/models/promotion_model.dart';
-import 'package:casinoloyalty_flutter/services/promotion_service.dart';
 
-// Provider para el servicio de promociones
-final promotionServiceProvider = Provider((ref) => PromotionService());
-
-// Provider para obtener una promoción específica por su ID
-final promotionDetailProvider = FutureProvider.family<Promotion, int>((ref, id) {
-  return ref.watch(promotionServiceProvider).getPromotionById(id);
-});
 
 class PromotionDetailScreen extends ConsumerWidget {
   final String promotionId;
@@ -20,71 +12,55 @@ class PromotionDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int id = int.parse(promotionId);
-    final promotionAsyncValue = ref.watch(promotionDetailProvider(id));
+    final promotionDetails = ref.watch(promotionDetailsProvider(id));
 
     return Scaffold(
-      body: promotionAsyncValue.when(
-        data: (promotion) => CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 300.0,
-              floating: false,
-              pinned: true,
-              stretch: true,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                titlePadding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 12.0),
-                title: Text(
-                  promotion.titulo,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    shadows: <Shadow>[
-                      Shadow(offset: Offset(0.0, 2.0), blurRadius: 8.0, color: Colors.black87),
+
+      body: promotionDetails.when(
+        data: (promo) {
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 250.0,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(promo.titulo, style: const TextStyle(shadows: [Shadow(blurRadius: 10.0)])),
+                  background: Image.network(
+                    promo.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        'assets/images/placeholder.jpg', 
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        'Sobre la promoción',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        promo.descripcion,
+                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
+                      ),
+                      const SizedBox(height: 300), 
                     ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                background: Image.network(
-                  promotion.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey,
-                      child: const Center(
-                        child: Icon(Icons.local_offer, color: Colors.white, size: 80),
-                      ),
-                    );
-                  },
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      'Detalles de la Promoción',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold, 
-                        color: Theme.of(context).colorScheme.primary
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      promotion.descripcion,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16, height: 1.5),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),

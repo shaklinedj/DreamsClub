@@ -4,8 +4,9 @@ import 'package:go_router/go_router.dart';
 
 class CasinoCard extends StatelessWidget {
   final Casino casino;
+  final VoidCallback? onTap;
 
-  const CasinoCard({super.key, required this.casino});
+  const CasinoCard({super.key, required this.casino, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class CasinoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
-        onTap: () => context.push('/all-casinos/casinos/${casino.id}'),
+        onTap: onTap ?? () => context.push('/all-casinos/casinos/${casino.id}'),
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [

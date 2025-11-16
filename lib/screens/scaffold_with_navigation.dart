@@ -10,19 +10,56 @@ class ScaffoldWithNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Casino Loyalty'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.casino_outlined),
-            tooltip: 'Cambiar de casino',
-            onPressed: () => context.go('/casinos'),
-          ),
-        ],
+    return PopScope(
+      canPop: false, // Tomamos control manual del botón "Atrás"
+      onPopInvokedWithResult: (bool didPop, dynamic result) async {
+        if (didPop) {
+          return;
+        }
+        
+        final router = GoRouter.of(context);
+        // Si hay una pantalla anterior en el stack, simplemente vuelve.
+        if (router.canPop()) {
+          router.pop();
+        } else {
+          // Si no, muestra un diálogo de confirmación para salir.
+          final bool? shouldPop = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('¿Salir de la aplicación?'),
+              content: const Text('¿Estás seguro de que deseas cerrar la aplicación?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Sí'),
+                ),
+              ],
+            ),
+          );
+          if (shouldPop ?? false) {
+             // En un escenario real, podríamos llamar a SystemNavigator.pop() 
+             // para cerrar la aplicación, pero lo evitamos aquí para no afectar el IDE.
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Casino Loyalty'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.casino_outlined),
+              tooltip: 'Cambiar de casino',
+              onPressed: () => context.go('/casinos'),
+            ),
+          ],
+        ),
+        drawer: const AppDrawer(),
+        body: child,
       ),
-      drawer: const AppDrawer(),
-      body: child,
     );
   }
 }

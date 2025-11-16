@@ -41,22 +41,44 @@ La estructura del proyecto es la siguiente:
 - **Promociones y eventos:** Las pantallas de promociones y eventos muestran la información correspondiente al casino principal (el más cercano o el favorito).
 - **Tema personalizado:** La aplicación utiliza un tema personalizado basado en la identidad de marca de Dreams.
 
-## Firebase (opcional)
+## Firebase App Distribution
 
-Este proyecto incluye la inicialización de Firebase (firebase_core). Para conectarlo con tu proyecto:
+### Configuración del SDK de Android
+El proyecto ya tiene configurado Android SDK en `~/Android/Sdk` con:
+- Platform API 36
+- Build Tools 28.0.3 y 34.0.0
+- Variables de entorno en `.bashrc`
 
-1. Instala el CLI de FlutterFire y configura el proyecto:
-   ```bash
-   dart pub global activate flutterfire_cli
-   flutterfire configure --project=<tu-proyecto> --platforms=android,ios,web
-   ```
-2. Revisa que se haya generado `lib/firebase_options.dart` (reemplazará el placeholder existente).
-3. Android: coloca `android/app/google-services.json` y, si usas Gradle Groovy/KTS, aplica el plugin de Google Services.
-4. iOS: coloca `ios/Runner/GoogleService-Info.plist` y añade el archivo al target en Xcode.
-5. Web: verifica que `web/index.html` tenga las etiquetas de Firebase si el CLI las añadió.
+### Autenticación con Firebase
+Para subir builds a Firebase App Distribution:
 
-Luego instala dependencias y ejecuta:
 ```bash
-flutter pub get
-flutter run
+firebase login --no-localhost
 ```
+
+Sigue el enlace que aparece, autoriza y pega el código de autorización.
+
+### Subir una nueva versión
+
+Ejecuta el script automatizado:
+```bash
+./version_and_build.sh
+```
+
+El script:
+1. Verifica cambios de git (pedirá mensaje de commit si hay)
+2. Incrementa automáticamente el número de build en `pubspec.yaml`
+3. Compila APK release
+4. Crea commit y tag de git
+5. Sube a Firebase App Distribution al grupo "testers"
+
+### Firebase Core (opcional para features)
+
+Si necesitas otras funcionalidades de Firebase:
+
+```bash
+dart pub global activate flutterfire_cli
+flutterfire configure --project=<tu-proyecto> --platforms=android,ios,web
+```
+
+Esto generará `lib/firebase_options.dart` y archivos de configuración por plataforma.

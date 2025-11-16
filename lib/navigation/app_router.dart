@@ -1,10 +1,12 @@
 import 'package:casinoloyalty_flutter/screens/all_casinos_screen.dart';
 import 'package:casinoloyalty_flutter/screens/casino_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/decision_screen.dart';
+import 'package:casinoloyalty_flutter/screens/event_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/events_screen.dart';
 import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
+import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,17 @@ final appRouter = GoRouter(
         final promotionId = state.pathParameters['id']!;
         return PromotionDetailScreen(promotionId: promotionId);
       },
+    ),
+    GoRoute(
+      path: '/event/:id',
+      builder: (context, state) {
+        final eventId = state.pathParameters['id']!;
+        return EventDetailScreen(eventId: eventId);
+      },
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
     ),
 
     StatefulShellRoute.indexedStack(

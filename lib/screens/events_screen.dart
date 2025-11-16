@@ -3,6 +3,7 @@ import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/providers/event_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EventsScreen extends ConsumerWidget {
   const EventsScreen({super.key});
@@ -39,14 +40,18 @@ class EventsScreen extends ConsumerWidget {
               final event = eventList[index];
               return Card(
                 margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(event.imageUrl),
-                    ListTile(
-                      title: Text(event.titulo),
-                      subtitle: Text(event.descripcion),
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: () => context.push('/event/${event.id}'),
+                  child: Column(
+                    children: [
+                      Image.network(event.imageUrl),
+                      ListTile(
+                        title: Text(event.titulo),
+                        subtitle: Text(event.descripcion),
+                        trailing: const Icon(Icons.chevron_right),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

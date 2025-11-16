@@ -2,7 +2,7 @@
 import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
 
 class PromotionDetailScreen extends ConsumerWidget {
   final String promotionId;
@@ -11,58 +11,79 @@ class PromotionDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final int id = int.parse(promotionId);
+    final id = int.parse(promotionId);
     final promotionDetails = ref.watch(promotionDetailsProvider(id));
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
 
-      body: promotionDetails.when(
-        data: (promo) {
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 250.0,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(promo.titulo, style: const TextStyle(shadows: [Shadow(blurRadius: 10.0)])),
-                  background: Image.network(
-                    promo.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'assets/images/placeholder.jpg', 
-                        fit: BoxFit.cover,
-                      );
-                    },
+        final router = GoRouter.of(context);
+        if (router.canPop()) {
+          router.pop();
+        } else {
+          router.go('/promotions');
+        }
+      },
+      child: Scaffold(
+        body: promotionDetails.when(
+          data: (promo) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  expandedHeight: 250,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      promo.titulo,
+                      style: const TextStyle(shadows: [Shadow(blurRadius: 10)]),
+                    ),
+                    background: Image.network(
+                      promo.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/placeholder.jpg',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 16),
-                      Text(
-                        'Sobre la promoción',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        promo.descripcion,
-                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
-                      ),
-                      const SizedBox(height: 300), 
-                    ],
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16),
+                        Text(
+                          'Sobre la promoción',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          promo.descripcion,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(height: 1.5),
+                        ),
+                        const SizedBox(height: 300),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+              ],
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: $err')),
+        ),
       ),
     );
   }

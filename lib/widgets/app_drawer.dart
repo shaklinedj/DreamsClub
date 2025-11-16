@@ -43,7 +43,7 @@ class AppDrawer extends ConsumerWidget {
             title: const Text('Inicio'),
             onTap: () {
               Navigator.pop(context);
-              context.go('/casinos');
+              context.go('/home');
             },
           ),
           ListTile(

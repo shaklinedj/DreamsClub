@@ -51,14 +51,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                       final closestCasino = _findClosestCasino(casinos, position);
-                      context.go('/casinos/${closestCasino.id}');
+                      context.go('/all-casinos/${closestCasino.id}');
                     },
                     child: const Text('Buscar cercanos'),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      context.go('/casinos/$favoriteCasinoId');
+                      context.go('/all-casinos/$favoriteCasinoId');
                     },
                     child: const Text('Ir a mi favorito'),
                   ),
@@ -70,13 +70,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         } 
       } catch (e) {
         // Si falla la geolocalización, simplemente ir al casino favorito
-        if (mounted) context.go('/casinos/$favoriteCasinoId');
+        if (mounted) context.go('/all-casinos/$favoriteCasinoId');
         return;
       }
     } 
     
     if (favoriteCasinoId != null) {
-        if (mounted) context.go('/casinos/$favoriteCasinoId');
+        if (mounted) context.go('/all-casinos/$favoriteCasinoId');
         return;
     }
 
@@ -84,7 +84,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       final position = await _locationService.getCurrentLocation();
       if (casinos != null && casinos.isNotEmpty) {
         final closestCasino = _findClosestCasino(casinos, position);
-        if (mounted) context.go('/casinos/${closestCasino.id}');
+        if (mounted) context.go('/all-casinos/${closestCasino.id}');
       } else {
         if (mounted) context.go('/select-favorite');
       }

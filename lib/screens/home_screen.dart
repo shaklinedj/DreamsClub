@@ -5,12 +5,10 @@ class HomeScreen extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-		return Scaffold(
-			appBar: AppBar(title: const Text('Inicio')),
-			body: const Center(
+		return const Scaffold(
+			body: Center(
 				child: Text('Bienvenido a Casino Loyalty'),
 			),
 		);
 	}
 }
-

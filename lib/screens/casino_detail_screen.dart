@@ -119,7 +119,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                           onTap: () => context.go('/promotion/${promotion.id}'),
+                           onTap: () => context.push('/promotion/${promotion.id}'),
                         ),
                         emptyMessage:
                             'No hay promociones disponibles en este momento.',
@@ -148,7 +148,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                             DateFormat('d MMM, y', 'es_ES').format(event.fecha),
                             style: Theme.of(context).textTheme.bodyMedium,
                           ), 
-                          onTap: () => context.go('/event/${event.id}'),
+                          onTap: () => context.push('/event/${event.id}'),
                         ),
                         emptyMessage:
                             'No hay eventos programados en este momento.',

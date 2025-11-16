@@ -53,7 +53,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.casino_outlined),
               tooltip: 'Cambiar de casino',
-              onPressed: () => context.go('/casinos'),
+              onPressed: () => context.go('/select-favorite'),
             ),
           ],
         ),

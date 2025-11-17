@@ -36,7 +36,9 @@ class EventDetailScreen extends ConsumerWidget {
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(event.titulo,
-                      style: const TextStyle(shadows: [Shadow(blurRadius: 10.0)])),
+                      style: const TextStyle(shadows: [Shadow(blurRadius: 10.0)]),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis),
                   background: Image.network(
                     event.imageUrl,
                     fit: BoxFit.cover,
@@ -73,10 +75,14 @@ class EventDetailScreen extends ConsumerWidget {
                                     'Fecha del Evento',
                                     style: Theme.of(context).textTheme.labelLarge,
                                   ),
-                                  Text(
-                                    DateFormat('EEEE, d MMMM, y', 'es_ES')
-                                        .format(event.fecha),
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  Flexible(
+                                    child: Text(
+                                      DateFormat('EEEE, d MMMM, y', 'es_ES')
+                                          .format(event.fecha),
+                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ],
                               ),

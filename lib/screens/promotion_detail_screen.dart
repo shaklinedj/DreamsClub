@@ -38,6 +38,8 @@ class PromotionDetailScreen extends ConsumerWidget {
                     title: Text(
                       promo.titulo,
                       style: const TextStyle(shadows: [Shadow(blurRadius: 10)]),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     background: Image.network(
                       promo.imageUrl,

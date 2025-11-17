@@ -53,6 +53,20 @@ class User {
     }
   }
 
+  // Método para obtener el color de texto que contrasta con el color de nivel
+  Color get levelTextColor {
+    switch (level) {
+      case UserLevel.black:
+        return Colors.white; // Texto blanco sobre fondo negro
+      case UserLevel.gold:
+        return Colors.black; // Texto negro sobre fondo dorado
+      case UserLevel.platinum:
+        return Colors.black; // Texto negro sobre fondo platino
+      case UserLevel.blue:
+        return Colors.white; // Texto blanco sobre fondo azul
+    }
+  }
+
   // Método para obtener el nombre del nivel como texto
   String get levelName {
     switch (level) {

@@ -89,8 +89,16 @@ class _RestaurantTile extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text(restaurant.nombre),
-            subtitle: const Text('Gastronomía exclusiva Dreams'),
+            title: Text(
+              restaurant.nombre,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: const Text(
+              'Gastronomía exclusiva Dreams',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: const Icon(Icons.chevron_right),
           ),
         ],

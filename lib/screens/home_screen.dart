@@ -50,11 +50,15 @@ class HomeScreen extends ConsumerWidget {
 										Text(
 											casino.nombre,
 											style: Theme.of(context).textTheme.headlineMedium,
+											maxLines: 2,
+											overflow: TextOverflow.ellipsis,
 										),
 										const SizedBox(height: 4),
 										Text(
 											'${casino.ciudad} · ${casino.direccion}',
 											style: Theme.of(context).textTheme.bodyMedium,
+											maxLines: 2,
+											overflow: TextOverflow.ellipsis,
 										),
 										const SizedBox(height: 24),
 										Wrap(
@@ -145,10 +149,14 @@ class _HeroImage extends StatelessWidget {
 													.textTheme
 													.headlineSmall
 													?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+											maxLines: 2,
+											overflow: TextOverflow.ellipsis,
 										),
 										Text(
 											casino.ciudad,
 											style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+											maxLines: 1,
+											overflow: TextOverflow.ellipsis,
 										),
 									],
 								),
@@ -250,8 +258,18 @@ class _QuickActionCard extends StatelessWidget {
 						children: [
 							Icon(icon, size: 28),
 							const SizedBox(height: 12),
-							Text(title, style: Theme.of(context).textTheme.titleMedium),
-							Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
+							Text(
+								title, 
+								style: Theme.of(context).textTheme.titleMedium,
+								maxLines: 1,
+								overflow: TextOverflow.ellipsis,
+							),
+							Text(
+								subtitle, 
+								style: Theme.of(context).textTheme.bodySmall,
+								maxLines: 2,
+								overflow: TextOverflow.ellipsis,
+							),
 						],
 					),
 				),
@@ -283,8 +301,16 @@ class _ExploreCard extends StatelessWidget {
 					backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
 					child: Icon(icon, color: Theme.of(context).colorScheme.primary),
 				),
-				title: Text(title),
-				subtitle: Text(subtitle),
+				title: Text(
+					title,
+					maxLines: 1,
+					overflow: TextOverflow.ellipsis,
+				),
+				subtitle: Text(
+					subtitle,
+					maxLines: 2,
+					overflow: TextOverflow.ellipsis,
+				),
 				trailing: const Icon(Icons.chevron_right),
 			),
 		);

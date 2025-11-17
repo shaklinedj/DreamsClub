@@ -1,43 +1,139 @@
-
+import 'package:casinoloyalty_flutter/models/casino_model.dart';
+import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/services/user_prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 
-
-class DecisionScreen extends StatefulWidget {
+class DecisionScreen extends ConsumerStatefulWidget {
   const DecisionScreen({super.key});
 
   @override
-  State<DecisionScreen> createState() => _DecisionScreenState();
+  ConsumerState<DecisionScreen> createState() => _DecisionScreenState();
 }
 
-class _DecisionScreenState extends State<DecisionScreen> {
-    @override
+class _DecisionScreenState extends ConsumerState<DecisionScreen> {
+  @override
   void initState() {
     super.initState();
-    _checkFavoriteCasino();
+    _determineNextScreen();
   }
 
-  Future<void> _checkFavoriteCasino() async {
-    // Pequeño retraso para dar tiempo a la UI a renderizar el logo inicial
-    await Future.delayed(const Duration(seconds: 2)); 
+  Future<void> _determineNextScreen() async {
+    await Future.delayed(const Duration(seconds: 2));
 
     final favoriteCasinoId = await UserPreferences.getFavoriteCasino();
 
-    if (!mounted) return; 
+    List<Casino> casinos = [];
+    try {
+      casinos = await ref.read(casinosProvider.future);
+    } catch (_) {
+      // Si falla la carga de casinos continuamos con la lógica básica.
+    }
+
+    final locationService = ref.read(locationServiceProvider);
+    Position? position;
+    try {
+      position = await locationService.getCurrentLocation();
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.toString()),
+          ),
+        );
+      }
+    }
+
+    if (!mounted) return;
 
     if (favoriteCasinoId != null) {
-      // Si hay un casino favorito, navega a su detalle
+      final favoriteCasino = _findCasinoById(casinos, favoriteCasinoId);
+
+      if (favoriteCasino != null && position != null) {
+        final distanceKm = _distanceToCasinoKm(position, favoriteCasino);
+
+        if (distanceKm > 20) {
+          final goToClosest = await _askUserForClosestCasino();
+          if (!mounted) return;
+
+          if (goToClosest == true && casinos.isNotEmpty) {
+            final closest = _findClosestCasino(casinos, position);
+            context.go('/all-casinos/${closest.id}');
+            return;
+          }
+        }
+      }
+
       context.go('/all-casinos/$favoriteCasinoId');
+      return;
+    }
+
+    if (position != null && casinos.isNotEmpty) {
+      final closest = _findClosestCasino(casinos, position);
+      context.go('/all-casinos/${closest.id}');
     } else {
-      // Si no, navega a la pantalla de selección de favorito
       context.go('/select-favorite');
     }
   }
 
+  Casino? _findCasinoById(List<Casino> casinos, int id) {
+    for (final casino in casinos) {
+      if (casino.id == id) {
+        return casino;
+      }
+    }
+    return null;
+  }
+
+  Future<bool?> _askUserForClosestCasino() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Estás lejos de tu casino favorito'),
+        content: const Text(
+            '¿Quieres que te mostremos el casino más cercano a tu ubicación actual?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Ir a mi favorito'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Buscar cercanos'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Casino _findClosestCasino(List<Casino> casinos, Position position) {
+    Casino closest = casinos.first;
+    double minDistance = _distanceToCasinoKm(position, closest);
+
+    for (final casino in casinos.skip(1)) {
+      final distance = _distanceToCasinoKm(position, casino);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = casino;
+      }
+    }
+    return closest;
+  }
+
+  double _distanceToCasinoKm(Position position, Casino casino) {
+    final meters = Geolocator.distanceBetween(
+      position.latitude,
+      position.longitude,
+      casino.latitud,
+      casino.longitud,
+    );
+    return meters / 1000;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Esta pantalla solo muestra un logo centrado mientras decide a dónde ir
     return Scaffold(
       body: Center(
         child: Column(

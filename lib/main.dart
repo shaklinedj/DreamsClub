@@ -1,4 +1,5 @@
 import 'package:casinoloyalty_flutter/navigation/app_router.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,16 +11,18 @@ void main() {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
     return MaterialApp.router(
       title: 'Casino Loyalty',
-      theme: AppTheme.lightTheme, // Tema claro
-      darkTheme: AppTheme.darkTheme, // Tema oscuro
-      themeMode: ThemeMode.system, // Usar el tema del sistema
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
     );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 // Enum para los niveles de usuario, con nombres en lowerCamelCase.
@@ -12,7 +11,7 @@ class User {
   final int points;
   final double balance;
 
-  User({
+  const User({
     required this.name,
     required this.email,
     required this.profileImageUrl,
@@ -20,6 +19,24 @@ class User {
     required this.points,
     required this.balance,
   });
+
+  User copyWith({
+    String? name,
+    String? email,
+    String? profileImageUrl,
+    UserLevel? level,
+    int? points,
+    double? balance,
+  }) {
+    return User(
+      name: name ?? this.name,
+      email: email ?? this.email,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      level: level ?? this.level,
+      points: points ?? this.points,
+      balance: balance ?? this.balance,
+    );
+  }
 
   // Método para obtener el color asociado a cada nivel (útil para la UI)
   Color get levelColor {

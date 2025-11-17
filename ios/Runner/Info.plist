@@ -24,6 +24,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Necesitamos usar la cámara para actualizar tu foto de perfil.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Necesitamos acceder a tu galería para seleccionar una foto de perfil.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Esta aplicación utiliza tu ubicación para encontrar los casinos más cercanos.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

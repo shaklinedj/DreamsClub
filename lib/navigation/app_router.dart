@@ -44,7 +44,6 @@ final appRouter = GoRouter(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
     ),
-
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNavBar(navigationShell: navigationShell);
@@ -83,7 +82,7 @@ final appRouter = GoRouter(
                 GoRoute(
                   path: ':id',
                   builder: (context, state) {
-                    final casinoId = state.pathParameters['id']!; 
+                    final casinoId = state.pathParameters['id']!;
                     return CasinoDetailScreen(casinoId: casinoId);
                   },
                 ),

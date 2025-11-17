@@ -41,8 +41,8 @@ rm pubspec.yaml.bak
 echo "✅ pubspec.yaml actualizado."
 
 # --- 3. Limpieza y Compilación ---
-echo "🧹 Limpiando el proyecto..."
-flutter clean
+#--- echo "🧹 Limpiando el proyecto..."
+#--- flutter clean
 echo "📦 Compilando APK para Android..."
 flutter build apk --release --no-tree-shake-icons
 

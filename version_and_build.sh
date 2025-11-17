@@ -44,7 +44,7 @@ echo "✅ pubspec.yaml actualizado."
 echo "🧹 Limpiando el proyecto..."
 flutter clean
 echo "📦 Compilando APK para Android..."
-flutter build apk --release
+flutter build apk --release --no-tree-shake-icons
 
 # --- 4. Renombrar APK ---
 output_folder="build/app/outputs/flutter-apk"
@@ -63,10 +63,17 @@ echo "✅ Commit y tag ('v$new_version') creados."
 
 # --- 6. Subida a Firebase ---
 echo "🔥 Subiendo a Firebase App Distribution..."
-firebase appdistribution:distribute "$new_apk_path" \
-    --app "$FIREBASE_APP_ID" \
-    --release-notes "$commit_message" \
-    --groups "$TESTER_GROUP"
-
-# --- Finalización ---
-echo "🎉 ¡Proceso completado! La versión $new_version está disponible para el grupo '$TESTER_GROUP' en Firebase."
+if [ -z "$FIREBASE_APP_ID" ] || [[ "$FIREBASE_APP_ID" == "REPLACE_WITH_FIREBASE_APP_ID" ]]; then
+    echo "⚠️  Firebase App ID no configurado. Omite la distribución."
+    echo "ℹ️  Configura FIREBASE_APP_ID en el script o como variable de entorno para habilitar la subida."
+else
+    if firebase appdistribution:distribute "$new_apk_path" \
+        --app "$FIREBASE_APP_ID" \
+        --release-notes "$commit_message" \
+        --groups "$TESTER_GROUP"; then
+        echo "🎉 ¡Proceso completado! La versión $new_version está disponible para el grupo '$TESTER_GROUP' en Firebase."
+    else
+        echo "❌ Error al subir a Firebase App Distribution. Revisa el App ID, autenticación y permisos."
+        exit 1
+    fi
+fi

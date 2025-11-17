@@ -4,114 +4,153 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class LoyaltyCardWidget extends StatelessWidget {
-  final User user;
+  const LoyaltyCardWidget({
+    super.key,
+    required this.user,
+    this.compact = false,
+  });
 
-  const LoyaltyCardWidget({super.key, required this.user});
+  final User user;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormatter = NumberFormat.currency(locale: 'en_US', symbol: '\$');
-    final pointsFormatter = NumberFormat.decimalPattern('en_US');
+    final currencyFormatter = NumberFormat.currency(locale: 'es_CL', symbol: 'CLP\$');
+    final pointsFormatter = NumberFormat.decimalPattern('es_CL');
+    final colorScheme = Theme.of(context).colorScheme;
+    final borderRadius = BorderRadius.circular(compact ? 22 : 28);
+    final padding = compact ? const EdgeInsets.all(20) : const EdgeInsets.all(24);
+    final double height = compact ? 170 : 210;
 
-    return Card(
-      elevation: 8.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: [Colors.grey[900]!, Colors.grey[850]!, Colors.black],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        gradient: LinearGradient(
+          colors: [
+            user.levelColor.withOpacity(0.95),
+            colorScheme.surface.withOpacity(0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: Colors.white.withOpacity(0.15)),
+        boxShadow: [
+          BoxShadow(
+            color: user.levelColor.withOpacity(0.35),
+            blurRadius: 18,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      padding: padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'CASINO LOYALTY',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.white70,
+                      letterSpacing: 1.4,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Chip(
+                label: Text(
+                  user.levelName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                backgroundColor: Colors.white.withOpacity(0.9),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+            ],
+          ),
+          const Spacer(),
+          Text(
+            '**** **** **** 1234',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.85),
+              fontSize: compact ? 16 : 20,
+              letterSpacing: 2.4,
+              fontFamily: 'RobotoMono',
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: _CardMetric(
+                  label: 'PUNTOS',
+                  value: pointsFormatter.format(user.points),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _CardMetric(
+                  label: 'SALDO',
+                  value: currencyFormatter.format(user.balance),
+                  alignEnd: true,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            user.name.toUpperCase(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CardMetric extends StatelessWidget {
+  const _CardMetric({
+    required this.label,
+    required this.value,
+    this.alignEnd = false,
+  });
+
+  final String label;
+  final String value;
+  final bool alignEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    final alignment = alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    return Column(
+      crossAxisAlignment: alignment,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+        const SizedBox(height: 4),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: alignEnd ? Alignment.centerRight : Alignment.centerLeft,
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  'CASINO LOYALTY',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-                Chip(
-                  label: Text(user.levelName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  backgroundColor: Colors.white.withAlpha(230), // 90% opacity (255 * 0.9 = 229.5)
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const Icon(Icons.sim_card, size: 40, color: Colors.white38),
-            const SizedBox(height: 20),
-            Text(
-              '**** **** **** 1234', // Número de tarjeta de ejemplo
-              style: TextStyle(
-                color: Colors.white.withAlpha(204), // 80% opacity (255 * 0.8 = 204)
-                fontSize: 22,
-                letterSpacing: 2.0,
-                fontFamily: 'monospace', // Da un look de tarjeta de crédito
-              ),
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      'PUNTOS',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                    ),
-                    Text(
-                      pointsFormatter.format(user.points),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    const Text(
-                      'SALDO',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                    ),
-                    Text(
-                      currencyFormatter.format(user.balance),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              user.name.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

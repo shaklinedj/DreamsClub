@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -157,6 +158,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return PopScope(
       canPop: false,
@@ -171,112 +173,170 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Mi Perfil'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              final router = GoRouter.of(context);
-              if (router.canPop()) {
-                router.pop();
-              } else {
-                router.go('/home');
-              }
-            },
-          ),
-        ),
-        extendBodyBehindAppBar: true,
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.grey[900]!, Colors.grey[850]!, Colors.black],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        backgroundColor: colorScheme.surface,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              title: const Text('Mi Perfil'),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  final router = GoRouter.of(context);
+                  if (router.canPop()) {
+                    router.pop();
+                  } else {
+                    router.go('/home');
+                  }
+                },
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 100.0),
-            child: Column(
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.bottomRight,
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _ProfileHeaderDelegate(
+                user: user,
+                avatarImage: _buildProfileImage(user.profileImageUrl),
+                isUpdating: _isUpdatingPhoto,
+                onEditPhoto: _isUpdatingPhoto ? null : _showPhotoOptions,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.white24,
-                      backgroundImage: _buildProfileImage(user.profileImageUrl),
+                    TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Nombre completo',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
-                    Positioned(
-                      bottom: 4,
-                      right: 4,
-                      child: FloatingActionButton.small(
-                        heroTag: 'edit-photo',
-                        onPressed: _isUpdatingPhoto ? null : _showPhotoOptions,
-                        child: _isUpdatingPhoto
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        onPressed: _isSavingName ? null : _saveName,
+                        icon: _isSavingName
                             ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
                               )
-                            : const Icon(Icons.camera_alt_outlined),
+                            : const Icon(Icons.save_outlined),
+                        label: const Text('Guardar nombre'),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    LoyaltyCardWidget(user: user, compact: true),
+                    const SizedBox(height: 24),
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.email_outlined),
+                        title: Text(user.email),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-                TextField(
-                  controller: _nameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: 'Nombre completo',
-                    labelStyle: const TextStyle(color: Colors.white70),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white24),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: _isSavingName ? null : _saveName,
-                    icon: _isSavingName
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.save_outlined),
-                    label: const Text('Guardar nombre'),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                LoyaltyCardWidget(user: user),
-                const SizedBox(height: 24),
-                ListTile(
-                  leading:
-                      const Icon(Icons.email_outlined, color: Colors.white70),
-                  title: Text(
-                    user.email,
-                    style: const TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                ),
-              ],
+              ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _ProfileHeaderDelegate({
+    required this.user,
+    required this.avatarImage,
+    required this.isUpdating,
+    required this.onEditPhoto,
+  });
+
+  final User user;
+  final ImageProvider avatarImage;
+  final bool isUpdating;
+  final VoidCallback? onEditPhoto;
+
+  @override
+  double get maxExtent => 260;
+
+  @override
+  double get minExtent => 150;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final t = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
+    final avatarSize = lerpDouble(120, 72, t)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      color: Color.lerp(colorScheme.surface, colorScheme.surfaceVariant, 0.2),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CircleAvatar(
+                    radius: avatarSize / 2,
+                    backgroundImage: avatarImage,
+                  ),
+                  Positioned(
+                    bottom: 4,
+                    right: 4,
+                    child: FloatingActionButton.small(
+                      heroTag: 'edit-photo',
+                      onPressed: onEditPhoto,
+                      child: isUpdating
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.camera_alt_outlined),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.name,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      user.levelName,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  bool shouldRebuild(covariant _ProfileHeaderDelegate oldDelegate) {
+    return oldDelegate.user != user ||
+        oldDelegate.isUpdating != isUpdating ||
+        oldDelegate.avatarImage != avatarImage;
   }
 }

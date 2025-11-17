@@ -1,4 +1,4 @@
-import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
+import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,38 +12,67 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final labelStyle = (Theme.of(context)
+                .textTheme
+                .labelMedium)
+            ?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ) ??
+        TextStyle(
+          color: colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.w600,
+        );
+
     return Scaffold(
-      drawer: const AppDrawer(),
+      extendBody: true,
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType
-            .fixed, // Asegura que todos los items sean visibles
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Mi Casino',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.card_giftcard),
-            label: 'Promociones',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Eventos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explorar',
-          ),
-        ],
-        currentIndex: navigationShell.currentIndex,
+      bottomNavigationBar: CircleNavBar(
+        activeIndex: navigationShell.currentIndex,
         onTap: (index) {
-          // Navega a la nueva rama sin reiniciar el estado si ya estamos en ella
           navigationShell.goBranch(
             index,
             initialLocation: index == navigationShell.currentIndex,
           );
         },
+        height: 70,
+        circleWidth: 62,
+        shadowColor: Colors.black.withOpacity(0.15),
+        circleShadowColor: Colors.black.withOpacity(0.2),
+        padding: const EdgeInsets.fromLTRB(18, 0, 18, 18),
+        gradient: LinearGradient(
+          colors: [
+            colorScheme.surfaceVariant,
+            colorScheme.surface,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        circleGradient: LinearGradient(
+          colors: [
+            colorScheme.primary,
+            colorScheme.secondary,
+          ],
+        ),
+        cornerRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        activeIcons: const [
+          Icon(Icons.star, color: Colors.white),
+          Icon(Icons.card_giftcard, color: Colors.white),
+          Icon(Icons.event, color: Colors.white),
+          Icon(Icons.explore, color: Colors.white),
+        ],
+        inactiveIcons: [
+          Text('Casino', style: labelStyle),
+          Text('Promo', style: labelStyle),
+          Text('Eventos', style: labelStyle),
+          Text('Explorar', style: labelStyle),
+        ],
       ),
     );
   }

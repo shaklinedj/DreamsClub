@@ -7,6 +7,7 @@ import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
 import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
+import 'package:casinoloyalty_flutter/screens/restaurants_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: '/restaurants',
+      builder: (context, state) => const RestaurantsScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

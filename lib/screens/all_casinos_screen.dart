@@ -1,5 +1,6 @@
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
+import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ class AllCasinosScreen extends ConsumerWidget {
     final allCasinos = ref.watch(casinosProvider);
 
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Conoce Nuestros Casinos'),
       ),

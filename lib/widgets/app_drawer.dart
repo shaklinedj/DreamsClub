@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
-import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_icons/useanimations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,54 +17,81 @@ class AppDrawer extends ConsumerWidget {
     final themeNotifier = ref.read(themeModeProvider.notifier);
 
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              // Cierra el drawer y navega a la pantalla de perfil
-              Navigator.pop(context);
-              context.go('/profile');
-            },
-            child: UserAccountsDrawerHeader(
-              accountName: Text(
-                user.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+      child: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/profile');
+              },
+              child: UserAccountsDrawerHeader(
+                accountName: Text(
+                  user.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                accountEmail: Text(user.email),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: _buildProfileImage(user.profileImageUrl),
+                ),
+                decoration: BoxDecoration(
+                  color: user.levelColor,
                 ),
               ),
-              accountEmail: Text(user.email),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: _buildProfileImage(user.profileImageUrl),
-              ),
-              decoration: BoxDecoration(
-                color: user.levelColor, // Color basado en el nivel del usuario
-              ),
             ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: LoyaltyCardWidget(user: user),
-          ),
-          ListTile(
-            leading: const Icon(Icons.person_outline),
-            title: const Text('Mi Perfil'),
-            onTap: () {
-              Navigator.pop(context);
-              context.go('/profile');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Inicio'),
-            onTap: () {
-              Navigator.pop(context);
-              context.go('/home');
-            },
-          ),
-          Padding(
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: const Text('Mi Perfil'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/profile');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.star),
+              title: const Text('Mi casino'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/home');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.card_giftcard),
+              title: const Text('Promociones'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/promotions');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.event),
+              title: const Text('Eventos'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/events');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.restaurant_menu),
+              title: const Text('Restaurantes'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/restaurants');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.explore),
+              title: const Text('Explorar casinos'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/all-casinos');
+              },
+            ),
+            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: _ThemeModeSection(
               themeMode: themeMode,
@@ -73,16 +99,17 @@ class AppDrawer extends ConsumerWidget {
                 await themeNotifier.update(mode);
               },
             ),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Cerrar Sesión'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Cerrar Sesión'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

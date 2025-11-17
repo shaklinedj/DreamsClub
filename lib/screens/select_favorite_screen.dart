@@ -1,10 +1,10 @@
 
+import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
+import 'package:casinoloyalty_flutter/services/user_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:casinoloyalty_flutter/services/user_prefs.dart';
-import 'package:casinoloyalty_flutter/providers/casino_providers.dart'; 
-import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
 
 class SelectFavoriteScreen extends ConsumerWidget {
   const SelectFavoriteScreen({super.key});
@@ -13,8 +13,11 @@ class SelectFavoriteScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final casinosAsync = ref.watch(casinosProvider);
 
-    void handleSelectCasino(int casinoId) async {
+    Future<void> handleSelectCasino(int casinoId) async {
       await UserPreferences.setFavoriteCasino(casinoId);
+      ref.read(activeCasinoIdProvider.notifier).state = casinoId;
+      ref.invalidate(selectedCasinoIdProvider);
+      ref.invalidate(selectedCasinoProvider);
       
       if (!context.mounted) return;
 

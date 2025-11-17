@@ -63,10 +63,14 @@ class CasinoDetailScreen extends ConsumerWidget {
                             ?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                        Text(
                         casino.ciudad,
                         style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 24),
                       if (casino.hotel != null)
@@ -89,7 +93,9 @@ class CasinoDetailScreen extends ConsumerWidget {
                             ),
                           ),
                           title: Text(restaurante.nombre,
-                              style: Theme.of(context).textTheme.titleMedium),
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis),
                         ),
                         emptyMessage:
                             'No hay restaurantes disponibles en este momento.',
@@ -113,7 +119,9 @@ class CasinoDetailScreen extends ConsumerWidget {
                             ),
                           ),
                           title: Text(promotion.titulo,
-                              style: Theme.of(context).textTheme.titleMedium),
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis),
                           subtitle:  Text(
                             promotion.descripcion,
                             maxLines: 2,
@@ -143,10 +151,14 @@ class CasinoDetailScreen extends ConsumerWidget {
                             ),
                           ),
                           title: Text(event.titulo,
-                              style: Theme.of(context).textTheme.titleMedium),
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis),
                            subtitle: Text(
                             DateFormat('d MMM, y', 'es_ES').format(event.fecha),
                             style: Theme.of(context).textTheme.bodyMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ), 
                           onTap: () => context.push('/event/${event.id}'),
                         ),
@@ -194,7 +206,9 @@ class CasinoDetailScreen extends ConsumerWidget {
               ),
               ListTile(
                 title: Text(hotel.nombre,
-                    style: Theme.of(context).textTheme.titleLarge),
+                    style: Theme.of(context).textTheme.titleLarge,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis),
               ),
             ],
           ),

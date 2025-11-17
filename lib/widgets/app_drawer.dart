@@ -29,18 +29,12 @@ class AppDrawer extends ConsumerWidget {
               child: UserAccountsDrawerHeader(
                 accountName: Text(
                   user.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: user.levelTextColor,
                   ),
                 ),
-                accountEmail: Text(
-                  user.email,
-                  style: TextStyle(
-                    color: user.levelTextColor,
-                  ),
-                ),
+                accountEmail: Text(user.email),
                 currentAccountPicture: CircleAvatar(
                   backgroundImage: _buildProfileImage(user.profileImageUrl),
                 ),

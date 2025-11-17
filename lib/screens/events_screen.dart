@@ -63,16 +63,8 @@ class EventsScreen extends ConsumerWidget {
                               ),
                             ),
                             ListTile(
-                              title: Text(
-                                event.titulo,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                event.descripcion,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              title: Text(event.titulo),
+                              subtitle: Text(event.descripcion),
                               trailing: const Icon(Icons.chevron_right),
                             ),
                           ],

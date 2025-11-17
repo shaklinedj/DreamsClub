@@ -27,10 +27,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      body: SafeArea(
-        bottom: false, // Don't apply SafeArea to bottom since CircleNavBar handles it
-        child: navigationShell,
-      ),
+      body: navigationShell,
       bottomNavigationBar: CircleNavBar(
         activeIndex: navigationShell.currentIndex,
         onTap: (index) {
@@ -43,12 +40,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
         circleWidth: 62,
         shadowColor: Colors.black.withOpacity(0.15),
         circleShadowColor: Colors.black.withOpacity(0.2),
-        padding: EdgeInsets.fromLTRB(
-          18, 
-          0, 
-          18, 
-          18 + MediaQuery.of(context).padding.bottom, // Add system bottom padding
-        ),
+        padding: const EdgeInsets.fromLTRB(18, 0, 18, 18),
         gradient: LinearGradient(
           colors: [
             colorScheme.surfaceVariant,

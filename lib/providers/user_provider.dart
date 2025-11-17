@@ -3,7 +3,7 @@ import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final _defaultUser = User(
+const _defaultUser = User(
   name: 'John Doe',
   email: 'john.doe@email.com',
   profileImageUrl: 'assets/images/perfil_imagen.png',

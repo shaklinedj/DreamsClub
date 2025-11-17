@@ -30,16 +30,16 @@ class LoyaltyCardWidget extends StatelessWidget {
         borderRadius: borderRadius,
         gradient: LinearGradient(
           colors: [
-            user.levelColor.withOpacity(0.95),
-            colorScheme.surface.withOpacity(0.05),
+            user.levelColor.withValues(alpha: 0.95),
+            colorScheme.surface.withValues(alpha: 0.05),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        border: Border.all(color: Colors.white.withOpacity(0.15)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
-            color: user.levelColor.withOpacity(0.35),
+            color: user.levelColor.withValues(alpha: 0.35),
             blurRadius: 18,
             offset: const Offset(0, 12),
           ),
@@ -65,7 +65,7 @@ class LoyaltyCardWidget extends StatelessWidget {
                   user.levelName,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                backgroundColor: Colors.white.withOpacity(0.9),
+                backgroundColor: Colors.white.withValues(alpha: 0.9),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
             ],
@@ -74,7 +74,7 @@ class LoyaltyCardWidget extends StatelessWidget {
           Text(
             '**** **** **** 1234',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withValues(alpha: 0.85),
               fontSize: compact ? 16 : 20,
               letterSpacing: 2.4,
               fontFamily: 'RobotoMono',

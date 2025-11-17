@@ -274,7 +274,7 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      color: Color.lerp(colorScheme.surface, colorScheme.surfaceVariant, 0.2),
+      color: Color.lerp(colorScheme.surface, colorScheme.surfaceContainerHighest, 0.2),
       child: SafeArea(
         bottom: false,
         child: Padding(

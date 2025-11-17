@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
 						return RefreshIndicator(
 							onRefresh: () async {
 								ref.invalidate(selectedCasinoIdProvider);
-								await ref.refresh(selectedCasinoProvider.future);
+								final _ = await ref.refresh(selectedCasinoProvider.future);
 							},
 							child: SingleChildScrollView(
 								physics: const AlwaysScrollableScrollPhysics(),
@@ -127,14 +127,14 @@ class _HeroImage extends StatelessWidget {
 							),
 						),
 						Container(
-							decoration: BoxDecoration(
-								gradient: LinearGradient(
-									colors: [Colors.black.withOpacity(0.65), Colors.transparent],
-									begin: Alignment.bottomCenter,
-									end: Alignment.topCenter,
-								),
+						decoration: BoxDecoration(
+							gradient: LinearGradient(
+								colors: [Colors.black.withValues(alpha: 0.65), Colors.transparent],
+								begin: Alignment.bottomCenter,
+								end: Alignment.topCenter,
 							),
 						),
+					),
 						Align(
 							alignment: Alignment.bottomLeft,
 							child: Padding(
@@ -298,7 +298,7 @@ class _ExploreCard extends StatelessWidget {
 			child: ListTile(
 				onTap: onTap,
 				leading: CircleAvatar(
-					backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+					backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
 					child: Icon(icon, color: Theme.of(context).colorScheme.primary),
 				),
 				title: Text(

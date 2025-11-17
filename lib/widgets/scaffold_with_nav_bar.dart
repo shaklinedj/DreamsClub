@@ -32,6 +32,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
         child: navigationShell,
       ),
       bottomNavigationBar: CircleNavBar(
+        color: colorScheme.surface,
         activeIndex: navigationShell.currentIndex,
         onTap: (index) {
           navigationShell.goBranch(
@@ -41,8 +42,8 @@ class ScaffoldWithNavBar extends StatelessWidget {
         },
         height: 70,
         circleWidth: 62,
-        shadowColor: Colors.black.withOpacity(0.15),
-        circleShadowColor: Colors.black.withOpacity(0.2),
+        shadowColor: Colors.black.withValues(alpha: 0.15),
+        circleShadowColor: Colors.black.withValues(alpha: 0.2),
         padding: EdgeInsets.fromLTRB(
           18, 
           0, 
@@ -51,7 +52,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
         ),
         gradient: LinearGradient(
           colors: [
-            colorScheme.surfaceVariant,
+            colorScheme.surfaceContainerHighest,
             colorScheme.surface,
           ],
           begin: Alignment.topLeft,

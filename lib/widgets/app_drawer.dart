@@ -102,7 +102,7 @@ class AppDrawer extends ConsumerWidget {
             child: _ThemeModeSection(
               themeMode: themeMode,
               onChanged: (mode) async {
-                await themeNotifier.update(mode);
+                if (mode != null) await themeNotifier.update(mode);
               },
             ),
             ),
@@ -128,7 +128,7 @@ class _ThemeModeSection extends StatelessWidget {
   });
 
   final ThemeMode themeMode;
-  final ValueChanged<ThemeMode> onChanged;
+  final ValueChanged<ThemeMode?> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -169,37 +169,32 @@ class _ThemeModeSection extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            RadioListTile<ThemeMode>(
-              value: ThemeMode.system,
+            RadioGroup<ThemeMode>(
               groupValue: themeMode,
-              dense: true,
-              secondary: const Icon(Icons.auto_mode),
-              title: const Text('Tema del sistema'),
-              subtitle:
-                  const Text('Sigue automáticamente el modo del dispositivo.'),
-              onChanged: (mode) {
-                if (mode != null) onChanged(mode);
-              },
-            ),
-            RadioListTile<ThemeMode>(
-              value: ThemeMode.light,
-              groupValue: themeMode,
-              dense: true,
-              secondary: const Icon(Icons.light_mode),
-              title: const Text('Modo claro'),
-              onChanged: (mode) {
-                if (mode != null) onChanged(mode);
-              },
-            ),
-            RadioListTile<ThemeMode>(
-              value: ThemeMode.dark,
-              groupValue: themeMode,
-              dense: true,
-              secondary: const Icon(Icons.dark_mode),
-              title: const Text('Modo oscuro'),
-              onChanged: (mode) {
-                if (mode != null) onChanged(mode);
-              },
+              onChanged: onChanged,
+              child: const Column(
+                children: [
+                  RadioListTile<ThemeMode>(
+                    value: ThemeMode.system,
+                    dense: true,
+                    secondary: Icon(Icons.auto_mode),
+                    title: Text('Tema del sistema'),
+                    subtitle: Text('Sigue automáticamente el modo del dispositivo.'),
+                  ),
+                  RadioListTile<ThemeMode>(
+                    value: ThemeMode.light,
+                    dense: true,
+                    secondary: Icon(Icons.light_mode),
+                    title: Text('Modo claro'),
+                  ),
+                  RadioListTile<ThemeMode>(
+                    value: ThemeMode.dark,
+                    dense: true,
+                    secondary: Icon(Icons.dark_mode),
+                    title: Text('Modo oscuro'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

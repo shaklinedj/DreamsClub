@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:developer' as developer;
 
+
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';

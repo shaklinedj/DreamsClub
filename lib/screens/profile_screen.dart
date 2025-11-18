@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isSavingName = false;
   bool _isUpdatingPhoto = false;
+  bool _distanceNotificationsEnabled = false;
   late final ProviderSubscription<User> _userSubscription;
 
   @override
@@ -36,6 +38,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         _nameController.text = next.name;
       }
     });
+
+    _loadNotificationSettings();
+  }
+
+  Future<void> _loadNotificationSettings() async {
+    final enabled = await BackgroundDistanceService.areNotificationsEnabled();
+    if (mounted) {
+      setState(() {
+        _distanceNotificationsEnabled = enabled;
+      });
+    }
   }
 
   @override
@@ -156,6 +169,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 
+  Future<void> _toggleDistanceNotifications(bool value) async {
+    setState(() => _distanceNotificationsEnabled = value);
+    try {
+      if (value) {
+        await BackgroundDistanceService.enableNotifications();
+        _showSnackBar('Notificaciones de distancia activadas');
+      } else {
+        await BackgroundDistanceService.disableNotifications();
+        _showSnackBar('Notificaciones de distancia desactivadas');
+      }
+    } catch (e) {
+      setState(() => _distanceNotificationsEnabled = !value);
+      _showSnackBar('Error al cambiar la configuración');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
@@ -237,6 +266,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: ListTile(
                         leading: const Icon(Icons.email_outlined),
                         title: Text(user.email),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Configuración',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Card(
+                      child: SwitchListTile(
+                        secondary: const Icon(Icons.notifications_active_outlined),
+                        title: const Text('Notificaciones de distancia'),
+                        subtitle: const Text(
+                          'Recibe una notificación cuando estés a más de 60km de tu casino favorito',
+                        ),
+                        value: _distanceNotificationsEnabled,
+                        onChanged: _toggleDistanceNotifications,
                       ),
                     ),
                   ],

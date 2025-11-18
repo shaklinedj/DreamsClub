@@ -251,24 +251,29 @@ class _QuickActionCard extends StatelessWidget {
 				borderRadius: BorderRadius.circular(20),
 				onTap: onTap,
 				child: Padding(
-					padding: const EdgeInsets.all(16.0),
+					padding: const EdgeInsets.all(12.0),
 					child: Column(
 						crossAxisAlignment: CrossAxisAlignment.start,
 						mainAxisAlignment: MainAxisAlignment.center,
 						children: [
-							Icon(icon, size: 28),
-							const SizedBox(height: 12),
-							Text(
-								title, 
-								style: Theme.of(context).textTheme.titleMedium,
-								maxLines: 1,
-								overflow: TextOverflow.ellipsis,
+							Icon(icon, size: 24),
+							const SizedBox(height: 8),
+							Flexible(
+								child: Text(
+									title, 
+									style: Theme.of(context).textTheme.titleSmall,
+									maxLines: 1,
+									overflow: TextOverflow.ellipsis,
+								),
 							),
-							Text(
-								subtitle, 
-								style: Theme.of(context).textTheme.bodySmall,
-								maxLines: 2,
-								overflow: TextOverflow.ellipsis,
+							const SizedBox(height: 2),
+							Flexible(
+								child: Text(
+									subtitle, 
+									style: Theme.of(context).textTheme.bodySmall,
+									maxLines: 2,
+									overflow: TextOverflow.ellipsis,
+								),
 							),
 						],
 					),

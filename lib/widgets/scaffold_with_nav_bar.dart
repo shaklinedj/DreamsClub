@@ -27,29 +27,23 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      body: SafeArea(
-        bottom: false, // Don't apply SafeArea to bottom since CircleNavBar handles it
-        child: navigationShell,
-      ),
-      bottomNavigationBar: CircleNavBar(
-        color: colorScheme.surface,
-        activeIndex: navigationShell.currentIndex,
-        onTap: (index) {
-          navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          );
-        },
-        height: 70,
-        circleWidth: 62,
-        shadowColor: Colors.black.withValues(alpha: 0.15),
-        circleShadowColor: Colors.black.withValues(alpha: 0.2),
-        padding: EdgeInsets.fromLTRB(
-          18, 
-          0, 
-          18, 
-          18 + MediaQuery.of(context).padding.bottom, // Add system bottom padding
-        ),
+      body: navigationShell,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: CircleNavBar(
+          color: colorScheme.surface,
+          activeIndex: navigationShell.currentIndex,
+          onTap: (index) {
+            navigationShell.goBranch(
+              index,
+              initialLocation: index == navigationShell.currentIndex,
+            );
+          },
+          height: 70,
+          circleWidth: 62,
+          shadowColor: Colors.black.withValues(alpha: 0.15),
+          circleShadowColor: Colors.black.withValues(alpha: 0.2),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 18),
         gradient: LinearGradient(
           colors: [
             colorScheme.surfaceContainerHighest,
@@ -82,6 +76,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
           Text('Eventos', style: labelStyle),
           Text('Explorar', style: labelStyle),
         ],
+        ),
       ),
     );
   }

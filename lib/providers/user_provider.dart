@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const _defaultUser = User(
-  name: 'John Doe',
+  name: 'Hernan Laurel',
   email: 'hernan.laurel@gmail.com',
   profileImageUrl: 'assets/images/perfil_imagen.png',
   level: UserLevel.gold,

@@ -215,13 +215,13 @@ class _QuickActionGrid extends StatelessWidget {
 				_QuickActionCard(
 					icon: Icons.restaurant_menu,
 					title: 'Restaurantes',
-					subtitle: 'Gastronomía destacada',
+					subtitle: 'Gastronomía',
 					onTap: () => context.go('/restaurants'),
 				),
 				_QuickActionCard(
 					icon: Icons.favorite_outline,
 					title: 'Cambiar favorito',
-					subtitle: 'Personaliza tu experiencia',
+					subtitle: 'Elige tu casino',
 					onTap: () => context.go('/select-favorite'),
 				),
 			],
@@ -270,7 +270,7 @@ class _QuickActionCard extends StatelessWidget {
 							Flexible(
 								child: Text(
 									subtitle, 
-									style: Theme.of(context).textTheme.bodySmall,
+									style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
 									maxLines: 2,
 									overflow: TextOverflow.ellipsis,
 								),

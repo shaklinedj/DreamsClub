@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
-   initializeDateFormatting('es_ES', null).then((_) async {
-    await BackgroundDistanceService.initialize();
-    runApp(const ProviderScope(child: MyApp()));
-  });
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('es_ES', null);
+  await BackgroundDistanceService.initialize();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {

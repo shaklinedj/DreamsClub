@@ -281,8 +281,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: SwitchListTile(
                         secondary: const Icon(Icons.notifications_active_outlined),
                         title: const Text('Notificaciones de distancia'),
-                        subtitle: const Text(
-                          'Recibe una notificación cuando estés a más de 60km de tu casino favorito',
+                        subtitle: Text(
+                          'Recibe una notificación cuando estés a más de ${BackgroundDistanceService.distanceThresholdKm.toInt()}km de tu casino favorito',
                         ),
                         value: _distanceNotificationsEnabled,
                         onChanged: _toggleDistanceNotifications,

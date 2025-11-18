@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:developer' as developer;
+import 'dart:typed_data';
 
 
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
@@ -14,6 +15,7 @@ class BackgroundDistanceService {
   static const String taskName = 'distanceCheckTask';
   static const int checkIntervalMinutes = 15; // Chequear cada 15 minutos
   static const String _prefsKey = 'distance_notifications_enabled';
+  static const double distanceThresholdKm = 60.0; // Distancia umbral en km
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -108,8 +110,8 @@ Future<void> _performDistanceCheck() async {
       favoriteCasino.longitud,
     );
 
-    // Si distancia > 60km, mostrar notificación
-    if (distance > 60.0) {
+    // Si distancia > umbral, mostrar notificación
+    if (distance > BackgroundDistanceService.distanceThresholdKm) {
       await _showNotification(favoriteCasino.nombre, distance);
     }
   } catch (e) {
@@ -139,26 +141,33 @@ double _degreesToRadians(double degrees) {
 }
 
 Future<void> _showNotification(String casinoName, double distance) async {
-  const androidDetails = AndroidNotificationDetails(
+  final androidDetails = AndroidNotificationDetails(
     'distance_channel',
     'Chequeo de Distancia',
     channelDescription: 'Notificaciones cuando estás lejos de tu casino favorito',
     importance: Importance.high,
     priority: Priority.high,
     showWhen: true,
+    enableVibration: true,
+    vibrationPattern: Int64List.fromList([0, 250, 250, 250]),
   );
 
-  const iosDetails = DarwinNotificationDetails();
+  const iosDetails = DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
 
-  const details = NotificationDetails(
+  final details = NotificationDetails(
     android: androidDetails,
     iOS: iosDetails,
   );
 
   final distanceRounded = distance.round();
+  final notificationId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
   await BackgroundDistanceService._notificationsPlugin.show(
-    0,
+    notificationId,
     '¡Estás lejos de $casinoName!',
     'Te encuentras a ${distanceRounded}km de distancia. ¿Quieres visitar otro casino cercano?',
     details,

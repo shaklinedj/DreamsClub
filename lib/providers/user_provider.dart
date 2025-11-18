@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const _defaultUser = User(
-  name: 'Hernan Laurel',
-  email: 'hernan.laurel@gmail.com',
+  name: 'Usuario Demo',
+  email: 'demo@dreamclub.com',
   profileImageUrl: 'assets/images/perfil_imagen.png',
-  level: UserLevel.gold,
-  points: 125300,
-  balance: 2000000,
+  level: UserLevel.blue,
+  points: 5000,
+  balance: 150000,
 );
 
 final userProfileServiceProvider = Provider<UserProfileService>((ref) {

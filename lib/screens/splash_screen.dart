@@ -135,12 +135,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             child: const Text('Seleccionar manualmente'),
           ),
           FilledButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.pop(context);
-              await Geolocator.openLocationSettings();
-              if (mounted) {
-                context.go('/select-favorite');
-              }
+              Geolocator.openLocationSettings();
+              context.go('/select-favorite');
             },
             child: const Text('Configuración'),
           ),

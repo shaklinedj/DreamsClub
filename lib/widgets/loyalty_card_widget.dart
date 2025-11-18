@@ -53,7 +53,7 @@ class LoyaltyCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'CASINO LOYALTY',
+                'Dreams Club',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.white70,
                       letterSpacing: 1.4,

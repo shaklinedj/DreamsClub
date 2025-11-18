@@ -1,5 +1,6 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/services/map_service.dart';
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/favorite_casino_placeholder.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,22 @@ class HomeScreen extends ConsumerWidget {
 											title: 'Cómo llegar',
 											subtitle: casino.direccion,
 											icon: Icons.map_outlined,
-											onTap: () => context.push('/all-casinos/${casino.id}'),
+											onTap: () async {
+												try {
+													final mapService = MapService();
+													await mapService.openDirections(
+														latitude: casino.latitud,
+														longitude: casino.longitud,
+														locationName: casino.nombre,
+													);
+												} catch (e) {
+													if (context.mounted) {
+														ScaffoldMessenger.of(context).showSnackBar(
+															SnackBar(content: Text('Error: ${e.toString()}')),
+														);
+													}
+												}
+											},
 										),
 									],
 								),

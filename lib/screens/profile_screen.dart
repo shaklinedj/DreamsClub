@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -173,6 +174,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         }
       },
       child: Scaffold(
+        drawer: const AppDrawer(),
         backgroundColor: colorScheme.surface,
         body: CustomScrollView(
           slivers: [

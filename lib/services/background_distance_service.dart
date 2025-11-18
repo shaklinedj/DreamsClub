@@ -36,7 +36,7 @@ class BackgroundDistanceService {
     if (!isEnabled) return;
 
     // Inicializar WorkManager
-    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+    await Workmanager().initialize(callbackDispatcher);
 
     // Registrar tarea periódica
     await Workmanager().registerPeriodicTask(
@@ -44,7 +44,7 @@ class BackgroundDistanceService {
       taskName,
       frequency: const Duration(minutes: checkIntervalMinutes),
       constraints: Constraints(
-        networkType: NetworkType.not_required,
+        networkType: NetworkType.notRequired,
         requiresBatteryNotLow: false,
         requiresCharging: false,
         requiresDeviceIdle: false,

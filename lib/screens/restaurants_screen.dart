@@ -74,34 +74,37 @@ class _RestaurantTile extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.network(
-              restaurant.imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey[200],
-                child: const Icon(Icons.restaurant, size: 40),
+      child: InkWell(
+        onTap: () => context.push('/restaurant/${restaurant.id}'),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.network(
+                restaurant.imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.restaurant, size: 40),
+                ),
               ),
             ),
-          ),
-          ListTile(
-            title: Text(
-              restaurant.nombre,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            ListTile(
+              title: Text(
+                restaurant.nombre,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: const Text(
+                'Gastronomía exclusiva Dreams',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.chevron_right),
             ),
-            subtitle: const Text(
-              'Gastronomía exclusiva Dreams',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

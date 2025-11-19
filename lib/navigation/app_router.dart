@@ -8,8 +8,10 @@ import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
 import 'package:casinoloyalty_flutter/screens/permissions_screen.dart';
 import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
+import 'package:casinoloyalty_flutter/screens/restaurant_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/restaurants_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
+import 'package:casinoloyalty_flutter/screens/settings_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +51,17 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/restaurant/:id',
+      builder: (context, state) {
+        final restaurantId = state.pathParameters['id']!;
+        return RestaurantDetailScreen(restaurantId: restaurantId);
+      },
     ),
     GoRoute(
       path: '/restaurants',

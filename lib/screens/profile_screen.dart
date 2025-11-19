@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -141,23 +142,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Editar Perfil'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: _showPhotoOptions,
-              child: CircleAvatar(
-                radius: 40,
-                backgroundImage: _buildProfileImage(ref.read(userProvider).profileImageUrl),
-                child: const Icon(Icons.camera_alt, color: Colors.white70),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-            ),
-          ],
+        content: Consumer(
+          builder: (context, ref, _) {
+            final user = ref.watch(userProvider);
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: _showPhotoOptions,
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: _buildProfileImage(user.profileImageUrl),
+                    child: const Icon(Icons.camera_alt, color: Colors.white70),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Nombre'),
+                ),
+              ],
+            );
+          },
         ),
         actions: [
           TextButton(
@@ -197,17 +203,41 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 96,
-                height: 96,
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  shape: BoxShape.circle,
-                  border: Border.all(color: primaryColor, width: 2),
-                  image: DecorationImage(
-                    image: _buildProfileImage(user.profileImageUrl),
-                    fit: BoxFit.cover,
-                  ),
+              GestureDetector(
+                onTap: _showPhotoOptions,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        shape: BoxShape.circle,
+                        border: Border.all(color: primaryColor, width: 2),
+                        image: DecorationImage(
+                          image: _buildProfileImage(user.profileImageUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.camera_alt,
+                          size: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
@@ -221,8 +251,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               _ProfileButton(
                 text: 'Configuración', 
                 onTap: () {
-                  // Abrir drawer para configuración o navegar a pantalla de settings
-                  Scaffold.of(context).openDrawer();
+                  context.push('/settings');
                 }
               ),
               const SizedBox(height: 24),

@@ -1,0 +1,171 @@
+// ignore_for_file: prefer_const_constructors
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+class SettingsScreen extends ConsumerStatefulWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  bool _distanceNotificationsEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotificationSettings();
+  }
+
+  Future<void> _loadNotificationSettings() async {
+    final enabled = await BackgroundDistanceService.areNotificationsEnabled();
+    if (mounted) {
+      setState(() {
+        _distanceNotificationsEnabled = enabled;
+      });
+    }
+  }
+
+  Future<void> _toggleDistanceNotifications(bool value) async {
+    if (value) {
+      final status = await Permission.notification.request();
+      if (!status.isGranted) {
+        _showSnackBar('Se requieren permisos de notificación');
+        return;
+      }
+    }
+
+    setState(() => _distanceNotificationsEnabled = value);
+    try {
+      if (value) {
+        await BackgroundDistanceService.enableNotifications();
+        _showSnackBar('Notificaciones de distancia activadas');
+      } else {
+        await BackgroundDistanceService.disableNotifications();
+        _showSnackBar('Notificaciones de distancia desactivadas');
+      }
+    } catch (e) {
+      setState(() => _distanceNotificationsEnabled = !value);
+      _showSnackBar('Error al cambiar la configuración');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeModeProvider);
+    final themeNotifier = ref.read(themeModeProvider.notifier);
+    final primaryColor = Theme.of(context).primaryColor;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Configuración'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: ListView(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'General',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SwitchListTile(
+            secondary: Icon(Icons.notifications_active_outlined, color: primaryColor),
+            title: const Text('Notificaciones de distancia'),
+            subtitle: Text(
+              'Avisar a más de ${BackgroundDistanceService.distanceThresholdKm.toInt()}km',
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            value: _distanceNotificationsEnabled,
+            onChanged: _toggleDistanceNotifications,
+            activeTrackColor: primaryColor,
+            activeThumbColor: Colors.white,
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Apariencia',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          _ThemeModeSection(
+            themeMode: themeMode,
+            onChanged: (mode) async {
+              if (mode != null) await themeNotifier.update(mode);
+            },
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Información',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text('Versión de la aplicación'),
+            subtitle: const Text('1.0.0+38'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: const Text('Política de privacidad'),
+            onTap: () {
+              // TODO: Open privacy policy
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemeModeSection extends StatelessWidget {
+  const _ThemeModeSection({
+    required this.themeMode,
+    required this.onChanged,
+  });
+
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioGroup<ThemeMode>(
+      groupValue: themeMode,
+      onChanged: onChanged,
+      child: const Column(
+        children: [
+          RadioListTile<ThemeMode>(
+            title: Text('Sistema'),
+            value: ThemeMode.system,
+            secondary: Icon(Icons.auto_mode),
+          ),
+          RadioListTile<ThemeMode>(
+            title: Text('Claro'),
+            value: ThemeMode.light,
+            secondary: Icon(Icons.light_mode),
+          ),
+          RadioListTile<ThemeMode>(
+            title: Text('Oscuro'),
+            value: ThemeMode.dark,
+            secondary: Icon(Icons.dark_mode),
+          ),
+        ],
+      ),
+    );
+  }
+}

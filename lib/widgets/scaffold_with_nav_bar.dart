@@ -93,17 +93,21 @@ class ScaffoldWithNavBar extends ConsumerWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            child: Container(
-              height: 80,
-              decoration: BoxDecoration(
-                color: const Color(0xFF0A0A0A).withValues(alpha: 0.95),
-                border: const Border(top: BorderSide(color: Colors.white10)),
-              ),
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom,
+                    left: 16,
+                    right: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0A0A0A).withValues(alpha: 0.85),
+                    border: const Border(top: BorderSide(color: Colors.white10)),
+                  ),
+                  child: SizedBox(
+                    height: 60, // Altura del contenido de la barra
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -115,44 +119,45 @@ class ScaffoldWithNavBar extends ConsumerWidget {
                         ),
                         _NavBarItem(
                           icon: Icons.card_giftcard,
-                          label: 'Beneficios', // Promotions
+                          label: 'Beneficios',
                           isActive: navigationShell.currentIndex == 1,
                           onTap: () => navigationShell.goBranch(1),
                         ),
                         
                         Transform.translate(
-                          offset: const Offset(0, -20),
+                          offset: const Offset(0, -25),
                           child: GestureDetector(
                             onTap: () => _showQRModal(context, ref),
                             child: Container(
-                              width: 65,
-                              height: 65,
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
                                 color: primaryColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(color: const Color(0xFF121212), width: 4),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: primaryColor.withValues(alpha: 0.3),
-                                    blurRadius: 10,
+                                    color: primaryColor.withValues(alpha: 0.4),
+                                    blurRadius: 15,
                                     spreadRadius: 2,
+                                    offset: const Offset(0, 4),
                                   )
                                 ],
                               ),
-                              child: const Icon(Icons.qr_code, color: Colors.black, size: 30),
+                              child: const Icon(Icons.qr_code, color: Colors.black, size: 32),
                             ),
                           ),
                         ),
 
                         _NavBarItem(
                           icon: Icons.event,
-                          label: 'Eventos', // Events
+                          label: 'Eventos',
                           isActive: navigationShell.currentIndex == 2,
                           onTap: () => navigationShell.goBranch(2),
                         ),
                         _NavBarItem(
                           icon: Icons.location_on_outlined,
-                          label: 'Casinos', // All Casinos
+                          label: 'Casinos',
                           isActive: navigationShell.currentIndex == 3,
                           onTap: () => navigationShell.goBranch(3),
                         ),

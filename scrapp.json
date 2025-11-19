@@ -1,0 +1,410 @@
+[
+  {
+    "id": "monticello",
+    "name": "Monticello",
+    "city": "San Francisco de Mostazal",
+    "region": "Región de O'Higgins",
+    "latitud": -34.0733,
+    "longitud": -70.7303,
+    "imageUrl": "assets/images/fachada-monticello.jpg",
+    "desc": "El centro de entretención más grande de Latinoamérica. Incluye el Arena Monticello y el Paseo Murano.",
+    "features": [
+      "Arena Monticello",
+      "Hotel 5 Estrellas",
+      "Paseo Murano",
+      "Zona VIP"
+    ],
+    "restaurants": [
+      {
+        "name": "Yann Yvin Brasserie",
+        "type": "Francesa",
+        "desc": "La calidez de Francia con el toque del Chef Yann Yvin.",
+        "signature_dish": "Por determinar",
+        "imageUrl": "https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Olivera Pastas",
+        "type": "Italiana",
+        "desc": "Las pastas más exquisitas del Chef Tomás Olivera.",
+        "imageUrl": "https://images.unsplash.com/photo-1481931715705-36f5f79f1ff4?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Lola Tapas Bar",
+        "type": "Española/Tapas",
+        "desc": "Tapas y sangría por Sergi Arola.",
+        "imageUrl": "https://images.unsplash.com/photo-1515443961218-a51367888e4b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Johnny Rockets",
+        "type": "Americana/Fast Food",
+        "desc": "Hamburguesas y batidos clásicos.",
+        "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "El Capataz",
+        "type": "Buffet Premium",
+        "desc": "Cortes de carne y variedad internacional.",
+        "imageUrl": "https://images.unsplash.com/photo-1544025162-d76690b67f61?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Gran Arena: Luis Miguel",
+        "date": "15 Nov",
+        "type": "Concierto",
+        "imageUrl": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Stefan Kramer: El Show",
+        "date": "22 Nov",
+        "type": "Humor",
+        "imageUrl": "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Monticello",
+      "imageUrl": "https://images.unsplash.com/photo-1542318428-29f26af1ff86?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Suite Presidencial",
+        "Executive Room",
+        "Standard King"
+      ],
+      "amenities": [
+        "Piscina Temperada",
+        "Spa de Lujo",
+        "Gimnasio 24/7"
+      ]
+    }
+  },
+  {
+    "id": "iquique",
+    "name": "Dreams Iquique",
+    "city": "Iquique",
+    "region": "Región de Tarapacá",
+    "latitud": -20.2464,
+    "longitud": -70.1437,
+    "imageUrl": "assets/images/iqq.jpg",
+    "desc": "A pasos de playa Cavancha, diversión frente al mar.",
+    "features": [
+      "Playa Cavancha",
+      "Shows en Vivo",
+      "Gastronomía"
+    ],
+    "restaurants": [
+      {
+        "name": "Bar Lucky 7",
+        "type": "Bar & Shows",
+        "desc": "Coctelería de autor y tablas para compartir.",
+        "imageUrl": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Restaurante Gavina",
+        "type": "Internacional",
+        "desc": "Vista al mar y carta variada.",
+        "imageUrl": "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Noche de Tributos: Queen",
+        "date": "Viernes",
+        "type": "Música",
+        "imageUrl": "https://images.unsplash.com/photo-1459749411177-0473ef7161a8?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Sorteo \"La Suerte\"",
+        "date": "Sábados 22:00",
+        "type": "Sorteo",
+        "imageUrl": "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Iquique",
+      "imageUrl": "https://images.unsplash.com/photo-1501117716987-c8e1ecb21014?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Ocean View King",
+        "Standard Twin"
+      ],
+      "amenities": [
+        "Acceso directo a Playa",
+        "Sauna",
+        "Desayuno Buffet"
+      ]
+    }
+  },
+  {
+    "id": "temuco",
+    "name": "Dreams Temuco",
+    "city": "Temuco",
+    "region": "Región de La Araucanía",
+    "latitud": -38.7359,
+    "longitud": -72.5904,
+    "imageUrl": "assets/images/temuco.jpg",
+    "desc": "En el corazón de la Araucanía, lujo y cultura.",
+    "features": [
+      "Spa Hydra",
+      "Centro de Eventos",
+      "Hotel Dreams"
+    ],
+    "restaurants": [
+      {
+        "name": "In",
+        "type": "Buffet",
+        "desc": "Variedad de sabores del sur de Chile.",
+        "imageUrl": "https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Lucky 7",
+        "type": "Restobar",
+        "desc": "El mejor ambiente nocturno de Temuco.",
+        "imageUrl": "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Los Jaivas: Gira Nacional",
+        "date": "25 Abril",
+        "type": "Concierto",
+        "imageUrl": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Noche de Stand Up",
+        "date": "Jueves",
+        "type": "Humor",
+        "imageUrl": "https://images.unsplash.com/photo-1527224857830-43a7acc85260?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Temuco",
+      "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Suite Araucanía",
+        "Standard King City View"
+      ],
+      "amenities": [
+        "Hydra Spa (Masajes y Tratamientos)",
+        "Piscina Climatizada"
+      ]
+    }
+  },
+  {
+    "id": "valdivia",
+    "name": "Dreams Valdivia",
+    "city": "Valdivia",
+    "region": "Región de Los Ríos",
+    "latitud": -39.8142,
+    "longitud": -73.2459,
+    "imageUrl": "assets/images/valdivia.jpg",
+    "desc": "Ubicación privilegiada con vista al Río Calle-Calle.",
+    "features": [
+      "Sky Bar",
+      "Vista al Río",
+      "Museo"
+    ],
+    "restaurants": [
+      {
+        "name": "Sky Bar",
+        "type": "Bar Panorámico",
+        "desc": "La mejor vista al río Calle-Calle.",
+        "imageUrl": "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Doña Inés",
+        "type": "Cocina Chilena",
+        "desc": "Rescatando tradiciones culinarias.",
+        "imageUrl": "https://images.unsplash.com/photo-1533777419517-3e4017e2e15c?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Luis Slimming - Don Comedia",
+        "date": "08 Nov",
+        "type": "Humor",
+        "imageUrl": "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Pastor Rocha",
+        "date": "09 Nov",
+        "type": "Humor",
+        "imageUrl": "https://images.unsplash.com/photo-1527224857830-43a7acc85260?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "De Saloon",
+        "date": "17 Ene",
+        "type": "Concierto",
+        "imageUrl": "https://images.unsplash.com/photo-1459749411177-0473ef7161a8?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Valdivia",
+      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "River View Suite",
+        "Standard"
+      ],
+      "amenities": [
+        "Museo Subterráneo",
+        "Muelle Privado"
+      ]
+    }
+  },
+  {
+    "id": "puerto-varas",
+    "name": "Dreams Puerto Varas",
+    "city": "Puerto Varas",
+    "region": "Región de Los Lagos",
+    "latitud": -41.3204,
+    "longitud": -72.9839,
+    "imageUrl": "assets/images/pto-v.jpg",
+    "desc": "A orillas del Lago Llanquihue, con vista a los volcanes.",
+    "features": [
+      "Lago Llanquihue",
+      "Entorno Natural",
+      "Turismo"
+    ],
+    "restaurants": [
+      {
+        "name": "Volcanes",
+        "type": "Buffet",
+        "desc": "Sabores alemanes y del sur.",
+        "imageUrl": "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Bar Lucky 7",
+        "type": "Bar",
+        "desc": "Música en vivo y diversión.",
+        "imageUrl": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Festival de Jazz",
+        "date": "Próximamente",
+        "type": "Música",
+        "imageUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Puerto Varas",
+      "imageUrl": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Suite Volcanes",
+        "Lago View Room"
+      ],
+      "amenities": [
+        "Spa & Wellness",
+        "Piscina Infinita (Interior)"
+      ]
+    }
+  },
+  {
+    "id": "coyhaique",
+    "name": "Dreams Coyhaique",
+    "city": "Coyhaique",
+    "region": "Región de Aysén",
+    "latitud": -45.5715,
+    "longitud": -72.0694,
+    "imageUrl": "assets/images/coy.jpg",
+    "desc": "Diversión en la patagonia chilena.",
+    "features": [
+      "Patagonia",
+      "Naturaleza",
+      "Bar Lucky 7"
+    ],
+    "restaurants": [
+      {
+        "name": "Aiken",
+        "type": "Gourmet",
+        "desc": "Gastronomía de autor con productos locales.",
+        "imageUrl": "https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Resto Bar Sky",
+        "type": "Bar",
+        "desc": "Tragos, tablas y música.",
+        "imageUrl": "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Cena San Valentín",
+        "date": "14 Feb",
+        "type": "Especial",
+        "imageUrl": "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Tabla Lucky Love + Show",
+        "date": "Jueves a Sábado",
+        "type": "Promoción",
+        "imageUrl": "https://images.unsplash.com/photo-1514525253440-b393452e8d26?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Coyhaique",
+      "imageUrl": "https://images.unsplash.com/photo-1559813817-127ef2fc4dd1?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Patagonia Suite",
+        "Standard King"
+      ],
+      "amenities": [
+        "Chimenea en Lobby",
+        "Excursiones"
+      ]
+    }
+  },
+  {
+    "id": "punta-arenas",
+    "name": "Dreams Punta Arenas",
+    "city": "Punta Arenas",
+    "region": "Región de Magallanes",
+    "latitud": -53.1638,
+    "longitud": -70.9171,
+    "imageUrl": "assets/images/pta-a.jpg",
+    "desc": "Entretenimiento en la ciudad más austral del mundo.",
+    "features": [
+      "Estrecho de Magallanes",
+      "Sky Bar",
+      "Zona Franca"
+    ],
+    "restaurants": [
+      {
+        "name": "Doña Inés",
+        "type": "Buffet",
+        "desc": "Lo mejor de la cocina magallánica.",
+        "imageUrl": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Sky Bar",
+        "type": "Panorámico",
+        "desc": "Vista al estrecho de Magallanes.",
+        "imageUrl": "https://images.unsplash.com/photo-1457460866886-40ef8d4b42a0?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "events": [
+      {
+        "name": "Sorteo Haval Jolion",
+        "date": "Jueves y Viernes",
+        "type": "Sorteo Auto",
+        "imageUrl": "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "La Gran Noche Dreams",
+        "date": "19 Dic",
+        "type": "Sorteo Final",
+        "imageUrl": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "hotel": {
+      "name": "Hotel Dreams Punta Arenas",
+      "imageUrl": "https://images.unsplash.com/photo-1572715376701-98568319fd0a?auto=format&fit=crop&w=1200&q=80",
+      "rooms": [
+        "Suite Magallanes",
+        "Standard View"
+      ],
+      "amenities": [
+        "Piscina con vista al Estrecho",
+        "Gimnasio"
+      ]
+    }
+  }
+]

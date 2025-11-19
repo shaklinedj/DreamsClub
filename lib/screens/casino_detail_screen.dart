@@ -1,4 +1,3 @@
-
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/event_model.dart';
 import 'package:casinoloyalty_flutter/models/hotel_model.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:map_launcher/map_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CasinoDetailScreen extends ConsumerWidget {
   final String casinoId;
@@ -72,6 +73,19 @@ class CasinoDetailScreen extends ConsumerWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () => _openMaps(context, casino),
+                          icon: const Icon(Icons.map),
+                          label: const Text('Cómo llegar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            foregroundColor: Colors.black,
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       if (casino.hotel != null)
                         _buildHotelSection(context, casino.hotel!),
@@ -96,6 +110,7 @@ class CasinoDetailScreen extends ConsumerWidget {
                               style: Theme.of(context).textTheme.titleMedium,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis),
+                          onTap: () => context.push('/restaurant/${restaurante.id}'),
                         ),
                         emptyMessage:
                             'No hay restaurantes disponibles en este momento.',
@@ -258,5 +273,58 @@ class CasinoDetailScreen extends ConsumerWidget {
         }),
       ],
     );
+  }
+
+  Future<void> _openMaps(BuildContext context, Casino casino) async {
+    try {
+      final availableMaps = await MapLauncher.installedMaps;
+
+      if (!context.mounted) return;
+
+      if (availableMaps.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('No hay aplicaciones de mapas instaladas.')),
+        );
+        return;
+      }
+
+      await showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () {
+                        map.showMarker(
+                          coords: Coords(casino.latitud, casino.longitud),
+                          title: casino.nombre,
+                          description: casino.direccion,
+                        );
+                        Navigator.pop(context);
+                      },
+                      title: Text(map.mapName),
+                      leading: SvgPicture.asset(
+                        map.icon,
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al abrir mapas: $e')),
+        );
+      }
+    }
   }
 }

@@ -83,86 +83,89 @@ class ScaffoldWithNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final primaryColor = Theme.of(context).primaryColor;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
       extendBody: true,
       body: Stack(
         children: [
-          navigationShell,
+          Padding(
+            padding: EdgeInsets.only(bottom: 85 + bottomPadding), // Espacio para la navbar
+            child: navigationShell,
+          ),
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom,
-                    left: 16,
-                    right: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0A0A0A).withValues(alpha: 0.85),
-                    border: const Border(top: BorderSide(color: Colors.white10)),
-                  ),
-                  child: SizedBox(
-                    height: 60, // Altura del contenido de la barra
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _NavBarItem(
-                          icon: Icons.star_outline,
-                          label: 'Inicio',
-                          isActive: navigationShell.currentIndex == 0,
-                          onTap: () => navigationShell.goBranch(0),
-                        ),
-                        _NavBarItem(
-                          icon: Icons.card_giftcard,
-                          label: 'Beneficios',
-                          isActive: navigationShell.currentIndex == 1,
-                          onTap: () => navigationShell.goBranch(1),
-                        ),
-                        
-                        Transform.translate(
-                          offset: const Offset(0, -25),
-                          child: GestureDetector(
-                            onTap: () => _showQRModal(context, ref),
-                            child: Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(color: const Color(0xFF121212), width: 4),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: primaryColor.withValues(alpha: 0.4),
-                                    blurRadius: 15,
-                                    spreadRadius: 2,
-                                    offset: const Offset(0, 4),
-                                  )
-                                ],
-                              ),
-                              child: const Icon(Icons.qr_code, color: Colors.black, size: 32),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom,
+                  left: 16,
+                  right: 16,
+                  top: 25, // Espacio para el botón QR que sale arriba
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0A0A0A).withValues(alpha: 0.85),
+                  border: const Border(top: BorderSide(color: Colors.white10)),
+                ),
+                child: SizedBox(
+                  height: 60, // Altura del contenido de la barra
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _NavBarItem(
+                        icon: Icons.star_outline,
+                        label: 'Inicio',
+                        isActive: navigationShell.currentIndex == 0,
+                        onTap: () => navigationShell.goBranch(0),
+                      ),
+                      _NavBarItem(
+                        icon: Icons.card_giftcard,
+                        label: 'Beneficios',
+                        isActive: navigationShell.currentIndex == 1,
+                        onTap: () => navigationShell.goBranch(1),
+                      ),
+                      
+                      Transform.translate(
+                        offset: const Offset(0, -25),
+                        child: GestureDetector(
+                          onTap: () => _showQRModal(context, ref),
+                          child: Container(
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: const Color(0xFF121212), width: 4),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: primaryColor.withValues(alpha: 0.4),
+                                  blurRadius: 15,
+                                  spreadRadius: 2,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
                             ),
+                            child: const Icon(Icons.qr_code, color: Colors.black, size: 32),
                           ),
                         ),
+                      ),
 
-                        _NavBarItem(
-                          icon: Icons.event,
-                          label: 'Eventos',
-                          isActive: navigationShell.currentIndex == 2,
-                          onTap: () => navigationShell.goBranch(2),
-                        ),
-                        _NavBarItem(
-                          icon: Icons.location_on_outlined,
-                          label: 'Casinos',
-                          isActive: navigationShell.currentIndex == 3,
-                          onTap: () => navigationShell.goBranch(3),
-                        ),
-                      ],
-                    ),
+                      _NavBarItem(
+                        icon: Icons.event,
+                        label: 'Eventos',
+                        isActive: navigationShell.currentIndex == 2,
+                        onTap: () => navigationShell.goBranch(2),
+                      ),
+                      _NavBarItem(
+                        icon: Icons.location_on_outlined,
+                        label: 'Casinos',
+                        isActive: navigationShell.currentIndex == 3,
+                        onTap: () => navigationShell.goBranch(3),
+                      ),
+                    ],
                   ),
                 ),
               ),

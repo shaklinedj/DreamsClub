@@ -298,13 +298,12 @@ class CasinoDetailScreen extends ConsumerWidget {
                 children: [
                   for (var map in availableMaps)
                     ListTile(
-                      onTap: () {
-                        map.showMarker(
-                          coords: Coords(casino.latitud, casino.longitud),
-                          title: casino.nombre,
-                          description: casino.direccion,
-                        );
+                      onTap: () async {
                         Navigator.pop(context);
+                        await map.showDirections(
+                          destination: Coords(casino.latitud, casino.longitud),
+                          destinationTitle: casino.nombre,
+                        );
                       },
                       title: Text(map.mapName),
                       leading: SvgPicture.asset(

@@ -10,6 +10,7 @@ class User {
   final UserLevel level;
   final int points;
   final double balance;
+  final DateTime? birthDate;
 
   const User({
     required this.name,
@@ -18,6 +19,7 @@ class User {
     required this.level,
     required this.points,
     required this.balance,
+    this.birthDate,
   });
 
   User copyWith({
@@ -27,6 +29,7 @@ class User {
     UserLevel? level,
     int? points,
     double? balance,
+    DateTime? birthDate,
   }) {
     return User(
       name: name ?? this.name,
@@ -35,7 +38,14 @@ class User {
       level: level ?? this.level,
       points: points ?? this.points,
       balance: balance ?? this.balance,
+      birthDate: birthDate ?? this.birthDate,
     );
+  }
+
+  bool get isBirthday {
+    if (birthDate == null) return false;
+    final now = DateTime.now();
+    return now.month == birthDate!.month && now.day == birthDate!.day;
   }
 
   // Método para obtener el color asociado a cada nivel (útil para la UI)

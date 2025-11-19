@@ -102,22 +102,23 @@ class ScaffoldWithNavBar extends ConsumerWidget {
             child: Stack(
               clipBehavior: Clip.none, // Permitir que el botón salga fuera
               children: [
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      bottom: bottomPadding,
-                      left: 16,
-                      right: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0A0A0A).withValues(alpha: 0.85),
-                      border: const Border(top: BorderSide(color: Colors.white10)),
-                    ),
-                    child: SizedBox(
-                      height: 60, // Altura del contenido de la barra
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        bottom: bottomPadding,
+                        left: 16,
+                        right: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0A0A0A).withValues(alpha: 0.85),
+                        border: const Border(top: BorderSide(color: Colors.white10)),
+                      ),
+                      child: SizedBox(
+                        height: 60, // Altura del contenido de la barra
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                         _NavBarItem(
                           icon: Icons.star_outline,
@@ -154,6 +155,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
                       ),
                     ),
                   ),
+                ),
                 ),
                 // Botón QR flotante que sobresale
                 Positioned(

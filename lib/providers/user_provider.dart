@@ -3,13 +3,14 @@ import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const _defaultUser = User(
+final _defaultUser = User(
   name: 'Usuario Demo',
   email: 'demo@dreamclub.com',
   profileImageUrl: 'assets/images/perfil_imagen.png',
   level: UserLevel.blue,
   points: 5000,
   balance: 150000,
+  birthDate: DateTime.now(), // Cumpleaños hoy para demo
 );
 
 final userProfileServiceProvider = Provider<UserProfileService>((ref) {

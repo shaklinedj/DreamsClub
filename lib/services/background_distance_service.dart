@@ -70,6 +70,28 @@ class BackgroundDistanceService {
   static Future<bool> areNotificationsEnabled() async {
     return await UserPreferences.getBool(_prefsKey) ?? false;
   }
+
+  static Future<void> showInstantNotification({
+    required String title,
+    required String body,
+  }) async {
+    const androidDetails = AndroidNotificationDetails(
+      'instant_channel',
+      'Notificaciones Instantáneas',
+      channelDescription: 'Canal para notificaciones de prueba',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const iosDetails = DarwinNotificationDetails();
+    const details = NotificationDetails(android: androidDetails, iOS: iosDetails);
+
+    await _notificationsPlugin.show(
+      DateTime.now().millisecond,
+      title,
+      body,
+      details,
+    );
+  }
 }
 
 @pragma('vm:entry-point')

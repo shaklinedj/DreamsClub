@@ -1,8 +1,10 @@
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/favorite_casino_placeholder.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
+import 'package:casinoloyalty_flutter/widgets/social_post_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +49,15 @@ class HomeScreen extends ConsumerWidget {
               Icons.notifications_none,
               color: user.levelColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              BackgroundDistanceService.showInstantNotification(
+                title: '¡Sorteo Flash!',
+                body: 'Participa ahora en el sorteo exclusivo para miembros ${user.levelName}.',
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Simulando notificación de sorteo...')),
+              );
+            },
           ),
         ],
       ),
@@ -56,6 +66,10 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (user.isBirthday) ...[
+              _BirthdayBanner(user: user),
+              const SizedBox(height: 20),
+            ],
             // Tarjeta de Resumen de Usuario (Puntos y Nivel)
             Container(
               width: double.infinity,
@@ -168,6 +182,11 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            // Invitación Exclusiva (Simulación)
+            _ExclusiveInvitationCard(user: user),
 
             const SizedBox(height: 20),
 
@@ -303,8 +322,91 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
+
+            const SizedBox(height: 24),
+
+            // Sección Novedades (Social Feed)
+            Row(
+              children: [
+                Icon(Icons.newspaper, color: Theme.of(context).primaryColor, size: 18),
+                const SizedBox(width: 8),
+                const Text('Novedades', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            const SizedBox(height: 12),
+            
+            // Lista de Posts Simulados
+            const SocialPostCard(
+              userName: 'Monticello',
+              userImage: 'assets/images/casino_monticello.jpg',
+              timeAgo: 'Hace 2 horas',
+              content: '¡Esta noche tenemos música en vivo en el Bar Lucky 7! 🎸 No te pierdas a Los Jaivas en un show íntimo y exclusivo.',
+              imageUrl: 'assets/images/casino_monticello.jpg', // Reutilizando imagen por simplicidad
+              initialLikes: 124,
+              initialComments: 45,
+            ),
+            const SocialPostCard(
+              userName: 'Dreams Temuco',
+              userImage: 'assets/images/casino_temuco.jpg',
+              timeAgo: 'Hace 5 horas',
+              content: 'Nuevo plato en nuestro restaurante: Salmón a la mantequilla negra. 🐟 ¡Ven a probarlo y obtén doble puntaje en tu consumo!',
+              initialLikes: 89,
+              initialComments: 12,
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _BirthdayBanner extends StatelessWidget {
+  final dynamic user;
+
+  const _BirthdayBanner({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Colors.purple, Colors.deepPurpleAccent],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purple.withValues(alpha: 0.4),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const Text('🎂', style: TextStyle(fontSize: 40)),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '¡Feliz Cumpleaños!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Hoy es tu día especial, ${user.name}. Tenemos un regalo sorpresa esperándote en tu casino favorito.',
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -357,5 +459,121 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FavoriteCasinoPlaceholder(onSelect: onAction);
+  }
+}
+
+class _ExclusiveInvitationCard extends StatelessWidget {
+  final dynamic user; // Usamos dynamic para evitar importar User model si no es necesario, o mejor tiparlo si tenemos el import
+
+  const _ExclusiveInvitationCard({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            user.levelColor.withValues(alpha: 0.15),
+            Colors.black,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: user.levelColor.withValues(alpha: 0.3),
+          width: 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Inscrito al evento exclusivo ${user.levelName}'),
+                backgroundColor: user.levelColor,
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: user.levelColor.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.star_purple500_sharp,
+                    color: user.levelColor,
+                    size: 32,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'INVITACIÓN EXCLUSIVA',
+                            style: TextStyle(
+                              color: user.levelColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: Colors.red.withValues(alpha: 0.5)),
+                            ),
+                            child: const Text(
+                              'HOY',
+                              style: TextStyle(color: Colors.red, fontSize: 8, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Cena de Gala ${user.levelName}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Reservada para nuestros mejores clientes.',
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: user.levelColor.withValues(alpha: 0.5),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

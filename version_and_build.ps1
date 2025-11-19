@@ -37,7 +37,8 @@ $newVersion = "$mainVersion+$newBuildNumber"
 
 Write-Host "Versionando de $fullVersion a $newVersion..."
 
-(Get-Content pubspec.yaml) -replace "version: \Q$fullVersion\E", "version: $newVersion" | Set-Content pubspec.yaml
+$escapedFullVersion = [regex]::Escape($fullVersion)
+(Get-Content pubspec.yaml) -replace "version: $escapedFullVersion", "version: $newVersion" | Set-Content pubspec.yaml
 Write-Host "pubspec.yaml actualizado."
 
 # --- 3. Limpieza y Compilación ---

@@ -4,8 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   // Paleta de colores principal (dorado)
   static const Color _primaryColor = Color(0xFFD4AF37); // Un dorado más clásico
-  static const Color _primaryVariantColor = Color(0xFFAA8A2C);
   static const Color _secondaryColor = Color(0xFF4C4C4C);
+  
+  // Colores específicos del clon
+  static const Color kBackgroundColor = Colors.black;
+  static const Color kSurfaceColor = Color(0xFF1A1A1A);
+  static const Color kSurfaceLightColor = Color(0xFF2A2A2A);
 
   // Definición de TextTheme con Google Fonts
   static final TextTheme _appTextTheme = TextTheme(
@@ -38,7 +42,7 @@ class AppTheme {
         fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
   );
 
-  // Tema Claro
+  // Tema Claro (Ajustado para mantener consistencia pero preferimos oscuro)
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
@@ -49,7 +53,7 @@ class AppTheme {
       primary: _primaryColor,
       onPrimary: Colors.black,
       secondary: _secondaryColor,
-      surface: const Color(0xFFF5F5F5), // Un blanco ligeramente grisáceo
+      surface: const Color(0xFFF5F5F5),
     ),
     scaffoldBackgroundColor: const Color(0xFFF5F5F5),
     appBarTheme: AppBarTheme(
@@ -78,45 +82,55 @@ class AppTheme {
     ),
   );
 
-  // Tema Oscuro
+  // Tema Oscuro (Clonado de gemeniapp)
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     primaryColor: _primaryColor,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: _primaryColor,
-      brightness: Brightness.dark,
-      primary: _primaryVariantColor,
-      onPrimary: Colors.white,
-      secondary: _secondaryColor,
-      surface: const Color(0xFF212121), // Un gris oscuro para superficies
+    scaffoldBackgroundColor: kBackgroundColor,
+    colorScheme: const ColorScheme.dark(
+      primary: _primaryColor,
+      secondary: _primaryColor,
+      surface: kSurfaceColor,
+      onSurface: Colors.white,
     ),
-    scaffoldBackgroundColor: const Color(0xFF121212),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBackgroundColor,
       elevation: 0,
-      iconTheme: const IconThemeData(color: _primaryColor),
+      iconTheme: const IconThemeData(color: Colors.white),
       titleTextStyle:
           _appTextTheme.headlineSmall?.copyWith(color: _primaryColor),
+      centerTitle: true,
     ),
     textTheme: _appTextTheme.apply(
         bodyColor: Colors.white, displayColor: Colors.white),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: _primaryVariantColor,
-        foregroundColor: Colors.white,
+        backgroundColor: _primaryColor,
+        foregroundColor: Colors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         textStyle: _appTextTheme.labelLarge,
       ),
     ),
     cardTheme: const CardThemeData(
-      elevation: 6,
-      color: Color(0xFF212121),
+      elevation: 0,
+      color: kSurfaceColor,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
+        side: BorderSide(color: Colors.white10),
       ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: kSurfaceLightColor,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      hintStyle: TextStyle(color: Colors.grey[600]),
     ),
   );
 }
+

@@ -34,16 +34,13 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
 
     final locationService = ref.read(locationServiceProvider);
     Position? position;
+    
     try {
+      // Esto pedirá permisos si no se tienen, cumpliendo con que "la pida la primera vez"
       position = await locationService.getCurrentLocation();
     } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error.toString()),
-          ),
-        );
-      }
+      // Si el usuario deniega, continuamos sin ubicación silenciosamente o mostrando un snackbar discreto
+      debugPrint('No se pudo obtener ubicación: $error');
     }
 
     if (!mounted) return;
@@ -54,7 +51,8 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
       if (favoriteCasino != null && position != null) {
         final distanceKm = _distanceToCasinoKm(position, favoriteCasino);
 
-        if (distanceKm > 20) {
+        // Usamos 60km como umbral para sugerir cambio, igual que en las notificaciones
+        if (distanceKm > 60) {
           final goToClosest = await _askUserForClosestCasino();
           if (!mounted) return;
 

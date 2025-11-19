@@ -6,6 +6,7 @@ import 'package:casinoloyalty_flutter/screens/events_screen.dart';
 import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
+import 'package:casinoloyalty_flutter/screens/permissions_screen.dart';
 import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
 import 'package:casinoloyalty_flutter/screens/restaurants_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
@@ -22,6 +23,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const DecisionScreen(),
+    ),
+    GoRoute(
+      path: '/permissions',
+      builder: (context, state) => const PermissionsScreen(),
     ),
     GoRoute(
       path: '/select-favorite',

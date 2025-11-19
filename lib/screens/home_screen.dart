@@ -20,11 +20,33 @@ class HomeScreen extends ConsumerWidget {
       // AppBar eliminado para parecerse más a gemeniapp que usa un diseño full screen con scroll
       // Pero mantenemos el drawer accesible si se desliza o añadimos un botón
       appBar: AppBar(
-        title: const Text('Dreams Club'),
+        title: Row(
+          children: [
+            const Text('Dreams Club'),
+            const SizedBox(width: 8),
+            Container(
+              width: 4,
+              height: 20,
+              decoration: BoxDecoration(
+                color: user.levelColor,
+                borderRadius: BorderRadius.circular(2),
+                boxShadow: [
+                  BoxShadow(
+                    color: user.levelColor.withValues(alpha: 0.5),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none),
+            icon: Icon(
+              Icons.notifications_none,
+              color: user.levelColor,
+            ),
             onPressed: () {},
           ),
         ],
@@ -71,18 +93,42 @@ class HomeScreen extends ConsumerWidget {
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '${user.levelName} Member',
-                          style: TextStyle(
-                            color: Colors.grey[900],
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
+                          gradient: LinearGradient(
+                            colors: [
+                              user.levelColor,
+                              user.levelColor.withValues(alpha: 0.7),
+                            ],
                           ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: user.levelColor.withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.workspace_premium,
+                              color: user.levelTextColor,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              user.levelName,
+                              style: TextStyle(
+                                color: user.levelTextColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

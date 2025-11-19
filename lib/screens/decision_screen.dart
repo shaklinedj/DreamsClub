@@ -60,11 +60,13 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
             final closest = _findClosestCasino(casinos, position);
             // Guardar el casino más cercano como favorito
             await UserPreferences.setFavoriteCasino(closest.id);
+            if (!mounted) return;
           }
         }
       }
 
       // Siempre ir a home después de procesar
+      if (!mounted) return;
       context.go('/home');
       return;
     }
@@ -72,8 +74,10 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
     if (position != null && casinos.isNotEmpty) {
       final closest = _findClosestCasino(casinos, position);
       await UserPreferences.setFavoriteCasino(closest.id);
+      if (!mounted) return;
       context.go('/home');
     } else {
+      if (!mounted) return;
       context.go('/select-favorite');
     }
   }

@@ -12,6 +12,9 @@ class Casino {
   final String imageUrl;
   final Hotel? hotel;
   final List<Restaurante>? restaurantes;
+  final List<String> features;
+  final String description;
+  final double rating;
 
   Casino({
     required this.id,
@@ -23,6 +26,9 @@ class Casino {
     required this.imageUrl,
     this.hotel,
     this.restaurantes,
+    this.features = const [],
+    this.description = '',
+    this.rating = 4.5,
   });
 
   factory Casino.fromJson(Map<String, dynamic> json) {
@@ -40,6 +46,9 @@ class Casino {
               .map((i) => Restaurante.fromJson(i))
               .toList()
           : null,
+      features: json['features'] != null ? List<String>.from(json['features']) : [],
+      description: json['description'] ?? '',
+      rating: (json['rating'] ?? 4.5).toDouble(),
     );
   }
 }

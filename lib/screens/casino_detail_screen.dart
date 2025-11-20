@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:map_launcher/map_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:casinoloyalty_flutter/services/map_service.dart';
 
 class CasinoDetailScreen extends ConsumerWidget {
   final String casinoId;
@@ -277,47 +276,11 @@ class CasinoDetailScreen extends ConsumerWidget {
 
   Future<void> _openMaps(BuildContext context, Casino casino) async {
     try {
-      final availableMaps = await MapLauncher.installedMaps;
-
-      if (!context.mounted) return;
-
-      if (availableMaps.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('No hay aplicaciones de mapas instaladas.')),
-        );
-        return;
-      }
-
-      await showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  for (var map in availableMaps)
-                    ListTile(
-                      onTap: () {
-                        map.showMarker(
-                          coords: Coords(casino.latitud, casino.longitud),
-                          title: casino.nombre,
-                          description: casino.direccion,
-                        );
-                        Navigator.pop(context);
-                      },
-                      title: Text(map.mapName),
-                      leading: SvgPicture.asset(
-                        map.icon,
-                        height: 30.0,
-                        width: 30.0,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-        },
+      final mapService = MapService();
+      await mapService.openDirections(
+        latitude: casino.latitud,
+        longitude: casino.longitud,
+        locationName: casino.nombre,
       );
     } catch (e) {
       if (context.mounted) {

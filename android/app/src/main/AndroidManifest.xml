@@ -8,6 +8,44 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
+    <!-- Queries necesarias para map_launcher en Android 11+ -->
+    <queries>
+        <!-- Google Maps -->
+        <package android:name="com.google.android.apps.maps" />
+        <!-- Waze -->
+        <package android:name="com.waze" />
+        <!-- Uber -->
+        <package android:name="com.ubercab" />
+        <!-- HERE WeGo -->
+        <package android:name="com.here.app.maps" />
+        <!-- Citymapper -->
+        <package android:name="com.citymapper.app.release" />
+        <!-- Yandex Maps -->
+        <package android:name="ru.yandex.yandexmaps" />
+        <!-- Yandex Navigator -->
+        <package android:name="ru.yandex.yandexnavi" />
+        <!-- Sygic -->
+        <package android:name="com.sygic.aura" />
+        <!-- Baidu Maps -->
+        <package android:name="com.baidu.BaiduMap" />
+        <!-- Amap (Gaode) -->
+        <package android:name="com.autonavi.minimap" />
+        <!-- Apple Maps (for iOS, but good practice to include) -->
+        <package android:name="com.apple.maps" />
+        <!-- Mapswithme -->
+        <package android:name="com.mapswithme.maps.pro" />
+        <!-- OsmAnd -->
+        <package android:name="net.osmand" />
+        <package android:name="net.osmand.plus" />
+        <!-- DoubleGis -->
+        <package android:name="ru.dublgis.dgismobile" />
+        <!-- Tencent (QQ Maps) -->
+        <package android:name="com.tencent.map" />
+        <!-- Petal Maps -->
+        <package android:name="com.huawei.maps.app" />
+    </queries>
+    
     <application
         android:label="casinoloyalty_flutter"
         android:name="${applicationName}"

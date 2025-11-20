@@ -1,32 +1,38 @@
 import 'package:casinoloyalty_flutter/navigation/app_router.dart';
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
-import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
-import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('es_ES', null);
-  await BackgroundDistanceService.initialize();
-  runApp(const ProviderScope(child: MyApp()));
+void main() {
+  runApp(const ProviderScope(child: DreamsLoyaltyApp()));
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+// --- CONSTANTES DE DISEÑO ---
+const Color kGoldColor = Color(0xFFD4AF37);
+const Color kBackgroundColor = Colors.black;
+const Color kSurfaceColor = Color(0xFF1A1A1A);
+const Color kSurfaceLightColor = Color(0xFF2A2A2A);
+
+class DreamsLoyaltyApp extends StatelessWidget {
+  const DreamsLoyaltyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
-
+  Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Casino Loyalty',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
-      routerConfig: appRouter,
+      title: 'Dreams Club',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: kBackgroundColor,
+        primaryColor: kGoldColor,
+        fontFamily: 'Sans',
+        colorScheme: const ColorScheme.dark(
+          primary: kGoldColor,
+          secondary: kGoldColor,
+          surface: kSurfaceColor,
+        ),
+        useMaterial3: true,
+      ),
+      routerConfig: appRouter,
     );
   }
 }

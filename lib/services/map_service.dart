@@ -1,7 +1,7 @@
 import 'package:map_launcher/map_launcher.dart';
 
 class MapService {
-  /// Opens the default map app with directions to the specified coordinates
+  /// Opens the first available map app with directions to the specified coordinates
   Future<void> openDirections({
     required double latitude,
     required double longitude,
@@ -14,7 +14,7 @@ class MapService {
         throw Exception('No hay aplicaciones de mapas instaladas');
       }
 
-      // Use the first available map app (usually Google Maps or Apple Maps)
+      // Abre directamente el primer mapa disponible (usualmente Google Maps)
       await availableMaps.first.showDirections(
         destination: Coords(latitude, longitude),
         destinationTitle: locationName,
@@ -24,11 +24,12 @@ class MapService {
     }
   }
 
-  /// Shows available map apps and lets user choose
-  Future<void> showMapOptions({
+  /// Shows a marker on the map
+  Future<void> showMapMarker({
     required double latitude,
     required double longitude,
     required String locationName,
+    String? description,
   }) async {
     try {
       final availableMaps = await MapLauncher.installedMaps;
@@ -37,20 +38,11 @@ class MapService {
         throw Exception('No hay aplicaciones de mapas instaladas');
       }
 
-      // If only one map app is available, use it directly
-      if (availableMaps.length == 1) {
-        await availableMaps.first.showDirections(
-          destination: Coords(latitude, longitude),
-          destinationTitle: locationName,
-        );
-        return;
-      }
-
-      // If multiple apps available, you could show a dialog to choose
-      // For now, we'll just use the first one
-      await availableMaps.first.showDirections(
-        destination: Coords(latitude, longitude),
-        destinationTitle: locationName,
+      // Abre directamente el primer mapa disponible
+      await availableMaps.first.showMarker(
+        coords: Coords(latitude, longitude),
+        title: locationName,
+        description: description,
       );
     } catch (e) {
       throw Exception('Error al abrir el mapa: $e');

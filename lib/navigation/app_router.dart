@@ -6,12 +6,15 @@ import 'package:casinoloyalty_flutter/screens/events_screen.dart';
 import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotion_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/promotions_screen.dart';
+import 'package:casinoloyalty_flutter/screens/my_prizes_screen.dart';
 import 'package:casinoloyalty_flutter/screens/permissions_screen.dart';
+import 'package:casinoloyalty_flutter/screens/prize_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
 import 'package:casinoloyalty_flutter/screens/restaurant_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/restaurants_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/screens/settings_screen.dart';
+import 'package:casinoloyalty_flutter/screens/spin_wheel_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -66,6 +69,21 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/restaurants',
       builder: (context, state) => const RestaurantsScreen(),
+    ),
+    GoRoute(
+      path: '/spin-wheel',
+      builder: (context, state) => const SpinWheelScreen(),
+    ),
+    GoRoute(
+      path: '/my-prizes',
+      builder: (context, state) => const MyPrizesScreen(),
+    ),
+    GoRoute(
+      path: '/prize-detail/:id',
+      builder: (context, state) {
+        final prizeId = state.pathParameters['id']!;
+        return PrizeDetailScreen(prizeId: prizeId);
+      },
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

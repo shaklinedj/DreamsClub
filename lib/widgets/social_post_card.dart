@@ -224,7 +224,17 @@ class _ReactionButton extends StatelessWidget {
             onReactionSelected(selectedReaction!); // Toggle off logic handled in parent
           }
         },
-        icon: Icon(iconData, color: color),
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return ScaleTransition(scale: animation, child: child);
+          },
+          child: Icon(
+            iconData,
+            key: ValueKey<String>(selectedReaction ?? 'none'),
+            color: color,
+          ),
+        ),
         label: Text(label, style: TextStyle(color: color)),
       ),
     );

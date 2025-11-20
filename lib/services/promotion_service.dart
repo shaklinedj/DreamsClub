@@ -87,6 +87,29 @@ class PromotionService {
       descripcion: 'Las mujeres tienen beneficios especiales los jueves. Tragos de cortesía, descuentos en cenas y sorteos exclusivos para ellas toda la noche.',
       imageUrl: 'https://picsum.photos/seed/promo9/800/600',
     ),
+    
+    // New Promotions
+    Promotion(
+      id: 11,
+      casinoId: 1,
+      titulo: 'Domingo Familiar',
+      descripcion: 'Ven con tu familia y disfruta de un 20% de descuento en el buffet de almuerzo. Además, juegos y actividades para los más pequeños.',
+      imageUrl: 'https://picsum.photos/seed/promo11/800/600',
+    ),
+    Promotion(
+      id: 12,
+      casinoId: 5,
+      titulo: 'Noche de Casino Royale',
+      descripcion: 'Vístete de gala y vive una noche al estilo James Bond. Cócteles temáticos, música en vivo y premios especiales en las mesas de juego.',
+      imageUrl: 'https://picsum.photos/seed/promo12/800/600',
+    ),
+    Promotion(
+      id: 13,
+      casinoId: 3,
+      titulo: 'Descuento en Spa Hydra',
+      descripcion: 'Relájate con un 15% de descuento en todos nuestros masajes y tratamientos faciales. Reserva tu hora y renueva tus energías.',
+      imageUrl: 'https://picsum.photos/seed/promo13/800/600',
+    ),
   ];
 
   Future<List<Promotion>> getPromotionsByCasinoId(int casinoId) async {

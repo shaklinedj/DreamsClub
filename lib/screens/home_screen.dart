@@ -1,4 +1,5 @@
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/providers/promotions_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
@@ -291,39 +292,56 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white10),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.indigo.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(Icons.videogame_asset, color: Colors.indigoAccent),
-                  ),
-                  const SizedBox(width: 16),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Sorteo "La Suerte de Dreams"', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                        Text('¡Participa por un auto 0KM hoy!', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.chevron_right, color: Colors.grey),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 24),
+            selectedCasinoAsync.when(
+              data: (casino) {
+                if (casino == null) return const SizedBox.shrink();
+                final promotionsAsync = ref.watch(promotionsProvider(casino.id));
+                return promotionsAsync.when(
+                  data: (promotions) {
+                    if (promotions.isEmpty) return const Text('No hay destacados por ahora.');
+                    final promo = promotions.first;
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.white10),
+                      ),
+                      child: InkWell(
+                        onTap: () => context.push('/promotion/${promo.id}'),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.indigo.withValues(alpha : 0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(Icons.star, color: Colors.indigoAccent),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(promo.titulo, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                  Text(promo.descripcion, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                                ],
+                              ),
+                            ),
+                            const Icon(Icons.chevron_right, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (_, __) => const SizedBox.shrink(),
+                );
+              },
+              loading: () => const SizedBox.shrink(),
+              error: (_, __) => const SizedBox.shrink(),
+            ),            const SizedBox(height: 24),
 
             // Sección Novedades (Social Feed)
             Row(

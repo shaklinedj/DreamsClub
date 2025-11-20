@@ -155,6 +155,18 @@ class CasinoService {
             nombre: 'La Pica de la Esquina',
             imageUrl: 'https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=1200&q=80',
           ),
+          Restaurante(
+            id: 14,
+            casinoId: 5,
+            nombre: 'Buffet Capataz',
+            imageUrl: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80',
+          ),
+          Restaurante(
+            id: 15,
+            casinoId: 5,
+            nombre: 'Lucky 7 Bar',
+            imageUrl: 'https://images.unsplash.com/photo-1514362545857-3bc16549766b?auto=format&fit=crop&w=1200&q=80',
+          ),
         ],
     ),
     Casino(

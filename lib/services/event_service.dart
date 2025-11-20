@@ -70,6 +70,32 @@ class EventService {
       fecha: DateTime.now().add(const Duration(days: 60)),
       imageUrl: 'https://picsum.photos/seed/event6/800/600',
     ),
+    
+    // New Events
+    Event(
+      id: 8,
+      casinoId: 1,
+      titulo: 'Torneo de Poker Texas Hold\'em',
+      descripcion: 'Demuestra tus habilidades en nuestro torneo mensual de Poker. Grandes premios en efectivo y la oportunidad de clasificar al torneo nacional.',
+      fecha: DateTime.now().add(const Duration(days: 5)),
+      imageUrl: 'https://picsum.photos/seed/event8/800/600',
+    ),
+    Event(
+      id: 9,
+      casinoId: 5,
+      titulo: 'Noche de Salsa y Bachata',
+      descripcion: 'Ven a bailar con la mejor música latina en vivo. Clases gratuitas para principiantes antes del evento principal.',
+      fecha: DateTime.now().add(const Duration(days: 12)),
+      imageUrl: 'https://picsum.photos/seed/event9/800/600',
+    ),
+    Event(
+      id: 10,
+      casinoId: 3,
+      titulo: 'Cena Maridaje con Viña Montes',
+      descripcion: 'Una experiencia gastronómica de 5 tiempos maridada con los mejores vinos de Viña Montes. Cupos limitados.',
+      fecha: DateTime.now().add(const Duration(days: 18)),
+      imageUrl: 'https://picsum.photos/seed/event10/800/600',
+    ),
   ];
 
   Future<List<Event>> getEventsByCasinoId(int casinoId) async {

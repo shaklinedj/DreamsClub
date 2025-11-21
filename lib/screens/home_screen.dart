@@ -5,7 +5,7 @@ import 'package:casinoloyalty_flutter/providers/event_providers.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/favorite_casino_placeholder.dart';
-import 'package:casinoloyalty_flutter/widgets/like_button.dart';
+import 'package:casinoloyalty_flutter/widgets/reaction_button.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,9 +86,12 @@ class HomeScreen extends ConsumerWidget {
             // Selected Casino Section
             Row(
               children: [
-                Icon(Icons.star, color: Theme.of(context).primaryColor, size: 18),
+                Icon(Icons.star,
+                    color: Theme.of(context).primaryColor, size: 18),
                 const SizedBox(width: 8),
-                const Text('Tu Casino Favorito', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text('Tu Casino Favorito',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 12),
@@ -98,7 +101,8 @@ class HomeScreen extends ConsumerWidget {
               error: (err, stack) => Text('Error: $err'),
               data: (casino) {
                 if (casino == null) {
-                  return _EmptyState(onAction: () => context.go('/select-favorite'));
+                  return _EmptyState(
+                      onAction: () => context.go('/select-favorite'));
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +111,8 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
                     _EventsSection(casinoId: casino.id),
                     const SizedBox(height: 24),
-                    if (casino.restaurantes != null && casino.restaurantes!.isNotEmpty)
+                    if (casino.restaurantes != null &&
+                        casino.restaurantes!.isNotEmpty)
                       _RestaurantsSection(restaurants: casino.restaurantes!),
                     const SizedBox(height: 24),
                     if (casino.hotel != null)
@@ -124,7 +129,8 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _UserSummaryCard extends StatelessWidget {
-  final dynamic user; // Using dynamic to avoid importing user model if not strictly needed, but ideally should be typed
+  final dynamic
+      user; // Using dynamic to avoid importing user model if not strictly needed, but ideally should be typed
   const _UserSummaryCard({required this.user});
 
   @override
@@ -141,7 +147,8 @@ class _UserSummaryCard extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
+        border: Border.all(
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
@@ -160,12 +167,18 @@ class _UserSummaryCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Bienvenido de nuevo,', style: TextStyle(color: Colors.grey, fontSize: 14)),
-                  Text(user.name, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text('Bienvenido de nuevo,',
+                      style: TextStyle(color: Colors.grey, fontSize: 14)),
+                  Text(user.name,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold)),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(20),
@@ -182,25 +195,33 @@ class _UserSummaryCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Text('PUNTOS DREAMS ACUMULADOS', style: TextStyle(color: Colors.grey, fontSize: 10, letterSpacing: 1.5)),
+          const Text('PUNTOS DREAMS ACUMULADOS',
+              style: TextStyle(
+                  color: Colors.grey, fontSize: 10, letterSpacing: 1.5)),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
                 '${user.points}',
-                style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 36, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 4),
-              const Text('pts', style: TextStyle(color: Colors.grey, fontSize: 14)),
+              const Text('pts',
+                  style: TextStyle(color: Colors.grey, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 20),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Progreso a siguiente nivel', style: TextStyle(color: Colors.grey, fontSize: 12)),
-              Text('60000 pts', style: TextStyle(color: Colors.grey, fontSize: 12)),
+              Text('Progreso a siguiente nivel',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+              Text('60000 pts',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
             ],
           ),
           const SizedBox(height: 8),
@@ -252,9 +273,14 @@ class _CasinoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(casino.nombre, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
+                  Text(casino.nombre,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white)),
                   const SizedBox(height: 4),
-                  Text(casino.ciudad, style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                  Text(casino.ciudad,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14)),
                   if (casino.description.isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Text(
@@ -291,12 +317,17 @@ class _EventsSection extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.event, color: Theme.of(context).primaryColor, size: 18),
+                Icon(Icons.event,
+                    color: Theme.of(context).primaryColor, size: 18),
                 const SizedBox(width: 8),
-                const Text('Próximos Eventos', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text('Próximos Eventos',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
-            TextButton(onPressed: () => context.go('/events'), child: const Text('Ver todo')),
+            TextButton(
+                onPressed: () => context.go('/events'),
+                child: const Text('Ver todo')),
           ],
         ),
         const SizedBox(height: 12),
@@ -325,16 +356,19 @@ class _EventsSection extends ConsumerWidget {
                         Stack(
                           children: [
                             ClipRRect(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(12)),
                               child: Image.network(
                                 event.imageUrl,
                                 height: 120,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Container(
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
                                   height: 120,
                                   color: Colors.grey[800],
-                                  child: const Center(child: Icon(Icons.image_not_supported)),
+                                  child: const Center(
+                                      child: Icon(Icons.image_not_supported)),
                                 ),
                               ),
                             ),
@@ -342,14 +376,18 @@ class _EventsSection extends ConsumerWidget {
                               top: 8,
                               right: 8,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: Colors.black.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   event.type,
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -362,23 +400,31 @@ class _EventsSection extends ConsumerWidget {
                             children: [
                               Text(
                                 event.titulo,
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                DateFormat('EEE d MMM, HH:mm').format(event.fecha),
-                                style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 12),
+                                DateFormat('EEE d MMM, HH:mm')
+                                    .format(event.fecha),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 12),
                               ),
                               const SizedBox(height: 8),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(event.location, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                                  LikeButton(
-                                    isLiked: false, // TODO: Implement like state
-                                    onLikeChanged: (liked) {},
+                                  Text(event.location,
+                                      style: const TextStyle(
+                                          color: Colors.grey, fontSize: 12)),
+                                  ReactionButton(
+                                    eventId: event.id,
                                     size: 20,
                                   ),
                                 ],
@@ -410,9 +456,11 @@ class _RestaurantsSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.restaurant, color: Theme.of(context).primaryColor, size: 18),
+            Icon(Icons.restaurant,
+                color: Theme.of(context).primaryColor, size: 18),
             const SizedBox(width: 8),
-            const Text('Restaurantes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text('Restaurantes',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
         const SizedBox(height: 12),
@@ -434,7 +482,8 @@ class _RestaurantsSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(12)),
                       child: Image.network(
                         restaurant.imageUrl,
                         height: 100,
@@ -454,21 +503,27 @@ class _RestaurantsSection extends StatelessWidget {
                         children: [
                           Text(
                             restaurant.nombre,
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Colors.white),
                           ),
                           const SizedBox(height: 4),
                           Row(
                             children: [
-                              Icon(Icons.star, size: 14, color: Colors.amber[400]),
+                              Icon(Icons.star,
+                                  size: 14, color: Colors.amber[400]),
                               const SizedBox(width: 4),
                               Text(
                                 restaurant.rating.toString(),
-                                style: const TextStyle(color: Colors.white, fontSize: 12),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 12),
                               ),
                               const Spacer(),
                               Text(
                                 restaurant.priceRange,
-                                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 12),
                               ),
                             ],
                           ),
@@ -487,7 +542,8 @@ class _RestaurantsSection extends StatelessWidget {
 }
 
 class _HotelSection extends StatelessWidget {
-  final dynamic hotel; // Using dynamic to avoid import if not needed, but should be Hotel
+  final dynamic
+      hotel; // Using dynamic to avoid import if not needed, but should be Hotel
   const _HotelSection({required this.hotel});
 
   @override
@@ -499,7 +555,8 @@ class _HotelSection extends StatelessWidget {
           children: [
             Icon(Icons.hotel, color: Theme.of(context).primaryColor, size: 18),
             const SizedBox(width: 8),
-            const Text('Hotel', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text('Hotel',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
         const SizedBox(height: 12),
@@ -511,7 +568,8 @@ class _HotelSection extends StatelessWidget {
             image: DecorationImage(
               image: NetworkImage(hotel.imageUrl),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.3), BlendMode.darken),
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withValues(alpha: 0.3), BlendMode.darken),
             ),
           ),
           child: Stack(
@@ -532,14 +590,18 @@ class _HotelSection extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
                         'Reservar Ahora',
-                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -583,7 +645,9 @@ class _QuickActionButton extends StatelessWidget {
             children: [
               Icon(icon, color: Theme.of(context).primaryColor, size: 20),
               const SizedBox(width: 8),
-              Text(label, style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+              Text(label,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, color: Colors.white)),
             ],
           ),
         ),

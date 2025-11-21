@@ -63,7 +63,7 @@ class Prize {
 // Mock Prizes Data
 final List<Prize> mockPrizes = [
   // Común (60% total)
-  Prize(
+  const Prize(
     id: 'coffee',
     name: 'Café Gratis',
     type: PrizeType.drink,
@@ -72,7 +72,7 @@ final List<Prize> mockPrizes = [
     probability: 30,
     daysValid: 3,
   ),
-  Prize(
+  const Prize(
     id: 'points_500',
     name: '+500 Puntos Dreams',
     type: PrizeType.points,
@@ -81,9 +81,9 @@ final List<Prize> mockPrizes = [
     probability: 30,
     daysValid: 1, // Instant
   ),
-  
+
   // Medio (30% total)
-  Prize(
+  const Prize(
     id: 'mojito_2x1',
     name: '2x1 en Mojitos',
     type: PrizeType.drink,
@@ -92,7 +92,7 @@ final List<Prize> mockPrizes = [
     probability: 15,
     daysValid: 7,
   ),
-  Prize(
+  const Prize(
     id: 'discount_20',
     name: '20% Descuento Comida',
     type: PrizeType.food,
@@ -101,9 +101,9 @@ final List<Prize> mockPrizes = [
     probability: 15,
     daysValid: 7,
   ),
-  
+
   // Raro (10% total)
-  Prize(
+  const Prize(
     id: 'dinner_2',
     name: 'Cena para 2',
     type: PrizeType.food,
@@ -112,7 +112,7 @@ final List<Prize> mockPrizes = [
     probability: 7,
     daysValid: 14,
   ),
-  Prize(
+  const Prize(
     id: 'hotel_night',
     name: '1 Noche en Hotel Dreams',
     type: PrizeType.hotel,

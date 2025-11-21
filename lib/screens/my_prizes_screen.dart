@@ -81,13 +81,15 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Color(0xFFD4AF37)))
+          ? const Center(
+              child: CircularProgressIndicator(color: Color(0xFFD4AF37)))
           : TabBarView(
               controller: _tabController,
               children: [
                 // Active prizes
                 _activePrizes.isEmpty
-                    ? _buildEmptyState('No tienes premios activos', 'Gira la ruleta para ganar!')
+                    ? _buildEmptyState('No tienes premios activos',
+                        'Gira la ruleta para ganar!')
                     : RefreshIndicator(
                         onRefresh: _loadPrizes,
                         child: ListView.builder(
@@ -100,12 +102,14 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
                       ),
                 // Redeemed prizes
                 _redeemedPrizes.isEmpty
-                    ? _buildEmptyState('No has canjeado premios', 'Usa tus premios activos!')
+                    ? _buildEmptyState(
+                        'No has canjeado premios', 'Usa tus premios activos!')
                     : ListView.builder(
                         padding: const EdgeInsets.all(16),
                         itemCount: _redeemedPrizes.length,
                         itemBuilder: (context, index) {
-                          return _buildPrizeCard(_redeemedPrizes[index], isRedeemed: true);
+                          return _buildPrizeCard(_redeemedPrizes[index],
+                              isRedeemed: true);
                         },
                       ),
               ],
@@ -129,7 +133,8 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
           const SizedBox(height: 16),
           Text(
             title,
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
@@ -150,7 +155,9 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
         color: const Color(0xFF1A1A1A),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isRedeemed ? Colors.grey.withOpacity(0.3) : prizeColor.withOpacity(0.5),
+          color: isRedeemed
+              ? Colors.grey.withValues(alpha: 0.3)
+              : prizeColor.withValues(alpha: 0.5),
           width: 2,
         ),
       ),
@@ -168,7 +175,7 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: prizeColor.withOpacity(0.2),
+                    color: prizeColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
@@ -195,31 +202,40 @@ class _MyPrizesScreenState extends State<MyPrizesScreen>
                       const SizedBox(height: 4),
                       Text(
                         prize.prize.description,
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 12),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       if (isRedeemed)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.2),
+                            color: Colors.green.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: const Text(
                             '✓ CANJEADO',
-                            style: TextStyle(color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
                           ),
                         )
                       else
                         Row(
                           children: [
-                            Icon(Icons.access_time, size: 12, color: prizeColor),
+                            Icon(Icons.access_time,
+                                size: 12, color: prizeColor),
                             const SizedBox(width: 4),
                             Text(
                               'Expira en: ${prize.daysUntilExpiry}',
-                              style: TextStyle(color: prizeColor, fontSize: 12, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: prizeColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

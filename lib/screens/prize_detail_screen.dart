@@ -44,7 +44,8 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF1A1A1A),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Confirmar Canje', style: TextStyle(color: Colors.white)),
+        title: const Text('Confirmar Canje',
+            style: TextStyle(color: Colors.white)),
         content: const Text(
           '¿Ya canjeaste este premio? Esta acción no se puede deshacer.',
           style: TextStyle(color: Colors.white70),
@@ -82,10 +83,12 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
 
   void _sharePrize() {
     if (_prize == null) return;
-    Share.share(
-      '¡Gané ${_prize!.prize.name} en Dreams! 🎉\n'
-      '${_prize!.prize.description}\n\n'
-      'Código QR: ${_prize!.qrCode}',
+    SharePlus.instance.share(
+      ShareParams(
+        text: '¡Gané ${_prize!.prize.name} en Dreams! 🎉\n'
+            '${_prize!.prize.description}\n\n'
+            'Código QR: ${_prize!.qrCode}',
+      ),
     );
   }
 
@@ -110,7 +113,8 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
           backgroundColor: Colors.black,
         ),
         body: const Center(
-          child: Text('Premio no encontrado', style: TextStyle(color: Colors.white)),
+          child: Text('Premio no encontrado',
+              style: TextStyle(color: Colors.white)),
         ),
       );
     }
@@ -178,41 +182,47 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
             // Status badges
             if (isRedeemed)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.2),
+                  color: Colors.green.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.green),
                 ),
                 child: const Text(
                   '✓ PREMIO CANJEADO',
-                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold),
                 ),
               )
             else if (isExpired)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.2),
+                  color: Colors.red.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.red),
                 ),
                 child: const Text(
                   '⏰ PREMIO EXPIRADO',
-                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                 ),
               )
             else
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD4AF37).withOpacity(0.2),
+                  color: const Color(0xFFD4AF37).withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: const Color(0xFFD4AF37)),
                 ),
                 child: Text(
                   'Expira en: ${_prize!.daysUntilExpiry}',
-                  style: const TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
                 ),
               ),
 
@@ -222,7 +232,10 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
             if (!isRedeemed && !isExpired) ...[
               const Text(
                 'Muestra este código QR al personal',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Container(
@@ -274,25 +287,27 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.white10),
               ),
+              // ignore: prefer_const_constructors
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     '📋 Cómo canjear:',
-                    style: TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 12),
-                  const Text(
+                  SizedBox(height: 12),
+                  Text(
                     '1. Acércate al personal del casino',
                     style: TextStyle(color: Colors.white70),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8),
+                  Text(
                     '2. Muestra este código QR',
                     style: TextStyle(color: Colors.white70),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8),
+                  Text(
                     '3. ¡Disfruta tu premio!',
                     style: TextStyle(color: Colors.white70),
                   ),

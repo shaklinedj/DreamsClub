@@ -48,7 +48,7 @@ class HomeScreen extends ConsumerWidget {
                 Expanded(
                   child: _QuickActionButton(
                     icon: Icons.qr_code,
-                    label: 'Tarjeta Digital',
+                    label: 'Tarjeta',
                     onTap: () {
                       showDialog(
                         context: context,
@@ -62,11 +62,19 @@ class HomeScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _QuickActionButton(
+                    icon: Icons.casino,
+                    label: 'Ruleta',
+                    onTap: () => context.push('/spin-wheel'),
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: _QuickActionButton(
                     icon: Icons.card_giftcard,
-                    label: 'Mis Canjes',
+                    label: 'Canjes',
                     onTap: () => context.go('/promotions'),
                   ),
                 ),

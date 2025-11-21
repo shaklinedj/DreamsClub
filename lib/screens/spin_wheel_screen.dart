@@ -1,3 +1,4 @@
+import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/models/prize_model.dart';
 import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -40,12 +41,39 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
   Future<void> _checkEligibility() async {
     setState(() => _isCheckingEligibility = true);
     
+    // Simulate delay for better UX
+    await Future.delayed(const Duration(seconds: 1));
+
     final user = ref.read(userProvider);
     final eligibility = await _spinService.canPlayToday(user.points);
     
+    if (mounted) {
+      setState(() {
+        _eligibility = eligibility;
+        _isCheckingEligibility = false;
+      });
+    }
+  }
+
+  void _simulateLocation() {
     setState(() {
-      _eligibility = eligibility;
-      _isCheckingEligibility = false;
+      _eligibility = SpinEligibility(
+        canPlay: true,
+        reason: '¡Ubicación simulada exitosa!',
+        nearestCasino: Casino(
+          id: 1,
+          nombre: 'Casino Simulado',
+          ciudad: 'Debug City',
+          direccion: 'Debug St 123',
+          latitud: 0,
+          longitud: 0,
+          imageUrl: 'assets/images/iqq.jpg',
+          description: 'Casino para pruebas',
+          features: [],
+          rating: 5.0,
+        ),
+        distanceMeters: 10.0,
+      );
     });
   }
 
@@ -226,8 +254,37 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
                         ),
                       ],
                     ),
+                    ),
                   ),
                 ],
+
+                const SizedBox(height: 16),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton.icon(
+                      onPressed: _isCheckingEligibility ? null : _checkEligibility,
+                      icon: const Icon(Icons.refresh, color: Color(0xFFD4AF37)),
+                      label: const Text(
+                        'Actualizar Ubicación',
+                        style: TextStyle(color: Color(0xFFD4AF37)),
+                      ),
+                    ),
+                    // Debug button - only visible in debug mode
+                    if (true) ...[ // Always show for now as requested for testing
+                      const SizedBox(width: 8),
+                      TextButton.icon(
+                        onPressed: _simulateLocation,
+                        icon: const Icon(Icons.bug_report, color: Colors.grey),
+                        label: const Text(
+                          'Simular GPS',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
 
                 const SizedBox(height: 32),
 

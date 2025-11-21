@@ -24,6 +24,8 @@ class _SpinWheelWidgetState extends State<SpinWheelWidget>
   late Animation<double> _animation;
   Prize? _selectedPrize;
 
+  double _targetRotation = 0;
+
   @override
   void initState() {
     super.initState();
@@ -32,9 +34,7 @@ class _SpinWheelWidgetState extends State<SpinWheelWidget>
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
   }
 
   @override
@@ -58,13 +58,28 @@ class _SpinWheelWidgetState extends State<SpinWheelWidget>
     int randomValue = random.nextInt(totalProb);
     
     int cumulative = 0;
-    for (var prize in widget.prizes) {
-      cumulative += prize.probability;
+    int selectedIndex = 0;
+    for (var i = 0; i < widget.prizes.length; i++) {
+      cumulative += widget.prizes[i].probability;
       if (randomValue < cumulative) {
-        _selectedPrize = prize;
+        _selectedPrize = widget.prizes[i];
+        selectedIndex = i;
         break;
       }
     }
+
+    // Calculate target rotation
+    // We want 5 full spins + alignment to the selected prize
+    // Angle per segment
+    final segmentAngle = 2 * pi / widget.prizes.length;
+    
+    // The wheel starts at 0.
+    // Prize i is centered at: (i + 0.5) * segmentAngle - pi/2
+    // We want to rotate such that Prize i is at -pi/2 (top)
+    // TargetAngle = - (i + 0.5) * segmentAngle
+    // Add full rotations (5 * 2 * pi)
+    
+    _targetRotation = 5 * 2 * pi - (selectedIndex + 0.5) * segmentAngle;
 
     _controller.forward(from: 0).then((_) {
       if (_selectedPrize != null) {
@@ -78,8 +93,7 @@ class _SpinWheelWidgetState extends State<SpinWheelWidget>
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        // Multiple full rotations + final position
-        final rotation = _animation.value * 10 * 2 * pi;
+        final rotation = _animation.value * _targetRotation;
         
         return Transform.rotate(
           angle: rotation,

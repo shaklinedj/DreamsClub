@@ -1,5 +1,6 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:casinoloyalty_flutter/services/user_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +35,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
 
     final locationService = ref.read(locationServiceProvider);
     Position? position;
-    
+
     try {
       // Esto pedirá permisos si no se tienen, cumpliendo con que "la pida la primera vez"
       position = await locationService.getCurrentLocation();

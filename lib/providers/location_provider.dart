@@ -3,6 +3,9 @@ import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+final locationServiceProvider =
+    Provider<LocationService>((ref) => LocationService());
+
 final isInsideCasinoProvider = StreamProvider<bool>((ref) async* {
   final locationService = LocationService();
   final casinoService = CasinoService();

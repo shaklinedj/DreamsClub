@@ -1,60 +1,173 @@
-# Casino Loyalty App - Versión Flutter
+# Dreams Club - App de Lealtad de Casino
 
-Este proyecto es una migración de la aplicación original de React Native a Flutter. La aplicación permite a los usuarios encontrar el casino Dreams más cercano, ver promociones y eventos, y seleccionar un casino favorito.
+Aplicación móvil Flutter para el programa de lealtad de Dreams Casino. Permite a los usuarios encontrar casinos cercanos, jugar mini-juegos, participar en eventos virales y gestionar su membresía digital.
 
-## Arquitectura y Tecnologías
+## 🎯 Características Principales
 
-La aplicación está construida con Flutter y utiliza las siguientes tecnologías clave:
+### 🎰 Dreams Manía: Lluvia de Millones
+Evento viral en tiempo real que simula la emoción del piso del casino:
+- **Alarma Visual**: Pantalla parpadeante en rojo y dorado con alerta de jackpot
+- **Mini-Juego**: 15 segundos para atrapar fichas doradas cayendo ($1000 por ficha)
+- **Tarjeta de Victoria**: Diseño premium "Insta-ready" para compartir en redes sociales
+- **Trigger de Desarrollo**: Doble tap en esquina superior derecha para activar
 
-- **Gestión de Estado:** [Riverpod](https://riverpod.dev/)
-- **Navegación:** [go_router](https://pub.dev/packages/go_router)
-- **Red:** [Dio](https://pub.dev/packages/dio)
-- **Geolocalización:** [geolocator](https://pub.dev/packages/geolocator)
-- **Mapas:** [map_launcher](https://pub.dev/packages/map_launcher)
-- **Almacenamiento Local:** [shared_preferences](https://pub.dev/packages/shared_preferences)
-- **Notificaciones:** [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) y [workmanager](https://pub.dev/packages/workmanager)
-- **Permisos:** [permission_handler](https://pub.dev/packages/permission_handler)
-- **UI/Animaciones:** [flutter_animated_icons](https://pub.dev/packages/flutter_animated_icons), [lottie](https://pub.dev/packages/lottie), [circle_nav_bar](https://pub.dev/packages/circle_nav_bar), [google_fonts](https://pub.dev/packages/google_fonts)
+### 🎲 Slot Machine
+Tragamonedas con validación GPS:
+- Disponible solo cuando estás dentro de un casino (radio de 500m)
+- Validación GPS real (sin simulación)
+- Logo "Dreams Casino" integrado
+- Mecánica de 3 rodillos con animaciones fluidas
 
-## Estructura del Proyecto
+### 🧭 Navegación Inteligente
+- **Botón Central Condicional**:
+  - Dentro de casino: Abre Slot Machine
+  - Fuera de casino: Muestra Tarjeta Digital QR
+- Navegación simplificada: Solo "Inicio" y "Casinos"
+- Theming dinámico basado en nivel de usuario (Negro, Oro, Platino, Azul)
 
-- `lib/`: Código fuente Dart.
-  - `models/`: Modelos de datos.
-  - `services/`: Lógica de negocio y llamadas a API.
-  - `providers/`: State management con Riverpod.
-  - `screens/`: Pantallas de la UI.
-  - `widgets/`: Componentes reutilizables.
-  - `navigation/`: Configuración de rutas.
-  - `theme/`: Estilos y temas.
-- `assets/`: Imágenes y recursos estáticos.
+### 📍 Geolocalización
+- Detección automática del casino más cercano
+- Monitoreo continuo de ubicación en tiempo real
+- Selección manual de casino favorito
+- Radio de detección: 500 metros
 
-## Configuración y Ejecución
+### 🎫 Tarjeta Digital
+- Código QR para validación en casino
+- Diseño premium con colores de nivel de usuario
+- Acceso rápido desde botón central
+
+## 🏗️ Arquitectura y Tecnologías
+
+### Stack Principal
+- **Framework**: Flutter (>=3.4.0 <4.0.0)
+- **Lenguaje**: Dart
+- **Gestión de Estado**: [Riverpod](https://riverpod.dev/)
+- **Navegación**: [go_router](https://pub.dev/packages/go_router)
+
+### Dependencias Clave
+- **Red**: [Dio](https://pub.dev/packages/dio)
+- **Geolocalización**: [geolocator](https://pub.dev/packages/geolocator)
+- **Mapas**: [map_launcher](https://pub.dev/packages/map_launcher)
+- **Almacenamiento**: [shared_preferences](https://pub.dev/packages/shared_preferences)
+- **Notificaciones**: [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications), [workmanager](https://pub.dev/packages/workmanager)
+- **Permisos**: [permission_handler](https://pub.dev/packages/permission_handler)
+- **UI/Animaciones**: [lottie](https://pub.dev/packages/lottie), [google_fonts](https://pub.dev/packages/google_fonts)
+
+## 📁 Estructura del Proyecto
+
+```
+lib/
+├── models/              # Modelos de datos
+├── services/            # Lógica de negocio
+│   ├── dreams_mania_service.dart
+│   ├── location_service.dart
+│   └── casino_service.dart
+├── providers/           # State management (Riverpod)
+│   ├── user_provider.dart
+│   └── location_provider.dart
+├── screens/             # Pantallas principales
+│   ├── home_screen.dart
+│   ├── slot_machine_screen.dart
+│   └── casinos_screen.dart
+├── widgets/             # Componentes reutilizables
+│   ├── dreams_mania/
+│   │   ├── dreams_mania_overlay.dart
+│   │   ├── falling_chip_widget.dart
+│   │   └── victory_card_dialog.dart
+│   ├── scaffold_with_nav_bar.dart
+│   └── loyalty_card_widget.dart
+├── navigation/          # Configuración de rutas
+└── theme/              # Estilos y temas
+```
+
+## 🚀 Configuración y Ejecución
 
 ### Prerrequisitos
-
-- Flutter SDK (versión >=3.4.0 <4.0.0)
+- Flutter SDK (>=3.4.0 <4.0.0)
 - Dart SDK
+- Android Studio / Xcode (para emuladores)
 
-### Pasos para ejecutar
+### Instalación
 
-1. **Clonar el repositorio:**
+1. **Clonar el repositorio**
    ```bash
    git clone <URL_DEL_REPOSITORIO>
+   cd DreamsClub
    ```
 
-2. **Instalar dependencias:**
+2. **Instalar dependencias**
    ```bash
    flutter pub get
    ```
 
-3. **Ejecutar la aplicación:**
+3. **Ejecutar la aplicación**
    ```bash
    flutter run
    ```
 
-## Funcionalidades Principales
+### Análisis de Código
+```bash
+flutter analyze
+```
 
-- **Ubicación Inteligente:** Detecta automáticamente el casino más cercano.
-- **Selección Manual:** Permite elegir un casino favorito si no se usa la ubicación.
-- **Contenido Dinámico:** Muestra promociones y eventos específicos del casino seleccionado.
-- **Notificaciones:** Sistema de notificaciones locales y tareas en segundo plano.
+### Build de Producción
+```bash
+# Android
+flutter build apk --release
+
+# iOS
+flutter build ios --release
+```
+
+## 🎮 Guía de Uso
+
+### Activar Dreams Manía (Modo Desarrollo)
+1. Abre la app
+2. Haz **doble tap** en la esquina superior derecha (área invisible)
+3. Aparecerá la alarma de jackpot
+4. Espera 3 segundos para que comience el juego
+5. Toca las fichas doradas que caen
+6. Al finalizar, verás tu tarjeta de victoria
+
+### Jugar Slot Machine
+1. Acércate a un casino Dreams (o simula ubicación GPS)
+2. El botón central cambiará a icono de casino
+3. Toca el botón para abrir el Slot Machine
+4. Otorga permisos de ubicación si se solicitan
+5. Presiona "JUGAR" para girar los rodillos
+
+### Ver Tarjeta Digital
+1. Aléjate de cualquier casino
+2. El botón central mostrará icono QR
+3. Toca el botón para ver tu tarjeta de socio
+
+## 🎨 Niveles de Usuario
+
+La app adapta su diseño según el nivel del usuario:
+- **Negro**: Color base
+- **Oro**: Dorado premium (#D4AF37)
+- **Platino**: Plateado elegante
+- **Azul**: Azul distintivo
+
+## 📱 Plataformas Soportadas
+
+- ✅ Android
+- ✅ iOS
+
+## 🔐 Permisos Requeridos
+
+- **Ubicación**: Para detección de casinos cercanos y validación GPS
+- **Notificaciones**: Para alertas de eventos y promociones
+
+## 📄 Licencia
+
+[Especificar licencia]
+
+## 👥 Contribuidores
+
+[Especificar equipo de desarrollo]
+
+---
+
+**Versión Actual**: 1.0.0  
+**Última Actualización**: Noviembre 2025

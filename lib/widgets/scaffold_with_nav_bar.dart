@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
-import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_overlay.dart';
+// import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_overlay.dart';
+import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
 
 class ScaffoldWithNavBar extends ConsumerWidget {
@@ -87,6 +88,19 @@ class ScaffoldWithNavBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Listen for Dreams Mania events and show dialog
+    ref.listen<DreamsManiaState>(dreamsManiaProvider, (previous, next) {
+      if (previous != null &&
+          next.status == DreamsManiaStatus.warning &&
+          previous.status == DreamsManiaStatus.inactive) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const DreamsManiaDialog(),
+        );
+      }
+    });
+
     final user = ref.watch(userProvider);
     final primaryColor = user.levelColor;
     final isInsideCasinoAsync = ref.watch(isInsideCasinoProvider);
@@ -104,8 +118,10 @@ class ScaffoldWithNavBar extends ConsumerWidget {
             ),
           ),
 
-          // Dreams Manía Overlay (Global Layer)
-          const DreamsManiaOverlay(),
+          // Dreams Manía Overlay - PERMANENTLY DISABLED
+          // Architectural issue: Global Stack overlay causes black screen
+          // TODO: Reimplement as modal dialog instead
+          // const DreamsManiaOverlay(),
 
           // Dev Trigger for Dreams Manía (Hidden)
           Positioned(

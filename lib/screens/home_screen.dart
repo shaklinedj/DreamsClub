@@ -389,7 +389,7 @@ class _EventsSection extends ConsumerWidget {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -402,7 +402,7 @@ class _EventsSection extends ConsumerWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 3),
                               Text(
                                 DateFormat('EEE d MMM, HH:mm')
                                     .format(event.fecha),
@@ -410,7 +410,7 @@ class _EventsSection extends ConsumerWidget {
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 12),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 6),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

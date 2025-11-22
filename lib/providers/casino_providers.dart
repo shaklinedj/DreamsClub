@@ -1,14 +1,14 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
-import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:casinoloyalty_flutter/services/user_prefs.dart';
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 // --- PROVIDERS DE SERVICIOS ---
 
-final locationServiceProvider = Provider((ref) => LocationService());
 final casinoServiceProvider = Provider((ref) => CasinoService());
+
 // --- PROVIDERS DE DATOS ---
 
 final casinosProvider = FutureProvider<List<Casino>>((ref) {
@@ -33,7 +33,8 @@ final selectedCasinoIdProvider = FutureProvider<int?>((ref) async {
 
   Position? currentPosition;
   try {
-    currentPosition = await ref.read(locationServiceProvider).getCurrentLocation();
+    currentPosition =
+        await ref.read(locationServiceProvider).getCurrentLocation();
   } catch (_) {
     currentPosition = null;
   }
@@ -75,7 +76,6 @@ int _findClosestCasinoId(List<Casino> casinos, Position position) {
   }
   return closestId;
 }
-
 
 // --- PROVIDERS DE ESTADO DE LA UI ---
 

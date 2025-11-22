@@ -1,4 +1,3 @@
-
 import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,11 +14,13 @@ class LoyaltyCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormatter = NumberFormat.currency(locale: 'es_CL', symbol: 'CLP\$');
+    final currencyFormatter =
+        NumberFormat.currency(locale: 'es_CL', symbol: 'CLP\$');
     final pointsFormatter = NumberFormat.decimalPattern('es_CL');
     final colorScheme = Theme.of(context).colorScheme;
     final borderRadius = BorderRadius.circular(compact ? 22 : 28);
-    final padding = compact ? const EdgeInsets.all(20) : const EdgeInsets.all(24);
+    final padding =
+        compact ? const EdgeInsets.all(20) : const EdgeInsets.all(24);
     final double height = compact ? 170 : 210;
 
     return AnimatedContainer(
@@ -80,7 +81,7 @@ class LoyaltyCardWidget extends StatelessWidget {
               fontFamily: 'RobotoMono',
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Row(
             children: <Widget>[
               Expanded(
@@ -99,7 +100,7 @@ class LoyaltyCardWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -133,7 +134,8 @@ class _CardMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alignment = alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    final alignment =
+        alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     return Column(
       crossAxisAlignment: alignment,
       children: <Widget>[

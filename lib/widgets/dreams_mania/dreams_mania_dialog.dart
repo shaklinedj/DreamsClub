@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
@@ -41,11 +42,14 @@ class _DreamsManiaDialogState extends ConsumerState<DreamsManiaDialog>
     });
   }
 
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void dispose() {
     _alarmController.dispose();
     _spawnerTimer?.cancel();
     _autoCloseTimer?.cancel();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -60,6 +64,7 @@ class _DreamsManiaDialogState extends ConsumerState<DreamsManiaDialog>
             startX: random.nextDouble(),
             onCaught: () {
               ref.read(dreamsManiaProvider.notifier).catchChip(1000);
+              // _audioPlayer.play(AssetSource('sounds/coin.mp3')); // TODO: Add sound asset
               // Chip will be removed automatically when animation completes
             },
           ));

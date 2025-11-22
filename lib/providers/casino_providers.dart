@@ -16,12 +16,16 @@ final casinosProvider = FutureProvider<List<Casino>>((ref) {
 });
 
 final selectedCasinoIdProvider = FutureProvider<int?>((ref) async {
+  // 1. Si ya hay un casino activo en el estado (seleccionado manualmente), úsalo.
+  final activeId = ref.read(activeCasinoIdProvider);
+  if (activeId != null) return activeId;
+
   final casinos = await ref.watch(casinosProvider.future);
   if (casinos.isEmpty) {
-    ref.read(activeCasinoIdProvider.notifier).state = null;
     return null;
   }
 
+  // 2. Si hay un favorito guardado, úsalo.
   final favoriteCasinoId = await UserPreferences.getFavoriteCasino();
   if (favoriteCasinoId != null) {
     final match = casinos.where((casino) => casino.id == favoriteCasinoId);
@@ -31,9 +35,13 @@ final selectedCasinoIdProvider = FutureProvider<int?>((ref) async {
     }
   }
 
+  // 3. Solo si no hay favorito ni selección manual, intenta usar GPS (una sola vez).
+  // Esto evita que se recalcule constantemente en la home.
   Position? currentPosition;
   try {
-    currentPosition =
+    // Usamos getLastKnownPosition para ser más rápidos y menos intrusivos si es posible
+    currentPosition = await Geolocator.getLastKnownPosition();
+    currentPosition ??=
         await ref.read(locationServiceProvider).getCurrentLocation();
   } catch (_) {
     currentPosition = null;

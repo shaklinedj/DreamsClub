@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -26,6 +27,9 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
   bool _isSpinning = false;
   String _resultMessage = '';
 
+  // Audio
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
@@ -40,10 +44,12 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     _controller1.dispose();
     _controller2.dispose();
     _controller3.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
   Future<void> _checkLocation() async {
+    // ... (código existente de checkLocation)
     setState(() {
       _isCheckingLocation = true;
       _locationError = null;
@@ -77,7 +83,7 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     }
   }
 
-  void _spin() {
+  void _spin() async {
     if (_isSpinning || !_canPlay) return;
 
     setState(() {
@@ -85,12 +91,18 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
       _resultMessage = '';
     });
 
-    // Randomize target indices
+    // Play spin sound
+    // await _audioPlayer.play(AssetSource('sounds/spin.mp3')); // TODO: Add sound asset
+
+    // Lógica "Ganar Siempre": Elegimos un símbolo ganador aleatorio
     final random = Random();
-    final target1 =
-        random.nextInt(_symbols.length) + 20; // Spin at least 20 items
-    final target2 = random.nextInt(_symbols.length) + 20;
-    final target3 = random.nextInt(_symbols.length) + 20;
+    final winningSymbolIndex = random.nextInt(_symbols.length);
+
+    // Calculamos los índices target para que todos caigan en el mismo símbolo
+    // Añadimos vueltas extra para dar efecto de giro
+    final target1 = winningSymbolIndex + (_symbols.length * 5);
+    final target2 = winningSymbolIndex + (_symbols.length * 10);
+    final target3 = winningSymbolIndex + (_symbols.length * 15);
 
     // Animate controllers
     _controller1.animateToItem(
@@ -121,22 +133,14 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
 
   void _checkWin(int i1, int i2, int i3) {
     final s1 = _symbols[i1 % _symbols.length];
-    final s2 = _symbols[i2 % _symbols.length];
-    final s3 = _symbols[i3 % _symbols.length];
 
-    if (s1 == s2 && s2 == s3) {
-      setState(() {
-        _resultMessage = '¡JACKPOT! 🎉 Ganaste con $s1';
-      });
-    } else if (s1 == s2 || s2 == s3 || s1 == s3) {
-      setState(() {
-        _resultMessage = '¡Casi! Dos iguales. ¡Sigue intentando!';
-      });
-    } else {
-      setState(() {
-        _resultMessage = 'Suerte para la próxima.';
-      });
-    }
+    // Como forzamos que sean iguales, siempre ganará
+    setState(() {
+      _resultMessage = '¡JACKPOT! 🎉 Ganaste con $s1';
+    });
+
+    // Play win sound
+    // _audioPlayer.play(AssetSource('sounds/win.mp3')); // TODO: Add sound asset
   }
 
   @override

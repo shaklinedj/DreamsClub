@@ -12,6 +12,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import 'package:casinoloyalty_flutter/widgets/animated_bell.dart';
+import 'package:casinoloyalty_flutter/widgets/notifications_modal.dart';
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -21,105 +24,109 @@ class HomeScreen extends ConsumerWidget {
     final selectedCasinoAsync = ref.watch(selectedCasinoProvider);
 
     return Scaffold(
-      drawer: const AppDrawer(),
-      appBar: AppBar(
-        title: const Text('Dreams Club'),
-        centerTitle: false,
-        actions: const [],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 10, 16, 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // User Summary Card
-            _UserSummaryCard(user: user),
-
-            const SizedBox(height: 20),
-
-            // Quick Actions
-            Row(
-              children: [
-                Expanded(
-                  child: _QuickActionButton(
-                    icon: Icons.qr_code,
-                    label: 'Tarjeta',
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        barrierColor: Colors.black.withValues(alpha: 0.9),
-                        builder: (context) => Dialog(
-                          backgroundColor: Colors.transparent,
-                          insetPadding: const EdgeInsets.all(20),
-                          child: LoyaltyCardWidget(user: user),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _QuickActionButton(
-                    icon: Icons.casino,
-                    label: 'Ruleta',
-                    onTap: () => context.push('/spin-wheel'),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _QuickActionButton(
-                    icon: Icons.card_giftcard,
-                    label: 'Canjes',
-                    onTap: () => context.go('/promotions'),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            // Selected Casino Section
-            Row(
-              children: [
-                Icon(Icons.star,
-                    color: Theme.of(context).primaryColor, size: 18),
-                const SizedBox(width: 8),
-                const Text('Tu Casino Favorito',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            selectedCasinoAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text('Error: $err'),
-              data: (casino) {
-                if (casino == null) {
-                  return _EmptyState(
-                      onAction: () => context.go('/select-favorite'));
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _CasinoCard(casino: casino),
-                    const SizedBox(height: 24),
-                    _EventsSection(casinoId: casino.id),
-                    const SizedBox(height: 24),
-                    if (casino.restaurantes != null &&
-                        casino.restaurantes!.isNotEmpty)
-                      _RestaurantsSection(restaurants: casino.restaurantes!),
-                    const SizedBox(height: 24),
-                    if (casino.hotel != null)
-                      _HotelSection(hotel: casino.hotel!),
-                  ],
+        drawer: const AppDrawer(),
+        appBar: AppBar(
+          title: const Text('Dreams Club'),
+          centerTitle: false,
+          actions: [
+            IconButton(
+              icon: const AnimatedBell(),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const NotificationsModal(),
                 );
               },
             ),
+            const SizedBox(width: 16),
           ],
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // User Summary Card
+              _UserSummaryCard(user: user),
+
+              const SizedBox(height: 20),
+
+              // Quick Actions
+              Row(
+                children: [
+                  Expanded(
+                    child: _QuickActionButton(
+                      icon: Icons.qr_code,
+                      label: 'Tarjeta',
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          barrierColor: Colors.black.withValues(alpha: 0.9),
+                          builder: (context) => Dialog(
+                            backgroundColor: Colors.transparent,
+                            insetPadding: const EdgeInsets.all(20),
+                            child: LoyaltyCardWidget(user: user),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _QuickActionButton(
+                      icon: Icons.card_giftcard,
+                      label: 'Canjes',
+                      onTap: () => context.go('/promotions'),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              // Selected Casino Section
+              Row(
+                children: [
+                  Icon(Icons.star,
+                      color: Theme.of(context).primaryColor, size: 18),
+                  const SizedBox(width: 8),
+                  const Text('Tu Casino Favorito',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              selectedCasinoAsync.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Text('Error: $err'),
+                data: (casino) {
+                  if (casino == null) {
+                    return _EmptyState(
+                        onAction: () => context.go('/select-favorite'));
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _CasinoCard(casino: casino),
+                      const SizedBox(height: 24),
+                      _EventsSection(casinoId: casino.id),
+                      const SizedBox(height: 24),
+                      if (casino.restaurantes != null &&
+                          casino.restaurantes!.isNotEmpty)
+                        _RestaurantsSection(restaurants: casino.restaurantes!),
+                      const SizedBox(height: 24),
+                      if (casino.hotel != null)
+                        _HotelSection(hotel: casino.hotel!),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -159,18 +166,22 @@ class _UserSummaryCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Bienvenido de nuevo,',
-                      style: TextStyle(color: Colors.grey, fontSize: 14)),
-                  Text(user.name,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Bienvenido de nuevo,',
+                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(user.name,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis),
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

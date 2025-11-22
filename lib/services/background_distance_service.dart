@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:developer' as developer;
 import 'dart:typed_data';
 
-
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';
@@ -15,21 +14,27 @@ class BackgroundDistanceService {
   static const String taskName = 'distanceCheckTask';
   static const int checkIntervalMinutes = 15; // Chequear cada 15 minutos
   static const String _prefsKey = 'distance_notifications_enabled';
-  static const double distanceThresholdKm = 60.0; // Distancia umbral en km
+  static const double distanceThresholdKm = 100.0; // Distancia umbral en km
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  static Future<void> initialize() async {
+  static Future<void> initialize({
+    void Function(NotificationResponse)? onNotificationResponse,
+  }) async {
     // Inicializar notificaciones
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings();
     const settings = InitializationSettings(
       android: androidSettings,
       iOS: iosSettings,
     );
 
-    await _notificationsPlugin.initialize(settings);
+    await _notificationsPlugin.initialize(
+      settings,
+      onDidReceiveNotificationResponse: onNotificationResponse,
+    );
 
     // Solo inicializar WorkManager si las notificaciones están habilitadas
     final isEnabled = await UserPreferences.getBool(_prefsKey) ?? false;
@@ -81,7 +86,8 @@ void callbackDispatcher() {
       }
       return true;
     } catch (e) {
-      developer.log('Error in background task: $e', name: 'BackgroundDistanceService');
+      developer.log('Error in background task: $e',
+          name: 'BackgroundDistanceService');
       return false;
     }
   });
@@ -115,7 +121,8 @@ Future<void> _performDistanceCheck() async {
       await _showNotification(favoriteCasino.nombre, distance);
     }
   } catch (e) {
-    developer.log('Error checking distance: $e', name: 'BackgroundDistanceService');
+    developer.log('Error checking distance: $e',
+        name: 'BackgroundDistanceService');
   }
 }
 
@@ -144,7 +151,8 @@ Future<void> _showNotification(String casinoName, double distance) async {
   final androidDetails = AndroidNotificationDetails(
     'distance_channel',
     'Chequeo de Distancia',
-    channelDescription: 'Notificaciones cuando estás lejos de tu casino favorito',
+    channelDescription:
+        'Notificaciones cuando estás lejos de tu casino favorito',
     importance: Importance.high,
     priority: Priority.high,
     showWhen: true,
@@ -171,5 +179,6 @@ Future<void> _showNotification(String casinoName, double distance) async {
     '¡Estás lejos de $casinoName!',
     'Te encuentras a ${distanceRounded}km de distancia. ¿Quieres visitar otro casino cercano?',
     details,
+    payload: 'distance_alert',
   );
 }

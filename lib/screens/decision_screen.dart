@@ -59,18 +59,27 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
 
           if (goToClosest == true && casinos.isNotEmpty) {
             final closest = _findClosestCasino(casinos, position);
+            // Guardamos el nuevo favorito y el estado
+            await UserPreferences.setFavoriteCasino(closest.id);
+            ref.read(activeCasinoIdProvider.notifier).state = closest.id;
+
+            if (!mounted) return;
             context.go('/all-casinos/${closest.id}');
             return;
           }
         }
       }
 
+      // Guardamos el estado para que la Home no recalcule
+      ref.read(activeCasinoIdProvider.notifier).state = favoriteCasinoId;
       context.go('/all-casinos/$favoriteCasinoId');
       return;
     }
 
     if (position != null && casinos.isNotEmpty) {
       final closest = _findClosestCasino(casinos, position);
+      // Guardamos el estado para que la Home no recalcule
+      ref.read(activeCasinoIdProvider.notifier).state = closest.id;
       context.go('/all-casinos/${closest.id}');
     } else {
       context.go('/select-favorite');

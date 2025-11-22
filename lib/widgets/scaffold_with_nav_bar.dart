@@ -10,13 +10,48 @@ import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
 
-class ScaffoldWithNavBar extends ConsumerWidget {
+class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   const ScaffoldWithNavBar({
     required this.navigationShell,
-    Key? key,
-  }) : super(key: key ?? const ValueKey('ScaffoldWithNavBar'));
+    super.key,
+  });
 
   final StatefulNavigationShell navigationShell;
+
+  @override
+  ConsumerState<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
+}
+
+class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
+    with TickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late AnimationController _rotationController;
+  late Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
+    _rotationController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    _rotationController.dispose();
+    super.dispose();
+  }
 
   void _showQRModal(BuildContext context, WidgetRef ref) {
     final user = ref.read(userProvider);
@@ -87,7 +122,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // Listen for Dreams Mania events and show dialog
     ref.listen<DreamsManiaState>(dreamsManiaProvider, (previous, next) {
       if (previous != null &&
@@ -106,6 +141,17 @@ class ScaffoldWithNavBar extends ConsumerWidget {
     final isInsideCasinoAsync = ref.watch(isInsideCasinoProvider);
     final isInsideCasino = isInsideCasinoAsync.value ?? false;
 
+    // Manage animations based on casino state
+    if (isInsideCasino) {
+      if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
+      if (!_rotationController.isAnimating) _rotationController.repeat();
+    } else {
+      if (_pulseController.isAnimating) _pulseController.stop();
+      if (_rotationController.isAnimating) _rotationController.stop();
+      _pulseController.reset();
+      _rotationController.reset();
+    }
+
     return Scaffold(
       extendBody: true,
       body: Stack(
@@ -113,15 +159,13 @@ class ScaffoldWithNavBar extends ConsumerWidget {
           // Wrap navigation shell in SafeArea to prevent system bar overlap
           Positioned.fill(
             child: SafeArea(
-              bottom: false,
-              child: navigationShell,
+              top:
+                  false, // Let content go behind status bar if needed (handled by screens)
+              bottom:
+                  false, // We handle bottom padding manually because of extendBody
+              child: widget.navigationShell,
             ),
           ),
-
-          // Dreams Manía Overlay - PERMANENTLY DISABLED
-          // Architectural issue: Global Stack overlay causes black screen
-          // TODO: Reimplement as modal dialog instead
-          // const DreamsManiaOverlay(),
 
           // Dev Trigger for Dreams Manía (Hidden)
           Positioned(
@@ -168,16 +212,16 @@ class ScaffoldWithNavBar extends ConsumerWidget {
                         _NavBarItem(
                           icon: Icons.star_outline,
                           label: 'Inicio',
-                          isActive: navigationShell.currentIndex == 0,
-                          onTap: () => navigationShell.goBranch(0),
+                          isActive: widget.navigationShell.currentIndex == 0,
+                          onTap: () => widget.navigationShell.goBranch(0),
                           activeColor: primaryColor,
                         ),
                         const SizedBox(width: 40),
                         _NavBarItem(
                           icon: Icons.location_on_outlined,
                           label: 'Casinos',
-                          isActive: navigationShell.currentIndex == 3,
-                          onTap: () => navigationShell.goBranch(3),
+                          isActive: widget.navigationShell.currentIndex == 3,
+                          onTap: () => widget.navigationShell.goBranch(3),
                           activeColor: primaryColor,
                         ),
                       ],
@@ -202,28 +246,52 @@ class ScaffoldWithNavBar extends ConsumerWidget {
                     _showQRModal(context, ref);
                   }
                 },
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0xFF121212), width: 4),
-                    boxShadow: [
-                      BoxShadow(
-                        color: primaryColor.withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 4),
-                      )
-                    ],
-                  ),
-                  child: Icon(
-                    isInsideCasino ? Icons.casino : Icons.qr_code,
-                    color: user.levelTextColor,
-                    size: 32,
-                  ),
+                child: AnimatedBuilder(
+                  animation:
+                      Listenable.merge([_pulseController, _rotationController]),
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: isInsideCasino ? _pulseAnimation.value : 1.0,
+                      child: Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: const Color(0xFF121212), width: 4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primaryColor.withValues(alpha: 0.4),
+                              blurRadius: 15 *
+                                  (isInsideCasino
+                                      ? _pulseAnimation.value
+                                      : 1.0),
+                              spreadRadius: 2 *
+                                  (isInsideCasino
+                                      ? _pulseAnimation.value
+                                      : 1.0),
+                              offset: const Offset(0, 4),
+                            )
+                          ],
+                        ),
+                        child: isInsideCasino
+                            ? RotationTransition(
+                                turns: _rotationController,
+                                child: Icon(
+                                  Icons.casino,
+                                  color: user.levelTextColor,
+                                  size: 32,
+                                ),
+                              )
+                            : Icon(
+                                Icons.qr_code,
+                                color: user.levelTextColor,
+                                size: 32,
+                              ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

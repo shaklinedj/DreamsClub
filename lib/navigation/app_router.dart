@@ -14,7 +14,7 @@ import 'package:casinoloyalty_flutter/screens/restaurant_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/restaurants_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/screens/settings_screen.dart';
-import 'package:casinoloyalty_flutter/screens/spin_wheel_screen.dart';
+import 'package:casinoloyalty_flutter/screens/slot_machine_screen.dart';
 import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -71,8 +71,8 @@ final appRouter = GoRouter(
       builder: (context, state) => const RestaurantsScreen(),
     ),
     GoRoute(
-      path: '/spin-wheel',
-      builder: (context, state) => const SpinWheelScreen(),
+      path: '/slot-machine',
+      builder: (context, state) => const SlotMachineScreen(),
     ),
     GoRoute(
       path: '/my-prizes',

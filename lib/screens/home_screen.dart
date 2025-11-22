@@ -25,12 +25,7 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Dreams Club'),
         centerTitle: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () {},
-          ),
-        ],
+        actions: const [],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 10, 16, 100),

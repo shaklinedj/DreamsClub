@@ -7,6 +7,7 @@ import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:casinoloyalty_flutter/widgets/favorite_casino_placeholder.dart';
 import 'package:casinoloyalty_flutter/widgets/reaction_button.dart';
 import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

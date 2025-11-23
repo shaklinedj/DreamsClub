@@ -64,7 +64,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
             ref.read(activeCasinoIdProvider.notifier).state = closest.id;
 
             if (!mounted) return;
-            context.go('/all-casinos/${closest.id}');
+            context.go('/home');
             return;
           }
         }
@@ -72,7 +72,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
 
       // Guardamos el estado para que la Home no recalcule
       ref.read(activeCasinoIdProvider.notifier).state = favoriteCasinoId;
-      context.go('/all-casinos/$favoriteCasinoId');
+      context.go('/home');
       return;
     }
 
@@ -80,7 +80,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
       final closest = _findClosestCasino(casinos, position);
       // Guardamos el estado para que la Home no recalcule
       ref.read(activeCasinoIdProvider.notifier).state = closest.id;
-      context.go('/all-casinos/${closest.id}');
+      context.go('/home');
     } else {
       context.go('/select-favorite');
     }

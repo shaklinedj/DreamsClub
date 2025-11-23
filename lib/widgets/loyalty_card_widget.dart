@@ -17,7 +17,6 @@ class LoyaltyCardWidget extends StatelessWidget {
     final currencyFormatter =
         NumberFormat.currency(locale: 'es_CL', symbol: 'CLP\$');
     final pointsFormatter = NumberFormat.decimalPattern('es_CL');
-    final colorScheme = Theme.of(context).colorScheme;
     final borderRadius = BorderRadius.circular(compact ? 22 : 28);
     final padding =
         compact ? const EdgeInsets.all(20) : const EdgeInsets.all(24);
@@ -32,17 +31,17 @@ class LoyaltyCardWidget extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             user.levelColor.withValues(alpha: 0.95),
-            colorScheme.surface.withValues(alpha: 0.05),
+            user.levelColor.withValues(alpha: 0.6), // Increased visibility
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
         boxShadow: [
           BoxShadow(
-            color: user.levelColor.withValues(alpha: 0.35),
-            blurRadius: 18,
-            offset: const Offset(0, 12),
+            color: user.levelColor.withValues(alpha: 0.5), // Increased opacity
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),

@@ -58,12 +58,16 @@ class UserNotifier extends StateNotifier<User> {
 
   Future<void> updateFavoriteCasino(String? casino) async {
     state = state.copyWith(favoriteCasino: casino);
-    // In a real app, this might save to storage or backend
+    if (casino != null) {
+      await _storage.saveFavoriteCasino(casino);
+    }
   }
 
   Future<void> updateBirthday(DateTime? date) async {
     state = state.copyWith(birthday: date);
-    // In a real app, this might save to storage or backend
+    if (date != null) {
+      await _storage.saveBirthday(date);
+    }
   }
 }
 

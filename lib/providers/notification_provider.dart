@@ -53,6 +53,17 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
         user.birthday!.month == DateTime.now().month) {
       _triggerBirthdayNotification(user.name);
     }
+
+    // Trigger sample event notification for demonstration
+    _triggerEventNotification();
+  }
+
+  Future<void> _triggerEventNotification() async {
+    await NotificationService.showNotification(
+      id: 1000,
+      title: '🎉 Nuevo Evento Disponible',
+      body: 'Torneo de Póker este viernes. ¡Inscríbete ahora y gana premios!',
+    );
   }
 
   void markAsRead(String id) {

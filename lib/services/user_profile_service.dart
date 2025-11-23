@@ -5,16 +5,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserProfileService {
   static const _nameKey = 'user_profile_name';
   static const _photoPathKey = 'user_profile_photo_path';
+  static const _favoriteCasinoKey = 'user_favorite_casino';
+  static const _birthdayKey = 'user_birthday';
   static const _themeModeKey = 'user_theme_mode';
 
   Future<User> loadUser(User fallback) async {
     final prefs = await SharedPreferences.getInstance();
     final storedName = prefs.getString(_nameKey);
     final storedPhotoPath = prefs.getString(_photoPathKey);
+    final storedFavoriteCasino = prefs.getString(_favoriteCasinoKey);
+    final storedBirthdayIso = prefs.getString(_birthdayKey);
+
+    DateTime? storedBirthday;
+    if (storedBirthdayIso != null) {
+      storedBirthday = DateTime.tryParse(storedBirthdayIso);
+    }
 
     return fallback.copyWith(
       name: storedName ?? fallback.name,
       profileImageUrl: storedPhotoPath ?? fallback.profileImageUrl,
+      favoriteCasino: storedFavoriteCasino ?? fallback.favoriteCasino,
+      birthday: storedBirthday ?? fallback.birthday,
     );
   }
 
@@ -26,6 +37,16 @@ class UserProfileService {
   Future<void> savePhotoPath(String path) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_photoPathKey, path);
+  }
+
+  Future<void> saveFavoriteCasino(String casinoName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_favoriteCasinoKey, casinoName);
+  }
+
+  Future<void> saveBirthday(DateTime date) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_birthdayKey, date.toIso8601String());
   }
 
   Future<void> clearPhotoPath() async {

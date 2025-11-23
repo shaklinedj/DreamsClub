@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 final themeModeProvider =
     StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
-  return ThemeModeNotifier();
+  final service = ref.watch(userProfileServiceProvider);
+  return ThemeModeNotifier(service);
 });
 
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  ThemeModeNotifier() : super(ThemeMode.system) {
+  ThemeModeNotifier(this._storage) : super(ThemeMode.system) {
     _loadTheme();
   }
 
-  static const _key = 'theme_mode';
+  final UserProfileService _storage;
 
   Future<void> _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedTheme = prefs.getString(_key);
-    if (savedTheme != null) {
-      state = ThemeMode.values.firstWhere(
-        (e) => e.toString() == savedTheme,
-        orElse: () => ThemeMode.system,
-      );
-    }
+    final stored = await _storage.loadThemeMode();
+    if (mounted) state = stored;
   }
 
   Future<void> update(ThemeMode mode) async {
     state = mode;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, mode.toString());
+    await _storage.saveThemeMode(mode);
   }
 }

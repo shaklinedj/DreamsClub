@@ -92,7 +92,8 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     });
 
     // Play spin sound
-    // await _audioPlayer.play(AssetSource('sounds/spin.mp3')); // TODO: Add sound asset
+    // Play spin sound
+    await _audioPlayer.play(AssetSource('sounds/spin.wav'));
 
     // Lógica "Ganar Siempre": Elegimos un símbolo ganador aleatorio
     final random = Random();
@@ -140,7 +141,8 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     });
 
     // Play win sound
-    // _audioPlayer.play(AssetSource('sounds/win.mp3')); // TODO: Add sound asset
+    // Play win sound
+    _audioPlayer.play(AssetSource('sounds/win.wav'));
   }
 
   @override

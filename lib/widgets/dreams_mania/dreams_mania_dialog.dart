@@ -64,7 +64,7 @@ class _DreamsManiaDialogState extends ConsumerState<DreamsManiaDialog>
             startX: random.nextDouble(),
             onCaught: () {
               ref.read(dreamsManiaProvider.notifier).catchChip(1000);
-              // _audioPlayer.play(AssetSource('sounds/coin.mp3')); // TODO: Add sound asset
+              _audioPlayer.play(AssetSource('sounds/coins.wav'));
               // Chip will be removed automatically when animation completes
             },
           ));
@@ -213,6 +213,9 @@ class _DreamsManiaDialogState extends ConsumerState<DreamsManiaDialog>
 
     // Close current dialog first
     Navigator.of(context).pop();
+
+    // Play win sound
+    _audioPlayer.play(AssetSource('sounds/win.wav'));
 
     // Show victory dialog
     showDialog(

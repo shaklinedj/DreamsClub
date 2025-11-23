@@ -50,9 +50,25 @@ class UserNotifier extends StateNotifier<User> {
     state = state.copyWith(profileImageUrl: _defaultUser.profileImageUrl);
     await _storage.clearPhotoPath();
   }
+
+  Future<void> updateLevel(UserLevel newLevel) async {
+    state = state.copyWith(level: newLevel);
+    // In a real app, this might save to storage or backend
+  }
+
+  Future<void> updateFavoriteCasino(String? casino) async {
+    state = state.copyWith(favoriteCasino: casino);
+    // In a real app, this might save to storage or backend
+  }
+
+  Future<void> updateBirthday(DateTime? date) async {
+    state = state.copyWith(birthday: date);
+    // In a real app, this might save to storage or backend
+  }
 }
 
-final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
+final themeModeProvider =
+    StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
   final service = ref.watch(userProfileServiceProvider);
   return ThemeModeNotifier(service);
 });

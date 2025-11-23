@@ -5,7 +5,7 @@ class AppTheme {
   // Paleta de colores principal (dorado)
   static const Color _primaryColor = Color(0xFFD4AF37); // Un dorado más clásico
   static const Color _secondaryColor = Color(0xFF4C4C4C);
-  
+
   // Colores específicos del clon
   static const Color kBackgroundColor = Colors.black;
   static const Color kSurfaceColor = Color(0xFF1A1A1A);
@@ -75,9 +75,9 @@ class AppTheme {
     ),
     cardTheme: const CardThemeData(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
     ),
   );
@@ -116,9 +116,9 @@ class AppTheme {
     cardTheme: const CardThemeData(
       elevation: 0,
       color: kSurfaceColor,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
         side: BorderSide(color: Colors.white10),
       ),
     ),
@@ -133,4 +133,3 @@ class AppTheme {
     ),
   );
 }
-

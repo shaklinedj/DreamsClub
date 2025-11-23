@@ -1,4 +1,3 @@
-
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class CasinoCard extends StatelessWidget {
           );
 
     return Card(
-      margin: const EdgeInsets.all(8.0),
+      // margin: Use default from Theme
       child: InkWell(
         onTap: onTap,
         child: Column(
@@ -44,16 +43,16 @@ class CasinoCard extends StatelessWidget {
                 children: [
                   Text(
                     casino.nombre,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     casino.ciudad,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

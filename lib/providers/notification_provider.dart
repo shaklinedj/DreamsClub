@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/models/notification_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/services/notification_service.dart';
 
 class NotificationNotifier extends StateNotifier<List<AppNotification>> {
   NotificationNotifier(this.ref) : super([]) {
@@ -14,14 +15,22 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
 
     // Mock data based on user
     state = [
-      AppNotification(
-        id: '1',
-        title: '¡Feliz Cumpleaños, ${user.name}!',
-        message:
-            'Te regalamos 5000 puntos Dreams para celebrar tu día. ¡Ven a disfrutar!',
-        type: NotificationType.birthday,
-        timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-      ),
+      if (user.birthday != null &&
+          user.birthday!.day == DateTime.now().day &&
+          user.birthday!.month == DateTime.now().month)
+        AppNotification(
+          id: 'birthday_${DateTime.now().year}',
+          title: '¡Feliz Cumpleaños, ${user.name}!',
+          message:
+              'Te regalamos 5000 puntos Dreams para celebrar tu día. ¡Ven a disfrutar!',
+          type: NotificationType.birthday,
+          timestamp: DateTime.now(),
+        ),
+    ];
+
+    // Add other notifications
+    state = [
+      ...state,
       AppNotification(
         id: '2',
         title: 'Estás cerca de Monticello',
@@ -38,6 +47,12 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
         timestamp: DateTime.now().subtract(const Duration(days: 1)),
       ),
     ];
+
+    if (user.birthday != null &&
+        user.birthday!.day == DateTime.now().day &&
+        user.birthday!.month == DateTime.now().month) {
+      _triggerBirthdayNotification(user.name);
+    }
   }
 
   void markAsRead(String id) {
@@ -56,6 +71,15 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
 
   void clearAll() {
     state = [];
+  }
+
+  Future<void> _triggerBirthdayNotification(String userName) async {
+    await NotificationService.showNotification(
+      id: 999,
+      title: '¡Feliz Cumpleaños, $userName!',
+      body:
+          'Te regalamos 5000 puntos Dreams para celebrar tu día. ¡Ven a disfrutar!',
+    );
   }
 }
 

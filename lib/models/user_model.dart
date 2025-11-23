@@ -11,6 +11,9 @@ class User {
   final int points;
   final double balance;
 
+  final String? favoriteCasino;
+  final DateTime? birthday;
+
   const User({
     required this.name,
     required this.email,
@@ -18,6 +21,8 @@ class User {
     required this.level,
     required this.points,
     required this.balance,
+    this.favoriteCasino,
+    this.birthday,
   });
 
   User copyWith({
@@ -27,6 +32,8 @@ class User {
     UserLevel? level,
     int? points,
     double? balance,
+    String? favoriteCasino,
+    DateTime? birthday,
   }) {
     return User(
       name: name ?? this.name,
@@ -35,6 +42,8 @@ class User {
       level: level ?? this.level,
       points: points ?? this.points,
       balance: balance ?? this.balance,
+      favoriteCasino: favoriteCasino ?? this.favoriteCasino,
+      birthday: birthday ?? this.birthday,
     );
   }
 

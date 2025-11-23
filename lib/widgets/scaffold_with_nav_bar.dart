@@ -157,13 +157,17 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
       body: Stack(
         children: [
           // Wrap navigation shell in SafeArea to prevent system bar overlap
+          // Wrap navigation shell in SafeArea to prevent system bar overlap
           Positioned.fill(
             child: SafeArea(
-              top:
-                  false, // Let content go behind status bar if needed (handled by screens)
-              bottom:
-                  false, // We handle bottom padding manually because of extendBody
-              child: widget.navigationShell,
+              top: true, // Ensure content does not go under the status bar
+              bottom: false, // We handle bottom padding manually
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 60 + MediaQuery.of(context).padding.bottom,
+                ),
+                child: widget.navigationShell,
+              ),
             ),
           ),
 

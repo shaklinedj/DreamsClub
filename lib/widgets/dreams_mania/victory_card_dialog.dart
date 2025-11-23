@@ -14,6 +14,9 @@ class VictoryCardDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
@@ -25,10 +28,10 @@ class VictoryCardDialog extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFD4AF37), width: 3),
+          border: Border.all(color: colorScheme.primary, width: 3),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFD4AF37).withValues(alpha: 0.5),
+              color: colorScheme.primary.withValues(alpha: 0.5),
               blurRadius: 20,
               spreadRadius: 5,
             ),
@@ -37,38 +40,34 @@ class VictoryCardDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               '¡DREAMS MANÍA!',
-              style: TextStyle(
-                color: Color(0xFFD4AF37),
-                fontSize: 24,
+              style: textTheme.headlineSmall?.copyWith(
+                color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 2,
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'HAS GANADO',
-              style: TextStyle(
+              style: textTheme.bodyMedium?.copyWith(
                 color: Colors.white70,
-                fontSize: 16,
                 letterSpacing: 4,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               '\$$score',
-              style: const TextStyle(
+              style: textTheme.displayLarge?.copyWith(
                 color: Colors.white,
-                fontSize: 48,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Text(
+            Text(
               'CRÉDITOS',
-              style: TextStyle(
-                color: Color(0xFFD4AF37),
-                fontSize: 14,
+              style: textTheme.labelLarge?.copyWith(
+                color: colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -78,11 +77,12 @@ class VictoryCardDialog extends StatelessWidget {
               icon: const Icon(Icons.share, color: Colors.black),
               label: const Text('COMPARTIR VICTORIA'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD4AF37),
+                backgroundColor: colorScheme.primary,
                 foregroundColor: Colors.black,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                textStyle:
+                    textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10),

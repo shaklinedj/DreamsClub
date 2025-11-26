@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
 
 class FavoriteCasinoPlaceholder extends StatelessWidget {
+  final IconData? icon;
+  final String? message;
+  final VoidCallback onSelect;
+
   const FavoriteCasinoPlaceholder({
     super.key,
+    this.icon,
+    this.message,
     required this.onSelect,
-    this.icon = Icons.casino,
-    this.message =
-        'Selecciona tu casino favorito o permite la ubicación para mostrarte contenido relevante.',
   });
-
-  final VoidCallback onSelect;
-  final IconData icon;
-  final String message;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(32.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 64, color: colorScheme.primary),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium,
+            Icon(
+              icon ?? Icons.casino,
+              size: 80,
+              color: Colors.grey[600],
             ),
-            const SizedBox(height: 20),
-            FilledButton.icon(
+            const SizedBox(height: 24),
+            Text(
+              message ?? 'Selecciona tu casino favorito para comenzar',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[400],
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
               onPressed: onSelect,
-              icon: const Icon(Icons.explore),
-              label: const Text('Elegir casino'),
+              icon: const Icon(Icons.star),
+              label: const Text('Seleccionar Casino'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
           ],
         ),

@@ -1,6 +1,5 @@
 import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const _defaultUser = User(
@@ -56,11 +55,9 @@ class UserNotifier extends StateNotifier<User> {
     // In a real app, this might save to storage or backend
   }
 
-  Future<void> updateFavoriteCasino(String? casino) async {
-    state = state.copyWith(favoriteCasino: casino);
-    if (casino != null) {
-      await _storage.saveFavoriteCasino(casino);
-    }
+  Future<void> updateFavoriteCasino(int? casinoId) async {
+    state = state.copyWith(favoriteCasinoId: casinoId);
+    await _storage.saveFavoriteCasinoId(casinoId);
   }
 
   Future<void> updateBirthday(DateTime? date) async {
@@ -68,29 +65,5 @@ class UserNotifier extends StateNotifier<User> {
     if (date != null) {
       await _storage.saveBirthday(date);
     }
-  }
-}
-
-final themeModeProvider =
-    StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
-  final service = ref.watch(userProfileServiceProvider);
-  return ThemeModeNotifier(service);
-});
-
-class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  ThemeModeNotifier(this._storage) : super(ThemeMode.system) {
-    _load();
-  }
-
-  final UserProfileService _storage;
-
-  Future<void> _load() async {
-    final stored = await _storage.loadThemeMode();
-    if (mounted) state = stored;
-  }
-
-  Future<void> update(ThemeMode mode) async {
-    state = mode;
-    await _storage.saveThemeMode(mode);
   }
 }

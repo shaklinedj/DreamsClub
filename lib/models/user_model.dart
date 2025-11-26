@@ -11,7 +11,7 @@ class User {
   final int points;
   final double balance;
 
-  final String? favoriteCasino;
+  final int? favoriteCasinoId;
   final DateTime? birthday;
 
   const User({
@@ -21,7 +21,7 @@ class User {
     required this.level,
     required this.points,
     required this.balance,
-    this.favoriteCasino,
+    this.favoriteCasinoId,
     this.birthday,
   });
 
@@ -32,7 +32,7 @@ class User {
     UserLevel? level,
     int? points,
     double? balance,
-    String? favoriteCasino,
+    int? favoriteCasinoId,
     DateTime? birthday,
   }) {
     return User(
@@ -42,7 +42,7 @@ class User {
       level: level ?? this.level,
       points: points ?? this.points,
       balance: balance ?? this.balance,
-      favoriteCasino: favoriteCasino ?? this.favoriteCasino,
+      favoriteCasinoId: favoriteCasinoId ?? this.favoriteCasinoId,
       birthday: birthday ?? this.birthday,
     );
   }

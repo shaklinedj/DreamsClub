@@ -16,13 +16,37 @@ import 'package:intl/intl.dart';
 import 'package:casinoloyalty_flutter/widgets/animated_bell.dart';
 import 'package:casinoloyalty_flutter/widgets/notifications_modal.dart';
 
-class HomeScreen extends ConsumerWidget {
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
+import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
+import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _hasCheckedCoinDrop = false;
+
+  @override
+  Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final selectedCasinoAsync = ref.watch(selectedCasinoProvider);
+    final locationState = ref.watch(locationProvider);
+
+    // Coin Drop Logic
+    ref.listen(locationProvider, (previous, next) {
+      if (!_hasCheckedCoinDrop && !next.isLoading && next.isNearAnyCasino) {
+        _hasCheckedCoinDrop = true;
+        // 100% chance for now as requested
+        // In future: if (Random().nextDouble() < 0.3) ...
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _launchCoinDrop();
+        });
+      }
+    });
 
     return Scaffold(
         drawer: const AppDrawer(),
@@ -49,6 +73,32 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Location Warning
+              if (!locationState.isLoading && !locationState.isNearAnyCasino)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withValues(alpha: 0.1),
+                    border: Border.all(color: Colors.orange),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.warning_amber_rounded,
+                          color: Colors.orange),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Estás lejos de nuestros casinos. Algunas funciones de juego no están disponibles.',
+                          style: TextStyle(
+                              color: Colors.orange[200], fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
               // User Summary Card
               _UserSummaryCard(user: user),
 
@@ -128,6 +178,17 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
         ));
+  }
+
+  void _launchCoinDrop() {
+    // Start the game logic
+    ref.read(dreamsManiaProvider.notifier).startWarningPhase();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const DreamsManiaDialog(),
+    );
   }
 }
 

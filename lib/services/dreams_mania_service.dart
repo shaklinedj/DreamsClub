@@ -44,6 +44,8 @@ class DreamsManiaService extends StateNotifier<DreamsManiaState> {
     });
   }
 
+  void startWarningPhase() => triggerEvent();
+
   void _startGame() {
     state = state.copyWith(
       status: DreamsManiaStatus.active,

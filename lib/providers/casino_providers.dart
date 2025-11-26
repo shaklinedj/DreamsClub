@@ -1,6 +1,6 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
-import 'package:casinoloyalty_flutter/services/user_prefs.dart';
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -26,7 +26,7 @@ final selectedCasinoIdProvider = FutureProvider<int?>((ref) async {
   }
 
   // 2. Si hay un favorito guardado, úsalo.
-  final favoriteCasinoId = await UserPreferences.getFavoriteCasino();
+  final favoriteCasinoId = await UserProfileService().loadFavoriteCasinoId();
   if (favoriteCasinoId != null) {
     final match = casinos.where((casino) => casino.id == favoriteCasinoId);
     if (match.isNotEmpty) {

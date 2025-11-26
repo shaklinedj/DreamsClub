@@ -1,4 +1,3 @@
-
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +15,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
         if (didPop) {
           return;
         }
-        
+
         final router = GoRouter.of(context);
         // Si hay una pantalla anterior en el stack, simplemente vuelve.
         if (router.canPop()) {
@@ -27,7 +26,8 @@ class ScaffoldWithNavigation extends StatelessWidget {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('¿Salir de la aplicación?'),
-              content: const Text('¿Estás seguro de que deseas cerrar la aplicación?'),
+              content: const Text(
+                  '¿Estás seguro de que deseas cerrar la aplicación?'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
@@ -41,8 +41,8 @@ class ScaffoldWithNavigation extends StatelessWidget {
             ),
           );
           if (shouldPop ?? false) {
-             // En un escenario real, podríamos llamar a SystemNavigator.pop() 
-             // para cerrar la aplicación, pero lo evitamos aquí para no afectar el IDE.
+            // En un escenario real, podríamos llamar a SystemNavigator.pop()
+            // para cerrar la aplicación, pero lo evitamos aquí para no afectar el IDE.
           }
         }
       },

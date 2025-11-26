@@ -1,14 +1,12 @@
-
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/providers/location_providers.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:casinoloyalty_flutter/services/onboarding_service.dart';
-import 'package:casinoloyalty_flutter/services/user_prefs.dart';
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -38,7 +36,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     final isFirstLaunch = await _onboardingService.isFirstLaunch();
-    
+
     if (isFirstLaunch) {
       await _handleFirstLaunch();
     } else {
@@ -53,7 +51,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     try {
       _updateStatus('Solicitando permisos de ubicación...');
       final hasPermission = await _locationService.requestLocationPermission();
-      
+
       if (!hasPermission) {
         if (mounted) {
           _showPermissionDeniedDialog();
@@ -63,20 +61,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       _updateStatus('Buscando casino más cercano...');
       await _findAndSetNearestCasino();
-      
+
       await _onboardingService.completeFirstLaunch();
       await _onboardingService.completeLocationSetup();
-      
     } catch (e) {
       if (mounted) {
-        _showErrorDialog('No pudimos encontrar tu ubicación. Por favor selecciona un casino manualmente.');
+        _showErrorDialog(
+            'No pudimos encontrar tu ubicación. Por favor selecciona un casino manualmente.');
       }
     }
   }
 
   Future<void> _handleNormalLaunch() async {
-    final favoriteCasinoId = await UserPreferences.getFavoriteCasino();
-    
+    final favoriteCasinoId = await UserProfileService().loadFavoriteCasinoId();
+
     if (favoriteCasinoId != null) {
       // User has a favorite casino, go directly to it
       if (mounted) {
@@ -92,7 +90,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> _findAndSetNearestCasino() async {
     final casinos = await ref.read(casinosProvider.future);
-    
+
     if (casinos.isEmpty) {
       if (mounted) {
         context.go('/select-favorite');
@@ -101,11 +99,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     }
 
     final nearestCasino = await ref.read(nearestCasinoProvider(casinos).future);
-    
+
     if (nearestCasino != null) {
-      await UserPreferences.setFavoriteCasino(nearestCasino.id);
+      await UserProfileService().saveFavoriteCasinoId(nearestCasino.id);
       ref.read(activeCasinoIdProvider.notifier).state = nearestCasino.id;
-      
+
       if (mounted) {
         context.go('/home');
       }
@@ -123,9 +121,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Permisos necesarios'),
         content: const Text(
-          'Necesitamos acceso a tu ubicación para encontrar el casino más cercano. '
-          'Puedes seleccionar un casino manualmente si prefieres.'
-        ),
+            'Necesitamos acceso a tu ubicación para encontrar el casino más cercano. '
+            'Puedes seleccionar un casino manualmente si prefieres.'),
         actions: [
           TextButton(
             onPressed: () {
@@ -181,8 +178,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             Text(
               _statusMessage,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
-              ),
+                    color: Colors.grey[600],
+                  ),
             ),
           ],
         ),

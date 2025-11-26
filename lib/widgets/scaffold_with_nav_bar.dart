@@ -1,14 +1,14 @@
 import 'dart:ui';
+
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
+import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
+import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
-import 'package:casinoloyalty_flutter/providers/location_provider.dart';
-import 'package:casinoloyalty_flutter/widgets/loyalty_card_widget.dart';
-// import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_overlay.dart';
-import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
-import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ScaffoldWithNavBar extends ConsumerStatefulWidget {
   const ScaffoldWithNavBar({
@@ -25,23 +25,23 @@ class ScaffoldWithNavBar extends ConsumerStatefulWidget {
 class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
     with TickerProviderStateMixin {
   late AnimationController _pulseController;
-  late AnimationController _rotationController;
   late Animation<double> _pulseAnimation;
+  late AnimationController _rotationController;
 
   @override
   void initState() {
     super.initState();
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
 
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.15).animate(
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
     _rotationController = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 10),
       vsync: this,
     );
   }
@@ -54,21 +54,20 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
   }
 
   void _showQRModal(BuildContext context, WidgetRef ref) {
-    final user = ref.read(userProvider);
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.9),
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(20),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-            ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        final user = ref.read(userProvider);
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.6,
+          decoration: const BoxDecoration(
+            color: Color(0xFF121212),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(
                   children: [
@@ -113,6 +112,25 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
                   padding: const EdgeInsets.all(32.0),
                   child: LoyaltyCardWidget(user: user),
                 ),
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: QrImageView(
+                    data: user.email, // Using email as ID for now
+                    version: QrVersions.auto,
+                    size: 200.0,
+                    backgroundColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Escanea este código en caja o máquinas',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 32),
               ],
             ),
           ),
@@ -138,8 +156,8 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
 
     final user = ref.watch(userProvider);
     final primaryColor = user.levelColor;
-    final isInsideCasinoAsync = ref.watch(isInsideCasinoProvider);
-    final isInsideCasino = isInsideCasinoAsync.value ?? false;
+    final locationState = ref.watch(locationProvider);
+    final isInsideCasino = locationState.isNearAnyCasino;
 
     // Manage animations based on casino state
     if (isInsideCasino) {

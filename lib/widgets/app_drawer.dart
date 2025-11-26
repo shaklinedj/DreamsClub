@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:casinoloyalty_flutter/models/user_model.dart';
+import 'package:casinoloyalty_flutter/providers/theme_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/services/background_distance_service.dart';
 import 'package:flutter/material.dart';
@@ -182,6 +184,10 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
                 },
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: _DebugUserLevelSection(),
+            ),
             const Divider(color: Colors.white10),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.redAccent),
@@ -198,7 +204,7 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
   }
 }
 
-class _ThemeModeSection extends StatelessWidget {
+class _ThemeModeSection extends ConsumerWidget {
   const _ThemeModeSection({
     required this.themeMode,
     required this.onChanged,
@@ -208,47 +214,58 @@ class _ThemeModeSection extends StatelessWidget {
   final ValueChanged<ThemeMode?> onChanged;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+    final themeNotifier = ref.read(themeModeProvider.notifier);
+
+    final isDark = themeMode == ThemeMode.dark;
+    final isSystem = themeMode == ThemeMode.system;
+
+    void onChanged(ThemeMode? mode) {
+      if (mode != null) {
+        themeNotifier.update(mode);
+      }
+    }
+
     return Card(
-      color: const Color(0xFF2A2A2A), // kSurfaceLightColor
+      color: const Color(0xFF2A2A2A),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8, top: 8),
+              padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                'Tema',
+                'Apariencia',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
                     ?.copyWith(color: Colors.white),
               ),
             ),
-            RadioGroup<ThemeMode>(
-              groupValue: themeMode,
-              onChanged: onChanged,
-              child: const Column(
-                children: [
-                  _ThemeRadioTile(
-                    value: ThemeMode.system,
-                    icon: Icons.auto_mode,
-                    label: 'Sistema',
-                  ),
-                  _ThemeRadioTile(
-                    value: ThemeMode.light,
-                    icon: Icons.light_mode,
-                    label: 'Claro',
-                  ),
-                  _ThemeRadioTile(
-                    value: ThemeMode.dark,
-                    icon: Icons.dark_mode,
-                    label: 'Oscuro',
-                  ),
-                ],
-              ),
+            SwitchListTile(
+              title: const Text('Usar tema del sistema',
+                  style: TextStyle(color: Colors.white70)),
+              value: isSystem,
+              onChanged: (value) {
+                onChanged(value ? ThemeMode.system : ThemeMode.light);
+              },
+              contentPadding: EdgeInsets.zero,
             ),
+            if (!isSystem)
+              SwitchListTile(
+                title: Text(
+                  isDark ? 'Tema Oscuro' : 'Tema Claro',
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                value: isDark,
+                onChanged: (value) {
+                  onChanged(value ? ThemeMode.dark : ThemeMode.light);
+                },
+                contentPadding: EdgeInsets.zero,
+              ),
           ],
         ),
       ),
@@ -256,72 +273,41 @@ class _ThemeModeSection extends StatelessWidget {
   }
 }
 
-class _ThemeRadioTile extends StatelessWidget {
-  final ThemeMode value;
-  final IconData icon;
-  final String label;
-
-  const _ThemeRadioTile({
-    required this.value,
-    required this.icon,
-    required this.label,
-  });
+class _DebugUserLevelSection extends ConsumerWidget {
+  const _DebugUserLevelSection();
 
   @override
-  Widget build(BuildContext context) {
-    // We need to access the RadioGroup state to determine selection if we want custom UI
-    // But Radio widget inside will handle it automatically if it's a descendant of RadioGroup?
-    // Wait, standard Radio widget might not auto-detect RadioGroup unless it's the *new* Radio widget.
-    // Assuming Radio() without groupValue works in this new version.
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
 
-    // To properly style the "selected" state (text color, icon color), we might need to know if it's selected.
-    // Does RadioGroup expose the current value?
-    // Usually via context. But for now, let's just use the Radio widget which should handle the selection logic.
-    // But wait, the original code passed `groupValue` and `onChanged` to `_ThemeRadioTile` manually!
-    // Step 45:
-    // _ThemeRadioTile(value: ThemeMode.system, groupValue: themeMode, onChanged: onChanged, ...)
-    // So the original code WAS manually passing it down even though it used RadioGroup?
-    // If I use RadioGroup, I shouldn't need to pass it down IF the children are `RadioListTile` or `Radio`.
-    // But `_ThemeRadioTile` is a custom widget.
-    // If `Radio` inside `_ThemeRadioTile` supports `RadioGroup`, it should work.
-    // But for the *text color* change, I need to know the value.
-    // I will assume for now that I can't easily get the value from RadioGroup without context lookup.
-    // So I will keep passing `groupValue` to `_ThemeRadioTile` for styling, but `Radio` widget inside might not need it?
-    // The error said `Radio` deprecated `groupValue`.
-    // So `Radio` inside `_ThemeRadioTile` should NOT have `groupValue`.
-    // But `_ThemeRadioTile` needs `groupValue` to decide text color.
-
-    // Let's check if I can keep passing it to `_ThemeRadioTile` but NOT to `Radio`.
-
-    return InkWell(
-      onTap: () {
-        // We need to trigger change. RadioGroup usually handles this via Radio tap.
-        // If we tap the row, we want to select.
-        // We might need to call onChanged manually?
-        // But we don't have onChanged if we rely on RadioGroup?
-        // Actually, RadioGroup has onChanged.
-        // If I want to support row tap, I need to invoke the callback.
-        // But I don't have access to it easily unless I pass it.
-      },
+    return Card(
+      color: Colors.red.withValues(alpha: 0.1),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: Colors.grey, size: 20), // Placeholder color logic
-            const SizedBox(width: 12),
-            Expanded(
+            const Padding(
+              padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
               child: Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.normal,
-                ),
+                'DEBUG: Nivel de Usuario',
+                style: TextStyle(
+                    color: Colors.redAccent, fontWeight: FontWeight.bold),
               ),
             ),
-            Radio<ThemeMode>(
-              value: value,
-              activeColor: Theme.of(context).primaryColor,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            Wrap(
+              spacing: 8,
+              children: UserLevel.values.map((level) {
+                return ChoiceChip(
+                  label: Text(level.name.toUpperCase()),
+                  selected: user.level == level,
+                  onSelected: (selected) {
+                    if (selected) {
+                      ref.read(userProvider.notifier).updateLevel(level);
+                    }
+                  },
+                );
+              }).toList(),
             ),
           ],
         ),

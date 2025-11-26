@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/services/casino_service.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';
-import 'package:casinoloyalty_flutter/services/user_prefs.dart';
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:workmanager/workmanager.dart';
@@ -13,7 +13,6 @@ import 'package:workmanager/workmanager.dart';
 class BackgroundDistanceService {
   static const String taskName = 'distanceCheckTask';
   static const int checkIntervalMinutes = 15; // Chequear cada 15 minutos
-  static const String _prefsKey = 'distance_notifications_enabled';
   static const double distanceThresholdKm = 100.0; // Distancia umbral en km
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -37,7 +36,8 @@ class BackgroundDistanceService {
     );
 
     // Solo inicializar WorkManager si las notificaciones están habilitadas
-    final isEnabled = await UserPreferences.getBool(_prefsKey) ?? false;
+    final isEnabled =
+        await UserProfileService().areDistanceNotificationsEnabled();
     if (!isEnabled) return;
 
     // Inicializar WorkManager
@@ -63,17 +63,17 @@ class BackgroundDistanceService {
   }
 
   static Future<void> enableNotifications() async {
-    await UserPreferences.setBool(_prefsKey, true);
+    await UserProfileService().setDistanceNotificationsEnabled(true);
     await initialize();
   }
 
   static Future<void> disableNotifications() async {
-    await UserPreferences.setBool(_prefsKey, false);
+    await UserProfileService().setDistanceNotificationsEnabled(false);
     await cancelTask();
   }
 
   static Future<bool> areNotificationsEnabled() async {
-    return await UserPreferences.getBool(_prefsKey) ?? false;
+    return await UserProfileService().areDistanceNotificationsEnabled();
   }
 }
 
@@ -96,7 +96,7 @@ void callbackDispatcher() {
 Future<void> _performDistanceCheck() async {
   try {
     // Obtener casino favorito
-    final favoriteId = await UserPreferences.getFavoriteCasino();
+    final favoriteId = await UserProfileService().loadFavoriteCasinoId();
     if (favoriteId == null) return;
 
     // Obtener casinos

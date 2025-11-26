@@ -1,7 +1,7 @@
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/providers/location_provider.dart';
-import 'package:casinoloyalty_flutter/services/user_prefs.dart';
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,7 +24,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
   Future<void> _determineNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final favoriteCasinoId = await UserPreferences.getFavoriteCasino();
+    final favoriteCasinoId = await UserProfileService().loadFavoriteCasinoId();
 
     List<Casino> casinos = [];
     try {
@@ -60,7 +60,7 @@ class _DecisionScreenState extends ConsumerState<DecisionScreen> {
           if (goToClosest == true && casinos.isNotEmpty) {
             final closest = _findClosestCasino(casinos, position);
             // Guardamos el nuevo favorito y el estado
-            await UserPreferences.setFavoriteCasino(closest.id);
+            await UserProfileService().saveFavoriteCasinoId(closest.id);
             ref.read(activeCasinoIdProvider.notifier).state = closest.id;
 
             if (!mounted) return;

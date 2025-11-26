@@ -31,7 +31,7 @@ class LoyaltyCardWidget extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             user.levelColor.withValues(alpha: 0.95),
-            user.levelColor.withValues(alpha: 0.6), // Increased visibility
+            user.levelColor.withValues(alpha: 0.6),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -39,7 +39,7 @@ class LoyaltyCardWidget extends StatelessWidget {
         border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
         boxShadow: [
           BoxShadow(
-            color: user.levelColor.withValues(alpha: 0.5), // Increased opacity
+            color: user.levelColor.withValues(alpha: 0.5),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

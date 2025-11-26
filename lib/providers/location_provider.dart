@@ -1,22 +1,23 @@
 import 'dart:async';
+
 import 'package:casinoloyalty_flutter/models/casino_model.dart';
+import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
-final locationServiceProvider = Provider<LocationService>((ref) {
-  return LocationService();
-});
+// Provider for the location service
+final locationServiceProvider =
+    Provider<LocationService>((ref) => LocationService());
 
+// Provider for location state, depends on the list of casinos
 final locationProvider =
     StateNotifierProvider<LocationNotifier, LocationState>((ref) {
   final locationService = ref.watch(locationServiceProvider);
   final casinosAsync = ref.watch(casinosProvider);
-
-  // Default to empty list if casinos are not yet loaded
+  // If casinos are not yet loaded, use an empty list
   final casinos = casinosAsync.value ?? [];
-
   return LocationNotifier(locationService, casinos);
 });
 
@@ -62,7 +63,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
   final List<Casino> _casinos;
   Timer? _timer;
 
-  // Threshold in KM to consider "near" a casino (500 meters)
+  // 0.5 km = 500 meters threshold for "near"
   static const double nearThresholdKm = 0.5;
 
   LocationNotifier(this._locationService, this._casinos)
@@ -73,12 +74,12 @@ class LocationNotifier extends StateNotifier<LocationState> {
   Future<void> _initLocation() async {
     try {
       final position = await _locationService.getCurrentLocation();
-      _updateLocationState(position);
+      await _updateLocationState(position);
 
-      // Start periodic updates
+      // Periodic location checks every 5 minutes
       _timer = Timer.periodic(const Duration(minutes: 5), (_) async {
-        final newPosition = await _locationService.getCurrentLocation();
-        _updateLocationState(newPosition);
+        final newPos = await _locationService.getCurrentLocation();
+        await _updateLocationState(newPos);
       });
     } catch (e) {
       state = state.copyWith(
@@ -88,7 +89,56 @@ class LocationNotifier extends StateNotifier<LocationState> {
     }
   }
 
-  void _updateLocationState(Position position) {
+  // Main logic: check distance only to the user's favourite casino
+  Future<void> _updateLocationState(Position position) async {
+    final favoriteId = await UserProfileService().loadFavoriteCasinoId();
+    if (favoriteId == null) {
+      // No favourite set – treat as not near any casino
+      state = state.copyWith(
+        currentPosition: position,
+        isNearAnyCasino: false,
+        nearestCasino: null,
+        distanceToNearestCasinoKm: double.infinity,
+        isLoading: false,
+        error: null,
+      );
+      return;
+    }
+
+    // Find the favourite casino in the loaded list safely
+    Casino? favoriteCasino;
+    for (final c in _casinos) {
+      if (c.id == favoriteId) {
+        favoriteCasino = c;
+        break;
+      }
+    }
+    if (favoriteCasino == null) {
+      // Favourite not in the list – fallback to generic nearest‑casino logic
+      _updateLocationStateAllCasinos(position);
+      return;
+    }
+
+    final distance = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          favoriteCasino.latitud,
+          favoriteCasino.longitud,
+        ) /
+        1000; // km
+
+    state = state.copyWith(
+      currentPosition: position,
+      isNearAnyCasino: distance <= nearThresholdKm,
+      nearestCasino: favoriteCasino,
+      distanceToNearestCasinoKm: distance,
+      isLoading: false,
+      error: null,
+    );
+  }
+
+  // Helper: original behaviour – find the nearest casino among all
+  void _updateLocationStateAllCasinos(Position position) {
     if (_casinos.isEmpty) {
       state = state.copyWith(
         currentPosition: position,
@@ -96,10 +146,8 @@ class LocationNotifier extends StateNotifier<LocationState> {
       );
       return;
     }
-
     Casino? nearest;
     double minDistance = double.infinity;
-
     for (final casino in _casinos) {
       final distance = Geolocator.distanceBetween(
             position.latitude,
@@ -107,14 +155,12 @@ class LocationNotifier extends StateNotifier<LocationState> {
             casino.latitud,
             casino.longitud,
           ) /
-          1000; // Convert to KM
-
+          1000;
       if (distance < minDistance) {
         minDistance = distance;
         nearest = casino;
       }
     }
-
     state = state.copyWith(
       currentPosition: position,
       isNearAnyCasino: minDistance <= nearThresholdKm,

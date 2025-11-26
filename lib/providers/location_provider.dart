@@ -62,8 +62,8 @@ class LocationNotifier extends StateNotifier<LocationState> {
   final List<Casino> _casinos;
   Timer? _timer;
 
-  // Threshold in KM to consider "near" a casino
-  static const double nearThresholdKm = 100.0;
+  // Threshold in KM to consider "near" a casino (500 meters)
+  static const double nearThresholdKm = 0.5;
 
   LocationNotifier(this._locationService, this._casinos)
       : super(const LocationState()) {

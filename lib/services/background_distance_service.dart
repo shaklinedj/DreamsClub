@@ -7,20 +7,21 @@ import 'package:casinoloyalty_flutter/services/casino_service.dart';
 import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:geolocator/geolocator.dart';
 
 class BackgroundDistanceService {
   static const String taskName = 'distanceCheckTask';
   static const int checkIntervalMinutes = 15; // Chequear cada 15 minutos
-  static const double distanceThresholdKm = 100.0; // Distancia umbral en km
+  static const double distanceThresholdKm =
+      100.0; // Distancia umbral en km (notificación si estás a más de 100km)
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  static Future<void> initialize({
-    void Function(NotificationResponse)? onNotificationResponse,
-  }) async {
+  /// Initialize the service and optionally provide a callback for notification taps.
+  static Future<void> initialize(
+      {void Function(NotificationResponse)? onNotificationResponse}) async {
     // Inicializar notificaciones
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');

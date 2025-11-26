@@ -16,6 +16,13 @@ class ScaffoldWithNavigation extends StatelessWidget {
           return;
         }
 
+        // Check if drawer is open
+        if (Scaffold.of(context).hasDrawer &&
+            Scaffold.of(context).isDrawerOpen) {
+          Navigator.of(context).pop(); // Close drawer
+          return;
+        }
+
         final router = GoRouter.of(context);
         // Si hay una pantalla anterior en el stack, simplemente vuelve.
         if (router.canPop()) {

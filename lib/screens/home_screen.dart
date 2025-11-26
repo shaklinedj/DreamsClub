@@ -17,8 +17,6 @@ import 'package:casinoloyalty_flutter/widgets/animated_bell.dart';
 import 'package:casinoloyalty_flutter/widgets/notifications_modal.dart';
 
 import 'package:casinoloyalty_flutter/providers/location_provider.dart';
-import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
-import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -28,7 +26,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _hasCheckedCoinDrop = false;
+  // Commented out automatic coin drop - keeping manual trigger only
+  // bool _hasCheckedCoinDrop = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +35,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final selectedCasinoAsync = ref.watch(selectedCasinoProvider);
     final locationState = ref.watch(locationProvider);
 
-    // Coin Drop Logic
-    ref.listen(locationProvider, (previous, next) {
-      if (!_hasCheckedCoinDrop && !next.isLoading && next.isNearAnyCasino) {
-        _hasCheckedCoinDrop = true;
-        // 100% chance for now as requested
-        // In future: if (Random().nextDouble() < 0.3) ...
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _launchCoinDrop();
-        });
-      }
-    });
+    // Coin Drop Logic - DISABLED for now (was causing double behavior)
+    // ref.listen(locationProvider, (previous, next) {
+    //   if (!_hasCheckedCoinDrop && !next.isLoading && next.isNearAnyCasino) {
+    //     _hasCheckedCoinDrop = true;
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       _launchCoinDrop();
+    //     });
+    //   }
+    // });
 
     return Scaffold(
         drawer: const AppDrawer(),
@@ -179,17 +176,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ));
   }
-
-  void _launchCoinDrop() {
-    // Start the game logic
-    ref.read(dreamsManiaProvider.notifier).startWarningPhase();
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const DreamsManiaDialog(),
-    );
-  }
 }
 
 class _UserSummaryCard extends StatelessWidget {
@@ -206,16 +192,15 @@ class _UserSummaryCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Theme.of(context).colorScheme.surface,
+            user.levelColor.withValues(alpha: 0.15),
             Colors.black,
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-            color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
+        border: Border.all(color: user.levelColor.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+            color: user.levelColor.withValues(alpha: 0.2),
             blurRadius: 20,
             spreadRadius: 0,
           ),
@@ -248,13 +233,13 @@ class _UserSummaryCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: user.levelColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${user.levelName} Member',
                   style: TextStyle(
-                    color: Colors.grey[900],
+                    color: user.levelTextColor,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -273,7 +258,7 @@ class _UserSummaryCard extends StatelessWidget {
               Text(
                 '${user.points}',
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: user.levelColor,
                     fontSize: 36,
                     fontWeight: FontWeight.bold),
               ),
@@ -298,7 +283,7 @@ class _UserSummaryCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: user.points / 60000,
               backgroundColor: Colors.grey[800],
-              color: Theme.of(context).primaryColor,
+              color: user.levelColor,
               minHeight: 8,
             ),
           ),

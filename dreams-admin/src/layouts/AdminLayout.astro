@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Dreams Admin Panel" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title} | Dreams Admin</title>
+	</head>
+	<body class="bg-slate-900 text-slate-100 min-h-screen flex">
+		
+		<!-- Sidebar -->
+		<aside class="w-64 bg-slate-800 border-r border-slate-700 flex flex-col fixed h-full">
+			<div class="p-6 border-b border-slate-700">
+				<h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+					Dreams Admin
+				</h1>
+			</div>
+
+			<nav class="flex-1 p-4 space-y-1">
+				<a href="/" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors text-slate-300 hover:text-white group">
+					<span class="text-xl group-hover:scale-110 transition-transform">📊</span>
+					Dashboard
+				</a>
+				
+				<div class="pt-4 pb-2 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Gestión</div>
+				
+				<a href="/feed" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors text-slate-300 hover:text-white group">
+					<span class="text-xl group-hover:scale-110 transition-transform">📱</span>
+					Feed & Posts
+				</a>
+				
+				<a href="/messages" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors text-slate-300 hover:text-white group">
+					<span class="text-xl group-hover:scale-110 transition-transform">🔔</span>
+					Notificaciones
+				</a>
+				
+				<a href="/games" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors text-slate-300 hover:text-white group">
+					<span class="text-xl group-hover:scale-110 transition-transform">🎮</span>
+					Juegos
+				</a>
+
+                <div class="pt-4 pb-2 px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sistema</div>
+
+                <a href="/users" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-700 transition-colors text-slate-300 hover:text-white group">
+					<span class="text-xl group-hover:scale-110 transition-transform">👥</span>
+					Usuarios
+				</a>
+			</nav>
+
+			<div class="p-4 border-t border-slate-700">
+				<div class="flex items-center gap-3">
+					<div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center font-bold">
+						A
+					</div>
+					<div>
+						<p class="text-sm font-medium text-white">Admin</p>
+						<p class="text-xs text-slate-400">admin@dreams.cl</p>
+					</div>
+				</div>
+			</div>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="flex-1 ml-64 p-8">
+			<slot />
+		</main>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+	}
+</style>

@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/AdminLayout.astro';
+import QRCodeDisplay from '../components/QRCodeDisplay';
+
+const { searchParams } = Astro.url;
+const id = searchParams.get('id') || undefined;
+---
+
+<Layout title="Dreams Club - QR Monitor">
+	<main>
+		<QRCodeDisplay client:only="react" initialCasinoId={id} />
+	</main>
+</Layout>

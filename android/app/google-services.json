@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "326453914816",
+    "firebase_url": "https://dreams-casino-app-default-rtdb.firebaseio.com",
+    "project_id": "dreams-casino-app",
+    "storage_bucket": "dreams-casino-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326453914816:android:f9a04e57ae0461e6291125",
+        "android_client_info": {
+          "package_name": "com.dreams.fidelizacion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326453914816-kjj19t3d22mfq96omlp2aj35b2b5bhm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuJIO41Av-dxQxYVQhOkoi_AOKJLbmtxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326453914816-kjj19t3d22mfq96omlp2aj35b2b5bhm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "326453914816-nm6algopn2nj48i7kk3i1lm7mrh3k17f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dreams.fidelizacion"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

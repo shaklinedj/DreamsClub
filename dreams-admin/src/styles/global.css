@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dreams-purple: #883aea;
+  --color-dreams-dark: #310a65;
+}
+
+html,
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}

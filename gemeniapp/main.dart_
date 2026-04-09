@@ -1,0 +1,1040 @@
+import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'dart:async'; // Importamos para usar Future.delayed simulando permisos
+
+void main() {
+  runApp(const DreamsLoyaltyApp());
+}
+
+// --- CONSTANTES DE DISEÑO ---
+const Color kGoldColor = Color(0xFFD4AF37);
+const Color kBackgroundColor = Colors.black;
+const Color kSurfaceColor = Color(0xFF1A1A1A);
+const Color kSurfaceLightColor = Color(0xFF2A2A2A);
+
+// --- MODELOS DE DATOS (MOCK) ---
+class Casino {
+  final String id;
+  final String name;
+  final String city;
+  final String region;
+  final String desc;
+  final List<String> features;
+
+  Casino(this.id, this.name, this.city, this.region, this.desc, this.features);
+}
+
+final List<Casino> casinos = [
+  Casino('monticello', 'Monticello', 'San Francisco de Mostazal', 'Región de O\'Higgins',
+      'El centro de entretención más grande de Latinoamérica.', ['Arena Monticello', 'Hotel 5 Estrellas', 'Paseo Murano']),
+  Casino('iquique', 'Dreams Iquique', 'Iquique', 'Región de Tarapacá',
+      'A pasos de playa Cavancha, diversión frente al mar.', ['Playa Cavancha', 'Shows en Vivo', 'Gastronomía']),
+  Casino('temuco', 'Dreams Temuco', 'Temuco', 'Región de La Araucanía',
+      'En el corazón de la Araucanía, lujo y cultura.', ['Spa Hydra', 'Centro de Eventos', 'Hotel Dreams']),
+  Casino('valdivia', 'Dreams Valdivia', 'Valdivia', 'Región de Los Ríos',
+      'Ubicación privilegiada con vista al Río Calle-Calle.', ['Sky Bar', 'Vista al Río', 'Museo']),
+  Casino('puerto-varas', 'Dreams Puerto Varas', 'Puerto Varas', 'Región de Los Lagos',
+      'A orillas del Lago Llanquihue, con vista a los volcanes.', ['Lago Llanquihue', 'Entorno Natural', 'Turismo']),
+  Casino('coyhaique', 'Dreams Coyhaique', 'Coyhaique', 'Región de Aysén',
+      'Diversión en la patagonia chilena.', ['Patagonia', 'Naturaleza', 'Bar Lucky 7']),
+  Casino('punta-arenas', 'Dreams Punta Arenas', 'Punta Arenas', 'Región de Magallanes',
+      'Entretenimiento en la ciudad más austral del mundo.', ['Estrecho de Magallanes', 'Sky Bar', 'Zona Franca']),
+];
+
+class Offer {
+  final int id;
+  final String title;
+  final String type;
+  final IconData icon;
+  final String validity;
+  final int pointsCost;
+
+  Offer(this.id, this.title, this.type, this.icon, this.validity, this.pointsCost);
+}
+
+final List<Offer> offers = [
+  Offer(1, '30% Dcto. en Bar Lucky 7', 'Gastronomía', Icons.coffee, 'Vence en 3 días', 0),
+  Offer(2, 'Noche Gratis - Hotel Dreams', 'Hotel', Icons.hotel, 'Válido todo el año', 60000),
+  Offer(3, '\$10.000 Créditos Promocionales', 'Juego', Icons.videogame_asset, 'Vence hoy', 5000),
+];
+
+// --- APP PRINCIPAL ---
+
+class DreamsLoyaltyApp extends StatelessWidget {
+  const DreamsLoyaltyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Dreams Club',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: kBackgroundColor,
+        primaryColor: kGoldColor,
+        fontFamily: 'Sans', // Usa la fuente por defecto del sistema
+        colorScheme: const ColorScheme.dark(
+          primary: kGoldColor,
+          secondary: kGoldColor,
+          surface: kSurfaceColor,
+        ),
+        useMaterial3: true,
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  
+  // Datos de Usuario Mock
+  final Map<String, dynamic> user = {
+    'name': 'Juan Pérez',
+    'tier': 'Platinum',
+    'points': 45250,
+    'nextTierPoints': 60000,
+  };
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _showQRModal() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha : 0.9),
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.all(20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      decoration: const BoxDecoration(
+                        color: kSurfaceColor,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      ),
+                      child: const Column(
+                        children: [
+                          Text(
+                            'DREAMS CLUB',
+                            style: TextStyle(
+                              color: kGoldColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Tarjeta de Socio Digital',
+                            style: TextStyle(color: Colors.grey, fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 4),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.qr_code_2, size: 200, color: Colors.black),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        '7784 9920 1123',
+                        style: TextStyle(
+                          fontFamily: 'Monospace',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(user['name'], style: const TextStyle(color: Colors.grey)),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'NIVEL ${user['tier'].toUpperCase()}',
+                          style: const TextStyle(
+                            color: kGoldColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Escanea este código en las máquinas, mesas o cajas para acumular puntos.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> widgetOptions = <Widget>[
+      _buildHomeTab(),
+      _buildCasinosTab(),
+      _buildRewardsTab(),
+      _buildProfileTab(context), // Pasamos context para navegación
+    ];
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 80),
+            child: widgetOptions.elementAt(_selectedIndex),
+          ),
+          
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0A0A0A).withValues(alpha : 0.95),
+                border: const Border(top: BorderSide(color: Colors.white10)),
+              ),
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      items: [
+                        _NavBarItem(
+                          icon: Icons.star_outline,
+                          label: 'Inicio',
+                          isActive: _selectedIndex == 0,
+                          onTap: () => _onItemTapped(0),
+                        ),
+                        _NavBarItem(
+                          icon: Icons.location_on_outlined,
+                          label: 'Casinos',
+                          isActive: _selectedIndex == 1,
+                          onTap: () => _onItemTapped(1),
+                        ),
+                        
+                        Transform.translate(
+                          offset: const Offset(0, -20),
+                          child: GestureDetector(
+                            onTap: _showQRModal,
+                            child: Container(
+                              width: 65,
+                              height: 65,
+                              decoration: BoxDecoration(
+                                color: kGoldColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: const Color(0xFF121212), width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kGoldColor.withValues(alpha : 0.3),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                              ),
+                              child: const Icon(Icons.qr_code, color: Colors.black, size: 30),
+                            ),
+                          ),
+                        ),
+
+                        _NavBarItem(
+                          icon: Icons.card_giftcard,
+                          label: 'Beneficios',
+                          isActive: _selectedIndex == 2,
+                          onTap: () => _onItemTapped(2),
+                        ),
+                        _NavBarItem(
+                          icon: Icons.person_outline,
+                          label: 'Perfil',
+                          isActive: _selectedIndex == 3,
+                          onTap: () => _onItemTapped(3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- VISTAS DE LAS PESTAÑAS ---
+
+  Widget _buildHomeTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [kSurfaceColor, Colors.black],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: kGoldColor.withValues(alpha : 0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: kGoldColor.withValues(alpha : 0.1),
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Bienvenido de nuevo,', style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        Text(user['name'], style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '${user['tier']} Member',
+                        style: TextStyle(
+                          color: Colors.grey[900],
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                const Text('PUNTOS DREAMS ACUMULADOS', style: TextStyle(color: Colors.grey, fontSize: 10, letterSpacing: 1.5)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text(
+                      '${user['points']}',
+                      style: const TextStyle(color: kGoldColor, fontSize: 36, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 4),
+                    const Text('pts', style: TextStyle(color: Colors.grey, fontSize: 14)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Progreso a nivel One', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    Text('${user['nextTierPoints']} pts', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: LinearProgressIndicator(
+                    value: user['points'] / user['nextTierPoints'],
+                    backgroundColor: Colors.grey[800],
+                    color: kGoldColor,
+                    minHeight: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          Row(
+            children: [
+              Expanded(
+                child: _QuickActionButton(
+                  icon: Icons.qr_code,
+                  label: 'Tarjeta Digital',
+                  onTap: _showQRModal,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _QuickActionButton(
+                  icon: Icons.card_giftcard,
+                  label: 'Mis Canjes',
+                  onTap: () => _onItemTapped(2),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
+          Row(
+            children: [
+              const Icon(Icons.star, color: kGoldColor, size: 18),
+              const SizedBox(width: 8),
+              const Text('Destacado para ti', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: kSurfaceColor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white10),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.indigo.withValues(alpha : 0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.videogame_asset, color: Colors.indigoAccent),
+                ),
+                const SizedBox(width: 16),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Sorteo "La Suerte de Dreams"', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text('¡Participa por un auto 0KM hoy!', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: Colors.grey),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCasinosTab() {
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 20),
+      itemCount: casinos.length,
+      itemBuilder: (context, index) {
+        final casino = casinos[index];
+        return Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          decoration: BoxDecoration(
+            color: kSurfaceColor,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white10),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 120,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.grey[800]!, Colors.grey[900]!],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                     const Center(child: Icon(Icons.location_on, size: 48, color: Colors.white24)),
+                     Positioned(
+                       bottom: 0,
+                       left: 0,
+                       right: 0,
+                       child: Container(
+                         padding: const EdgeInsets.all(12),
+                         decoration: const BoxDecoration(
+                           gradient: LinearGradient(
+                             begin: Alignment.bottomCenter,
+                             end: Alignment.topCenter,
+                             colors: [Colors.black, Colors.transparent],
+                           ),
+                         ),
+                         child: Text(
+                           casino.name,
+                           style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                         ),
+                       ),
+                     ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(casino.city, style: const TextStyle(color: kGoldColor, fontSize: 14, fontWeight: FontWeight.w500)),
+                            Text(casino.region, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(casino.desc, style: const TextStyle(color: Colors.white70, fontSize: 13)),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: casino.features.map((feature) => Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(feature, style: const TextStyle(color: Colors.white60, fontSize: 10)),
+                      )).toList(),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kGoldColor,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        onPressed: () {},
+                        icon: const Icon(Icons.map, size: 16),
+                        label: const Text('Ver Mapa', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRewardsTab() {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 20),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Beneficios', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'Saldo: ${user['points']}',
+                style: const TextStyle(color: kGoldColor, fontFamily: 'Monospace', fontSize: 12),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        ...offers.map((offer) => Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: kSurfaceColor,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white10),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(offer.icon, color: kGoldColor),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(offer.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14))),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: offer.pointsCost > 0 ? kGoldColor.withValues(alpha : 0.1) : Colors.green.withValues(alpha : 0.1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            offer.pointsCost > 0 ? '${offer.pointsCost} pts' : 'GRATIS',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: offer.pointsCost > 0 ? kGoldColor : Colors.greenAccent,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(offer.type, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                        const SizedBox(width: 4),
+                        Text(offer.validity, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(colors: [kGoldColor, Color(0xFFFFD700)]),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: [
+              const Text('¿Cumpleaños cerca?', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text(
+                'Recibe una cena gratis y \$20.000 en créditos jugables en tu mes de cumpleaños.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black87, fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: kGoldColor,
+                  shape: const StadiumBorder(),
+                ),
+                child: const Text('Ver condiciones', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileTab(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 96,
+              height: 96,
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                shape: BoxShape.circle,
+                border: Border.all(color: kGoldColor, width: 2),
+              ),
+              child: const Icon(Icons.person, size: 40, color: kGoldColor),
+            ),
+            const SizedBox(height: 16),
+            Text(user['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+            Text('${user['tier']} Member', style: const TextStyle(color: Colors.grey)),
+            const SizedBox(height: 32),
+            _ProfileButton(text: 'Editar Perfil', onTap: () {}),
+            const SizedBox(height: 8),
+            _ProfileButton(text: 'Historial de Juego', onTap: () {}),
+            const SizedBox(height: 8),
+            _ProfileButton(
+              text: 'Configuración', 
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                );
+              }
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.red[900]!.withValues(alpha : 0.3)),
+                  backgroundColor: Colors.red[900]!.withValues(alpha : 0.1),
+                  padding: const EdgeInsets.all(16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Cerrar Sesión', style: TextStyle(color: Colors.redAccent)),
+                    Icon(Icons.logout, size: 16, color: Colors.redAccent),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// --- PANTALLA DE CONFIGURACIÓN DE PERMISOS (NUEVA) ---
+
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  // Estado simulado de permisos
+  bool _gpsEnabled = false;
+  bool _cameraEnabled = false;
+  bool _notificationsEnabled = true;
+
+  // Simula una petición asíncrona de permisos
+  Future<void> _togglePermission(String type, bool value) async {
+    if (value) {
+      // Mostrar un indicador de carga o diálogo simulando el sistema operativo
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator(color: kGoldColor)),
+      );
+      
+      await Future.delayed(const Duration(milliseconds: 1000)); // Simula espera del usuario
+      Navigator.pop(context); // Cierra el loader
+    }
+
+    setState(() {
+      if (type == 'gps') _gpsEnabled = value;
+      if (type == 'camera') _cameraEnabled = value;
+      if (type == 'notifications') _notificationsEnabled = value;
+    });
+
+    if (value) {
+       ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Permiso de $type concedido'),
+          backgroundColor: Colors.green[800],
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Configuración', style: TextStyle(color: kGoldColor, fontWeight: FontWeight.bold)),
+        backgroundColor: kBackgroundColor,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          const Text(
+            'PERMISOS DE LA APLICACIÓN',
+            style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+          ),
+          const SizedBox(height: 20),
+          
+          // GPS Toggle
+          _buildPermissionTile(
+            title: 'Ubicación (GPS)',
+            subtitle: 'Para encontrar casinos Dreams cercanos y ofertas locales.',
+            icon: Icons.location_on,
+            value: _gpsEnabled,
+            onChanged: (v) => _togglePermission('gps', v),
+          ),
+          
+          const SizedBox(height: 16),
+
+          // Camera Toggle
+          _buildPermissionTile(
+            title: 'Cámara',
+            subtitle: 'Necesario para escanear códigos QR de promociones.',
+            icon: Icons.camera_alt,
+            value: _cameraEnabled,
+            onChanged: (v) => _togglePermission('camera', v),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Notifications Toggle
+          _buildPermissionTile(
+            title: 'Notificaciones',
+            subtitle: 'Recibe alertas sobre sorteos, ganadores y premios exclusivos.',
+            icon: Icons.notifications_active,
+            value: _notificationsEnabled,
+            onChanged: (v) => _togglePermission('notifications', v),
+          ),
+
+          const SizedBox(height: 40),
+          const Divider(color: Colors.white10),
+          const SizedBox(height: 20),
+          
+          const Text(
+            'INFORMACIÓN LEGAL',
+            style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Términos y Condiciones', style: TextStyle(color: Colors.white)),
+            trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+            onTap: () {},
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Política de Privacidad', style: TextStyle(color: Colors.white)),
+            trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+            onTap: () {},
+          ),
+          const SizedBox(height: 20),
+          const Center(
+            child: Text(
+              'Versión 1.0.5 (Build 220)',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPermissionTile({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required bool value,
+    required Function(bool) onChanged,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: kSurfaceColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white10),
+      ),
+      child: SwitchListTile(
+        value: value,
+        onChanged: onChanged,
+        activeColor: kGoldColor,
+        activeTrackColor: kGoldColor.withValues(alpha : 0.3),
+        inactiveThumbColor: Colors.grey,
+        inactiveTrackColor: Colors.grey[800],
+        title: Row(
+          children: [
+            Icon(icon, color: value ? kGoldColor : Colors.grey, size: 20),
+            const SizedBox(width: 12),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          ],
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: Text(subtitle, style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+        ),
+      ),
+    );
+  }
+}
+
+
+// --- WIDGETS AUXILIARES ---
+
+class _NavBarItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _NavBarItem({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: isActive ? kGoldColor : Colors.grey, size: 24),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? kGoldColor : Colors.grey,
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _QuickActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _QuickActionButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: kSurfaceLightColor,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white10),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: kGoldColor, size: 20),
+              const SizedBox(width: 8),
+              Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+
+  const _ProfileButton({required this.text, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: kSurfaceColor,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white10),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text, style: const TextStyle(color: Colors.white)),
+              const Icon(Icons.chevron_right, size: 16, color: Colors.grey),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

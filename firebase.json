@@ -1,0 +1,47 @@
+{
+    "functions": [
+        {
+            "source": "functions",
+            "codebase": "default",
+            "ignore": [
+                "node_modules",
+                ".git",
+                "firebase-debug.log",
+                "firebase-adhoc.log"
+            ],
+            "predeploy": []
+        }
+    ],
+    "hosting": {
+        "source": "dreams-web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "frameworksBackend": {
+            "region": "us-central1"
+        }
+    },
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "dreams-casino-app",
+                    "appId": "1:326453914816:android:f9a04e57ae0461e6291125",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "dreams-casino-app",
+                    "configurations": {
+                        "android": "1:326453914816:android:f9a04e57ae0461e6291125",
+                        "ios": "1:326453914816:ios:cf228c2d641293a0291125",
+                        "web": "1:326453914816:web:7dff6793ffc873fb291125"
+                    }
+                }
+            }
+        }
+    }
+}

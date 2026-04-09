@@ -1,0 +1,101 @@
+name: casinoloyalty_flutter
+description: "A new Flutter project."
+publish_to: 'none'
+version: 5.4.1+144
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_riverpod: ^2.5.1
+  dio: ^5.5.0+1
+  go_router: ^17.0.0
+  geolocator: ^14.0.2
+
+  # Firebase integration
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.7.0
+  cloud_firestore: ^5.6.12
+  firebase_storage: ^12.3.2
+  firebase_analytics: ^11.3.3
+  firebase_crashlytics: ^4.1.3
+
+  shared_preferences: ^2.5.3
+  image_picker: ^1.1.2
+  path_provider: ^2.1.4
+  lottie: ^3.0.0
+  circle_nav_bar: ^2.2.0
+
+  cupertino_icons: ^1.0.8
+  intl: ^0.20.2
+  google_fonts: ^6.3.2
+  timeago: ^3.7.0
+  workmanager: ^0.9.0
+  flutter_local_notifications: ^17.2.2
+  permission_handler: ^11.3.1
+  flutter_svg: ^2.2.2
+  url_launcher: ^6.3.2
+  map_launcher: ^4.4.2
+  confetti: ^0.8.0
+  qr_flutter: ^4.1.0
+  share_plus: ^12.0.1
+  audioplayers: ^6.5.1
+  timezone: ^0.9.4
+  flutter_background_service: ^5.1.0
+  mobile_scanner: ^7.1.3
+
+  # Video Player & Feed
+  video_player: ^2.8.6
+  chewie: ^1.8.1
+  visibility_detector: ^0.4.0+2
+  better_player_plus: ^1.0.8
+
+  # Reacciones (Local)
+  flutter_facebook_reactions:
+    path: ./flutter_facebook_reactions
+
+  # Mejoras de rendimiento y UX
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+  shimmer: ^3.0.0
+  logger: ^2.4.0
+  connectivity_plus: ^6.1.0
+  vibration: ^2.0.1
+  share_plus_platform_interface: ^6.1.0
+  url_strategy: ^0.3.0
+  appwrite: ^20.3.2
+  uuid: ^4.5.2
+  wechat_assets_picker: ^10.1.0
+  local_auth: ^3.0.0
+  cloud_functions: ^5.6.2
+  firebase_messaging: ^15.2.10
+  firebase_app_check: ^0.3.2+10
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/sounds/
+    - assets/lottie/
+ 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#1A1A2E"
+  adaptive_icon_foreground: "assets/images/app_icon.png"
+

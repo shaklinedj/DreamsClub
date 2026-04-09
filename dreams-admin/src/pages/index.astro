@@ -1,0 +1,37 @@
+---
+import AdminLayout from '../layouts/AdminLayout.astro';
+import DashboardStats from '../components/DashboardStats';
+---
+
+<AdminLayout title="Dashboard">
+	<div class="mb-8">
+		<h2 class="text-3xl font-bold text-white mb-2">Panel de Control</h2>
+		<p class="text-slate-400">Bienvenido al sistema de administración de Dreams Club.</p>
+	</div>
+
+    <!-- Stats Grid -->
+    <DashboardStats client:load />
+
+    <!-- Quick Actions -->
+    <h3 class="text-xl font-bold text-white mb-4">Acciones Rápidas</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/feed/new" class="group bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-slate-700 hover:border-purple-500 transition-all hover:shadow-lg hover:shadow-purple-500/20">
+            <span class="text-3xl mb-3 block group-hover:scale-110 transition-transform">📝</span>
+            <h4 class="text-white font-bold mb-1">Nuevo Post</h4>
+            <p class="text-sm text-slate-400">Crear una publicación para el feed</p>
+        </a>
+
+        <a href="/messages/new" class="group bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-slate-700 hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20">
+            <span class="text-3xl mb-3 block group-hover:scale-110 transition-transform">🔔</span>
+            <h4 class="text-white font-bold mb-1">Enviar Notificación</h4>
+            <p class="text-sm text-slate-400">Push notification a usuarios</p>
+        </a>
+
+        <a href="/games" class="group bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl border border-slate-700 hover:border-green-500 transition-all hover:shadow-lg hover:shadow-green-500/20">
+            <span class="text-3xl mb-3 block group-hover:scale-110 transition-transform">⚙️</span>
+            <h4 class="text-white font-bold mb-1">Configurar Juegos</h4>
+            <p class="text-sm text-slate-400">Ajustar disponibilidad y reglas</p>
+        </a>
+    </div>
+
+</AdminLayout>

@@ -1,0 +1,19 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import FeedForm from '../../components/FeedForm';
+---
+
+<AdminLayout title="Crear Publicación">
+    <div class="mb-6">
+        <a href="/feed" class="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
+            ← Volver al Feed
+        </a>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-white mb-2">Nueva Publicación</h1>
+        <p class="text-slate-400 mb-8">Esta publicación aparecerá instantáneamente en la app móvil.</p>
+
+        <FeedForm client:load />
+    </div>
+</AdminLayout>

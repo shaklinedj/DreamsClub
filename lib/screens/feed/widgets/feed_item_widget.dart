@@ -274,7 +274,6 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
           mute: false,
           loop: true,
           enableJavaScript: true,
-          useHybridComposition: false,
         ),
       );
 
@@ -759,26 +758,29 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
           child: Container(
             color: Colors.black,
             alignment: Alignment.center,
-            child: isShorts
-                ? FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width * (16 / 9),
-                      child: IgnorePointer(
-                        child: YoutubePlayer(
-                          controller: _youtubeController!,
-                          aspectRatio: 9 / 16,
+            child: Opacity(
+              opacity: 0.999,
+              child: isShorts
+                  ? FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.width * (16 / 9),
+                        child: IgnorePointer(
+                          child: YoutubePlayer(
+                            controller: _youtubeController!,
+                            aspectRatio: 9 / 16,
+                          ),
                         ),
                       ),
+                    )
+                  : IgnorePointer(
+                      child: YoutubePlayer(
+                        controller: _youtubeController!,
+                        aspectRatio: playerAspectRatio,
+                      ),
                     ),
-                  )
-                : IgnorePointer(
-                    child: YoutubePlayer(
-                      controller: _youtubeController!,
-                      aspectRatio: playerAspectRatio,
-                    ),
-                  ),
+            ),
           ),
         );
       }

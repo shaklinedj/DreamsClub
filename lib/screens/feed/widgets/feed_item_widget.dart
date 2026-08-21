@@ -274,6 +274,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
           mute: false,
           loop: true,
           enableJavaScript: true,
+          useHybridComposition: false,
         ),
       );
 

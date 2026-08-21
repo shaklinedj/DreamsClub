@@ -1,4 +1,5 @@
-import admin from 'firebase-admin';
+import { initializeApp, getApp, getApps, cert } from 'firebase-admin/app';
+import { getMessaging } from 'firebase-admin/messaging';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -27,20 +28,21 @@ export default async function handler(req, res) {
 
   try {
     // Initialize Firebase Admin SDK using Environment Variables (secure)
-    try {
-      admin.app();
-    } catch (_) {
+    let app;
+    if (getApps().length === 0) {
       const privateKey = process.env.FIREBASE_PRIVATE_KEY 
         ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') 
         : undefined;
 
-      admin.initializeApp({
-        credential: admin.credential.cert({
+      app = initializeApp({
+        credential: cert({
           projectId: process.env.FIREBASE_PROJECT_ID,
           clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
           privateKey: privateKey,
         }),
       });
+    } else {
+      app = getApp();
     }
 
     const message = {
@@ -55,7 +57,7 @@ export default async function handler(req, res) {
       tokens,
     };
 
-    const response = await admin.messaging().sendEachForMulticast(message);
+    const response = await getMessaging(app).sendEachForMulticast(message);
     
     return res.status(200).json({
       success: true,

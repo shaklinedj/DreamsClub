@@ -33,20 +33,22 @@ class MessagingService {
       FirebaseMessaging.onBackgroundMessage(
           _firebaseMessagingBackgroundHandler);
 
-      // 3. Get Token
+      // 3. Get Token and register listener for Auth Changes
       final token = await _firebaseMessaging.getToken();
       AppLogger.info('FCM Token: $token');
       if (token != null) {
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          try {
-            await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-              'fcmToken': token,
-            }, SetOptions(merge: true));
-          } catch (e) {
-            AppLogger.error('Failed to save FCM token', e);
+        FirebaseAuth.instance.authStateChanges().listen((user) async {
+          if (user != null) {
+            try {
+              await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+                'fcmToken': token,
+              }, SetOptions(merge: true));
+              AppLogger.info('Successfully saved FCM token to Firestore for user: ${user.uid}');
+            } catch (e) {
+              AppLogger.error('Failed to save FCM token', e);
+            }
           }
-        }
+        });
       }
 
       // 4. Foreground Message Handler

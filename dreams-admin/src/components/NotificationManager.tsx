@@ -33,6 +33,7 @@ interface UserItem {
     currentStreak?: number;
     lastVisit?: any;
     isPresentToday?: boolean;
+    fcmToken?: string;
 }
 
 export default function NotificationManager() {
@@ -57,6 +58,9 @@ export default function NotificationManager() {
     const [showDriveSetup, setShowDriveSetup] = useState(false);
     const [driveClientId, setDriveClientId] = useState('');
     const [driveFolderId, setDriveFolderId] = useState('');
+
+    // Vercel API state
+    const [vercelApiUrl, setVercelApiUrl] = useState('');
 
     useEffect(() => {
         const qNotifs = query(collection(db, 'notifications'), orderBy('createdAt', 'desc'));
@@ -89,6 +93,9 @@ export default function NotificationManager() {
         setDriveFolderId(config.folderId);
         setDriveConfigured(isDriveConfigured());
         loadGoogleIdentityScript().catch(() => {});
+
+        const savedVercelUrl = localStorage.getItem('vercel_api_url') || '';
+        setVercelApiUrl(savedVercelUrl);
     }, []);
 
     // Calcular usuarios alcanzados por la segmentación actual
@@ -119,8 +126,9 @@ export default function NotificationManager() {
     const handleSaveDriveConfig = () => {
         setDriveConfig(driveClientId.trim(), driveFolderId.trim());
         setDriveConfigured(isDriveConfigured());
+        localStorage.setItem('vercel_api_url', vercelApiUrl.trim());
         setShowDriveSetup(false);
-        setStatusMessage({ type: 'success', text: '✅ Configuración de Google Drive guardada correctamente.' });
+        setStatusMessage({ type: 'success', text: '✅ Configuración guardada correctamente.' });
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,7 +162,7 @@ export default function NotificationManager() {
                 finalImageUrl = result.directUrl;
             }
 
-            await addDoc(collection(db, 'notifications'), {
+            const docRef = await addDoc(collection(db, 'notifications'), {
                 title: title.trim(),
                 body: body.trim(),
                 type: type,
@@ -171,9 +179,54 @@ export default function NotificationManager() {
                 }
             });
 
+            // Dispatch background push notifications via Vercel FCM proxy if configured
+            let pushStatus = '';
+            if (vercelApiUrl.trim()) {
+                const targetTokens = users.filter((u) => {
+                    const streak = u.currentStreak || 0;
+                    if (targetStreak === 'active' && streak < 1) return false;
+                    if (targetStreak === 'high' && streak < 5) return false;
+                    if (targetStreak === 'vip' && streak < 10) return false;
+                    if (targetStreak === 'none' && streak > 0) return false;
+
+                    const daysInactive = getDaysSinceLastVisit(u.lastVisit);
+                    if (targetPresence === 'today' && !u.isPresentToday && daysInactive > 0) return false;
+                    if (targetPresence === 'inactive5' && daysInactive <= 5) return false;
+                    if (targetPresence === 'inactive10' && daysInactive <= 10) return false;
+
+                    if (targetConsentOnly && !u.contactConsent) return false;
+
+                    return !!u.fcmToken;
+                }).map(u => u.fcmToken) as string[];
+
+                if (targetTokens.length > 0) {
+                    try {
+                        const response = await fetch(vercelApiUrl.trim(), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                title: title.trim(),
+                                body: body.trim(),
+                                tokens: targetTokens,
+                                notificationId: docRef.id,
+                            }),
+                        });
+                        if (response.ok) {
+                            const result = await response.json();
+                            pushStatus = ` (+${result.successCount} push enviados exitosamente)`;
+                        } else {
+                            pushStatus = ' (Error al despachar push desde el proxy)';
+                        }
+                    } catch (err) {
+                        pushStatus = ' (Error de conexión con el proxy Vercel)';
+                        console.error('Push dispatch error:', err);
+                    }
+                }
+            }
+
             setStatusMessage({ 
                 type: 'success', 
-                text: `¡Notificación programada/enviada exitosamente a ${targetUserCount} usuarios objetivo!` 
+                text: `¡Notificación programada/enviada exitosamente a ${targetUserCount} usuarios objetivo!${pushStatus}` 
             });
             setTitle('');
             setBody('');
@@ -213,7 +266,7 @@ export default function NotificationManager() {
                         onClick={() => setShowDriveSetup(!showDriveSetup)}
                         className="text-xs text-slate-400 hover:text-white bg-slate-700 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                     >
-                        ⚙️ Drive {driveConfigured ? '✅' : '❌'}
+                        ⚙️ Ajustes {driveConfigured ? '✅' : '❌'} {vercelApiUrl.trim() ? '✉️' : ''}
                     </button>
                 </div>
 
@@ -236,6 +289,18 @@ export default function NotificationManager() {
                                 className="px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
                             />
                         </div>
+
+                        <p className="text-xs font-semibold text-purple-400 uppercase pt-2">Configuración de FCM Proxy (Vercel)</p>
+                        <div className="grid grid-cols-1 gap-3">
+                            <input
+                                type="url"
+                                placeholder="URL de la API en Vercel (Ej: https://dreamsclub.vercel.app/api/send-push)"
+                                value={vercelApiUrl}
+                                onChange={(e) => setVercelApiUrl(e.target.value)}
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white"
+                            />
+                        </div>
+
                         <button
                             type="button"
                             onClick={handleSaveDriveConfig}

@@ -29,6 +29,11 @@ class NotificationService {
       },
     );
 
+    // Clear any restored notifications from Android auto backup
+    try {
+      await _notificationsPlugin.cancelAll();
+    } catch (_) {}
+
     // Inicia el listener en tiempo real de alertas desde el panel (Plan Spark)
     listenToLiveBroadcasts();
   }

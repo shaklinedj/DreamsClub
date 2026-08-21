@@ -160,6 +160,22 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    // Allow collection group queries on reactions subcollection globally
+    match /{path=**}/reactions/{reactionId} {
+      allow read: if isAuthenticated();
+      allow create, delete: if isAuthenticated() && (
+        reactionId == request.auth.uid ||
+        reactionId == request.auth.token.email ||
+        request.resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.token.email
+      );
+      allow update: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.userId == request.auth.token.email ||
+        isAdmin()
+      );
+    }
+
     // Fallback: Default deny all other collections to prevent unauthorized access
     match /{document=**} {
       allow read, write: if false;

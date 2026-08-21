@@ -111,76 +111,55 @@ class _GlobalConfettiWidgetState extends ConsumerState<GlobalConfettiWidget> {
     final navContext = coyhaiqueRootNavigatorKey.currentContext;
     if (navContext == null) return;
 
-    bool isClosed = false;
+    // Clear any active snackbars first
+    ScaffoldMessenger.of(navContext).clearSnackBars();
 
-    showDialog(
-      context: navContext,
-      builder: (ctx) {
-        // Auto dismiss dialog after 3.5 seconds so user doesn't have to manually click
-        Future.delayed(const Duration(milliseconds: 3500), () {
-          if (!isClosed && ctx.mounted && Navigator.of(ctx).canPop()) {
-            isClosed = true;
-            Navigator.of(ctx).pop();
-          }
-        });
-
-        return AlertDialog(
-          backgroundColor: Colors.grey[900],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Row(
-            children: [
-              Text(icon, style: const TextStyle(fontSize: 32)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+    ScaffoldMessenger.of(navContext).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFF1E2230),
+        duration: const Duration(seconds: 4),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 6,
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        content: Row(
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 32)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    rewardDesc,
+                    style: const TextStyle(
+                      color: Colors.amber,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                subtitle,
-                style: const TextStyle(color: Colors.white70, fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.black45,
-                  borderRadius: BorderRadius.circular(12),
-                  border:
-                      Border.all(color: Colors.amber.withValues(alpha: 0.5)),
-                ),
-                child: Text(
-                  rewardDesc,
-                  style: const TextStyle(
-                      color: Colors.amber, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (!isClosed) {
-                  isClosed = true;
-                  Navigator.of(ctx).pop();
-                }
-              },
-              child:
-                  const Text('¡Genial!', style: TextStyle(color: Colors.white)),
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }

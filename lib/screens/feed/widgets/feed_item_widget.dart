@@ -269,8 +269,8 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
         videoId: videoId,
         autoPlay: true,
         params: const YoutubePlayerParams(
-          showControls: true,
-          showFullscreenButton: true,
+          showControls: false,
+          showFullscreenButton: false,
           mute: false,
           loop: true,
           enableJavaScript: true,
@@ -399,14 +399,22 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
           GestureDetector(
             onDoubleTap: _handleDoubleTap,
             onTap: () {
-              if (_isYoutube) return; // Allow YouTube native player to receive direct touches
               if (widget.post.mediaType == FeedMediaType.image) {
                 _showFullScreenImage(context);
               } else if (widget.post.mediaType == FeedMediaType.video) {
-                if (_videoPlayerController?.value.isPlaying ?? false) {
-                  _videoPlayerController?.pause();
-                } else {
-                  _videoPlayerController?.play();
+                if (_isYoutube && _youtubeController != null) {
+                  final state = _youtubeController!.value.playerState;
+                  if (state == PlayerState.playing) {
+                    _youtubeController!.pauseVideo();
+                  } else {
+                    _youtubeController!.playVideo();
+                  }
+                } else if (_videoPlayerController != null) {
+                  if (_videoPlayerController!.value.isPlaying) {
+                    _videoPlayerController!.pause();
+                  } else {
+                    _videoPlayerController!.play();
+                  }
                 }
               }
             },
@@ -414,6 +422,23 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
               fit: StackFit.expand,
               children: [
                 _buildMediaContent(),
+                if (_isYoutube)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (_youtubeController != null) {
+                          final state = _youtubeController!.value.playerState;
+                          if (state == PlayerState.playing) {
+                            _youtubeController!.pauseVideo();
+                          } else {
+                            _youtubeController!.playVideo();
+                          }
+                        }
+                      },
+                      onDoubleTap: _handleDoubleTap,
+                    ),
+                  ),
                 // Heart Animation Overlay
                 if (_isHeartAnimating)
                   Center(
@@ -739,15 +764,19 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * (16 / 9),
-                      child: YoutubePlayer(
-                        controller: _youtubeController!,
-                        aspectRatio: 9 / 16,
+                      child: IgnorePointer(
+                        child: YoutubePlayer(
+                          controller: _youtubeController!,
+                          aspectRatio: 9 / 16,
+                        ),
                       ),
                     ),
                   )
-                : YoutubePlayer(
-                    controller: _youtubeController!,
-                    aspectRatio: playerAspectRatio,
+                : IgnorePointer(
+                    child: YoutubePlayer(
+                      controller: _youtubeController!,
+                      aspectRatio: playerAspectRatio,
+                    ),
                   ),
           ),
         );

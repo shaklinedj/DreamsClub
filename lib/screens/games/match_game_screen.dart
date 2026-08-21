@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:casinoloyalty_flutter/providers/match_game_provider.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -28,6 +29,7 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
   late AnimationController _pulseController;
   final PrizeService _prizeService = PrizeService();
   final SpinWheelService _spinWheelService = SpinWheelService();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
   @override
   void dispose() {
     _pulseController.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -52,9 +55,14 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
 
     // Listen to level complete and game over transitions
     ref.listen<MatchGameState>(matchGameProvider, (previous, next) {
+      if (previous != null && next.score > previous.score) {
+        _audioPlayer.play(AssetSource('sounds/coins.wav')).catchError((_) => null);
+      }
       if (next.levelComplete && !(previous?.levelComplete ?? false)) {
+        _audioPlayer.play(AssetSource('sounds/win.wav')).catchError((_) => null);
         _showLevelCompleteDialog();
       } else if (next.gameOver && !(previous?.gameOver ?? false)) {
+        _audioPlayer.play(AssetSource('sounds/coins_back.wav')).catchError((_) => null);
         _showGameOverDialog();
       }
     });
@@ -76,16 +84,16 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
           child: Column(
             children: [
               _buildHeader(context, gameState, isMember),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               _buildScoreBar(gameState),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Expanded(
                 child: Center(
                   child: _buildGameGrid(gameState),
                 ),
               ),
               if (!isMember) _buildPendingPointsBanner(gameState),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -96,7 +104,7 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
   Widget _buildHeader(
       BuildContext context, MatchGameState gameState, bool isMember) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         children: [
           IconButton(
@@ -206,8 +214,8 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(20),
@@ -305,8 +313,8 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
         (gameState.pendingPoints / MatchGameService.maxPendingPoints).clamp(0.0, 1.0);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(16),

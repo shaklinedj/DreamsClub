@@ -169,3 +169,103 @@ exports.registerVisit = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError('internal', 'Internal server error processing visit.');
     }
 });
+
+/**
+ * Automatically triggers when a new notification is added to Firestore.
+ * Dispatches real FCM push notifications to all eligible users based on segment filters.
+ */
+exports.sendPushNotificationOnCreate = functions.firestore
+    .document('notifications/{notificationId}')
+    .onCreate(async (snapshot, context) => {
+        const notificationData = snapshot.data();
+        if (!notificationData) return null;
+
+        const title = notificationData.title || 'Dreams Club';
+        const body = notificationData.body || '';
+        const isBroadcast = notificationData.broadcast === true;
+        const targetSegment = notificationData.targetSegment || {};
+
+        console.log(`Sending push notification: "${title}" - Broadcast: ${isBroadcast}`);
+
+        try {
+            // 1. Fetch all users from Firestore
+            const usersSnapshot = await admin.firestore().collection('users').get();
+            const tokens = [];
+
+            for (const userDoc of usersSnapshot.docs) {
+                const userData = userDoc.data();
+                const token = userData.fcmToken;
+                if (!token) continue;
+
+                // 2. Apply segment filters if not a broadcast
+                if (!isBroadcast) {
+                    // a) Consent Filter
+                    const consentOnly = targetSegment.consentOnly === true;
+                    const contactConsent = userData.contactConsent ?? userData.wantsContact ?? true;
+                    if (consentOnly && contactConsent !== true) {
+                        continue;
+                    }
+
+                    // b) Streak Filter
+                    const streakFilter = targetSegment.streak || 'all';
+                    const streak = userData.currentStreak ?? userData.streak ?? 0;
+                    if (streakFilter === 'active' && streak < 1) continue;
+                    if (streakFilter === 'high' && streak < 5) continue;
+                    if (streakFilter === 'vip' && streak < 10) continue;
+                    if (streakFilter === 'none' && streak > 0) continue;
+
+                    // c) Presence / Inactivity Filter
+                    const presenceFilter = targetSegment.presence || 'all';
+                    const lastVisitRaw = userData.lastVisitDate || userData.lastVisit;
+                    let lastVisitDate;
+                    if (lastVisitRaw) {
+                        lastVisitDate = lastVisitRaw.toDate ? lastVisitRaw.toDate() : new Date(lastVisitRaw);
+                    }
+
+                    const daysInactive = !lastVisitDate ? 999 : Math.floor((Date.now() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24));
+                    const isPresentToday = userData.isPresentToday === true;
+
+                    if (presenceFilter === 'today' && !isPresentToday && daysInactive > 0) {
+                        continue;
+                    }
+                    if (presenceFilter === 'inactive5' && daysInactive < 5) {
+                        continue;
+                    }
+                    if (presenceFilter === 'inactive10' && daysInactive < 10) {
+                        continue;
+                    }
+                }
+
+                tokens.push(token);
+            }
+
+            if (tokens.length === 0) {
+                console.log('No eligible users with FCM tokens found.');
+                return null;
+            }
+
+            console.log(`Sending multicast push notification to ${tokens.length} tokens...`);
+
+            // 3. Construct FCM Message payload
+            const message = {
+                notification: {
+                    title: title,
+                    body: body,
+                },
+                data: {
+                    route: `/notification-detail/${snapshot.id}`,
+                    click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                },
+                tokens: tokens,
+            };
+
+            const response = await admin.messaging().sendEachForMulticast(message);
+            console.log(`Successfully sent ${response.successCount} push notifications. Failures: ${response.failureCount}`);
+
+            return null;
+        } catch (error) {
+            console.error('Error sending multicast FCM notification:', error);
+            return null;
+        }
+    });
+

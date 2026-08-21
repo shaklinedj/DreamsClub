@@ -1,16 +1,15 @@
 import 'package:casinoloyalty_flutter/screens/feed/feed_screen.dart';
-import 'package:casinoloyalty_flutter/screens/feed/upload_post_screen.dart';
-import 'package:casinoloyalty_flutter/screens/all_casinos_screen.dart';
+
 import 'package:casinoloyalty_flutter/screens/feed/post_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/qr_scanner_screen.dart';
-
+import 'package:casinoloyalty_flutter/screens/achievements_screen.dart';
+import 'package:casinoloyalty_flutter/screens/all_casinos_screen.dart';
 import 'package:casinoloyalty_flutter/screens/casino_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/splash_screen.dart';
 import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/wallet_screen.dart';
 import 'package:casinoloyalty_flutter/screens/my_prizes_screen.dart';
 import 'package:casinoloyalty_flutter/screens/prize_detail_screen.dart';
-import 'package:casinoloyalty_flutter/screens/profile_screen.dart';
 import 'package:casinoloyalty_flutter/screens/select_favorite_screen.dart';
 import 'package:casinoloyalty_flutter/screens/settings_screen.dart';
 import 'package:casinoloyalty_flutter/screens/benefits_screen.dart';
@@ -91,10 +90,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SelectFavoriteScreen(),
       ),
       GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
       ),
@@ -125,10 +120,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/match-game',
         builder: (context, state) => const MatchGameScreen(),
       ),
-      GoRoute(
-        path: '/upload-post',
-        builder: (context, state) => const UploadPostScreen(),
-      ),
+
       GoRoute(
         path: '/post/:postId',
         builder: (context, state) {
@@ -144,14 +136,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/home',
-                builder: (context, state) => const HomeScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
                 path: '/feed',
                 builder: (context, state) {
                   return const FeedScreen();
@@ -162,8 +146,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/wallet',
-                builder: (context, state) => const WalletScreen(),
+                path: '/home',
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/achievements',
+                builder: (context, state) => const AchievementsScreen(),
               ),
             ],
           ),
@@ -185,6 +177,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/wallet',
+        builder: (context, state) => const WalletScreen(),
       ),
       GoRoute(
         path: '/admin/casinos',

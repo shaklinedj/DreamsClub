@@ -5,159 +5,156 @@ import 'package:casinoloyalty_flutter/services/gamification_service.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 // ============================================================================
-// LOGROS - Enfocados solo en VISITAS A CASINOS
+// LOGROS - Enfocados 100% en DREAMS COYHAIQUE, RACHAS Y RECOMPENSAS DIGITALES
 // ============================================================================
 const List<Achievement> _defaultAchievements = [
-  // Primera visita
+  // Rachas Diarias
   Achievement(
-    id: 'first_casino_visit',
-    title: 'Bienvenido a Dreams',
-    description: 'Visita tu primer casino Dreams',
-    icon: '🎉',
+    id: 'first_coyhaique_streak',
+    title: 'Bienvenido a Coyhaique',
+    description: 'Entra a la app y activa tu primera racha',
+    icon: '🏔️',
     pointsReward: 100,
     targetValue: 1,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.visits,
-    rewardDescription: '1 Bebida de cortesía',
+    rewardDescription: 'Pack Stickers Oficiales Coyhaique',
   ),
-
-  // Visitas múltiples en días diferentes
   Achievement(
-    id: 'visit_3_days',
-    title: 'Visitante Frecuente',
-    description: 'Visita un casino 3 días seguidos',
+    id: 'streak_3_days',
+    title: 'Racha Austral (3 Días)',
+    description: 'Mantén 3 días seguidos de racha en la app',
     icon: '🔥',
     pointsReward: 300,
     targetValue: 3,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.visits,
-    rewardDescription: '1 Espumante',
+    rewardDescription: 'Pack Stickers Animados + Tema Dorado VIP',
   ),
   Achievement(
-    id: 'visit_7_days',
-    title: 'Guerrero Semanal',
-    description: 'Visita un casino 7 días seguidos',
+    id: 'streak_7_days',
+    title: 'Leyenda Patagónica (7 Días)',
+    description: 'Completa una semana entera de racha diaria',
     icon: '🏆',
     pointsReward: 700,
     targetValue: 7,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.visits,
-    rewardDescription: 'Cena para 2 en Restaurante Dreams',
+    rewardDescription: 'Pack Stickers VIP Gold + Tema Platino Austral',
   ),
   Achievement(
-    id: 'visit_30_days',
-    title: 'Leyenda Mensual',
-    description: 'Mantén una racha de 30 días visitando casinos',
+    id: 'streak_14_days',
+    title: 'Maestro de Coyhaique',
+    description: 'Alcanza 14 días seguidos en Dreams Club',
     icon: '👑',
+    pointsReward: 1500,
+    targetValue: 14,
+    currentValue: 0,
+    progress: 0.0,
+    category: AchievementCategory.visits,
+    rewardDescription: 'Tema Patagónico Exclusivo para la App',
+  ),
+  Achievement(
+    id: 'streak_30_days',
+    title: 'Leyenda Absoluta (30 Días)',
+    description: 'Alcanza 30 días seguidos de racha en Dreams Club',
+    icon: '🎰',
     pointsReward: 3000,
     targetValue: 30,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.visits,
-    rewardDescription: 'Noche gratis en Hotel Dreams',
+    rewardDescription: 'Tema Diamante Oscuro + Pack Leyenda',
   ),
 
-  // Múltiples casinos
+  // Minijuegos y Entretenimiento
   Achievement(
-    id: 'visit_2_casinos',
-    title: 'Explorador',
-    description: 'Visita 2 casinos Dreams diferentes',
-    icon: '🗺️',
-    pointsReward: 500,
-    targetValue: 2,
-    currentValue: 0,
-    progress: 0.0,
-    category: AchievementCategory.exploration,
-    rewardDescription: '5,000 Puntos Dreams',
-  ),
-  Achievement(
-    id: 'visit_all_casinos',
-    title: 'Coleccionista Dreams',
-    description: 'Visita todos los casinos Dreams de Chile',
-    icon: '🌟',
-    pointsReward: 5000,
-    targetValue: 5,
-    currentValue: 0,
-    progress: 0.0,
-    category: AchievementCategory.exploration,
-    rewardDescription: 'Upgrade VIP por 1 mes',
-  ),
-
-  // Visitas totales acumuladas
-  Achievement(
-    id: 'total_10_visits',
-    title: 'Habitué',
-    description: 'Realiza 10 visitas a cualquier casino',
-    icon: '⭐',
+    id: 'play_roulette',
+    title: 'Giro Afortunado',
+    description: 'Juega una ronda en la Ruleta de la Suerte',
+    icon: '🎰',
     pointsReward: 200,
-    targetValue: 10,
-    currentValue: 0,
-    progress: 0.0,
-    category: AchievementCategory.visits,
-    rewardDescription: '2,000 Puntos Dreams',
-  ),
-  Achievement(
-    id: 'total_50_visits',
-    title: 'VIP Dreams',
-    description: 'Realiza 50 visitas a cualquier casino',
-    icon: '💎',
-    pointsReward: 1000,
-    targetValue: 50,
-    currentValue: 0,
-    progress: 0.0,
-    category: AchievementCategory.visits,
-    rewardDescription: 'Entrada VIP permanente',
-  ),
-  Achievement(
-    id: 'total_100_visits',
-    title: 'Leyenda Dreams',
-    description: 'Realiza 100 visitas a cualquier casino',
-    icon: '🏅',
-    pointsReward: 5000,
-    targetValue: 100,
-    currentValue: 0,
-    progress: 0.0,
-    category: AchievementCategory.visits,
-    rewardDescription: 'Weekend VIP con acompañante',
-  ),
-
-  // Especiales
-  Achievement(
-    id: 'weekend_warrior',
-    title: 'Rey del Fin de Semana',
-    description: 'Visita un casino todos los fines de semana del mes',
-    icon: '🎊',
-    pointsReward: 800,
-    targetValue: 4,
+    targetValue: 1,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.special,
-    rewardDescription: 'Botella de Champagne',
+    rewardDescription: 'Sticker Ruleta de la Fortuna',
   ),
   Achievement(
-    id: 'night_owl',
-    title: 'Búho Nocturno',
-    description: 'Visita un casino después de las 22:00 hrs, 5 veces',
-    icon: '🦉',
-    pointsReward: 400,
-    targetValue: 5,
+    id: 'play_mania',
+    title: 'Fiebre Dreams Manía',
+    description: 'Participa en el minijuego Dreams Manía',
+    icon: '⭐',
+    pointsReward: 300,
+    targetValue: 1,
     currentValue: 0,
     progress: 0.0,
     category: AchievementCategory.special,
-    rewardDescription: 'Cocktail especial',
+    rewardDescription: 'Sticker Estrella Dreams',
+  ),
+  Achievement(
+    id: 'share_streak',
+    title: 'Embajador Dreams',
+    description: 'Comparte tu racha diaria con un amigo',
+    icon: '📱',
+    pointsReward: 250,
+    targetValue: 1,
+    currentValue: 0,
+    progress: 0.0,
+    category: AchievementCategory.special,
+    rewardDescription: 'Sticker Corona VIP WhatsApp',
   ),
 ];
 
 class AchievementsNotifier extends StateNotifier<List<Achievement>> {
   AchievementsNotifier(this.ref) : super(_defaultAchievements) {
     _loadAchievements();
+    _listenToUserUpdates();
   }
 
   final Ref ref;
   final GamificationService _service = GamificationService();
+
+  void _listenToUserUpdates() {
+    ref.listen<User>(userProvider, (previous, next) {
+      if (previous == null || previous.streak != next.streak) {
+        _checkStreakAchievements(next.streak);
+      }
+    });
+  }
+
+  Future<void> _checkStreakAchievements(int streak) async {
+    if (state.any((a) => a.id == 'first_coyhaique_streak')) {
+      await updateProgress('first_coyhaique_streak', streak);
+    }
+    if (state.any((a) => a.id == 'streak_3_days')) {
+      await updateProgress('streak_3_days', streak);
+    }
+    if (state.any((a) => a.id == 'streak_7_days')) {
+      await updateProgress('streak_7_days', streak);
+    }
+    if (state.any((a) => a.id == 'streak_14_days')) {
+      await updateProgress('streak_14_days', streak);
+    }
+    if (state.any((a) => a.id == 'streak_30_days')) {
+      await updateProgress('streak_30_days', streak);
+    }
+    if (streak >= 1) {
+      if (state.any((a) => a.id == 'play_roulette')) {
+        await updateProgress('play_roulette', 1);
+      }
+      if (state.any((a) => a.id == 'play_mania')) {
+        await updateProgress('play_mania', 1);
+      }
+      if (state.any((a) => a.id == 'share_streak')) {
+        await updateProgress('share_streak', 1);
+      }
+    }
+  }
+
 
   Future<void> _loadAchievements() async {
     final List<Achievement> loadedAchievements = [];
@@ -205,11 +202,13 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
     await _service.updateAchievementProgress(
         id, newValue, achievement.targetValue);
 
-    final shouldUnlock =
-        newValue >= achievement.targetValue && !achievement.isUnlocked;
+    final isNowUnlocked = newValue >= achievement.targetValue;
+    final shouldUnlock = isNowUnlocked && !achievement.isUnlocked;
 
     if (shouldUnlock) {
       await _service.addPoints(achievement.pointsReward);
+      // Disparar confeti y popup
+      ref.read(confettiTriggerProvider.notifier).state = achievement;
     }
 
     state = [
@@ -218,8 +217,8 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
           a.copyWith(
             currentValue: newValue,
             progress: (newValue / a.targetValue).clamp(0.0, 1.0),
-            isUnlocked: newValue >= a.targetValue,
-            unlockedAt: shouldUnlock ? DateTime.now() : a.unlockedAt,
+            isUnlocked: isNowUnlocked,
+            unlockedAt: shouldUnlock ? DateTime.now() : (isNowUnlocked ? a.unlockedAt : null),
           )
         else
           a
@@ -238,33 +237,15 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
     }
 
     final totalVisits = await _service.getTotalVisits();
+    ref.read(userProvider.notifier).setTotalVisits(totalVisits);
 
     // Agregar casino a la lista de visitados (esto sí se hace siempre para tracking)
     await _service.addVisitedCasino(casinoId);
-    final visitedCasinos = await _service.getVisitedCasinos();
 
     // Actualizar racha
     final streak = await _service.updateStreak();
-
-    // Actualizar logros de visitas totales
-    await updateProgress('total_10_visits', totalVisits);
-    await updateProgress('total_50_visits', totalVisits);
-    await updateProgress('total_100_visits', totalVisits);
-
-    // Actualizar logros de casinos diferentes
-    await updateProgress('visit_2_casinos', visitedCasinos.length);
-    await updateProgress('visit_all_casinos', visitedCasinos.length);
-
-    // Actualizar logros de racha
-    await updateProgress('visit_3_days', streak);
-    await updateProgress('visit_7_days', streak);
-    await updateProgress('visit_30_days', streak);
-
-    // Primera visita
-    final firstVisit = state.firstWhere((a) => a.id == 'first_casino_visit');
-    if (!firstVisit.isUnlocked) {
-      await unlockAchievement('first_casino_visit');
-    }
+    // Esto actualizará Firebase y disparará los listeners locales
+    await ref.read(userProvider.notifier).setStreak(streak);
 
     return true;
   }
@@ -280,6 +261,9 @@ final achievementsProvider =
   return AchievementsNotifier(ref);
 });
 
+// Provider para disparar el evento de confeti
+final confettiTriggerProvider = StateProvider<Achievement?>((ref) => null);
+
 // ============================================================================
 // MISIONES DIARIAS - Solo relacionadas con VISITAS
 // ============================================================================
@@ -287,39 +271,39 @@ List<DailyMission> _generateDailyMissions() {
   return [
     const DailyMission(
       id: 'visit_casino_today',
-      title: 'Visita un Casino',
-      description: 'Acércate a cualquier casino Dreams hoy',
+      title: 'Visita Dreams Coyhaique',
+      description: 'Visita el casino hoy y registra tu visita',
       icon: '🏛️',
       pointsReward: 100,
       targetValue: 1,
       currentValue: 0,
       progress: 0.0,
       type: MissionType.visit,
-      rewardDescription: 'Bebida gratis',
+      rewardDescription: 'Stickers de Bienvenida 🏔️',
     ),
     const DailyMission(
-      id: 'visit_2_casinos_week',
-      title: 'Explorador Semanal',
-      description: 'Visita 2 casinos diferentes esta semana',
-      icon: '🗺️',
+      id: 'streak_3_days_mission',
+      title: 'Constancia Patagónica',
+      description: 'Alcanza una racha de 3 días seguidos',
+      icon: '🔥',
       pointsReward: 200,
-      targetValue: 2,
+      targetValue: 3,
       currentValue: 0,
       progress: 0.0,
-      type: MissionType.explore,
-      rewardDescription: '3,000 Puntos Dreams',
+      type: MissionType.visit,
+      rewardDescription: 'Tema Dorado VIP 👑',
     ),
     const DailyMission(
       id: 'maintain_streak',
       title: 'Mantén tu Racha',
-      description: 'No pierdas tu racha de visitas',
-      icon: '🔥',
+      description: 'No pierda tu racha diaria en Coyhaique',
+      icon: '⚡',
       pointsReward: 50,
       targetValue: 1,
       currentValue: 0,
       progress: 0.0,
       type: MissionType.visit,
-      rewardDescription: 'Multiplicador de puntos',
+      rewardDescription: 'Stickers de Personalización 🎨',
     ),
   ];
 }
@@ -340,6 +324,11 @@ class DailyMissionsNotifier extends StateNotifier<List<DailyMission>> {
       // Check for visit today
       if (next.totalVisits > previous.totalVisits) {
         completeMission('visit_casino_today');
+      }
+
+      // Check for 3-day streak mission
+      if (next.streak >= 3) {
+        completeMission('streak_3_days_mission');
       }
 
       // Check for streak maintenance
@@ -435,41 +424,51 @@ final dailyMissionsProvider =
 // RACHA DE VISITAS
 // ============================================================================
 class StreakNotifier extends StateNotifier<StreakData> {
+  final Ref ref;
   final GamificationService _service = GamificationService();
 
-  StreakNotifier() : super(const StreakData()) {
+  StreakNotifier(this.ref) : super(const StreakData()) {
     _loadStreak();
+    _listenToUserUpdates();
   }
 
-  Future<void> _loadStreak() async {
-    final streak = await _service.getConsecutiveVisits();
-    final lastVisit = await _service.getLastVisitDate();
-
-    state = state.copyWith(
-      currentStreak: streak,
-      lastCheckIn: lastVisit,
-      bonusMultiplier: _calculateMultiplier(streak),
-    );
+  void _listenToUserUpdates() {
+    ref.listen<User>(userProvider, (previous, next) {
+      if (previous == null || previous.streak != next.streak) {
+        _syncWithFirebase(next.streak);
+      }
+    });
   }
 
-  Future<void> registerVisit() async {
-    final streak = await _service.updateStreak();
+  Future<void> _syncWithFirebase(int firebaseStreak) async {
     final lastVisit = await _service.getLastVisitDate();
+    final weekProgress = await _service.getCurrentWeekProgress();
 
-    final newWeek = List<bool>.from(state.weekProgress);
-    final dayOfWeek = DateTime.now().weekday - 1;
-    if (dayOfWeek >= 0 && dayOfWeek < 7) {
-      newWeek[dayOfWeek] = true;
+    // Sincronizar localmente si no coinciden
+    final localStreak = await _service.getConsecutiveVisits();
+    if (localStreak != firebaseStreak) {
+      await _service.setConsecutiveVisits(firebaseStreak);
     }
 
     state = state.copyWith(
-      currentStreak: streak,
-      longestStreak:
-          streak > state.longestStreak ? streak : state.longestStreak,
+      currentStreak: firebaseStreak,
+      longestStreak: firebaseStreak > state.longestStreak ? firebaseStreak : state.longestStreak,
       lastCheckIn: lastVisit,
-      weekProgress: newWeek,
-      bonusMultiplier: _calculateMultiplier(streak),
+      weekProgress: weekProgress,
+      bonusMultiplier: _calculateMultiplier(firebaseStreak),
     );
+  }
+
+  Future<void> _loadStreak() async {
+    final firebaseStreak = ref.read(userProvider).streak;
+    await _syncWithFirebase(firebaseStreak);
+  }
+
+  Future<void> registerVisit() async {
+    // Ya no hacemos incremento doble aquí. Se hace desde AchievementsNotifier.
+    // Solo forzamos resincronización por si acaso.
+    final firebaseStreak = ref.read(userProvider).streak;
+    await _syncWithFirebase(firebaseStreak);
   }
 
   int _calculateMultiplier(int streak) {
@@ -480,14 +479,14 @@ class StreakNotifier extends StateNotifier<StreakData> {
   }
 
   String getStreakReward() {
-    if (state.currentStreak >= 30) return '🏨 Noche en Hotel Dreams';
-    if (state.currentStreak >= 14) return '🍾 Botella de Champagne';
-    if (state.currentStreak >= 7) return '🍽️ Cena para 2';
-    if (state.currentStreak >= 3) return '🥂 Espumante';
-    return '🍹 Próximo premio: 3 días seguidos';
+    if (state.currentStreak >= 14) return '🌲 Tema Especial Patagónico';
+    if (state.currentStreak >= 7) return '❄️ Tema Platino Austral & Stickers VIP';
+    if (state.currentStreak >= 3) return '👑 Tema Dorado VIP & Stickers Memes';
+    if (state.currentStreak >= 1) return '🏔️ Pack de Stickers Patagónicos';
+    return '🔥 ¡Inicia tu racha hoy!';
   }
 }
 
 final streakProvider = StateNotifierProvider<StreakNotifier, StreakData>((ref) {
-  return StreakNotifier();
+  return StreakNotifier(ref);
 });

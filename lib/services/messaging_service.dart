@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:casinoloyalty_flutter/services/notification_service.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Top-level function for background handling
 @pragma('vm:entry-point')
@@ -34,7 +36,18 @@ class MessagingService {
       // 3. Get Token
       final token = await _firebaseMessaging.getToken();
       AppLogger.info('FCM Token: $token');
-      // TODO: Save this token to Firestore if needed for targeted campaigns
+      if (token != null) {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          try {
+            await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+              'fcmToken': token,
+            }, SetOptions(merge: true));
+          } catch (e) {
+            AppLogger.error('Failed to save FCM token', e);
+          }
+        }
+      }
 
       // 4. Foreground Message Handler
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {

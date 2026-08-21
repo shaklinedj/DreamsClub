@@ -72,9 +72,14 @@ class GamificationService {
     data['currentValue'] = currentValue;
     data['progress'] = progress;
 
-    if (currentValue >= targetValue && !data['isUnlocked']) {
-      data['isUnlocked'] = true;
-      data['unlockedAt'] = DateTime.now().toIso8601String();
+    if (currentValue >= targetValue) {
+      if (!(data['isUnlocked'] ?? false)) {
+        data['isUnlocked'] = true;
+        data['unlockedAt'] = DateTime.now().toIso8601String();
+      }
+    } else {
+      data['isUnlocked'] = false;
+      data['unlockedAt'] = null;
     }
 
     await saveAchievementData(achievementId, data);
@@ -170,6 +175,27 @@ class GamificationService {
       _visitHistoryKey,
       trimmed.map((d) => d.toIso8601String()).toList(),
     );
+  }
+
+  /// Calcula qué días de la semana actual (Lunes=0 a Domingo=6) tienen visita
+  Future<List<bool>> getCurrentWeekProgress() async {
+    final history = await getVisitHistory();
+    final now = DateTime.now();
+    // En Dart, DateTime.weekday es 1 (Lunes) a 7 (Domingo).
+    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    final startOfWeekDate = DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+
+    final weekProgress = List<bool>.filled(7, false);
+
+    for (final visit in history) {
+      if (visit.isAfter(startOfWeekDate) || visit.isAtSameMomentAs(startOfWeekDate)) {
+        final dayIndex = visit.weekday - 1;
+        if (dayIndex >= 0 && dayIndex < 7) {
+          weekProgress[dayIndex] = true;
+        }
+      }
+    }
+    return weekProgress;
   }
 
   // ========== RACHA DE VISITAS ==========

@@ -1,4 +1,11 @@
 {
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "storage": {
+        "rules": "storage.rules"
+    },
     "functions": [
         {
             "source": "functions",
@@ -13,15 +20,46 @@
         }
     ],
     "hosting": {
-        "source": "dreams-web",
+        "public": "dreams-admin/dist",
         "ignore": [
             "firebase.json",
             "**/.*",
             "**/node_modules/**"
         ],
-        "frameworksBackend": {
-            "region": "us-central1"
-        }
+        "headers": [
+            {
+                "source": "/downloads/DreamsClub.bin",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/vnd.android.package-archive"
+                    },
+                    {
+                        "key": "Content-Disposition",
+                        "value": "attachment; filename=DreamsClub.apk"
+                    }
+                ]
+            },
+            {
+                "source": "/downloads/**",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/vnd.android.package-archive"
+                    },
+                    {
+                        "key": "Content-Disposition",
+                        "value": "attachment; filename=DreamsClub.apk"
+                    }
+                ]
+            }
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
     },
     "flutter": {
         "platforms": {

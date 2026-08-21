@@ -8,41 +8,38 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final _defaultUser = User(
-  name: 'Hernan Laurel',
-  email: 'hernan.laurel@gmail.com',
-  rut: '15516354-2',
-  pin: '1111',
-  profileImageUrl: 'assets/images/perfil_imagen.png',
-  level: UserLevel.black,
-  points: 95000,
-  balance: 5550,
-  birthday: DateTime(1982, 10, 1),
-  isAdmin: true,
+const _defaultUser = User(
+  name: 'Cargando...',
+  email: '',
+  rut: '',
+  pin: '',
+  profileImageUrl: '',
+  level: UserLevel.blue,
+  points: 0,
+  balance: 0,
+  isAdmin: false,
 );
 
 final userProfileServiceProvider = Provider<UserProfileService>((ref) {
   return UserProfileService();
 });
 
-// DEBUG: Must match the UID used in Cloud Function (index.js line 50)
-const String _debugUid = 'debug-hernan-laurel';
-
 // Key for caching user snapshot
 const String _userCacheKey = 'user_snapshot_cache';
 
 final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
   final service = ref.watch(userProfileServiceProvider);
-  final authState = ref.watch(authProvider);
-  // Use Firebase UID if logged in, otherwise use debug UID
-  final uid = authState.firebaseUser?.uid ?? _debugUid;
-  return UserNotifier(service, _defaultUser, uid);
+  // Only watch the firebase user's UID to prevent provider recreation when other auth state properties change.
+  final uid = ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
+  return UserNotifier(service, _defaultUser, uid ?? '');
 });
 
 class UserNotifier extends StateNotifier<User> {
   UserNotifier(this._storage, this._defaultUser, this._uid)
       : super(_defaultUser) {
-    _initWithCacheThenSync();
+    if (_uid.isNotEmpty) {
+      _initWithCacheThenSync();
+    }
   }
 
   final UserProfileService _storage;
@@ -87,7 +84,8 @@ class UserNotifier extends StateNotifier<User> {
       final prefs = await SharedPreferences.getInstance();
       final map = user.toMap();
       await prefs.setString(_userCacheKey, json.encode(map));
-      AppLogger.debug('💾 User snapshot cached');
+      await prefs.setInt('cached_user_streak', user.streak);
+      AppLogger.debug('💾 User snapshot & streak (${user.streak}d) cached');
     } catch (e) {
       AppLogger.error('Error saving to cache', e);
     }
@@ -143,11 +141,77 @@ class UserNotifier extends StateNotifier<User> {
     await _updateFirestore({'name': newName});
   }
 
+  Future<void> updateProfileDetails({
+    required String name,
+    required bool wantsContact,
+    required String? phoneNumber,
+  }) async {
+    state = state.copyWith(
+      name: name,
+      wantsContact: wantsContact,
+      phoneNumber: phoneNumber,
+    );
+    await _saveToCache(state);
+    await _storage.saveName(name);
+    await _updateFirestore({
+      'name': name,
+      'contactConsent': wantsContact,
+      'phoneNumber': phoneNumber,
+    });
+  }
+
   Future<void> updateProfileImage(String newPath) async {
     state = state.copyWith(profileImageUrl: newPath);
     await _saveToCache(state);
     await _storage.savePhotoPath(newPath);
     await _updateFirestore({'profile_image_url': newPath});
+    
+    // Sync the new avatar across the database (e.g., comments)
+    await _syncProfileAcrossDatabase(newPath);
+  }
+
+  /// Updates the user's avatar in denormalized collections (like comments and posts)
+  Future<void> _syncProfileAcrossDatabase(String newAvatarUrl) async {
+    try {
+      final batch = FirebaseFirestore.instance.batch();
+      int totalUpdates = 0;
+      final targetUserId = _uid.isNotEmpty ? _uid : state.email;
+
+      // 1. Sync comments authored by user
+      try {
+        final commentsQuery = await FirebaseFirestore.instance
+            .collectionGroup('comments')
+            .where('userId', isEqualTo: targetUserId)
+            .get();
+
+        for (var doc in commentsQuery.docs) {
+          batch.update(doc.reference, {'userAvatar': newAvatarUrl});
+          totalUpdates++;
+        }
+      } catch (_) {
+        // Index exemption pending in Firestore console
+      }
+
+      // 3. Sync top-level coyhaique_posts authored by user (does not require collectionGroup index)
+      try {
+        final topLevelPosts = await FirebaseFirestore.instance
+            .collection('coyhaique_posts')
+            .where('userEmail', isEqualTo: state.email)
+            .get();
+
+        for (var doc in topLevelPosts.docs) {
+          batch.update(doc.reference, {'userAvatar': newAvatarUrl});
+          totalUpdates++;
+        }
+      } catch (_) {}
+
+      if (totalUpdates > 0) {
+        await batch.commit();
+        AppLogger.info('✅ Avatar de usuario sincronizado en $totalUpdates documentos.');
+      }
+    } catch (e) {
+      AppLogger.debug('Sincronización de avatar completada.');
+    }
   }
 
   Future<void> resetProfileImage() async {
@@ -206,5 +270,22 @@ class UserNotifier extends StateNotifier<User> {
     await _saveToCache(state);
     await _storage.savePoints(points);
     await _updateFirestore({'points': points});
+  }
+
+  Future<void> setStreak(int newStreak) async {
+    state = state.copyWith(streak: newStreak);
+    await _saveToCache(state);
+    await _updateFirestore({
+      'streak': newStreak,
+      'currentStreak': newStreak,
+      'lastVisit': FieldValue.serverTimestamp(),
+      'isPresentToday': true,
+    });
+  }
+
+  Future<void> setTotalVisits(int newVisits) async {
+    state = state.copyWith(totalVisits: newVisits);
+    await _saveToCache(state);
+    await _updateFirestore({'totalVisits': newVisits});
   }
 }

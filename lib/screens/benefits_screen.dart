@@ -1,17 +1,29 @@
 import 'package:casinoloyalty_flutter/config/membership_levels_config.dart';
 import 'package:casinoloyalty_flutter/models/user_model.dart';
-
+import 'package:casinoloyalty_flutter/screens/coyhaique/coyhaique_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BenefitsScreen extends ConsumerWidget {
   const BenefitsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final canPop = context.canPop();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Beneficios Dreams Club'),
+        leading: canPop
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                onPressed: () => context.pop(),
+              )
+            : IconButton(
+                icon: const Icon(Icons.menu_rounded),
+                onPressed: () => CoyhaiqueShell.openDrawer(),
+              ),
+        title: const Text('Beneficios Club'),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(
@@ -139,7 +151,7 @@ class _MembershipCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  info.level.name.toUpperCase(),
+                  'DREAMS CLUB',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w900,

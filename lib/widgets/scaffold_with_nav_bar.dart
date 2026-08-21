@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
-
 import 'package:casinoloyalty_flutter/widgets/app_drawer.dart';
 
 import 'package:flutter/material.dart';
@@ -29,9 +27,7 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
   Widget build(BuildContext context) {
     // DreamsMania auto-trigger removed - games only accessible from Games section
 
-    final user = ref.watch(userProvider);
-
-    final primaryColor = user.levelColor;
+    final primaryColor = Theme.of(context).primaryColor;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -100,15 +96,15 @@ class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar> {
                           activeColor: primaryColor,
                         ),
                         _NavBarItem(
-                          icon: Icons.video_collection_outlined,
-                          label: 'Novedades',
+                          icon: Icons.sports_esports_outlined,
+                          label: 'Juegos',
                           isActive: widget.navigationShell.currentIndex == 1,
                           onTap: () => widget.navigationShell.goBranch(1),
                           activeColor: primaryColor,
                         ),
                         _NavBarItem(
-                          icon: Icons.account_balance_wallet_outlined,
-                          label: 'Cartera',
+                          icon: Icons.emoji_events_outlined,
+                          label: 'Logros',
                           isActive: widget.navigationShell.currentIndex == 2,
                           onTap: () => widget.navigationShell.goBranch(2),
                           activeColor: primaryColor,

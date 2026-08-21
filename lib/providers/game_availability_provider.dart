@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/models/game_config_model.dart';
-import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/providers/game_history_provider.dart';
+import 'package:casinoloyalty_flutter/services/prize_service.dart';
 
 // --- State ---
 enum GameStatus {
   available,
-  lockedLocation, // Not in casino
-  lockedTime, // Wrong day/time
-  lockedFrequency, // Already played today
-  lockedMembership, // User level not allowed
+  lockedLocation,
+  lockedTime, // Horario o día no permitido
+  lockedFrequency, // Cooldown de 48h (o configurado)
+  lockedStreak, // Requiere mayor racha
   maintenance, // isActive = false
-  loading, // Checking history/location
+  loading,
 }
 
 class GameAvailability {
@@ -63,28 +63,28 @@ class GameConfigRepository {
         gameId: 'dreams_mania',
         title: 'Dreams Manía',
         isActive: true,
-        requiresLocation: true,
+        requiresLocation: false,
         frequency: GameFrequency.daily,
       ),
       const GameConfig(
         gameId: 'roulette',
         title: 'Ruleta de la Suerte',
         isActive: true,
-        requiresLocation: true,
+        requiresLocation: false,
         frequency: GameFrequency.daily,
       ),
       const GameConfig(
         gameId: 'slots',
         title: 'Máquina de Premios',
         isActive: true,
-        requiresLocation: true,
+        requiresLocation: false,
         frequency: GameFrequency.daily,
       ),
       const GameConfig(
         gameId: 'dreams_match',
         title: 'Dreams Match',
         isActive: true,
-        requiresLocation: true,
+        requiresLocation: false,
         frequency: GameFrequency.unlimited,
       ),
     ];
@@ -111,117 +111,150 @@ class GameConfigRepository {
   }
 }
 
-// --- Provider ---
+// Global game configs stream provider
 final gameConfigsProvider = StreamProvider<List<GameConfig>>((ref) {
   final repo = GameConfigRepository();
   return repo.watchConfigs();
 });
 
-// Logic Provider to check status
+// Global rules config stream provider from Firestore
+final globalGameRulesProvider = StreamProvider<GameRulesConfig>((ref) {
+  return PrizeService().streamRulesConfig();
+});
+
+// Logic Provider to check status across ALL mini-games
 final gameAvailabilityProvider =
     Provider.family<GameAvailability, String>((ref, gameId) {
   final configsAsync = ref.watch(gameConfigsProvider);
-  final locationState = ref.watch(locationProvider);
-  final user = ref.watch(userProvider); // Get current user
+  final rulesAsync = ref.watch(globalGameRulesProvider);
+  final user = ref.watch(userProvider);
   final historyAsync = ref.watch(gameHistoryProvider);
 
-  // Default fallback if loading or error
   final defaultConfig = GameConfig(
-      gameId: gameId, title: 'Juego', isActive: false, requiresLocation: true);
+    gameId: gameId,
+    title: 'Juego',
+    isActive: false,
+    requiresLocation: false,
+  );
 
-  // If history is still loading, we might want to wait or show loading,
-  // but to avoid blocking UI with spinners for cards, we proceed with available info
-  // and re-evaluate when loaded. Defaulting to available if not loaded might be risky,
-  // locking is safer.
-  if (historyAsync.isLoading) {
+  if (historyAsync.isLoading || rulesAsync.isLoading) {
     return GameAvailability(
-        config: defaultConfig,
-        status: GameStatus.loading,
-        message: 'Cargando...');
+      config: defaultConfig,
+      status: GameStatus.loading,
+      message: 'Cargando reglas...',
+    );
   }
+
+  final rules = rulesAsync.value ?? const GameRulesConfig();
 
   return configsAsync.when(
     data: (configs) {
-      final config = configs.firstWhere((c) => c.gameId == gameId,
-          orElse: () => defaultConfig);
+      final config = configs.firstWhere(
+        (c) => c.gameId == gameId,
+        orElse: () => defaultConfig,
+      );
 
       // 1. Is Active?
       if (!config.isActive) {
         return GameAvailability(
-            config: config,
-            status: GameStatus.maintenance,
-            message: 'Juego en mantenimiento');
+          config: config,
+          status: GameStatus.maintenance,
+          message: 'Juego en mantenimiento',
+        );
       }
 
-      // 2. Location Check
-      if (config.requiresLocation && !locationState.isNearAnyCasino) {
-        return GameAvailability(
-            config: config,
-            status: GameStatus.lockedLocation,
-            message: locationState.isLoading
-                ? 'Verificando ubicación...'
-                : 'Debes estar en un Casino Dreams');
-      }
-
-      // 3. Time/Day Check
       final now = DateTime.now();
-      if (config.activeWeekdays.isNotEmpty &&
-          !config.activeWeekdays.contains(now.weekday)) {
+
+      // 2. Allowed Days of the Week Check (0=Sun, 1=Mon, ..., 6=Sat)
+      // Note: DateTime.weekday is 1 (Mon) to 7 (Sun). Convert 7 -> 0 for Sunday
+      final currentWeekday = now.weekday % 7;
+      if (rules.allowedDays.isNotEmpty && !rules.allowedDays.contains(currentWeekday)) {
         return GameAvailability(
-            config: config,
-            status: GameStatus.lockedTime,
-            message: 'Solo disponible días específicos');
+          config: config,
+          status: GameStatus.lockedTime,
+          message: 'No disponible hoy según calendario',
+        );
       }
 
-      if (config.validFrom != null && now.isBefore(config.validFrom!)) {
-        return GameAvailability(
-            config: config,
-            status: GameStatus.lockedTime,
-            message: 'Próximamente');
-      }
+      // 3. Time Window Check (e.g. 18:00 to 02:00)
+      if (rules.timeWindowEnabled) {
+        final currentHour = now.hour;
+        bool isInsideWindow;
+        if (rules.startHour <= rules.endHour) {
+          isInsideWindow = currentHour >= rules.startHour && currentHour < rules.endHour;
+        } else {
+          // Crosses midnight (e.g. 18 to 2)
+          isInsideWindow = currentHour >= rules.startHour || currentHour < rules.endHour;
+        }
 
-      // 4. User Level (Membership) Check
-      if (config.allowedUserLevels.isNotEmpty) {
-        final userLevelName =
-            user.level.name; // 'black', 'gold', 'platinum', 'blue'
-        if (!config.allowedUserLevels.contains(userLevelName)) {
+        if (!isInsideWindow) {
+          final startFormatted = rules.startHour.toString().padLeft(2, '0');
+          final endFormatted = rules.endHour.toString().padLeft(2, '0');
           return GameAvailability(
-              config: config,
-              status: GameStatus.lockedMembership,
-              message:
-                  'Exclusivo para miembros ${_formatAllowedLevels(config.allowedUserLevels)}');
+            config: config,
+            status: GameStatus.lockedTime,
+            message: 'Disponible de $startFormatted:00 a $endFormatted:00 hrs',
+          );
         }
       }
 
-      // 5. Frequency Check
-      if (config.frequency != GameFrequency.unlimited) {
-        final history = historyAsync.asData?.value;
-        if (history != null) {
-          final lastPlayed = history[gameId];
-          if (lastPlayed != null) {
-            final diff = now.difference(lastPlayed);
+      // 4. User Streak Tier Check (Streak in days)
+      if (rules.minStreakRequired > 0 && user.streak < rules.minStreakRequired) {
+        return GameAvailability(
+          config: config,
+          status: GameStatus.lockedStreak,
+          message: 'Requiere racha mínima de ${rules.minStreakRequired} días (Tienes ${user.streak}d)',
+        );
+      }
 
-            if (config.frequency == GameFrequency.daily ||
-                config.frequency == GameFrequency.oncePerStay) {
-              // 'oncePerStay' treated as 24h cooldown for now given MVP context
-              if (diff.inHours < 24) {
-                final hoursLeft = 24 - diff.inHours;
-                return GameAvailability(
-                  config: config,
-                  status: GameStatus.lockedFrequency,
-                  message: 'Disponible en $hoursLeft hrs',
-                );
-              }
-            } else if (config.frequency == GameFrequency.weekly) {
-              if (diff.inDays < 7) {
-                final daysLeft = 7 - diff.inDays;
-                return GameAvailability(
-                  config: config,
-                  status: GameStatus.lockedFrequency,
-                  message: 'Disponible en $daysLeft días',
-                );
-              }
-            }
+      // 4.5 Global Daily Limit Check (Check daily game allowance set from Astro)
+      final history = historyAsync.asData?.value;
+      if (history != null && history.isNotEmpty) {
+        final playedToday = <String>[];
+        for (final entry in history.entries) {
+          final lastPlayed = entry.value;
+          if (lastPlayed.year == now.year &&
+              lastPlayed.month == now.month &&
+              lastPlayed.day == now.day) {
+            playedToday.add(entry.key);
+          }
+        }
+
+        final maxAllowed = rules.maxDailyGamesAllowed > 0 ? rules.maxDailyGamesAllowed : 1;
+
+        if (playedToday.length >= maxAllowed) {
+          if (!playedToday.contains(gameId)) {
+            final gameNames = {
+              'roulette': 'Ruleta de la Suerte',
+              'slots': 'Máquina de Premios',
+              'dreams_mania': 'Dreams Manía',
+              'dreams_match': 'Dreams Match',
+            };
+            final playedNames = playedToday.map((id) => gameNames[id] ?? id).join(', ');
+
+            return GameAvailability(
+              config: config,
+              status: GameStatus.lockedFrequency,
+              message: 'Límite diario alcanzado ($maxAllowed). Ya jugaste: $playedNames hoy.',
+            );
+          }
+        }
+      }
+
+      // 5. Cooldown Check (48h or configured cooldown)
+      if (history != null) {
+        final lastPlayed = history[gameId];
+        if (lastPlayed != null) {
+          final diff = now.difference(lastPlayed);
+          final cooldownHours = rules.cooldownHours > 0 ? rules.cooldownHours : 48;
+
+          if (diff.inHours < cooldownHours) {
+            final hoursLeft = cooldownHours - diff.inHours;
+            return GameAvailability(
+              config: config,
+              status: GameStatus.lockedFrequency,
+              message: 'Premio ganado. Próxima tirada en $hoursLeft hrs',
+            );
           }
         }
       }
@@ -229,33 +262,14 @@ final gameAvailabilityProvider =
       return GameAvailability(config: config, status: GameStatus.available);
     },
     error: (_, __) => GameAvailability(
-        config: defaultConfig,
-        status: GameStatus.maintenance,
-        message: 'Error de conexión'),
+      config: defaultConfig,
+      status: GameStatus.maintenance,
+      message: 'Error de conexión',
+    ),
     loading: () => GameAvailability(
-        config: defaultConfig,
-        status: GameStatus.loading,
-        message: 'Cargando...'),
+      config: defaultConfig,
+      status: GameStatus.loading,
+      message: 'Cargando...',
+    ),
   );
 });
-
-// Helper to format allowed levels for display
-String _formatAllowedLevels(List<String> levels) {
-  if (levels.isEmpty) return '';
-  final formatted = levels.map((l) {
-    switch (l) {
-      case 'black':
-        return 'Black';
-      case 'gold':
-        return 'Gold';
-      case 'platinum':
-        return 'Platinum';
-      case 'blue':
-        return 'Blue';
-      default:
-        return l;
-    }
-  }).toList();
-  if (formatted.length == 1) return formatted.first;
-  return '${formatted.sublist(0, formatted.length - 1).join(', ')} o ${formatted.last}';
-}

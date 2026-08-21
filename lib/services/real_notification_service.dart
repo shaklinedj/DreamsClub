@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/services/notification_service.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:async';
 
 /// Servicio para programar y disparar notificaciones reales
@@ -17,11 +17,6 @@ class RealNotificationService {
 
     final user = ref.read(userProvider);
 
-    // Notificación de bono diario (cada 24 horas)
-    _scheduleDailyBonusNotification();
-
-    // Notificación de Dreams Mania (cada 6 horas)
-    _scheduleDreamsManiaNotification();
 
     // Notificación de cumpleaños si es hoy
     if (user.birthday != null) {
@@ -32,47 +27,6 @@ class RealNotificationService {
     await _showWelcomeNotificationOnce(user.name, user.levelName);
   }
 
-  /// Programar notificación de bono diario
-  static void _scheduleDailyBonusNotification() {
-    // Disparar cada 24 horas
-    _dailyBonusTimer = Timer.periodic(
-      const Duration(hours: 24),
-      (timer) async {
-        await NotificationService.showNotification(
-          id: 1001,
-          title: '🎁 ¡Bono Diario Disponible!',
-          body: 'No olvides reclamar tu bono diario. ¡Gana hasta 1000 puntos!',
-          payload: 'daily_bonus',
-        );
-      },
-    );
-
-    // Disparar la primera notificación después de 1 hora
-    Timer(const Duration(hours: 1), () async {
-      await NotificationService.showNotification(
-        id: 1001,
-        title: '🎁 ¡Bono Diario Disponible!',
-        body: 'No olvides reclamar tu bono diario. ¡Gana hasta 1000 puntos!',
-        payload: 'daily_bonus',
-      );
-    });
-  }
-
-  /// Programar notificación de Dreams Mania
-  static void _scheduleDreamsManiaNotification() {
-    // Disparar cada 6 horas
-    _dreamManiaTimer = Timer.periodic(
-      const Duration(hours: 6),
-      (timer) async {
-        await NotificationService.showNotification(
-          id: 1002,
-          title: '🎰 ¡Dreams Mania Disponible!',
-          body: '¡Juega Dreams Mania y gana premios increíbles!',
-          payload: 'dreams_mania',
-        );
-      },
-    );
-  }
 
   /// Verificar y programar notificación de cumpleaños
   static void _checkBirthdayNotification(String userName, DateTime birthday) {
@@ -103,26 +57,7 @@ class RealNotificationService {
     String userName,
     String userLevel,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasShownWelcome =
-        prefs.getBool('hasShownWelcomeNotification') ?? false;
-
-    if (hasShownWelcome) {
-      return; // Ya se mostró antes, no volver a mostrar
-    }
-
-    // Marcar como mostrada
-    await prefs.setBool('hasShownWelcomeNotification', true);
-
-    // Esperar 5 segundos después de abrir la app
-    await Future.delayed(const Duration(seconds: 5));
-
-    await NotificationService.showNotification(
-      id: 1000,
-      title: '¡Bienvenido a Dreams Club, $userName!',
-      body: 'Como miembro $userLevel, tienes acceso a beneficios exclusivos.',
-      payload: 'welcome',
-    );
+    // Disabled as requested by user.
   }
 
   /// Disparar notificación de proximidad al casino

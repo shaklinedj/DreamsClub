@@ -191,8 +191,8 @@ class _NotificationItem extends ConsumerWidget {
   }
 
   void _handleTap(BuildContext context, WidgetRef ref) {
-    // Marcar como leída
-    ref.read(notificationsProvider.notifier).markAsRead(notification.id);
+    // Eliminar del listado (hacer que desaparezca al revisarse)
+    ref.read(notificationsProvider.notifier).removeNotification(notification.id);
 
     // Cerrar el modal
     Navigator.of(context).pop();

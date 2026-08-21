@@ -1,13 +1,7 @@
-// import 'package:casinoloyalty_flutter/models/casino_model.dart';
-// import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
-// import 'package:casinoloyalty_flutter/providers/location_provider.dart';
-// import 'package:casinoloyalty_flutter/providers/location_monitoring_provider.dart';
-// import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:casinoloyalty_flutter/services/onboarding_service.dart';
 import 'package:casinoloyalty_flutter/services/user_profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -20,7 +14,6 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
-  // final LocationService _locationService = LocationService();
   final OnboardingService _onboardingService = OnboardingService();
   String _statusMessage = 'Cargando...';
   late AnimationController _pulseController;
@@ -30,7 +23,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void initState() {
     super.initState();
 
-    // Pulse animation controller
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -44,7 +36,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       curve: Curves.easeInOut,
     ));
 
-    // Start pulsing after initial entrance animation
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
         _pulseController.repeat(reverse: true);
@@ -67,99 +58,38 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _initializeApp() async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Request notification permissions implicitly handled in first launch
-    // or we can do a quick check here if needed, but better driven by flow.
-
     final isFirstLaunch = await _onboardingService.isFirstLaunch();
 
     if (isFirstLaunch) {
       await _handleFirstLaunch();
     } else {
-      // Ensure notifications for existing users too if needed, but avoiding blockers
-      try {
-        final notifStatus = await Permission.notification.status
-            .timeout(const Duration(seconds: 3));
-        if (notifStatus.isDenied) {
-          // On Android 13+ this shows the runtime prompt.
-          await Permission.notification.request().timeout(
-                const Duration(seconds: 6),
-              );
+      Permission.notification.status.then((status) {
+        if (status.isDenied) {
+          Permission.notification.request();
         }
-      } catch (e) {
-        debugPrint('Notification permission check/request error: $e');
-      }
-
-      // Also check location permission for game geo-fencing
-      try {
-        final locationStatus = await Permission.locationWhenInUse.status
-            .timeout(const Duration(seconds: 3));
-        if (locationStatus.isDenied) {
-          await Permission.locationWhenInUse.request().timeout(
-                const Duration(seconds: 10),
-              );
-        }
-      } catch (e) {
-        debugPrint('Location permission check/request error: $e');
-      }
+      }).catchError((e) {
+        debugPrint('Notification permission check error: $e');
+      });
 
       await _handleNormalLaunch();
     }
   }
 
   Future<void> _handleFirstLaunch() async {
-    _updateStatus('Bienvenido a Dreams Club');
-    await Future.delayed(const Duration(seconds: 1));
-
-    // 1. Request Notification Permission
-    _updateStatus('Configurando notificaciones...');
-    try {
-      await Permission.notification.request().timeout(
-            const Duration(seconds: 6),
-          );
-    } catch (e) {
-      debugPrint('Notification permission error: $e');
-    }
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    // 2. Request Location Permission (for game geo-fencing)
-    _updateStatus('Configurando ubicación...');
-    try {
-      final locationStatus = await Permission.locationWhenInUse.status;
-      if (locationStatus.isDenied) {
-        await Permission.locationWhenInUse.request().timeout(
-              const Duration(seconds: 10),
-            );
-      }
-    } catch (e) {
-      debugPrint('Location permission error: $e');
-    }
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
+    _updateStatus('Bienvenido a Dreams Club Coyhaique');
+    await UserProfileService().saveFavoriteCasinoId('4');
     await _onboardingService.completeFirstLaunch();
 
     if (mounted) {
-      context.go('/select-favorite');
+      context.go('/feed');
     }
   }
 
   Future<void> _handleNormalLaunch() async {
-    final favoriteCasinoId = await UserProfileService().loadFavoriteCasinoId();
+    await UserProfileService().saveFavoriteCasinoId('4');
 
-    if (favoriteCasinoId != null) {
-      // User has a favorite casino, go directly to home
-      // We no longer check GPS distance
-      if (mounted) {
-        context.go('/home');
-      }
-    } else {
-      // No favorite casino set, manual selection
-      if (mounted) {
-        context.go('/select-favorite');
-      }
+    if (mounted) {
+      context.go('/feed');
     }
   }
 
@@ -181,7 +111,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           ),
           child: Stack(
             children: [
-              // Animated circles background
               Positioned(
                 top: -100,
                 right: -100,
@@ -200,12 +129,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   duration: const Duration(seconds: 4),
                 ),
               ),
-              // Main content
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Animated logo with Netflix-style pulse
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0.0, end: 1.0),
                       duration: const Duration(milliseconds: 1200),
@@ -257,7 +184,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       },
                     ),
                     const SizedBox(height: 40),
-                    // Status message
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0.0, end: 1.0),
                       duration: const Duration(milliseconds: 800),
@@ -296,7 +222,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ],
                 ),
               ),
-              // Bottom branding
               Positioned(
                 bottom: 40,
                 left: 0,
@@ -311,21 +236,27 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         children: [
                           Text(
                             'DREAMS CLUB',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.6),
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 3,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 2,
+                                ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Tu experiencia premium',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.4),
-                              fontSize: 10,
-                              letterSpacing: 1,
-                            ),
+                            'Coyhaique',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withValues(alpha: 0.8),
+                                  letterSpacing: 1,
+                                ),
                           ),
                         ],
                       ),
@@ -341,8 +272,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 }
 
-// Animated circle widget for background
-class _AnimatedCircle extends StatefulWidget {
+class _AnimatedCircle extends StatelessWidget {
   final double size;
   final Color color;
   final Duration duration;
@@ -354,41 +284,19 @@ class _AnimatedCircle extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedCircle> createState() => _AnimatedCircleState();
-}
-
-class _AnimatedCircleState extends State<_AnimatedCircle>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: duration,
+      builder: (context, value, child) {
         return Transform.scale(
-          scale: 1.0 + (_controller.value * 0.1),
+          scale: value,
           child: Container(
-            width: widget.size,
-            height: widget.size,
+            width: size,
+            height: size,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: widget.color,
+              color: color,
             ),
           ),
         );

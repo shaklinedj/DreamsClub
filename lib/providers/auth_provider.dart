@@ -92,6 +92,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _initializeState(User? user) async {
+    final isInitialized = state.status != AuthStatus.unknown;
+    
     if (user != null) {
       // Ensure user profile doc exists (avoids downstream failures)
       await _ensureUserDocument(user);
@@ -106,7 +108,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         membershipStatus: membershipStatus,
         biometricEnabled: biometricEnabled,
         requiresBiometric:
-            biometricEnabled, // Require auth on startup if enabled
+            isInitialized ? state.requiresBiometric : biometricEnabled,
       );
       AppLogger.info(
           'Auth state updated (Firebase user): biometricEnabled=$biometricEnabled, requiresBiometric=${state.requiresBiometric}');
@@ -118,7 +120,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
         firebaseUser: null,
         membershipStatus: MembershipStatus.none,
         biometricEnabled: biometricEnabled,
-        requiresBiometric: biometricEnabled,
+        requiresBiometric:
+            isInitialized ? state.requiresBiometric : biometricEnabled,
       );
       AppLogger.info(
           'Auth state updated (no Firebase): biometricEnabled=$biometricEnabled, requiresBiometric=${state.requiresBiometric}');
@@ -137,10 +140,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
               data['displayName'] as String? ??
               '')
           .trim();
-      final derivedPhotoUrl = (user.photoURL ??
-              data['profile_image_url'] as String? ??
-              data['photoURL'] as String?)
-          ?.trim();
+      // Se remueve derivedPhotoUrl porque forzamos logo-dreams.png para nuevos usuarios
 
       final updates = <String, dynamic>{};
 
@@ -154,21 +154,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
         updates['displayName'] = derivedName;
       }
 
-      if (!data.containsKey('profile_image_url') &&
-          derivedPhotoUrl != null &&
-          derivedPhotoUrl.isNotEmpty) {
-        updates['profile_image_url'] = derivedPhotoUrl;
-      }
-      if (!data.containsKey('photoURL') &&
-          derivedPhotoUrl != null &&
-          derivedPhotoUrl.isNotEmpty) {
-        updates['photoURL'] = derivedPhotoUrl;
+      if (!data.containsKey('profile_image_url')) {
+        updates['profile_image_url'] = 'assets/images/logo-dreams.png';
       }
 
       // Defaults for app logic
       if (!data.containsKey('level')) updates['level'] = 'blue';
       if (!data.containsKey('points')) updates['points'] = 0;
       if (!data.containsKey('balance')) updates['balance'] = 0;
+
+      // Sincronización de Racha, Visita y Presencia para el Dashboard Astro
+      final currentStreak = data['currentStreak'] as int? ?? data['streak'] as int? ?? 1;
+      final longestStreak = data['longestStreak'] as int? ?? currentStreak;
+      
+      updates['currentStreak'] = currentStreak;
+      updates['longestStreak'] = longestStreak;
+      if (!data.containsKey('contactConsent')) updates['contactConsent'] = true;
 
       // Membership flags used by AuthNotifier
       if (!data.containsKey('userType')) updates['userType'] = 'registered';
@@ -264,7 +265,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   /// Register with email and password
   Future<bool> registerWithEmail(
-      String email, String password, String name) async {
+      String email, String password, String name, {String? rut}) async {
     try {
       state = state.copyWith(errorMessage: null);
 
@@ -278,6 +279,29 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       final user = credential.user;
       if (user != null) {
+        final userRef =
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
+        await userRef.set({
+          'id': user.uid,
+          'uid': user.uid,
+          'email': email,
+          'name': name,
+          'displayName': name,
+          'rut': rut ?? '',
+          'level': 'blue',
+          'points': 100, // Bono inicial de bienvenida
+          'balance': 0,
+          'streak': 1,
+          'totalVisits': 1,
+          'favoriteCasinoId': '4', // Dreams Coyhaique
+          'profile_image_url': 'assets/images/logo-dreams.png',
+          'isMember': true,
+          'userType': 'member',
+          'notifications_enabled': true,
+          'location_tracking_enabled': true,
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
         await _ensureUserDocument(user);
       }
 
@@ -286,7 +310,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(errorMessage: _getAuthErrorMessage(e.code));
       return false;
     } catch (e) {
-      state = state.copyWith(errorMessage: 'Error al registrarse');
+      state = state.copyWith(errorMessage: 'Error al registrarse: $e');
+      return false;
+    }
+  }
+
+  /// Send password reset email
+  Future<bool> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      state = state.copyWith(errorMessage: _getAuthErrorMessage(e.code));
+      return false;
+    } catch (e) {
+      state = state.copyWith(errorMessage: 'Error al enviar correo de recuperación');
       return false;
     }
   }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
@@ -17,7 +18,7 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    final primaryColor = user.levelColor;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Drawer(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -31,7 +32,7 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
             InkWell(
               onTap: () {
                 Navigator.pop(context);
-                context.push('/profile');
+                context.push('/settings');
               },
               child: UserAccountsDrawerHeader(
                 accountName: Text(
@@ -65,15 +66,33 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person_outline, color: primaryColor),
-              title: const Text('Mi Perfil'),
+              leading: const Text('🎁', style: TextStyle(fontSize: 22)),
+              title: const Text(
+                'Mis Premios & Vouchers',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Color(0xFFD4AF37)),
+              ),
+              subtitle: const Text(
+                'Códigos de canje e historial',
+                style: TextStyle(fontSize: 11, color: Colors.white54),
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios,
+                  size: 14, color: Color(0xFFD4AF37)),
               onTap: () {
                 Navigator.pop(context);
-                context.push('/profile');
+                context.push('/my-prizes');
               },
             ),
             ListTile(
-              leading: Icon(Icons.card_membership, color: primaryColor),
+              leading: Icon(Icons.emoji_events_outlined, color: primaryColor),
+              title: const Text('Mis Logros & Rachas'),
+              onTap: () {
+                Navigator.pop(context);
+                context.go('/achievements');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.stars_rounded, color: primaryColor),
               title: const Text('Beneficios Club'),
               onTap: () {
                 Navigator.pop(context);
@@ -81,23 +100,39 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.star, color: primaryColor),
-              title: const Text('Mi casino'),
+              leading: Icon(Icons.casino_outlined, color: primaryColor),
+              title: const Text('Nuestros Casinos'),
               onTap: () {
                 Navigator.pop(context);
-                if (user.favoriteCasinoId != null) {
-                  context.push('/all-casinos/${user.favoriteCasinoId}');
-                } else {
-                  context.push('/all-casinos');
-                }
+                context.go('/casinos');
               },
             ),
             ListTile(
-              leading: Icon(Icons.explore, color: primaryColor),
-              title: const Text('Explorar casinos'),
+              leading: Icon(Icons.settings_outlined, color: primaryColor),
+              title: const Text('Configuración'),
               onTap: () {
                 Navigator.pop(context);
-                context.go('/all-casinos');
+                context.push('/settings');
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: Icon(Icons.payments_outlined, color: primaryColor),
+              title: const Text('DreamsPay'),
+              subtitle: const Text(
+                'Paga rápido y seguro',
+                style: TextStyle(fontSize: 12, color: Colors.white70),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                final uri = Uri(
+                  path: '/webview',
+                  queryParameters: {
+                    'url': 'https://coyhaique.dreams.cl/dreamspay/',
+                    'title': 'DreamsPay',
+                  },
+                );
+                context.push(uri.toString());
               },
             ),
             const Divider(),
@@ -116,16 +151,30 @@ class _AppDrawerState extends ConsumerState<AppDrawer> {
   }
 
   ImageProvider _buildProfileImage(String path) {
+    if (path.isEmpty) {
+      return const AssetImage('assets/images/logo-dreams.png');
+    }
+    if (path.startsWith('data:image')) {
+      try {
+        final commaIndex = path.indexOf(',');
+        if (commaIndex != -1) {
+          final base64Data = path.substring(commaIndex + 1);
+          return MemoryImage(base64Decode(base64Data));
+        }
+      } catch (_) {}
+    }
     if (path.startsWith('assets/')) {
       return AssetImage(path);
     }
-    if (path.startsWith('http')) {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
       return NetworkImage(path);
     }
-    final file = File(path);
-    if (file.existsSync()) {
-      return FileImage(file);
-    }
-    return const AssetImage('assets/images/perfil_imagen.png');
+    try {
+      final file = File(path);
+      if (file.existsSync()) {
+        return FileImage(file);
+      }
+    } catch (_) {}
+    return const AssetImage('assets/images/logo-dreams.png');
   }
 }

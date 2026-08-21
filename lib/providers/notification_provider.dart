@@ -2,20 +2,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/models/notification_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationNotifier extends StateNotifier<List<AppNotification>> {
   NotificationNotifier(this.ref) : super([]) {
     _loadInitialNotifications();
+    _listenToFirestoreNotifications();
   }
 
   final Ref ref;
+  StreamSubscription? _firestoreSubscription;
 
   // Keys for tracking shown notifications
   static const _welcomeShownKey = 'notification_welcome_shown';
+  static const _removedNotificationsKey = 'removed_notifications_list';
+
+  Set<String> _removedIds = {};
 
   Future<void> _loadInitialNotifications() async {
     final user = ref.read(userProvider);
     final prefs = await SharedPreferences.getInstance();
+
+    final removedList = prefs.getStringList(_removedNotificationsKey) ?? [];
+    _removedIds = removedList.toSet();
 
     // Static notifications (always available in the list)
     state = [];
@@ -68,6 +78,26 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
     state = [];
   }
 
+  Future<void> removeNotification(String id) async {
+    _removedIds.add(id);
+    state = state.where((n) => n.id != id).toList();
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_removedNotificationsKey, _removedIds.toList());
+  }
+
+  Future<void> restoreNotification(AppNotification notification) async {
+    _removedIds.remove(notification.id);
+    addNotification(notification);
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_removedNotificationsKey, _removedIds.toList());
+  }
+
+  bool isNotificationRemoved(String id) {
+    return _removedIds.contains(id);
+  }
+
   /// Add a proximity notification (called when user arrives at casino)
   /// Only adds once per visit session
   void addProximityNotification(String casinoName) {
@@ -99,6 +129,63 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
       timestamp: DateTime.now(),
       actionRoute: '/my-prizes',
     ));
+  }
+
+  void _listenToFirestoreNotifications() {
+    _firestoreSubscription = FirebaseFirestore.instance
+        .collection('notifications')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .listen((snapshot) {
+      final List<AppNotification> firestoreNotifications = [];
+      for (final doc in snapshot.docs) {
+        if (_removedIds.contains(doc.id)) continue;
+        
+        final data = doc.data();
+        final createdAt = data['createdAt'];
+        final timestamp = createdAt is Timestamp ? createdAt.toDate() : DateTime.now();
+
+        NotificationType type = NotificationType.info;
+        final typeStr = data['type']?.toString().toLowerCase();
+        if (typeStr == 'promo' || typeStr == 'event') {
+          type = NotificationType.promo;
+        } else if (typeStr == 'birthday') {
+          type = NotificationType.birthday;
+        }
+
+        firestoreNotifications.add(AppNotification(
+          id: doc.id,
+          title: data['title']?.toString() ?? 'Dreams Club',
+          message: data['body']?.toString() ?? '',
+          type: type,
+          timestamp: timestamp,
+          actionRoute: '/notification-detail/${doc.id}',
+          actionData: {
+            'imageUrl': data['imageUrl'],
+          },
+        ));
+      }
+
+      final currentMap = {for (var n in state) n.id: n};
+      
+      for (final fn in firestoreNotifications) {
+        if (currentMap.containsKey(fn.id)) {
+          final existing = currentMap[fn.id]!;
+          currentMap[fn.id] = fn.copyWith(isRead: existing.isRead);
+        } else {
+          currentMap[fn.id] = fn;
+        }
+      }
+
+      state = currentMap.values.toList()
+        ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
+    });
+  }
+
+  @override
+  void dispose() {
+    _firestoreSubscription?.cancel();
+    super.dispose();
   }
 }
 

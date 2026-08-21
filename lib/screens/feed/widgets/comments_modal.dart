@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +8,36 @@ import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/models/comment_model.dart';
 import 'package:casinoloyalty_flutter/screens/feed/widgets/comment_item.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
+
+ImageProvider _resolveAvatar(String? path) {
+  if (path == null || path.isEmpty) {
+    return const AssetImage('assets/images/logo-dreams.png');
+  }
+  if (path.startsWith('data:image')) {
+    try {
+      final commaIndex = path.indexOf(',');
+      if (commaIndex != -1) {
+        final base64Data = path.substring(commaIndex + 1);
+        return MemoryImage(base64Decode(base64Data));
+      }
+    } catch (_) {}
+  }
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return NetworkImage(path);
+  }
+  if (path.startsWith('assets/')) {
+    return AssetImage(path);
+  }
+  try {
+    final file = File(path);
+    if (file.existsSync()) {
+      return FileImage(file);
+    }
+  } catch (_) {}
+  return const AssetImage('assets/images/logo-dreams.png');
+}
 
 class CommentsModal extends ConsumerStatefulWidget {
   final String postId;
@@ -40,7 +72,7 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
 
     try {
       final user = ref.read(userProvider);
-      final userId = user.email;
+      final userId = user.email.isEmpty ? 'anonymous' : user.email;
 
       await ref.read(feedProvider.notifier).addComment(
             widget.postId,
@@ -87,6 +119,144 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
       _replyingToUserName = null;
       _replyingToCommentId = null;
     });
+  }
+
+  void _showStickerPickerModal() {
+    final gifs = [
+      {'name': 'Fiesta Confeti', 'url': 'https://media.giphy.com/media/26tOZbfHHHJVjB3Ww/giphy.gif'},
+      {'name': 'Ganador Jackpot', 'url': 'https://media.giphy.com/media/l2JdZOg7N5l1s8s0M/giphy.gif'},
+      {'name': 'Fuego & Celebración', 'url': 'https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif'},
+      {'name': 'Fichas Casino', 'url': 'https://media.giphy.com/media/l0HlHJGHe3yAMhdQY/giphy.gif'},
+      {'name': 'Gato Bailando', 'url': 'https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif'},
+      {'name': 'Aplausos', 'url': 'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1E2230),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Container(
+        height: 340,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // Header with Gallery Pick Option
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Enviar Sticker o GIF',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    _pickCustomStickerFromGallery();
+                  },
+                  icon: const Icon(Icons.photo_library_rounded, size: 16),
+                  label: const Text('Galería / Sticker Propio', style: TextStyle(fontSize: 12)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[800],
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: gifs.length,
+                itemBuilder: (context, index) {
+                  final item = gifs[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      _sendStickerComment(item['url']!);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        item['url']!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (_, child, progress) => progress == null ? child : const Center(child: CircularProgressIndicator(color: Colors.amber)),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickCustomStickerFromGallery() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? file = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 80,
+      );
+      if (file != null) {
+        final bytes = await file.readAsBytes();
+        final base64Data = base64Encode(bytes);
+        final mimeType = file.mimeType ?? 'image/jpeg';
+        _sendStickerComment('data:$mimeType;base64,$base64Data');
+      }
+    } catch (e) {
+      AppLogger.error('Error picking custom sticker from gallery', e);
+    }
+  }
+
+  Future<void> _sendStickerComment(String stickerOrGifUrl) async {
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final user = ref.read(userProvider);
+      final userId = user.email.isEmpty ? 'anonymous' : user.email;
+
+      await ref.read(feedProvider.notifier).addComment(
+            widget.postId,
+            stickerOrGifUrl,
+            userId,
+            user.name,
+            user.profileImageUrl,
+            collectionPath: widget.collectionPath,
+            replyToUserName: _replyingToUserName,
+            parentId: _replyingToCommentId,
+          );
+
+      setState(() {
+        _replyingToUserName = null;
+        _replyingToCommentId = null;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al enviar sticker: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
   }
 
   @override
@@ -254,9 +424,7 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                       return CircleAvatar(
                         radius: 18,
                         backgroundColor: Colors.grey[800],
-                        backgroundImage: user.profileImageUrl.startsWith('http')
-                            ? NetworkImage(user.profileImageUrl)
-                            : AssetImage(user.profileImageUrl) as ImageProvider,
+                        backgroundImage: _resolveAvatar(user.profileImageUrl),
                       );
                     }),
                     const SizedBox(width: 12),
@@ -287,20 +455,45 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                             horizontal: 16,
                             vertical: 10,
                           ),
-                          suffixIcon: _isSubmitting
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2))
-                              : IconButton(
-                                  icon: const Icon(Icons.send,
-                                      color: Colors.blue),
-                                  onPressed: _submitComment,
-                                ),
+                          suffixIcon: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.sticky_note_2_rounded, color: Colors.amber, size: 22),
+                                onPressed: _showStickerPickerModal,
+                                tooltip: 'Enviar Sticker o GIF',
+                              ),
+                              _isSubmitting
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(strokeWidth: 2))
+                                  : IconButton(
+                                      icon: const Icon(Icons.send, color: Colors.blue),
+                                      onPressed: _submitComment,
+                                    ),
+                            ],
+                          ),
                         ),
                         onSubmitted: (_) => _submitComment(),
                         enabled: !_isSubmitting,
+                        contentInsertionConfiguration: ContentInsertionConfiguration(
+                          allowedMimeTypes: const [
+                            'image/gif',
+                            'image/png',
+                            'image/webp',
+                            'image/jpeg',
+                          ],
+                          onContentInserted: (KeyboardInsertedContent content) async {
+                            if (content.data != null) {
+                              final base64Data = base64Encode(content.data!);
+                              final mimeType = content.mimeType;
+                              _sendStickerComment('data:$mimeType;base64,$base64Data');
+                            } else if (content.uri.isNotEmpty) {
+                              _sendStickerComment(content.uri);
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ],

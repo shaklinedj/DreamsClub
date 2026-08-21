@@ -5,6 +5,7 @@ enum PrizeType {
   tickets,
   chips,
   points,
+  promotionalCredits,
 }
 
 class Prize {
@@ -16,6 +17,7 @@ class Prize {
   final int probability; // 1-100
   final int daysValid;
   final List<int> validCasinos; // Empty = all casinos
+  final bool isActive;
 
   const Prize({
     required this.id,
@@ -26,6 +28,7 @@ class Prize {
     required this.probability,
     this.daysValid = 7,
     this.validCasinos = const [],
+    this.isActive = true,
   });
 
   factory Prize.fromJson(Map<String, dynamic> json) {
@@ -38,8 +41,8 @@ class Prize {
         0;
     final typeStr = json['type']?.toString();
     final type = PrizeType.values.firstWhere(
-      (e) => 'PrizeType.$typeStr' == e.toString(),
-      orElse: () => PrizeType.points,
+      (e) => e.name == typeStr || 'PrizeType.$typeStr' == e.toString(),
+      orElse: () => PrizeType.drink,
     );
     final daysValid = (json['daysValid'] as int?) ??
         (json['daysValid'] as num?)?.toInt() ??
@@ -48,6 +51,7 @@ class Prize {
     final validCasinos = validCasinosRaw != null
         ? validCasinosRaw.map((e) => int.tryParse(e.toString()) ?? 0).toList()
         : <int>[];
+    final isActive = json['isActive'] as bool? ?? true;
 
     return Prize(
       id: id,
@@ -58,6 +62,7 @@ class Prize {
       type: type,
       daysValid: daysValid,
       validCasinos: validCasinos,
+      isActive: isActive,
     );
   }
 
@@ -65,75 +70,62 @@ class Prize {
     return {
       'id': id,
       'name': name,
-      'type': type.toString().split('.').last,
+      'type': type.name,
       'description': description,
       'icon': icon,
       'probability': probability,
       'daysValid': daysValid,
       'validCasinos': validCasinos,
+      'isActive': isActive,
     };
   }
 }
 
-// Mock Prizes Data
+// Fallback Default Prizes Pool
 final List<Prize> mockPrizes = [
-  // Común (60% total)
   const Prize(
-    id: 'coffee',
-    name: 'Café Gratis',
+    id: 'trago_cortesia',
+    name: '1 Trago de Cortesía',
     type: PrizeType.drink,
-    description: 'Un café o té gratis en cualquier casino Dreams',
-    icon: '☕',
-    probability: 30,
-    daysValid: 3,
-  ),
-  const Prize(
-    id: 'points_500',
-    name: '+500 Puntos Dreams',
-    type: PrizeType.points,
-    description: '500 puntos Dreams agregados a tu cuenta',
-    icon: '💎',
-    probability: 30,
-    daysValid: 1, // Instant
-  ),
-
-  // Medio (30% total)
-  const Prize(
-    id: 'mojito_2x1',
-    name: '2x1 en Mojitos',
-    type: PrizeType.drink,
-    description: 'Dos mojitos por el precio de uno en Bar Lucky 7',
-    icon: '🍹',
-    probability: 15,
+    description: '1 trago o cóctel a elección en la barra de Dreams',
+    icon: '🍸',
+    probability: 25,
     daysValid: 7,
   ),
   const Prize(
-    id: 'discount_20',
-    name: '20% Descuento Comida',
+    id: 'promocionales_3000',
+    name: '\$3.000 en Promocionales',
+    type: PrizeType.promotionalCredits,
+    description: 'Créditos promocionales de \$3.000 para jugar en máquinas de azar',
+    icon: '🎰',
+    probability: 25,
+    daysValid: 7,
+  ),
+  const Prize(
+    id: 'entrada_gratis',
+    name: '1 Entrada al Casino',
+    type: PrizeType.tickets,
+    description: 'Acceso liberado para 1 persona al Casino Dreams',
+    icon: '🎟️',
+    probability: 20,
+    daysValid: 14,
+  ),
+  const Prize(
+    id: 'sandwich_gourmet',
+    name: '1 Sandwich Gourmet',
     type: PrizeType.food,
-    description: '20% de descuento en cualquier restaurante Dreams',
+    description: '1 sandwich o hamburguesa a elección en restaurantes del casino',
     icon: '🍔',
     probability: 15,
     daysValid: 7,
   ),
-
-  // Raro (10% total)
   const Prize(
-    id: 'dinner_2',
-    name: 'Cena para 2',
-    type: PrizeType.food,
-    description: 'Cena completa para dos personas en Doña Inés',
-    icon: '🍽️',
-    probability: 7,
-    daysValid: 14,
-  ),
-  const Prize(
-    id: 'hotel_night',
-    name: '1 Noche en Hotel Dreams',
-    type: PrizeType.hotel,
-    description: 'Una noche gratis en habitación estándar',
-    icon: '🏨',
-    probability: 3,
-    daysValid: 30,
+    id: 'cerveza_artesanal',
+    name: '1 Cerveza / Cocktail',
+    type: PrizeType.drink,
+    description: '1 shop artesanal o cóctel en Lucky 7 Bar',
+    icon: '🍺',
+    probability: 15,
+    daysValid: 7,
   ),
 ];

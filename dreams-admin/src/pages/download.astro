@@ -1,0 +1,308 @@
+---
+import '../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Descargar DreamsClub - App Oficial Casinos Dreams</title>
+    <meta name="description" content="Descarga la aplicación oficial DreamsClub para Android. Disfruta de beneficios VIP, ruleta diaria, cartelera de shows y stickers exclusivos de Casinos Dreams." />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Descarga DreamsClub App" />
+    <meta property="og:description" content="Accede a beneficios exclusivos, cartelera de shows, ruleta de premios y stickers de WhatsApp en los 8 casinos Dreams." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://dreams-casino-app.web.app/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glow-gold {
+            box-shadow: 0 0 40px -10px rgba(234, 179, 8, 0.4);
+        }
+        .glow-purple {
+            box-shadow: 0 0 50px -15px rgba(168, 85, 247, 0.35);
+        }
+        .bg-mesh {
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(147, 51, 234, 0.18) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(234, 179, 8, 0.12) 0px, transparent 40%),
+                radial-gradient(at 50% 80%, rgba(126, 34, 206, 0.15) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh text-slate-100 min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-800/80 backdrop-blur-md sticky top-0 z-50 bg-slate-950/60">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-2xl">
+                    👑
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-tight text-white font-heading">Dreams<span class="text-amber-400">Club</span></span>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Casinos & Resorts</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a 
+                    href="dreamsclub://home" 
+                    class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 transition-all"
+                >
+                    📱 Abrir App
+                </a>
+                <a 
+                    href="#download" 
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-bold text-sm shadow-md shadow-amber-500/20 transition-all hover:scale-[1.02]"
+                >
+                    ⬇️ Descargar APK
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-12 lg:py-16 space-y-20 flex-1">
+
+        <!-- Hero Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                
+                <div id="webviewWarning" class="hidden p-4 rounded-2xl bg-red-950/40 border border-red-500/30 text-red-200 text-sm font-medium text-left">
+                    <div class="flex items-start gap-3">
+                        <span class="text-xl">⚠️</span>
+                        <div>
+                            <strong class="text-white block mb-0.5">Navegador no compatible</strong>
+                            Estás abriendo el enlace desde el navegador interno de WhatsApp. Para poder descargar e instalar la app, pulsa en los tres puntos (arriba a la derecha) y selecciona <strong>"Abrir en el navegador"</strong> (o Chrome/Safari).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs font-semibold uppercase tracking-wider">
+                    ✨ Versión Oficial Android
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight">
+                    Toda la emoción de <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">Dreams Casino</span> en tus manos.
+                </h1>
+
+                <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    Descarga <strong>DreamsClub</strong> y accede a cartelera de shows exclusivos, ruleta con premios diarios, beneficios VIP en los 8 casinos y los mejores stickers de WhatsApp.
+                </p>
+
+                <!-- Action Buttons -->
+                <div id="download" class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a 
+                        id="apkDownloadBtn"
+                        href="https://drive.google.com/uc?export=download&id=1v58BSGkbk7vP2AVkQXlfuTO8oJHDPlPi&confirm=t" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-extrabold text-base shadow-xl shadow-amber-500/25 transition-all hover:scale-105 active:scale-95"
+                    >
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a1 1 0 0 1 1 1v10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L11 13.586V3a1 1 0 0 1 1-1zm-7 16a1 1 0 0 1 1 1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1a1 1 0 1 1 2 0v1a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-1a1 1 0 0 1 1-1z"/></svg>
+                        <span>Descargar DreamsClub (APK)</span>
+                    </a>
+
+                    <a 
+                        id="openAppBtn"
+                        href="dreamsclub://home"
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white font-bold text-base border border-slate-700/80 transition-all hover:border-slate-500"
+                    >
+                        <span>📲 Ya tengo la app (Abrir)</span>
+                    </a>
+                </div>
+
+                <div class="flex items-center justify-center lg:justify-start gap-6 text-xs text-slate-400 pt-2 font-medium">
+                    <span class="flex items-center gap-1.5">🛡️ 100% Seguro y Oficial</span>
+                    <span class="flex items-center gap-1.5">⚡ Actualizaciones automáticas</span>
+                    <span class="flex items-center gap-1.5">📱 Android 8.0+</span>
+                </div>
+
+            </div>
+
+            <!-- Phone Mockup / Preview Card -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-sm">
+                    <!-- Glow behind -->
+                    <div class="absolute -inset-1.5 bg-gradient-to-r from-purple-600 to-amber-500 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
+
+                    <!-- Card -->
+                    <div class="relative bg-slate-900/90 border border-slate-700/80 rounded-3xl p-8 backdrop-blur-xl space-y-6 glow-purple">
+                        
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-amber-400 p-0.5 shadow-md">
+                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-2xl">
+                                        🎰
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-lg">DreamsClub</h3>
+                                    <p class="text-xs text-amber-400 font-semibold">Casino Loyalty & Shows</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">
+                                V 1.0.0
+                            </span>
+                        </div>
+
+                        <!-- Mini Highlights List -->
+                        <div class="space-y-3.5 text-sm">
+                            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                                <span class="text-xl">🎟️</span>
+                                <div>
+                                    <p class="font-bold text-white text-xs">Cartelera en Vivo</p>
+                                    <p class="text-slate-400 text-[11px]">Shows y artistas en los 8 casinos</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                                <span class="text-xl">🎁</span>
+                                <div>
+                                    <p class="font-bold text-white text-xs">Ruleta & Minijuegos</p>
+                                    <p class="text-slate-400 text-[11px]">Premios y créditos todos los días</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                                <span class="text-xl">💬</span>
+                                <div>
+                                    <p class="font-bold text-white text-xs">Stickers de WhatsApp</p>
+                                    <p class="text-slate-400 text-[11px]">Instala packs temáticos con 1 clic</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scan QR Info -->
+                        <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 text-center">
+                            <p class="text-xs text-slate-300 font-medium mb-1">¿Estás en tu computadora?</p>
+                            <p class="text-[11px] text-slate-400">Abre este enlace en tu teléfono móvil para descargar la app directamente.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Features Grid -->
+        <section class="space-y-8 pt-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-black text-white font-heading">
+                    Vive la experiencia Dreams al máximo
+                </h2>
+                <p class="text-slate-400 text-sm">
+                    Diseñada exclusivamente para socios y visitantes de nuestra cadena de casinos en todo Chile.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-purple-500/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        🎡
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Ruleta Diaria</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Gira la ruleta de la suerte cada 24 horas y desbloquea créditos, racha de visitas y recompensas.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        🎪
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Cartelera de Shows</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        No te pierdas ningún concierto, comediante o tributo. Horarios y detalles en tiempo real.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-emerald-500/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        💎
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Beneficios VIP</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Descuentos exclusivos en restaurantes, bar, hotelería y promociones especiales en sala.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-blue-500/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        🎨
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Stickers de WhatsApp</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Exporta packs oficiales de stickers animados directamente a tu WhatsApp con un solo clic.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Casinos List -->
+        <section class="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 space-y-6">
+            <div class="text-center space-y-2">
+                <h3 class="text-xl font-bold text-white font-heading">Disponible para nuestros 8 Casinos</h3>
+                <p class="text-xs text-slate-400">Encuentra información, eventos y promociones en cada una de nuestras sedes:</p>
+            </div>
+            
+            <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-300">
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Monticello</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Iquique</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Temuco</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Valdivia</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Puerto Varas</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Coyhaique</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Punta Arenas</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700">📍 Talca</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
+        <p>© 2026 DreamsClub • Casinos Dreams. Todos los derechos reservados.</p>
+        <p class="mt-1">Juega responsablemente. Solo para mayores de 18 años.</p>
+    </footer>
+
+    <!-- Deep Link check script -->
+    <script is:inline>
+        // Detect if user is inside an in-app browser / webview (like WhatsApp or Facebook)
+        const isWebview = /FBAN|FBAV|Instagram|WhatsApp|wv|WebView/i.test(navigator.userAgent);
+        if (isWebview) {
+            const warningEl = document.getElementById('webviewWarning');
+            if (warningEl) {
+                warningEl.classList.remove('hidden');
+            }
+        }
+
+        // Check query parameters to customize the open app link
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('postId');
+
+        if (postId) {
+            const openAppBtn = document.getElementById('openAppBtn');
+            if (openAppBtn) {
+                openAppBtn.href = `dreamsclub://post/${postId}`;
+            }
+        }
+    </script>
+</body>
+</html>

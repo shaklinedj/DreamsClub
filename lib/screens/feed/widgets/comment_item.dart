@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -5,6 +7,34 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:casinoloyalty_flutter/models/comment_model.dart';
 import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+
+ImageProvider _getAvatarProvider(String? path) {
+  if (path == null || path.isEmpty) {
+    return const AssetImage('assets/images/logo-dreams.png');
+  }
+  if (path.startsWith('data:image')) {
+    try {
+      final commaIndex = path.indexOf(',');
+      if (commaIndex != -1) {
+        final base64Data = path.substring(commaIndex + 1);
+        return MemoryImage(base64Decode(base64Data));
+      }
+    } catch (_) {}
+  }
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return NetworkImage(path);
+  }
+  if (path.startsWith('assets/')) {
+    return AssetImage(path);
+  }
+  try {
+    final file = File(path);
+    if (file.existsSync()) {
+      return FileImage(file);
+    }
+  } catch (_) {}
+  return const AssetImage('assets/images/logo-dreams.png');
+}
 
 class CommentItem extends ConsumerStatefulWidget {
   final Comment comment;
@@ -44,10 +74,6 @@ class _CommentItemState extends ConsumerState<CommentItem> {
   @override
   void didUpdateWidget(covariant CommentItem oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // If external data changes significantly (e.g. real update from stream), sync up
-    // But be careful not to overwrite optimistic updates immediately if stream is laggy
-    // For now, simpler approach: if the widget is rebuilt with new data, respect it roughly
-    // BUT since we want to avoid jump, we trust our local logic for user interaction.
     if (oldWidget.comment.likesCount != widget.comment.likesCount) {
       _likesCount = widget.comment.likesCount;
     }
@@ -79,6 +105,14 @@ class _CommentItemState extends ConsumerState<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = ref.watch(userProvider);
+    final isOwnComment = widget.comment.userId == currentUser.email ||
+        widget.comment.userId == currentUser.name ||
+        widget.comment.userName == currentUser.name;
+    final effectiveAvatar = (isOwnComment && currentUser.profileImageUrl.isNotEmpty)
+        ? currentUser.profileImageUrl
+        : widget.comment.userAvatar;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Row(
@@ -88,19 +122,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
           CircleAvatar(
             radius: widget.isReply ? 14 : 18,
             backgroundColor: Colors.grey[800],
-            backgroundImage: widget.comment.userAvatar != null &&
-                    widget.comment.userAvatar!.isNotEmpty
-                ? (widget.comment.userAvatar!.startsWith('http')
-                    ? NetworkImage(widget.comment.userAvatar!)
-                    : AssetImage(widget.comment.userAvatar!) as ImageProvider)
-                : null,
-            child: (widget.comment.userAvatar == null ||
-                    widget.comment.userAvatar!.isEmpty)
-                ? Text(widget.comment.userName[0].toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: widget.isReply ? 10 : 14))
-                : null,
+            backgroundImage: _getAvatarProvider(effectiveAvatar),
           ),
           const SizedBox(width: 12),
 
@@ -109,27 +131,43 @@ class _CommentItemState extends ConsumerState<CommentItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '${widget.comment.userName} ',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.white,
-                        ),
-                      ),
-                      TextSpan(
-                        text: widget.comment.text,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
+                if (_isStickerOrGif(widget.comment.text)) ...[
+                  Text(
+                    '${widget.comment.userName}:',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 6),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: _buildStickerOrGif(widget.comment.text),
+                  ),
+                ] else ...[
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${widget.comment.userName} ',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Colors.white,
+                          ),
+                        ),
+                        TextSpan(
+                          text: widget.comment.text,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 4),
 
                 // Metadata Row: Time, Likes, Reply Button
@@ -166,6 +204,44 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
+                    if (isOwnComment) ...[
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Eliminar comentario'),
+                              content: const Text('¿Seguro que quieres eliminar este comentario?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    ref.read(feedProvider.notifier).deleteComment(
+                                      widget.postId,
+                                      widget.comment.id,
+                                      collectionPath: widget.collectionPath,
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Eliminar',
+                          style: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ],
@@ -185,6 +261,69 @@ class _CommentItemState extends ConsumerState<CommentItem> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  bool _isStickerOrGif(String text) {
+    final trimmed = text.trim();
+    if (trimmed.startsWith('[STICKER]') || trimmed.startsWith('[GIF]')) return true;
+    if (trimmed.startsWith('assets/images/stickers/')) return true;
+    if (trimmed.startsWith('data:image/') || trimmed.startsWith('data:application/')) return true;
+    if ((trimmed.startsWith('http://') || trimmed.startsWith('https://')) &&
+        (trimmed.contains('.gif') || trimmed.contains('.png') || trimmed.contains('.webp') || trimmed.contains('media.giphy.com') || trimmed.contains('tenor.com'))) {
+      return true;
+    }
+    return false;
+  }
+
+  Widget _buildStickerOrGif(String text) {
+    String cleanUrl = text.replaceAll('[STICKER]', '').replaceAll('[GIF]', '').trim();
+
+    if (cleanUrl.startsWith('data:image/') || cleanUrl.startsWith('data:application/')) {
+      try {
+        final commaIndex = cleanUrl.indexOf(',');
+        if (commaIndex != -1) {
+          final base64Data = cleanUrl.substring(commaIndex + 1);
+          final bytes = base64Decode(base64Data);
+          return Image.memory(
+            bytes,
+            width: 140,
+            height: 140,
+            fit: BoxFit.contain,
+            errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, color: Colors.white30),
+          );
+        }
+      } catch (_) {}
+      return const Icon(Icons.broken_image, color: Colors.white30);
+    }
+
+    if (cleanUrl.startsWith('assets/')) {
+      return Image.asset(
+        cleanUrl,
+        width: 120,
+        height: 120,
+        fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, color: Colors.white30),
+      );
+    }
+
+    return Image.network(
+      cleanUrl,
+      width: 140,
+      height: 140,
+      fit: BoxFit.contain,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return const SizedBox(
+          width: 100, height: 100,
+          child: Center(child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)),
+        );
+      },
+      errorBuilder: (context, url, error) => Container(
+        padding: const EdgeInsets.all(8),
+        color: Colors.white10,
+        child: const Icon(Icons.broken_image, color: Colors.white30),
       ),
     );
   }

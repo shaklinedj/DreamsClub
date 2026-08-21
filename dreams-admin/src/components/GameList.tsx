@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -8,7 +7,6 @@ interface GameConfig {
     title: string;
     isActive: boolean;
     type?: string;
-    requiresLocation: boolean;
 }
 
 export default function GameList() {
@@ -31,22 +29,12 @@ export default function GameList() {
     const toggleGame = async (gameId: string, currentStatus: boolean) => {
         try {
             await updateDoc(doc(db, 'game_configs', gameId), {
-                isActive: !currentStatus
+                isActive: !currentStatus,
+                requiresLocation: false
             });
         } catch (error) {
             console.error("Error updating game:", error);
             alert("Error al actualizar el juego");
-        }
-    };
-
-    const toggleLocation = async (gameId: string, currentStatus: boolean) => {
-        try {
-            await updateDoc(doc(db, 'game_configs', gameId), {
-                requiresLocation: !currentStatus
-            });
-        } catch (error) {
-            console.error("Error updating game location requirement:", error);
-            alert("Error al actualizar requisito de ubicación");
         }
     };
 
@@ -85,19 +73,10 @@ export default function GameList() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div
-                                onClick={() => toggleLocation(game.gameId, game.requiresLocation)}
-                                className={`p-3 rounded-lg cursor-pointer transition-all border ${game.requiresLocation
-                                    ? 'bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20'
-                                    : 'bg-slate-900/50 border-transparent hover:bg-slate-800'}`}>
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs text-slate-500 block mb-1">GPS Requerido</span>
-                                    <span className={`text-xs px-1.5 py-0.5 rounded ${game.requiresLocation ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-400'}`}>
-                                        {game.requiresLocation ? 'ON' : 'OFF'}
-                                    </span>
-                                </div>
-                                <span className={`font-medium ${game.requiresLocation ? 'text-blue-400' : 'text-slate-400'}`}>
-                                    {game.requiresLocation ? 'Activado' : 'Desactivado'}
+                            <div className="bg-slate-900/50 p-3 rounded-lg border border-transparent">
+                                <span className="text-xs text-slate-500 block mb-1">Acceso</span>
+                                <span className="font-medium text-emerald-400">
+                                    Directo (Spark)
                                 </span>
                             </div>
                             <div className="bg-slate-900/50 p-3 rounded-lg border border-transparent">
@@ -117,9 +96,6 @@ export default function GameList() {
                                     }`}
                             >
                                 {game.isActive ? 'Desactivar' : 'Activar'}
-                            </button>
-                            <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                Editar Reglas
                             </button>
                         </div>
                     </div>

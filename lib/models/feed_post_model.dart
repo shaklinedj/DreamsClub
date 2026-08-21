@@ -15,10 +15,12 @@ class FeedPost {
   final DateTime createdAt;
   final String? location; // Para eventos
   final DateTime? eventDate; // Para eventos
-  final int likesCount;
+  final int reactionsCount;
   final int commentsCount;
   final int sharesCount;
   final ReactionType? reactionType; // Tipo de reacción del usuario actual
+  final Map<String, int> reactionCounts; // Desglose por tipo de reacción {'like': 2, 'love': 5}
+  final Map<String, String> userReactions; // Mapa de usuario -> tipo {'userId1': 'love', 'userId2': 'like'}
   final String? casinoId;
   final String? linkUrl; // Link externo tipo Instagram
 
@@ -32,10 +34,12 @@ class FeedPost {
     required this.createdAt,
     this.location,
     this.eventDate,
-    this.likesCount = 0,
+    this.reactionsCount = 0,
     this.commentsCount = 0,
     this.sharesCount = 0,
     this.reactionType,
+    this.reactionCounts = const {},
+    this.userReactions = const {},
     this.casinoId,
     this.linkUrl,
   });
@@ -51,10 +55,12 @@ class FeedPost {
     DateTime? createdAt,
     String? location,
     DateTime? eventDate,
-    int? likesCount,
+    int? reactionsCount,
     int? commentsCount,
     int? sharesCount,
     ReactionType? reactionType,
+    Map<String, int>? reactionCounts,
+    Map<String, String>? userReactions,
     bool clearReaction = false,
     String? casinoId,
     String? linkUrl,
@@ -69,13 +75,37 @@ class FeedPost {
       createdAt: createdAt ?? this.createdAt,
       location: location ?? this.location,
       eventDate: eventDate ?? this.eventDate,
-      likesCount: likesCount ?? this.likesCount,
+      reactionsCount: reactionsCount ?? this.reactionsCount,
       commentsCount: commentsCount ?? this.commentsCount,
       sharesCount: sharesCount ?? this.sharesCount,
       reactionType: clearReaction ? null : (reactionType ?? this.reactionType),
+      reactionCounts: reactionCounts ?? this.reactionCounts,
+      userReactions: userReactions ?? this.userReactions,
       casinoId: casinoId ?? this.casinoId,
       linkUrl: linkUrl ?? this.linkUrl,
     );
+  }
+
+  /// Get top active reaction types for rendering stacked Facebook-style reaction badges
+  List<ReactionType> get topReactions {
+    if (reactionCounts.isNotEmpty) {
+      final entries = reactionCounts.entries
+          .where((e) => e.value > 0)
+          .toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+      if (entries.isNotEmpty) {
+        return entries.take(3).map((e) {
+          return ReactionType.values.firstWhere(
+            (r) => r.name == e.key,
+            orElse: () => ReactionType.like,
+          );
+        }).toList();
+      }
+    }
+    if (reactionType != null) {
+      return [reactionType!];
+    }
+    return reactionsCount > 0 ? [ReactionType.like] : [];
   }
 
   /// Check if user has any reaction
@@ -84,7 +114,34 @@ class FeedPost {
   /// Check if user has liked (for backward compatibility)
   bool get isLiked => reactionType != null;
 
-  factory FeedPost.fromMap(Map<String, dynamic> map) {
+  factory FeedPost.fromMap(Map<String, dynamic> map, {String? currentUserId}) {
+    Map<String, String> userReactionsMap = {};
+    if (map['userReactions'] is Map) {
+      (map['userReactions'] as Map).forEach((k, v) {
+        userReactionsMap[k.toString()] = v.toString();
+      });
+    }
+
+    int computedReactionsCount = (map['reactionsCount'] as num?)?.toInt() ?? userReactionsMap.length;
+    Map<String, int> computedReactionCounts = {};
+    if (map['reactionCounts'] is Map) {
+      (map['reactionCounts'] as Map).forEach((k, v) {
+        computedReactionCounts[k.toString()] = (v as num?)?.toInt() ?? 0;
+      });
+    }
+
+    ReactionType? currentUserReaction;
+    if (currentUserId != null && currentUserId.isNotEmpty) {
+      final cleanId = currentUserId.replaceAll('.', '_').replaceAll('@', '_');
+      if (userReactionsMap.containsKey(currentUserId)) {
+        currentUserReaction = parseReactionType(userReactionsMap[currentUserId]);
+      } else if (userReactionsMap.containsKey(cleanId)) {
+        currentUserReaction = parseReactionType(userReactionsMap[cleanId]);
+      }
+    } else {
+      currentUserReaction = parseReactionType(map['reactionType']);
+    }
+
     return FeedPost(
       id: map['id'] ?? '',
       title: map['title']?.toString() ?? '',
@@ -101,24 +158,21 @@ class FeedPost {
           : (map['eventDate'] != null
               ? DateTime.tryParse(map['eventDate'].toString())
               : null),
-      likesCount: (map['likesCount'] as num?)?.toInt() ?? 0,
+      reactionsCount: computedReactionsCount,
       commentsCount: (map['commentsCount'] as num?)?.toInt() ?? 0,
       sharesCount: (map['sharesCount'] as num?)?.toInt() ?? 0,
-      reactionType: map['reactionType'] != null
-          ? ReactionType.values.firstWhere(
-              (e) => e.name == map['reactionType'],
-              orElse: () => ReactionType.like,
-            )
-          : null,
+      reactionType: currentUserReaction,
+      reactionCounts: computedReactionCounts,
+      userReactions: userReactionsMap,
       casinoId: map['casinoId']?.toString(),
       linkUrl: map['linkUrl']?.toString(),
     );
   }
 
-  factory FeedPost.fromFirestore(DocumentSnapshot doc) {
+  factory FeedPost.fromFirestore(DocumentSnapshot doc, {String? currentUserId}) {
     final data = doc.data() as Map<String, dynamic>;
     data['id'] = doc.id;
-    return FeedPost.fromMap(data);
+    return FeedPost.fromMap(data, currentUserId: currentUserId);
   }
 
   Map<String, dynamic> toMap() {
@@ -131,13 +185,51 @@ class FeedPost {
       'createdAt': Timestamp.fromDate(createdAt),
       'location': location,
       'eventDate': eventDate != null ? Timestamp.fromDate(eventDate!) : null,
-      'likesCount': likesCount,
+      'reactionsCount': reactionsCount,
       'commentsCount': commentsCount,
       'sharesCount': sharesCount,
       'reactionType': reactionType?.name,
+      'reactionCounts': reactionCounts,
+      'userReactions': userReactions,
       'casinoId': casinoId,
       'linkUrl': linkUrl,
     };
+  }
+
+  factory FeedPost.fromJsonMap(Map<String, dynamic> map, {String? currentUserId}) {
+    return FeedPost.fromMap(map, currentUserId: currentUserId);
+  }
+
+  Map<String, dynamic> toJsonMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'mediaUrl': mediaUrl,
+      'mediaType': mediaType.toString().split('.').last,
+      'postType': postType.toString().split('.').last,
+      'createdAt': createdAt.toIso8601String(),
+      'location': location,
+      'eventDate': eventDate?.toIso8601String(),
+      'reactionsCount': reactionsCount,
+      'commentsCount': commentsCount,
+      'sharesCount': sharesCount,
+      'reactionType': reactionType?.name,
+      'reactionCounts': reactionCounts,
+      'casinoId': casinoId,
+      'linkUrl': linkUrl,
+    };
+  }
+
+  static ReactionType? parseReactionType(dynamic value) {
+    if (value == null) return null;
+    final str = value.toString().split('.').last.trim().toLowerCase();
+    for (final type in ReactionType.values) {
+      if (type.name.toLowerCase() == str) {
+        return type;
+      }
+    }
+    return null;
   }
 
   static FeedMediaType _parseMediaType(dynamic value) {

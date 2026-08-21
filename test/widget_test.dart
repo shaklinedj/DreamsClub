@@ -6,7 +6,6 @@ import 'package:casinoloyalty_flutter/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -18,7 +17,7 @@ void main() {
       'daily_streak': 0,
     });
 
-    final sampleCasino = Casino(
+    const sampleCasino = Casino(
       id: '1',
       nombre: 'Dreams Arica',
       ciudad: 'Arica',
@@ -34,8 +33,7 @@ void main() {
           // Evita llamadas a red en providers base.
           casinosProvider.overrideWith((ref) async => <Casino>[]),
           selectedCasinoProvider.overrideWith((ref) async => sampleCasino),
-          // Evita geolocalización real en tests.
-          locationServiceProvider.overrideWith((ref) => _FakeLocationService()),
+          locationServiceProvider.overrideWith((ref) => LocationService()),
         ],
         child: const MaterialApp(home: HomeScreen()),
       ),
@@ -55,21 +53,3 @@ void main() {
   });
 }
 
-class _FakeLocationService extends LocationService {
-  @override
-  Future<Position> getCurrentLocation() async {
-    return Position(
-      latitude: -33.4489,
-      longitude: -70.6693,
-      timestamp: DateTime.now(),
-      accuracy: 5,
-      altitude: 0,
-      altitudeAccuracy: 0,
-      heading: 0,
-      headingAccuracy: 0,
-      speed: 0,
-      speedAccuracy: 0,
-      isMocked: false,
-    );
-  }
-}

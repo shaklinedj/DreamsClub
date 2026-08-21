@@ -1,107 +1,16 @@
 ---
 import AdminLayout from '../layouts/AdminLayout.astro';
+import NotificationManager from '../components/NotificationManager';
 ---
 
-<AdminLayout title="Notificaciones">
+<AdminLayout title="Transmisor de Notificaciones">
     <div class="max-w-4xl mx-auto">
         <div class="mb-8">
-            <h2 class="text-3xl font-bold text-white mb-2">Enviar Mensaje Push</h2>
-            <p class="text-slate-400">Envía notificaciones a los dispositivos de los usuarios vía Firebase Cloud Messaging (FCM).</p>
+            <h2 class="text-3xl font-bold text-white mb-2">Notificaciones In-App</h2>
+            <p class="text-slate-400">Transmite alertas y avisos en tiempo real directo a las pantallas de los usuarios en la app móvil.</p>
         </div>
 
-        <div class="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-xl">
-            <form class="space-y-6">
-                <!-- Title -->
-                <div>
-                    <label class="block text-slate-300 font-medium mb-2">Título del Mensaje</label>
-                    <input 
-                        type="text" 
-                        placeholder="Ej: ¡Nuevo torneo de Slots! 🎰"
-                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
-                    />
-                </div>
-
-                <!-- Body -->
-                <div>
-                    <label class="block text-slate-300 font-medium mb-2">Contenido</label>
-                    <textarea 
-                        rows="4"
-                        placeholder="Describe el evento o promoción..."
-                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
-                    ></textarea>
-                </div>
-
-                <!-- Targeting -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-slate-300 font-medium mb-2">Destino</label>
-                        <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 outline-none">
-                            <option value="all">Todos los Usuarios</option>
-                            <option value="android">Solo Android</option>
-                            <option value="ios">Solo iOS</option>
-                            <option value="topic">Topic Específico</option>
-                        </select>
-                    </div>
-                     <div>
-                        <label class="block text-slate-300 font-medium mb-2">Topic (Opcional)</label>
-                        <input 
-                            type="text" 
-                            placeholder="Ej: news_temuco"
-                            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 outline-none"
-                        />
-                    </div>
-                </div>
-
-                <!-- Image URL -->
-                 <div>
-                    <label class="block text-slate-300 font-medium mb-2">Imagen (Opcional URL)</label>
-                    <input 
-                        type="url" 
-                        placeholder="https://..."
-                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
-                    />
-                </div>
-
-                <div class="pt-4 flex items-center justify-end gap-4">
-                    <button type="button" class="text-slate-400 hover:text-white transition-colors">Cancelar</button>
-                    <button 
-                        type="submit" 
-                        class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-purple-500/20"
-                    >
-                        Enviar Notificación 🚀
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- History -->
-        <div class="mt-12">
-             <h3 class="text-xl font-bold text-white mb-6">Historial de Envíos</h3>
-             <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-900/50 text-slate-400 text-xs uppercase">
-                        <tr>
-                            <th class="px-6 py-4 font-semibold">Mensaje</th>
-                            <th class="px-6 py-4 font-semibold">Destino</th>
-                            <th class="px-6 py-4 font-semibold">Fecha</th>
-                            <th class="px-6 py-4 font-semibold">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-700">
-                        <tr class="hover:bg-slate-700/30 transition-colors">
-                            <td class="px-6 py-4">
-                                <p class="text-white font-medium">¡Bienvenido a Dreams Club!</p>
-                                <p class="text-xs text-slate-500">Gracias por unirte...</p>
-                            </td>
-                            <td class="px-6 py-4 text-slate-300">Todos</td>
-                            <td class="px-6 py-4 text-slate-400 text-sm">Hace 2 días</td>
-                            <td class="px-6 py-4">
-                                <span class="bg-green-500/10 text-green-400 text-xs px-2 py-1 rounded-full font-bold">Enviado</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-             </div>
-        </div>
+        <NotificationManager client:load />
     </div>
 </AdminLayout>
+

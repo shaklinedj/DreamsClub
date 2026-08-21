@@ -9,10 +9,11 @@ class Casino {
   final List<String> features;
   final String description;
   final double rating;
-  final Map<String, String>?
-      schedules; // e.g. {'Lunes': '09:00 - 02:00', 'Viernes': '24h'}
+  final Map<String, String>? schedules; // e.g. {'Lunes': '09:00 - 02:00', 'Viernes': '24h'}
+  final String? reservationUrl;
+  final String? websiteUrl;
 
-  Casino({
+  const Casino({
     required this.id,
     required this.nombre,
     required this.ciudad,
@@ -24,6 +25,8 @@ class Casino {
     this.description = '',
     this.rating = 4.5,
     this.schedules,
+    this.reservationUrl,
+    this.websiteUrl,
   });
 
   factory Casino.fromJson(Map<String, dynamic> json) {
@@ -46,6 +49,8 @@ class Casino {
     final schedules = map['schedules'] != null
         ? Map<String, String>.from(map['schedules'])
         : null;
+    final reservationUrl = map['reservationUrl'] as String?;
+    final websiteUrl = map['websiteUrl'] as String?;
 
     return Casino(
       id: id,
@@ -59,6 +64,8 @@ class Casino {
       description: description,
       rating: rating,
       schedules: schedules,
+      reservationUrl: reservationUrl,
+      websiteUrl: websiteUrl,
     );
   }
 
@@ -74,6 +81,9 @@ class Casino {
       'description': description,
       'rating': rating,
       'schedules': schedules,
+      'reservationUrl': reservationUrl,
+      'websiteUrl': websiteUrl,
     };
   }
 }
+

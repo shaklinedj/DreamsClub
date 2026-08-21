@@ -30,8 +30,8 @@ class LoyaltyCardWidget extends StatelessWidget {
         borderRadius: borderRadius,
         gradient: LinearGradient(
           colors: [
-            user.levelColor.withValues(alpha: 0.95),
-            user.levelColor.withValues(alpha: 0.6),
+            Theme.of(context).primaryColor.withValues(alpha: 0.95),
+            Theme.of(context).primaryColor.withValues(alpha: 0.6),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -39,7 +39,7 @@ class LoyaltyCardWidget extends StatelessWidget {
         border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
         boxShadow: [
           BoxShadow(
-            color: user.levelColor.withValues(alpha: 0.5),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

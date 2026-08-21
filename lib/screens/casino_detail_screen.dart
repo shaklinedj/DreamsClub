@@ -25,6 +25,10 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => context.pop(),
+        ),
         title: const Text('Detalles del Casino'),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
@@ -106,13 +110,14 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
                         childAspectRatio: 1.3,
                         children: [
                           // Hotel Card
-                          _ActionCard(
-                            icon: Icons.hotel,
-                            title: 'Reservar Hotel',
-                            subtitle: 'Alojamiento Dreams',
-                            color: Colors.blue,
-                            onTap: () => _openHotelReservation(casino),
-                          ),
+                          if (casino.reservationUrl != null && casino.reservationUrl!.isNotEmpty)
+                            _ActionCard(
+                              icon: Icons.hotel,
+                              title: 'Reservar Hotel',
+                              subtitle: 'Alojamiento Dreams',
+                              color: Colors.blue,
+                              onTap: () => _openHotelReservation(context, casino),
+                            ),
                           // Hours Card
                           _ActionCard(
                             icon: Icons.access_time,
@@ -129,47 +134,17 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
                             color: Colors.orange,
                             onTap: () => _showContactDialog(context, casino),
                           ),
-                          // Feed Card
+                          // Website Card
                           _ActionCard(
-                            icon: Icons.video_collection,
-                            title: 'Ver Feed',
-                            subtitle: 'Novedades del casino',
-                            color: Colors.purple,
-                            onTap: () => _openCasinoFeed(context, casino),
+                            icon: Icons.language,
+                            title: 'Sitio Web',
+                            subtitle: 'dreams.cl',
+                            color: Colors.teal,
+                            onTap: () => _openCasinoWeb(context, casino),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-
-                      // GPS Info Banner
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.amber.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                              color: Colors.amber.withValues(alpha: 0.3)),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.amber.shade700,
-                              size: 24,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                'Los juegos y logros se activan automáticamente al visitar el casino con GPS activado.',
-                                style: TextStyle(
-                                  color: Colors.amber.shade900,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      const SizedBox(height: 32),
                     ],
                   ),
                 ),
@@ -187,7 +162,7 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
   Future<void> _openMaps(BuildContext context, Casino casino) async {
     try {
       final mapService = MapService();
-      await mapService.openDirections(
+      await mapService.showMapMarker(
         latitude: casino.latitud,
         longitude: casino.longitud,
         locationName: casino.nombre,
@@ -201,61 +176,77 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
     }
   }
 
-  void _openHotelReservation(Casino casino) async {
-    // Open Dreams hotel reservation website
-    final url = Uri.parse('https://dreams.cl');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    }
+  void _openHotelReservation(BuildContext context, Casino casino) {
+    final reservationUrl = casino.reservationUrl;
+    if (reservationUrl == null || reservationUrl.isEmpty) return;
+    
+    final uri = Uri(
+      path: '/webview',
+      queryParameters: {
+        'url': reservationUrl,
+        'title': 'Reservar Hotel',
+      },
+    );
+    context.push(uri.toString());
   }
 
   String _getScheduleSummary(Casino casino) {
     if (casino.schedules == null || casino.schedules!.isEmpty) {
       return 'Consultar horarios';
     }
-    // Return the first schedule entry as summary
     final firstEntry = casino.schedules!.entries.first;
-    return firstEntry.value;
+    return '${firstEntry.key}: ${firstEntry.value}';
   }
 
   void _showHours(BuildContext context, Casino casino) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        backgroundColor: const Color(0xFF1E2230),
+        title: Row(
           children: [
-            Icon(Icons.access_time, color: Colors.green),
-            SizedBox(width: 8),
-            Text('Horario'),
+            const Icon(Icons.access_time, color: Colors.green),
+            const SizedBox(width: 8),
+            Text(
+              'Horarios ${casino.nombre}',
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+            ),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              casino.nombre,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
             if (casino.schedules != null && casino.schedules!.isNotEmpty)
-              ...casino.schedules!.entries.map((entry) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('🕐 '),
-                        Expanded(
-                          child: Text(
-                            '${entry.key}: ${entry.value}',
-                            style: const TextStyle(fontSize: 14),
-                          ),
+              ...casino.schedules!.entries.map(
+                (entry) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        entry.key,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
-                  ))
+                      ),
+                      Text(
+                        entry.value,
+                        style: const TextStyle(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             else
-              const Text('Horarios no disponibles. Consulte en el local.'),
+              const Text(
+                'Abierto las 24 horas todos los días',
+                style: TextStyle(color: Colors.white70),
+              ),
           ],
         ),
         actions: [
@@ -288,9 +279,9 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
               subtitle: const Text('+56 2 2411 0000'),
               onTap: () async {
                 final url = Uri.parse('tel:+5624110000');
-                if (await canLaunchUrl(url)) {
+                try {
                   await launchUrl(url);
-                }
+                } catch (_) {}
                 if (context.mounted) Navigator.pop(context);
               },
             ),
@@ -300,9 +291,9 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
               subtitle: const Text('contacto@dreams.cl'),
               onTap: () async {
                 final url = Uri.parse('mailto:contacto@dreams.cl');
-                if (await canLaunchUrl(url)) {
+                try {
                   await launchUrl(url);
-                }
+                } catch (_) {}
                 if (context.mounted) Navigator.pop(context);
               },
             ),
@@ -312,8 +303,12 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
               subtitle: const Text('dreams.cl'),
               onTap: () async {
                 final url = Uri.parse('https://dreams.cl');
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                try {
+                  await launchUrl(url, mode: LaunchMode.inAppBrowserView);
+                } catch (_) {
+                  try {
+                    await launchUrl(url, mode: LaunchMode.platformDefault);
+                  } catch (_) {}
                 }
                 if (context.mounted) Navigator.pop(context);
               },
@@ -330,9 +325,16 @@ class _CasinoDetailScreenState extends ConsumerState<CasinoDetailScreen> {
     );
   }
 
-  void _openCasinoFeed(BuildContext context, Casino casino) {
-    // Navigate to feed filtered by this casino
-    context.push('/feed?casinoId=${casino.id}');
+  void _openCasinoWeb(BuildContext context, Casino casino) {
+    final websiteUrl = casino.websiteUrl ?? 'https://dreams.cl';
+    final uri = Uri(
+      path: '/webview',
+      queryParameters: {
+        'url': websiteUrl,
+        'title': 'Sitio Web - ${casino.nombre}',
+      },
+    );
+    context.push(uri.toString());
   }
 }
 

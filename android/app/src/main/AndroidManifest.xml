@@ -2,7 +2,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -13,44 +12,14 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    
-    <!-- Queries necesarias para map_launcher en Android 11+ -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <queries>
-        <!-- Google Maps -->
-        <package android:name="com.google.android.apps.maps" />
-        <!-- Waze -->
-        <package android:name="com.waze" />
-        <!-- Uber -->
-        <package android:name="com.ubercab" />
-        <!-- HERE WeGo -->
-        <package android:name="com.here.app.maps" />
-        <!-- Citymapper -->
-        <package android:name="com.citymapper.app.release" />
-        <!-- Yandex Maps -->
-        <package android:name="ru.yandex.yandexmaps" />
-        <!-- Yandex Navigator -->
-        <package android:name="ru.yandex.yandexnavi" />
-        <!-- Sygic -->
-        <package android:name="com.sygic.aura" />
-        <!-- Baidu Maps -->
-        <package android:name="com.baidu.BaiduMap" />
-        <!-- Amap (Gaode) -->
-        <package android:name="com.autonavi.minimap" />
-        <!-- Apple Maps (for iOS, but good practice to include) -->
-        <package android:name="com.apple.maps" />
-        <!-- Mapswithme -->
-        <package android:name="com.mapswithme.maps.pro" />
-        <!-- OsmAnd -->
-        <package android:name="net.osmand" />
-        <package android:name="net.osmand.plus" />
-        <!-- DoubleGis -->
-        <package android:name="ru.dublgis.dgismobile" />
-        <!-- Tencent (QQ Maps) -->
-        <package android:name="com.tencent.map" />
-        <!-- Petal Maps -->
-        <package android:name="com.huawei.maps.app" />
-        
-        <!-- Navegador Web (Importante para url_launcher) -->
+        <!-- WhatsApp queries -->
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        <intent>
+            <action android:name="com.whatsapp.intent.action.ENABLE_STICKER_PACK" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
@@ -64,14 +33,18 @@
             <data android:mimeType="*/*" />
         </intent>
     </queries>
-    
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
     <application
-        android:label="Dreams"
+        android:label="DreamsClub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- WhatsApp Stickers ContentProvider -->
+        <provider
+            android:name="de.dennisjacob.whatsapp_stickers_handler.StickerContentProvider"
+            android:authorities="${applicationId}.stickercontentprovider"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.whatsapp.sticker.READ" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -79,6 +52,7 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -92,7 +66,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="dreamsclub" android:host="app" />
+                <data android:scheme="dreamsclub" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -111,10 +85,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        
-        <service
-            android:name="id.flutter.flutter_background_service.BackgroundService"
-            android:foregroundServiceType="location" />
 
         <receiver android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
             android:enabled="false"

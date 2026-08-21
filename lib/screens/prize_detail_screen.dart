@@ -1,6 +1,7 @@
 import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
 import 'package:casinoloyalty_flutter/services/prize_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -28,7 +29,7 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
     setState(() => _isLoading = true);
 
     final prizes = await _prizeService.getMyPrizes();
-    final prize = prizes.where((p) => p.id == widget.prizeId).firstOrNull;
+    final prize = prizes.where((p) => p.id == widget.prizeId || p.redemptionCode == widget.prizeId).firstOrNull;
 
     setState(() {
       _prize = prize;
@@ -36,57 +37,12 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
     });
   }
 
-  Future<void> _markAsRedeemed() async {
-    if (_prize == null) return;
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A1A),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Confirmar Canje',
-            style: TextStyle(color: Colors.white)),
-        content: const Text(
-          '¿Ya canjeaste este premio? Esta acción no se puede deshacer.',
-          style: TextStyle(color: Colors.white70),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFD4AF37),
-              foregroundColor: Colors.black,
-            ),
-            child: const Text('Sí, Canjear'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true) {
-      await _prizeService.redeemPrize(widget.prizeId);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Premio canjeado correctamente'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        Navigator.pop(context);
-      }
-    }
-  }
-
   Future<void> _sharePrize() async {
     if (_prize == null) return;
     await SharePlus.instance.share(ShareParams(
-      text: '¡Gané ${_prize!.prize.name} en Dreams! 🎉\n'
+      text: '¡Gané ${_prize!.prize.name} en Dreams Club! 🎉\n'
           '${_prize!.prize.description}\n\n'
-          'Código QR: ${_prize!.qrCode}',
+          'Código de Canje: ${_prize!.redemptionCode}',
     ));
   }
 
@@ -94,6 +50,7 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
+        backgroundColor: const Color(0xFF12121A),
         appBar: AppBar(
           title: const Text('Detalle del Premio'),
           backgroundColor: Colors.black,
@@ -106,208 +63,233 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
 
     if (_prize == null) {
       return Scaffold(
+        backgroundColor: const Color(0xFF12121A),
         appBar: AppBar(
           title: const Text('Detalle del Premio'),
           backgroundColor: Colors.black,
         ),
         body: const Center(
-          child: Text('Premio no encontrado',
-              style: TextStyle(color: Colors.white)),
+          child: Text('Premio no encontrado', style: TextStyle(color: Colors.white)),
         ),
       );
     }
 
     final isExpired = _prize!.isExpired;
-    final isRedeemed = _prize!.redeemed;
+    final isRedeemed = _prize!.isRedeemed;
+    final code = _prize!.redemptionCode.isNotEmpty ? _prize!.redemptionCode : _prize!.id;
 
     return Scaffold(
+      backgroundColor: const Color(0xFF12121A),
       appBar: AppBar(
-        title: const Text('Detalle del Premio'),
+        title: const Text('Voucher de Premio'),
         backgroundColor: Colors.black,
         actions: [
-          if (!isRedeemed && !isExpired)
-            IconButton(
-              icon: const Icon(Icons.share),
-              onPressed: _sharePrize,
-            ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: _sharePrize,
+          ),
         ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // Prize icon
+            // Prize Icon
             Container(
-              width: 120,
-              height: 120,
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
-                color: const Color(0xFF2A2A2A),
-                borderRadius: BorderRadius.circular(60),
+                color: const Color(0xFF1E1E2C),
+                shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFFD4AF37), width: 3),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                  ),
+                ],
               ),
               child: Center(
                 child: Text(
                   _prize!.prize.icon,
-                  style: const TextStyle(fontSize: 64),
+                  style: const TextStyle(fontSize: 48),
                 ),
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
-            // Prize name
+            // Prize Name
             Text(
               _prize!.prize.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFFD4AF37),
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
-            // Prize description
+            // Prize Description
             Text(
               _prize!.prize.description,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white70, fontSize: 16),
+              style: const TextStyle(color: Colors.white70, fontSize: 14),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
 
-            // Status badges
+            // Status Badges
             if (isRedeemed)
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green),
+                  color: Colors.green.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.greenAccent),
                 ),
-                child: const Text(
-                  '✓ PREMIO CANJEADO',
-                  style: TextStyle(
-                      color: Colors.green, fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.check_circle, color: Colors.greenAccent, size: 18),
+                    const SizedBox(width: 8),
+                    Text(
+                      _prize!.redeemedBy != null
+                          ? 'CANJEADO POR ${_prize!.redeemedBy!.toUpperCase()}'
+                          : 'CANJEADO EN CAJA / BARRA',
+                      style: const TextStyle(
+                        color: Colors.greenAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
               )
             else if (isExpired)
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red),
+                  color: Colors.red.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.redAccent),
                 ),
-                child: const Text(
-                  '⏰ PREMIO EXPIRADO',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.timer_off, color: Colors.redAccent, size: 18),
+                    SizedBox(width: 8),
+                    Text(
+                      'PREMIO EXPIRADO',
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
               )
             else
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD4AF37).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0xFFD4AF37).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: const Color(0xFFD4AF37)),
                 ),
-                child: Text(
-                  'Expira en: ${_prize!.daysUntilExpiry}',
-                  style: const TextStyle(
-                      color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
-                ),
-              ),
-
-            const SizedBox(height: 32),
-
-            // QR Code
-            if (!isRedeemed && !isExpired) ...[
-              const Text(
-                'Muestra este código QR al personal',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: QrImageView(
-                  data: _prize!.qrCode,
-                  version: QrVersions.auto,
-                  size: 250.0,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2A2A2A),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Código de canje:',
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
-                    ),
-                    const SizedBox(height: 4),
+                    const Icon(Icons.timer, color: Color(0xFFD4AF37), size: 18),
+                    const SizedBox(width: 8),
                     Text(
-                      _prize!.qrCode,
+                      'Válido por: ${_prize!.daysUntilExpiry}',
                       style: const TextStyle(
                         color: Color(0xFFD4AF37),
-                        fontSize: 10,
-                        fontFamily: 'monospace',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 28),
 
-            // Instructions
+            // Giant Alphanumeric Code Box
             Container(
-              padding: const EdgeInsets.all(16),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A1A1A),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white10),
+                color: const Color(0xFF1E1E2C),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFFD4AF37).withValues(alpha: 0.8),
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFD4AF37).withValues(alpha: 0.2),
+                    blurRadius: 15,
+                  ),
+                ],
               ),
-              // ignore: prefer_const_constructors
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    '📋 Cómo canjear:',
+                children: [
+                  const Text(
+                    'CÓDIGO ALFANUMÉRICO DE COBRO',
                     style: TextStyle(
-                        color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
+                      color: Colors.white70,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
                   ),
-                  SizedBox(height: 12),
-                  Text(
-                    '1. Acércate al personal del casino',
-                    style: TextStyle(color: Colors.white70),
+                  const SizedBox(height: 10),
+                  SelectableText(
+                    code,
+                    style: const TextStyle(
+                      color: Color(0xFFD4AF37),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'monospace',
+                      letterSpacing: 4,
+                    ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    '2. Muestra este código QR',
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '3. ¡Disfruta tu premio!',
-                    style: TextStyle(color: Colors.white70),
+                  const SizedBox(height: 12),
+                  InkWell(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: code));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('¡Código copiado para el atendedor!'),
+                          backgroundColor: Color(0xFFD4AF37),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.copy, size: 16, color: Colors.white),
+                          SizedBox(width: 6),
+                          Text(
+                            'Copiar Código',
+                            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -315,26 +297,73 @@ class _PrizeDetailScreenState extends State<PrizeDetailScreen> {
 
             const SizedBox(height: 24),
 
-            // Redeem button
-            if (!isRedeemed && !isExpired)
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _markAsRedeemed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD4AF37),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+            // QR Code Container
+            if (!isRedeemed && !isExpired) ...[
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      blurRadius: 10,
                     ),
-                  ),
-                  child: const Text(
-                    'Marcar como Canjeado',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                  ],
+                ),
+                child: QrImageView(
+                  data: code,
+                  version: QrVersions.auto,
+                  size: 200.0,
                 ),
               ),
+              const SizedBox(height: 20),
+            ],
+
+            // How to Redeem Card
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E1E2C),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white12),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.storefront, color: Color(0xFFD4AF37), size: 20),
+                      SizedBox(width: 8),
+                      Text(
+                        'Instrucciones de Canje en Casino:',
+                        style: TextStyle(
+                          color: Color(0xFFD4AF37),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    '1. Acércate a la barra de tragos, caja o restaurante de Casino Dreams.',
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    '2. Dicta o muestra el código alfanumérico al atendedor.',
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    '3. El atendedor quemará el código en el sistema y te entregará tu ticket impreso.',
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

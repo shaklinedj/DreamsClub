@@ -1,13 +1,15 @@
+// ignore_for_file: unused_element, unused_field, unused_local_variable
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_facebook_reactions/flutter_facebook_reactions.dart';
 import 'package:lottie/lottie.dart';
 import 'package:casinoloyalty_flutter/models/feed_post_model.dart';
 import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
-import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:casinoloyalty_flutter/screens/feed/widgets/comments_modal.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -15,6 +17,7 @@ import 'package:casinoloyalty_flutter/services/feed_media_prefetch_service.dart'
 import 'package:casinoloyalty_flutter/services/feed_media_cache_manager.dart';
 import 'package:casinoloyalty_flutter/services/sound_service.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:casinoloyalty_flutter/utils/share_helper.dart';
 
 class FeedItemWidget extends ConsumerStatefulWidget {
@@ -35,6 +38,8 @@ class FeedItemWidget extends ConsumerStatefulWidget {
 
 class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
   VideoPlayerController? _videoPlayerController;
+  YoutubePlayerController? _youtubeController;
+  bool _isYoutube = false;
   bool _isInitialized = false;
   bool _hasError = false;
   bool _isHeartAnimating = false;
@@ -45,19 +50,26 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
   final ValueNotifier<Offset?> _dragPositionNotifier = ValueNotifier(null);
   final GlobalKey<_ReactionPickerOverlayState> _pickerKey = GlobalKey();
 
+  String get _effectiveUserId {
+    final authUid = FirebaseAuth.instance.currentUser?.uid;
+    if (authUid != null && authUid.isNotEmpty) return authUid;
+    final user = ref.read(userProvider);
+    return user.email.isNotEmpty ? user.email : user.name;
+  }
+
   void _handleDoubleTap() {
-    // Optimistic UI: Double tap always likes if not liked, or could check state
-    // Instagram logic: Double tap ALWAYS triggers heart animation.
-    // Use proper haptic feedback
     HapticFeedback.lightImpact();
 
-    // Only add reaction if not already liked (or other reaction).
-    // If already liked, just animate the heart locally without backend call?
-    // User requested "optimistic UI".
+    final user = ref.read(userProvider);
+    final userId = _effectiveUserId;
+
     if (widget.post.reactionType == null) {
-      ref
-          .read(feedProvider.notifier)
-          .setReaction(widget.post.id, ReactionType.like);
+      ref.read(feedProvider.notifier).setReaction(
+            widget.post.id,
+            ReactionType.like,
+            userId: userId,
+            userName: user.name,
+          );
     }
 
     // Always animate big heart
@@ -76,7 +88,12 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
 
     // Initialize Player only if VISIBLE
     if (widget.post.mediaType == FeedMediaType.video && widget.isVisible) {
-      _initializeVideo();
+      if (_checkIsYoutube(widget.post.mediaUrl)) {
+        _isYoutube = true;
+        _initializeYoutube();
+      } else {
+        _initializeVideo();
+      }
     }
   }
 
@@ -86,14 +103,28 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
 
     // Handle Video Logic
     if (widget.post.mediaType == FeedMediaType.video) {
-      if (widget.isVisible) {
-        if (!_isInitialized) {
-          _initializeVideo();
+      final isYt = _checkIsYoutube(widget.post.mediaUrl);
+      if (isYt) {
+        _isYoutube = true;
+        if (widget.isVisible) {
+          if (_youtubeController == null) {
+            _initializeYoutube();
+          } else {
+            _youtubeController?.playVideo();
+          }
         } else {
-          _videoPlayerController?.play();
+          _youtubeController?.pauseVideo();
         }
       } else {
-        _videoPlayerController?.pause();
+        if (widget.isVisible) {
+          if (!_isInitialized) {
+            _initializeVideo();
+          } else {
+            _videoPlayerController?.play();
+          }
+        } else {
+          _videoPlayerController?.pause();
+        }
       }
     }
 
@@ -101,6 +132,34 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     if (widget.shouldPreload && !oldWidget.shouldPreload) {
       FeedMediaPrefetchService.prefetchPost(widget.post);
     }
+  }
+
+  String _formatMediaUrl(String url, {bool isVideo = false}) {
+    final trimmed = url.trim();
+    if (trimmed.isEmpty) return '';
+
+    String? fileId;
+    if (trimmed.contains('drive.google.com/file/d/')) {
+      final match = RegExp(r'/file/d/([a-zA-Z0-9_-]+)').firstMatch(trimmed);
+      if (match != null) fileId = match.group(1);
+    } else if (trimmed.contains('drive.google.com/open?id=')) {
+      final match = RegExp(r'id=([a-zA-Z0-9_-]+)').firstMatch(trimmed);
+      if (match != null) fileId = match.group(1);
+    } else if (trimmed.contains('drive.google.com/uc')) {
+      final match = RegExp(r'id=([a-zA-Z0-9_-]+)').firstMatch(trimmed);
+      if (match != null) fileId = match.group(1);
+    } else if (trimmed.contains('googleusercontent.com/d/')) {
+      final match = RegExp(r'/d/([a-zA-Z0-9_-]+)').firstMatch(trimmed);
+      if (match != null) fileId = match.group(1);
+    }
+
+    if (fileId != null && fileId.isNotEmpty) {
+      if (isVideo) {
+        return 'https://drive.google.com/uc?export=download&id=$fileId';
+      }
+      return 'https://lh3.googleusercontent.com/d/$fileId';
+    }
+    return trimmed;
   }
 
   Future<void> _initializeVideo() async {
@@ -112,7 +171,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     try {
       if (_videoPlayerController != null) return; // Already initialized
 
-      final url = widget.post.mediaUrl;
+      final url = _formatMediaUrl(widget.post.mediaUrl, isVideo: true);
       if (url.isEmpty) {
         if (mounted) setState(() => _hasError = true);
         return;
@@ -165,6 +224,71 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     }
   }
 
+  bool _checkIsYoutube(String url) {
+    final trimmed = url.trim().toLowerCase();
+    return trimmed.contains('youtube.com') || trimmed.contains('youtu.be');
+  }
+
+  String? _extractYoutubeId(String rawUrl) {
+    final trimmed = rawUrl.trim();
+    if (trimmed.isEmpty) return null;
+
+    // 1. Precise regex matching exact 11-character YouTube video IDs
+    final regExp = RegExp(
+      r'(?:v=|\/embed\/|\/v\/|\/shorts\/|\/live\/|youtu\.be\/)([\w-]{11})',
+      caseSensitive: false,
+    );
+    final match = regExp.firstMatch(trimmed);
+    if (match != null && match.group(1) != null) {
+      return match.group(1);
+    }
+
+    // 2. Fallback using YoutubePlayerController.convertUrlToId and cleaning parameters
+    var id = YoutubePlayerController.convertUrlToId(trimmed);
+    if (id != null && id.isNotEmpty) {
+      if (id.contains('&')) id = id.split('&').first;
+      if (id.contains('?')) id = id.split('?').first;
+      if (id.length == 11) return id;
+    }
+
+    return null;
+  }
+
+  void _initializeYoutube() {
+    try {
+      final videoId = _extractYoutubeId(widget.post.mediaUrl);
+      if (videoId == null) {
+        debugPrint('❌ Could not extract YouTube video ID from: ${widget.post.mediaUrl}');
+        if (mounted) setState(() => _hasError = true);
+        return;
+      }
+
+      debugPrint('🎬 Initializing Youtube Player v10.0.1 for videoId: $videoId');
+
+      _youtubeController = YoutubePlayerController.fromVideoId(
+        videoId: videoId,
+        autoPlay: true,
+        params: const YoutubePlayerParams(
+          showControls: true,
+          showFullscreenButton: true,
+          mute: false,
+          loop: true,
+          enableJavaScript: true,
+        ),
+      );
+
+      if (mounted) {
+        setState(() {
+          _isInitialized = true;
+        });
+      }
+    } catch (e, stack) {
+      debugPrint('❌ Error initializing youtube: $e');
+      AppLogger.error('Youtube initialization error', e, stack);
+      if (mounted) setState(() => _hasError = true);
+    }
+  }
+
   void _showReactionPicker() {
     if (_overlayEntry != null) return;
 
@@ -194,9 +318,14 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
             dragPositionNotifier: _dragPositionNotifier,
             onReactionSelected: (reaction) {
               SoundService.instance.playSound('icon_pick.mp3');
-              ref
-                  .read(feedProvider.notifier)
-                  .setReaction(widget.post.id, reaction);
+              final user = ref.read(userProvider);
+              final userId = _effectiveUserId;
+              ref.read(feedProvider.notifier).setReaction(
+                    widget.post.id,
+                    reaction,
+                    userId: userId,
+                    userName: user.name,
+                  );
               _hideOverlay();
             },
             onHoverChange: () {
@@ -219,182 +348,193 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     }
   }
 
+  void _showFullScreenImage(BuildContext context) {
+    if (widget.post.mediaUrl.isEmpty) return;
+    final formattedUrl = _formatMediaUrl(widget.post.mediaUrl);
+
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      barrierColor: Colors.black.withValues(alpha: 0.9),
+      barrierDismissible: true,
+      pageBuilder: (BuildContext context, _, __) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: const IconThemeData(color: Colors.white),
+          ),
+          body: Center(
+            child: InteractiveViewer(
+              panEnabled: true,
+              minScale: 1.0,
+              maxScale: 4.0,
+              child: CachedNetworkImage(
+                imageUrl: formattedUrl,
+                fit: BoxFit.contain,
+                width: double.infinity,
+                height: double.infinity,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
+                ),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.broken_image, color: Colors.white, size: 50),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // Media Content with Double Tap
-        GestureDetector(
-          onDoubleTap: _handleDoubleTap,
-          onTap: () {
-            // Optional: Toggle enter/exit full screen or show/hide controls
-          },
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              _buildMediaContent(),
-              // Heart Animation Overlay
-              if (_isHeartAnimating)
-                Center(
-                  child: TweenAnimationBuilder<double>(
-                    tween: Tween(begin: 0.0, end: 1.0),
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.elasticOut,
-                    onEnd: () {
-                      Future.delayed(const Duration(milliseconds: 500), () {
-                        if (mounted) {
-                          setState(() {
-                            _isHeartAnimating = false;
-                          });
-                        }
-                      });
-                    },
-                    builder: (context, value, child) {
-                      return Transform.scale(
-                        scale: value,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.white.withValues(alpha: 0.8),
-                          size: 100,
-                        ),
-                      );
-                    },
+    return Container(
+      color: Colors.black,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 1. Background Media Content
+          GestureDetector(
+            onDoubleTap: _handleDoubleTap,
+            onTap: () {
+              if (_isYoutube) return; // Allow YouTube native player to receive direct touches
+              if (widget.post.mediaType == FeedMediaType.image) {
+                _showFullScreenImage(context);
+              } else if (widget.post.mediaType == FeedMediaType.video) {
+                if (_videoPlayerController?.value.isPlaying ?? false) {
+                  _videoPlayerController?.pause();
+                } else {
+                  _videoPlayerController?.play();
+                }
+              }
+            },
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                _buildMediaContent(),
+                // Heart Animation Overlay
+                if (_isHeartAnimating)
+                  Center(
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.elasticOut,
+                      onEnd: () {
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          if (mounted) {
+                            setState(() {
+                              _isHeartAnimating = false;
+                            });
+                          }
+                        });
+                      },
+                      builder: (context, value, child) {
+                        return Transform.scale(
+                          scale: value,
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.white.withValues(alpha: 0.8),
+                            size: 100,
+                          ),
+                        );
+                      },
+                    ),
                   ),
+              ],
+            ),
+          ),
+
+          // 2. Bottom shadow gradient for text readability
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 280,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.2),
+                    Colors.black.withValues(alpha: 0.6),
+                    Colors.black.withValues(alpha: 0.85),
+                  ],
                 ),
+              ),
+            ),
+          ),
+
+          // 3. Top shadow gradient for top buttons readability
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 100,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.4),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // 4. Overlays (Post Info & Description on bottom-left)
+          Positioned(
+            left: 16,
+            right: 80,
+            bottom: 24,
+            child: _buildPostInfoOverlay(),
+          ),
+
+          // 5. Actions Sidebar (Right aligned)
+          Positioned(
+            right: 12,
+            bottom: 40,
+            child: _buildActionsSidebar(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPostInfoOverlay() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          widget.post.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+            shadows: [
+              Shadow(blurRadius: 4.0, color: Colors.black45, offset: Offset(1.0, 1.0)),
             ],
           ),
         ),
-
-        // ... (Gradient)
-
-        // Content & Actions
-        Positioned(
-          bottom: 20,
-          left: 16,
-          right: 16,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // Text Content
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildTag(),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.post.title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.post.description,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.9),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 16),
-
-              // Action Buttons
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Reaction Button with long-press picker
-                  _buildReactionButton(),
-                  const SizedBox(height: 16),
-                  _buildActionButton(
-                    icon: Icons.comment,
-                    label: '${widget.post.commentsCount}',
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        useSafeArea: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (context) =>
-                            CommentsModal(postId: widget.post.id),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  _buildActionButton(
-                    icon: Icons.share,
-                    label: '${widget.post.sharesCount}', // Show shares count
-                    onTap: () {
-                      ref
-                          .read(feedProvider.notifier)
-                          .incrementShare(widget.post.id);
-                      ShareHelper.sharePost(widget.post.id, widget.post.title,
-                          widget.post.description);
-                    },
-                  ),
-                  // ... loops
-
-                  // Link button - Instagram style (only visible if linkUrl exists)
-                  if (widget.post.linkUrl != null &&
-                      widget.post.linkUrl!.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    _buildActionButton(
-                      icon: Icons.link,
-                      label: 'Ver más',
-                      onTap: () async {
-                        final url = Uri.parse(widget.post.linkUrl!);
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url,
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    ),
-                  ],
-                  // Admin-only Delete Button
-                  if (ref.watch(userProvider).isAdmin) ...[
-                    const SizedBox(height: 16),
-                    _buildActionButton(
-                      icon: Icons.delete_outline,
-                      label: 'Borrar',
-                      color: Colors.redAccent,
-                      onTap: () async {
-                        final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Borrar publicación'),
-                            content: const Text(
-                                '¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text('Cancelar'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text('Eliminar',
-                                    style: TextStyle(color: Colors.red)),
-                              ),
-                            ],
-                          ),
-                        );
-
-                        if (confirm == true) {
-                          await ref
-                              .read(feedProvider.notifier)
-                              .deletePost(widget.post.id);
-                        }
-                      },
-                    ),
-                  ],
-                ],
-              ),
+        const SizedBox(height: 6),
+        Text(
+          widget.post.description,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.9),
+            fontSize: 13,
+            height: 1.3,
+            shadows: const [
+              Shadow(blurRadius: 4.0, color: Colors.black45, offset: Offset(1.0, 1.0)),
             ],
           ),
         ),
@@ -402,58 +542,138 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     );
   }
 
-  /// Reaction button with long-press to open picker
-  Widget _buildReactionButton() {
-    final reaction = widget.post.reactionType;
-    final hasReaction = reaction != null;
+  Widget _buildActionsSidebar(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Like Button
+        _buildSidebarReactionButton(),
+        const SizedBox(height: 16),
+
+        // Comments Button
+        _buildSidebarButton(
+          icon: Icons.chat_bubble_rounded,
+          label: '${widget.post.commentsCount}',
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              useSafeArea: true,
+              backgroundColor: Colors.transparent,
+              builder: (context) => SizedBox(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: CommentsModal(postId: widget.post.id),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+
+        // Share Button
+        _buildSidebarButton(
+          icon: Icons.share_rounded,
+          label: '${widget.post.sharesCount}',
+          onTap: () {
+            ref.read(feedProvider.notifier).incrementShare(widget.post.id);
+            ShareHelper.sharePost(widget.post.id, widget.post.title, widget.post.description);
+          },
+        ),
+        const SizedBox(height: 16),
+
+        // Link Button (Ver más)
+        if (widget.post.linkUrl != null && widget.post.linkUrl!.isNotEmpty) ...[
+          _buildSidebarButton(
+            icon: Icons.link_rounded,
+            label: 'Ver',
+            onTap: () async {
+              final url = Uri.parse(widget.post.linkUrl!);
+              try {
+                await launchUrl(url, mode: LaunchMode.inAppBrowserView);
+              } catch (_) {
+                try {
+                  await launchUrl(url, mode: LaunchMode.platformDefault);
+                } catch (_) {}
+              }
+            },
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        // Delete Button (Admin)
+        if (ref.watch(userProvider).isAdmin) ...[
+          _buildSidebarButton(
+            icon: Icons.delete_outline_rounded,
+            label: 'Borrar',
+            iconColor: Colors.redAccent,
+            onTap: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Borrar publicación'),
+                  content: const Text('¿Estás seguro de que deseas eliminar esta publicación?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              );
+              if (confirm == true) {
+                await ref.read(feedProvider.notifier).deletePost(widget.post.id);
+              }
+            },
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildSidebarReactionButton() {
+    final isLiked = widget.post.reactionType != null;
 
     return GestureDetector(
       key: _likeButtonKey,
       onTap: () {
-        // Toggle like on tap
-        ref.read(feedProvider.notifier).toggleLike(widget.post.id);
-      },
-      onLongPressStart: (details) {
-        _showReactionPicker();
-        _dragPositionNotifier.value = details.globalPosition;
-      },
-      onLongPressMoveUpdate: (details) {
-        _dragPositionNotifier.value = details.globalPosition;
-      },
-      onLongPressEnd: (details) {
-        final selected = _pickerKey.currentState?.selectCurrent() ?? false;
-        if (selected) {
-          _hideOverlay();
-        }
-      },
-      onLongPressUp: () {
-        final selected = _pickerKey.currentState?.selectCurrent() ?? false;
-        if (selected) {
-          _hideOverlay();
-        }
+        final user = ref.read(userProvider);
+        final userId = _effectiveUserId;
+        ref.read(feedProvider.notifier).toggleLike(
+              widget.post.id,
+              userId: userId,
+              userName: user.name,
+            );
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          if (hasReaction)
-            SizedBox(
-              width: 30,
-              height: 30,
-              child: Lottie.asset(
-                reaction.lottieAsset,
-                package: 'flutter_facebook_reactions',
-                repeat: false,
-                fit: BoxFit.contain,
-              ),
-            )
-          else
-            const Icon(Icons.favorite_border, color: Colors.white, size: 30),
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.3),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.favorite_rounded,
+              color: isLiked ? Colors.red : Colors.white,
+              size: 28,
+            ),
+          ),
           const SizedBox(height: 4),
           Text(
-            '${widget.post.likesCount}',
-            style: TextStyle(
-              color: hasReaction ? reaction.color : Colors.white,
+            '${widget.post.reactionsCount}',
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 12,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(blurRadius: 4, color: Colors.black54, offset: Offset(0, 1)),
+              ],
             ),
           ),
         ],
@@ -461,20 +681,122 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     );
   }
 
+  Widget _buildSidebarButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    Color iconColor = Colors.white,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.3),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Icon(icon, color: iconColor, size: 28),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(blurRadius: 4, color: Colors.black54, offset: Offset(0, 1)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+
+
   Widget _buildMediaContent() {
     if (widget.post.mediaType == FeedMediaType.video) {
+      if (_isYoutube && _youtubeController != null) {
+        final isShorts = widget.post.mediaUrl.toLowerCase().contains('/shorts/');
+        final playerAspectRatio = isShorts ? (9 / 16) : (16 / 9);
+
+        return ClipRect(
+          child: Container(
+            color: Colors.black,
+            alignment: Alignment.center,
+            child: isShorts
+                ? FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * (16 / 9),
+                      child: YoutubePlayer(
+                        controller: _youtubeController!,
+                        aspectRatio: 9 / 16,
+                      ),
+                    ),
+                  )
+                : YoutubePlayer(
+                    controller: _youtubeController!,
+                    aspectRatio: playerAspectRatio,
+                  ),
+          ),
+        );
+      }
+
       // Using standard VideoPlayer
       if (_isInitialized &&
           _videoPlayerController != null &&
           _videoPlayerController!.value.isInitialized) {
-        return SizedBox.expand(
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: _videoPlayerController!.value.size.width,
-              height: _videoPlayerController!.value.size.height,
-              child: VideoPlayer(_videoPlayerController!),
-            ),
+        final videoSize = _videoPlayerController!.value.size;
+        final aspectRatio = _videoPlayerController!.value.aspectRatio;
+        final isVertical = aspectRatio < 1.0; // Vertical Video / Reels / Shorts
+
+        return ClipRect(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Ambient blur backdrop
+              FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: videoSize.width,
+                  height: videoSize.height,
+                  child: VideoPlayer(_videoPlayerController!),
+                ),
+              ),
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.45),
+                ),
+              ),
+              // Foreground video: Fill screen for vertical videos (Reels/Shorts), contain for landscape
+              Center(
+                child: isVertical
+                    ? FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: videoSize.width,
+                          height: videoSize.height,
+                          child: VideoPlayer(_videoPlayerController!),
+                        ),
+                      )
+                    : AspectRatio(
+                        aspectRatio: aspectRatio,
+                        child: VideoPlayer(_videoPlayerController!),
+                      ),
+              ),
+            ],
           ),
         );
       } else if (_hasError) {
@@ -501,85 +823,58 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
               Icon(Icons.image_not_supported, color: Colors.white54, size: 50),
         );
       }
-      return CachedNetworkImage(
-        imageUrl: widget.post.mediaUrl,
-        fit: BoxFit.cover,
-        // Critical for memory: Resize images to screen width (approx 1080)
-        // prevents loading full 12MP photos into RAM.
-        memCacheWidth: 1080,
-        maxWidthDiskCache: 1080,
-        placeholder: (context, url) => const Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
-        errorWidget: (context, url, error) {
-          debugPrint('Error loading image ($url): $error');
-          return const Center(
-            child: Icon(Icons.error, color: Colors.white),
-          );
-        },
+      final formattedUrl = _formatMediaUrl(widget.post.mediaUrl);
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          // 1. Blurred background image matching colors
+          CachedNetworkImage(
+            imageUrl: formattedUrl,
+            fit: BoxFit.cover,
+            memCacheWidth: 360,
+            errorWidget: (_, __, ___) => Container(
+              color: const Color(0xFF0D0B18),
+            ),
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.4),
+            ),
+          ),
+          // 2. Full crisp image fitted without cropping
+          Center(
+            child: CachedNetworkImage(
+              imageUrl: formattedUrl,
+              fit: BoxFit.contain,
+              memCacheWidth: 1080,
+              maxWidthDiskCache: 1080,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
+              ),
+              errorWidget: (context, url, error) {
+                debugPrint('Error loading image ($url): $error');
+                return Center(
+                  child: Image.asset(
+                    'assets/images/coyhaique.jpg',
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const Center(
+                      child: Icon(Icons.casino,
+                          color: Color(0xFFD4AF37), size: 60),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
   }
 
-  Widget _buildTag() {
-    Color tagColor;
-    String tagText;
 
-    switch (widget.post.postType) {
-      case FeedPostType.event:
-        tagColor = AppTheme.kPrimaryBlue;
-        tagText = 'EVENTO';
-        break;
-      case FeedPostType.promotion:
-        tagColor = AppTheme.kAccentRed;
-        tagText = 'PROMOCIÓN';
-        break;
-      default:
-        tagColor = Colors.grey;
-        tagText = 'NOTICIA';
-    }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: tagColor,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        tagText,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
 
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-    Color color = Colors.white,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 30),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   void dispose() {
@@ -587,6 +882,9 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
     _videoPlayerController?.pause();
     _videoPlayerController?.dispose();
     _videoPlayerController = null;
+
+    _youtubeController?.close();
+    _youtubeController = null;
 
     // Clean up overlay if open
     _overlayEntry?.remove();
@@ -696,7 +994,9 @@ class _ReactionPickerOverlayState extends State<_ReactionPickerOverlay>
     if (_hoverIndex != null &&
         _hoverIndex! >= 0 &&
         _hoverIndex! < ReactionType.values.length) {
-      widget.onReactionSelected(ReactionType.values[_hoverIndex!]);
+      final selectedReaction = ReactionType.values[_hoverIndex!];
+      _hoverIndex = null;
+      widget.onReactionSelected(selectedReaction);
       return true;
     }
     return false;
@@ -744,15 +1044,17 @@ class _ReactionPickerOverlayState extends State<_ReactionPickerOverlay>
               final isHovered = _hoverIndex == index;
 
               return GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  widget.onReactionSelected(reaction);
+                },
                 onTapDown: (_) {
                   HapticFeedback.selectionClick();
                   widget.onHoverChange();
                   setState(() => _hoverIndex = index);
                 },
-                onTapUp: (_) {
-                  if (_hoverIndex == index) {
-                    widget.onReactionSelected(reaction);
-                  }
+                onTapCancel: () {
+                  setState(() => _hoverIndex = null);
                 },
                 child: AnimatedScale(
                   scale: isHovered ? 2.0 : 1.0,
@@ -781,3 +1083,9 @@ class _ReactionPickerOverlayState extends State<_ReactionPickerOverlay>
     );
   }
 }
+
+
+
+
+
+

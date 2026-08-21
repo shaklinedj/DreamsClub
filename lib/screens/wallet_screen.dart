@@ -185,7 +185,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
     final user = ref.watch(userProvider);
     final balance = ref.watch(walletBalanceProvider);
     final transactions = ref.watch(transactionsProvider);
-    final primaryColor = user.levelColor;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -660,7 +660,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
             value: progress,
             minHeight: 10,
             backgroundColor: Colors.grey[800],
-            valueColor: AlwaysStoppedAnimation<Color>(user.levelColor),
+            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
           ),
         ),
         const SizedBox(height: 6),

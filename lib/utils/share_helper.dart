@@ -17,9 +17,9 @@ class ShareHelper {
 
   static Future<void> sharePost(
       String id, String title, String description) async {
-    final link = '$_deepLinkBase/post/$id';
+    final link = '$_deepLinkBase/share?postId=$id';
     await SharePlus.instance.share(ShareParams(
-      text: '$title\n$description\n\n$link',
+      text: '$title\n\n$description\n\n📲 Ver en DreamsClub:\n$link',
     ));
   }
 

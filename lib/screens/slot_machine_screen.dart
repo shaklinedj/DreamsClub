@@ -3,10 +3,13 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:casinoloyalty_flutter/providers/game_availability_provider.dart';
 import 'package:casinoloyalty_flutter/providers/game_history_provider.dart';
+import 'package:casinoloyalty_flutter/services/prize_service.dart';
+import 'package:casinoloyalty_flutter/services/spin_wheel_service.dart';
 import 'package:casinoloyalty_flutter/widgets/game_victory_dialog.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,16 +28,16 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
   late FixedExtentScrollController _controller3;
   bool _isSpinning = false;
   String _resultMessage = '';
-
-  // Audio
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final PrizeService _prizeService = PrizeService();
+  final SpinWheelService _spinWheelService = SpinWheelService();
 
   @override
   void initState() {
     super.initState();
-    _controller1 = FixedExtentScrollController();
-    _controller2 = FixedExtentScrollController();
-    _controller3 = FixedExtentScrollController();
+    _controller1 = FixedExtentScrollController(initialItem: 0);
+    _controller2 = FixedExtentScrollController(initialItem: 1);
+    _controller3 = FixedExtentScrollController(initialItem: 2);
   }
 
   @override
@@ -95,28 +98,59 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     final sym2 = _symbols[result2];
     final sym3 = _symbols[result3];
 
-    int pointsWon = 0;
+    WonPrize? wonPhysicalPrize;
+    final user = ref.read(userProvider);
+    final locationState = ref.read(locationProvider);
+    final casinoId = locationState.nearestCasino?.id ?? '4';
+
     if (sym1 == sym2 && sym2 == sym3) {
-      // Jackpot!
-      pointsWon = sym1 == '7️⃣' ? 10000 : 5000;
-      _resultMessage = '🎉 ¡JACKPOT! +$pointsWon puntos';
+      // Jackpot! Award dynamic physical prize from catalog
+      try {
+        final catalog = await _prizeService.getPrizesCatalog();
+        final selectedPrize = catalog.isNotEmpty ? catalog[random.nextInt(catalog.length)] : null;
+        if (selectedPrize != null) {
+          wonPhysicalPrize = _spinWheelService.createWonPrize(
+            prize: selectedPrize,
+            casinoId: casinoId,
+            userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+            userName: user.name,
+            userEmail: user.email,
+            userRut: user.rut ?? '',
+            gameSource: 'slots',
+          );
+          await _prizeService.saveWonPrize(wonPhysicalPrize);
+        }
+      } catch (_) {}
+
+      _resultMessage = '🎉 ¡JACKPOT! Ganaste ${wonPhysicalPrize?.prize.name ?? 'un premio'}';
       try {
         await _audioPlayer.play(AssetSource('sounds/win.wav'));
       } catch (_) {}
     } else if (sym1 == sym2 || sym2 == sym3 || sym1 == sym3) {
-      // Two match
-      pointsWon = 1000;
-      _resultMessage = '🎊 ¡Dos iguales! +$pointsWon puntos';
+      // Two match! Award dynamic physical prize from catalog
+      try {
+        final catalog = await _prizeService.getPrizesCatalog();
+        final selectedPrize = catalog.isNotEmpty ? catalog[random.nextInt(catalog.length)] : null;
+        if (selectedPrize != null) {
+          wonPhysicalPrize = _spinWheelService.createWonPrize(
+            prize: selectedPrize,
+            casinoId: casinoId,
+            userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+            userName: user.name,
+            userEmail: user.email,
+            userRut: user.rut ?? '',
+            gameSource: 'slots',
+          );
+          await _prizeService.saveWonPrize(wonPhysicalPrize);
+        }
+      } catch (_) {}
+
+      _resultMessage = '🎊 ¡Dos iguales! Ganaste ${wonPhysicalPrize?.prize.name ?? 'un premio'}';
       try {
         await _audioPlayer.play(AssetSource('sounds/coins.wav'));
       } catch (_) {}
     } else {
-      // Fallback (rare due to forced logic)
       _resultMessage = '¡Casi lo logras!';
-    }
-
-    if (pointsWon > 0) {
-      await ref.read(userProvider.notifier).addPoints(pointsWon);
     }
 
     setState(() {
@@ -124,23 +158,25 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
     });
 
     // Show victory dialog if won
-    if (pointsWon > 0 && mounted) {
+    if (mounted && wonPhysicalPrize != null) {
       showDialog(
         context: context,
         barrierDismissible: false,
         useRootNavigator: true,
         builder: (dialogContext) => GameVictoryDialog(
-          gameName: 'Slot Machine',
-          pointsWon: pointsWon,
+          gameName: 'Máquina de Premios',
+          prizeName: wonPhysicalPrize?.prize.name,
+          prizeIcon: wonPhysicalPrize?.prize.icon,
+          redemptionCode: wonPhysicalPrize?.redemptionCode,
+          viewButtonLabel: 'VER EN MIS PREMIOS',
           onViewPressed: () {
-            // Navigate to wallet after dialog closes
             Future.delayed(const Duration(milliseconds: 100), () {
-              if (mounted) context.go('/wallet');
+              if (mounted) {
+                context.push('/my-prizes');
+              }
             });
           },
-          onClose: () {
-            // Just close - no navigation needed
-          },
+          onClose: () {},
         ),
       );
     }
@@ -148,20 +184,21 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
 
   Future<void> _animateReel(
       FixedExtentScrollController controller, int targetIndex, int durationMs) {
-    final fullRotations = 5 + Random().nextInt(3);
-    final targetPosition = (fullRotations * _symbols.length) + targetIndex;
+    final currentItem = controller.selectedItem;
+    final totalItems = _symbols.length;
+    final extraSpins = 3 * totalItems;
+    final targetPosition = currentItem + extraSpins + (targetIndex - (currentItem % totalItems));
 
     return controller.animateToItem(
       targetPosition,
       duration: Duration(milliseconds: durationMs),
-      curve: Curves.easeOutCubic,
+      curve: Curves.easeInOutCubic,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
-    final primaryColor = user.levelColor;
+    final primaryColor = Theme.of(context).primaryColor;
     final gameAvailability = ref.watch(gameAvailabilityProvider('slots'));
     final locationState = ref.watch(locationProvider);
 
@@ -182,16 +219,16 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
         statusColor = Colors.red;
         break;
       case GameStatus.lockedFrequency:
-        statusMessage = gameAvailability.message ?? 'Ya jugaste hoy';
+        statusMessage = gameAvailability.message ?? 'Cooldown activo';
         statusColor = Colors.orange;
         break;
       case GameStatus.lockedTime:
-        statusMessage = gameAvailability.message ?? 'No disponible ahora';
+        statusMessage = gameAvailability.message ?? 'No disponible en este horario';
         statusColor = Colors.grey;
         break;
-      case GameStatus.lockedMembership:
-        statusMessage = gameAvailability.message ?? 'Nivel insuficiente';
-        statusColor = Colors.purple;
+      case GameStatus.lockedStreak:
+        statusMessage = gameAvailability.message ?? 'Racha insuficiente';
+        statusColor = Colors.amber;
         break;
       case GameStatus.maintenance:
         statusMessage = gameAvailability.message ?? 'En mantenimiento';

@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
+import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
+import 'package:casinoloyalty_flutter/services/prize_service.dart';
+import 'package:casinoloyalty_flutter/services/spin_wheel_service.dart';
 import 'package:casinoloyalty_flutter/widgets/game_victory_dialog.dart';
 import 'package:go_router/go_router.dart';
 
@@ -217,32 +222,67 @@ class _DreamsManiaDialogState extends ConsumerState<DreamsManiaDialog>
     );
   }
 
-  void _showVictoryDialog() {
+  Future<void> _showVictoryDialog() async {
     final score = ref.read(dreamsManiaProvider).score;
+    final prizeService = PrizeService();
+    final spinWheelService = SpinWheelService();
+    final user = ref.read(userProvider);
+    final locationState = ref.read(locationProvider);
+    final casinoId = locationState.nearestCasino?.id ?? '4';
+
+    WonPrize? wonPrize;
+    try {
+      final catalog = await prizeService.getPrizesCatalog();
+      if (catalog.isNotEmpty) {
+        final random = Random();
+        final selectedPrize = catalog[random.nextInt(catalog.length)];
+        wonPrize = spinWheelService.createWonPrize(
+          prize: selectedPrize,
+          casinoId: casinoId,
+          userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+          userName: user.name,
+          userEmail: user.email,
+          userRut: user.rut ?? '',
+          gameSource: 'dreams_mania',
+        );
+        await prizeService.saveWonPrize(wonPrize);
+      }
+    } catch (_) {}
 
     // Close current DreamsMania dialog first
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
 
     // Play win sound
-    _audioPlayer.play(AssetSource('sounds/win.wav'));
+    try {
+      await _audioPlayer.play(AssetSource('sounds/win.wav'));
+    } catch (_) {}
 
-    // Show victory dialog
+    if (!mounted) return;
+
+    // Show victory dialog with code
     showDialog(
       context: context,
       barrierDismissible: false,
-      useRootNavigator: true, // Ensure it's on top of everything
+      useRootNavigator: true,
       builder: (dialogContext) => GameVictoryDialog(
         gameName: 'Dreams Mania',
-        pointsWon: score,
+        pointsWon: wonPrize == null ? score : null,
+        prizeName: wonPrize?.prize.name,
+        prizeIcon: wonPrize?.prize.icon,
+        redemptionCode: wonPrize?.redemptionCode,
+        viewButtonLabel: wonPrize != null ? 'VER EN MIS PREMIOS' : null,
         onViewPressed: () {
           ref.read(dreamsManiaProvider.notifier).reset();
-          // Navigation handled inside GameVictoryDialog's _handleViewPoints,
-          // but we provide the action here.
-          // Note: GameVictoryDialog pops itself before calling this.
-
-          // Delay slightly to ensure dialog is gone and barrier removed
           Future.delayed(const Duration(milliseconds: 100), () {
-            if (mounted) context.go('/wallet');
+            if (mounted) {
+              if (wonPrize != null) {
+                context.push('/my-prizes');
+              } else {
+                context.go('/wallet');
+              }
+            }
           });
         },
         onClose: () {
@@ -272,6 +312,7 @@ class _FallingChipState extends State<_FallingChip>
   late AnimationController _controller;
   late Animation<double> _animation;
   late double _rotation;
+  bool _isCaught = false;
 
   @override
   void initState() {
@@ -312,42 +353,61 @@ class _FallingChipState extends State<_FallingChip>
           left: widget.startX * (screenWidth - 70),
           child: GestureDetector(
             onTap: () {
-              HapticFeedback.lightImpact();
+              if (_isCaught) return;
+              setState(() {
+                _isCaught = true;
+              });
+              HapticFeedback.heavyImpact();
               widget.onCaught();
             },
-            child: Transform.rotate(
-              angle: _rotation + _controller.value * 4 * pi,
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  border: Border.all(color: Colors.white, width: 3),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      blurRadius: 8,
-                      spreadRadius: 2,
+            child: _isCaught
+                ? Container(
+                    width: 70,
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      '+1000',
+                      style: TextStyle(
+                        color: Colors.greenAccent,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        shadows: [Shadow(blurRadius: 4, color: Colors.black)],
+                      ),
                     ),
-                  ],
-                ),
-                child: const Center(
-                  child: Text(
-                    'PTS',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
+                  )
+                : Transform.rotate(
+                    angle: _rotation + _controller.value * 4 * pi,
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        border: Border.all(color: Colors.white, width: 3),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'PTS',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
           ),
         );
       },

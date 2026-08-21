@@ -44,23 +44,19 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
     ref.read(gameHistoryProvider.notifier).recordPlay('roulette');
 
     final locationState = ref.read(locationProvider);
-    final casinoId = locationState.nearestCasino?.id ?? 'unknown';
+    final user = ref.read(userProvider);
+    final casinoId = locationState.nearestCasino?.id ?? '4';
 
     final wonPrize = _spinService.createWonPrize(
       prize: prize,
       casinoId: casinoId,
+      userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+      userName: user.name,
+      userEmail: user.email,
+      userRut: user.rut ?? '',
+      gameSource: 'roulette',
     );
     await _prizeService.saveWonPrize(wonPrize);
-
-    if (prize.type == PrizeType.points) {
-      int pointsToAdd = 0;
-      if (prize.id.startsWith('points_')) {
-        pointsToAdd = int.tryParse(prize.id.split('_')[1]) ?? 0;
-      }
-      if (pointsToAdd > 0) {
-        await ref.read(userProvider.notifier).addPoints(pointsToAdd);
-      }
-    }
 
     _confettiController.play();
 
@@ -72,44 +68,30 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
   }
 
   void _showPrizeDialog(WonPrize wonPrize) {
-    int? pointsWon;
-    if (wonPrize.prize.type == PrizeType.points &&
-        wonPrize.prize.id.startsWith('points_')) {
-      pointsWon = int.tryParse(wonPrize.prize.id.split('_')[1]);
-    }
-
     showDialog(
       context: context,
       barrierDismissible: false,
       useRootNavigator: true,
       builder: (dialogContext) => GameVictoryDialog(
         gameName: 'Ruleta de la Suerte',
-        pointsWon: pointsWon,
-        prizeName: pointsWon == null ? wonPrize.prize.name : null,
-        prizeIcon: pointsWon == null ? wonPrize.prize.icon : null,
-        viewButtonLabel: pointsWon == null ? 'VER MIS PREMIOS' : null,
+        prizeName: wonPrize.prize.name,
+        prizeIcon: wonPrize.prize.icon,
+        redemptionCode: wonPrize.redemptionCode,
+        viewButtonLabel: 'VER EN MIS PREMIOS',
         onViewPressed: () {
-          // Navigate after dialog closes
           Future.delayed(const Duration(milliseconds: 100), () {
             if (mounted) {
-              if (pointsWon == null) {
-                context.push('/my-prizes');
-              } else {
-                context.go('/wallet');
-              }
+              context.push('/my-prizes');
             }
           });
         },
-        onClose: () {
-          // Dialog already pops itself
-        },
+        onClose: () {},
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
     final gameAvailability = ref.watch(gameAvailabilityProvider('roulette'));
     final locationState = ref.watch(locationProvider);
 
@@ -131,19 +113,19 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
         statusIcon = Icons.location_off;
         break;
       case GameStatus.lockedFrequency:
-        statusMessage = gameAvailability.message ?? 'Ya jugaste hoy';
+        statusMessage = gameAvailability.message ?? 'Ya jugaste. Espera el cooldown';
         statusColor = Colors.orange;
         statusIcon = Icons.timer;
         break;
       case GameStatus.lockedTime:
-        statusMessage = gameAvailability.message ?? 'No disponible ahora';
+        statusMessage = gameAvailability.message ?? 'No disponible en este horario o día';
         statusColor = Colors.grey;
         statusIcon = Icons.schedule;
         break;
-      case GameStatus.lockedMembership:
-        statusMessage = gameAvailability.message ?? 'Nivel insuficiente';
-        statusColor = Colors.purple;
-        statusIcon = Icons.star;
+      case GameStatus.lockedStreak:
+        statusMessage = gameAvailability.message ?? 'Racha insuficiente';
+        statusColor = Colors.amber;
+        statusIcon = Icons.local_fire_department;
         break;
       case GameStatus.maintenance:
         statusMessage = gameAvailability.message ?? 'En mantenimiento';
@@ -228,29 +210,7 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2A2A2A),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Tus puntos:',
-                            style: TextStyle(color: Colors.white)),
-                        Text(
-                          '${user.points} pts',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
+
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

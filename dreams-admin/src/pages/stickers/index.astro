@@ -1,0 +1,20 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import StickerList from '../../components/StickerList';
+---
+
+<AdminLayout title="Gestión de Stickers">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-white mb-2">Galería de Stickers</h1>
+            <p class="text-slate-400">Administra los stickers exclusivos de la app móvil.</p>
+        </div>
+        
+        <a href="/stickers/new" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 flex items-center gap-2">
+            <span class="text-xl">+</span>
+            Nuevo Sticker
+        </a>
+    </div>
+
+    <StickerList client:load />
+</AdminLayout>

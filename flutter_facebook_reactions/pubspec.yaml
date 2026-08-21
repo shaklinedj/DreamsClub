@@ -1,7 +1,7 @@
 name: flutter_facebook_reactions
-description: A Flutter widget that mimics Facebook reaction bar with Lottie animations and sounds.
+description: A highly customizable Flutter widget that mimics Facebook reaction bar with smooth Lottie animations and sounds.
 version: 0.0.1
-homepage: https://github.com/yourusername/flutter_facebook_reactions
+homepage: https://github.com/hernanlaurel/flutter_facebook_reactions
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

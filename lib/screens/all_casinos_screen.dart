@@ -1,10 +1,12 @@
 import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
 import 'package:casinoloyalty_flutter/screens/widgets/casino_card.dart';
 
-import 'package:casinoloyalty_flutter/widgets/scaffold_with_nav_bar.dart';
+import 'package:casinoloyalty_flutter/screens/coyhaique/coyhaique_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:casinoloyalty_flutter/widgets/animated_bell.dart';
+import 'package:casinoloyalty_flutter/widgets/notifications_modal.dart';
 
 class AllCasinosScreen extends ConsumerWidget {
   const AllCasinosScreen({super.key});
@@ -18,10 +20,23 @@ class AllCasinosScreen extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            ScaffoldWithNavBar.scaffoldKey.currentState?.openDrawer();
+            CoyhaiqueShell.openDrawer();
           },
         ),
-        title: const Text('Conoce Nuestros Casinos'),
+        title: const Text('Nuestros Casinos'),
+        actions: [
+          IconButton(
+            icon: const AnimatedBell(),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const NotificationsModal(),
+              );
+            },
+          ),
+        ],
       ),
       body: allCasinos.when(
         data: (casinos) => ListView.builder(

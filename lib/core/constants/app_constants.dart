@@ -162,4 +162,6 @@ class AppConstants {
   static const Color goldDark = Color(0xFFA67C00);
   static const Color backgroundColor = Color(0xFF0D0D0D);
   static const Color surfaceColor = Color(0xFF141414);
+
+  // Ya no usamos Drive API keys aquí porque leemos de Firestore
 }

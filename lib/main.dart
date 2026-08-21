@@ -3,17 +3,20 @@ import 'package:casinoloyalty_flutter/services/firebase_service.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-import 'package:casinoloyalty_flutter/navigation/app_router.dart';
+import 'package:casinoloyalty_flutter/navigation/coyhaique_router.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
+import 'package:casinoloyalty_flutter/providers/gamification_provider.dart';
 import 'package:casinoloyalty_flutter/services/notification_service.dart';
 import 'package:casinoloyalty_flutter/services/real_notification_service.dart';
 import 'package:casinoloyalty_flutter/services/background_service_impl.dart';
-import 'package:casinoloyalty_flutter/services/messaging_service.dart'; // Import MessagingService
+import 'package:casinoloyalty_flutter/services/messaging_service.dart';
+import 'package:casinoloyalty_flutter/widgets/global_confetti_widget.dart';
 
 // Nuevos imports para mejoras
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
@@ -26,6 +29,10 @@ void main() async {
   // Capturar errores de la zona
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     // Configurar manejo global de errores de Flutter
     FlutterError.onError = (FlutterErrorDetails details) {
@@ -53,43 +60,40 @@ void main() async {
 
     AppLogger.info('🚀 Iniciando Dreams Club...');
 
-    // Inicializaciones paralelas para mejorar tiempo de inicio
-    await Future.wait([
-      initializeDateFormatting('es_ES', null),
-      _initializeTimezone(),
-      _initializeFirebaseServices(),
-    ]);
+    // Inicializar Firebase Core obligatoriamente antes de la UI
+    await FirebaseService.initialize();
+    AppLogger.info('✅ Firebase Core inicializado');
 
-    // Inicializaciones secuenciales (dependen de las anteriores)
-    await NotificationService.initialize();
-    AppLogger.info('✅ NotificationService inicializado');
-
-    // Initialize Firebase Messaging
-    await MessagingService.initialize();
-    AppLogger.info('✅ MessagingService inicializado');
-
-    NotificationService.onNotificationTap = (payload) {
-      if (payload == null || payload.isEmpty) {
-        rootNavigatorKey.currentContext?.go('/home');
-        return;
-      }
-
-      // Allow using route payloads directly.
-      if (payload.startsWith('/')) {
-        rootNavigatorKey.currentContext?.go(payload);
-        return;
-      }
-
-      // Default fallback.
-      rootNavigatorKey.currentContext?.go('/home');
-    };
-
-    await BackgroundServiceImpl.initialize();
-    AppLogger.info('✅ BackgroundService inicializado');
-
-    AppLogger.info('✅ Todas las inicializaciones completadas');
-
+    // Renderizar la UI inmediatamente
     runApp(const ProviderScope(child: DreamsLoyaltyApp()));
+
+    // Inicializaciones secundarias en segundo plano (sin congelar el inicio)
+    Future.microtask(() async {
+      await Future.wait([
+        initializeDateFormatting('es_ES', null),
+        _initializeTimezone(),
+      ]);
+
+      await _initializeFirebaseServices();
+
+      await NotificationService.initialize();
+      await MessagingService.initialize();
+
+      NotificationService.onNotificationTap = (payload) {
+        if (payload == null || payload.isEmpty) {
+          coyhaiqueRootNavigatorKey.currentContext?.go('/feed');
+          return;
+        }
+        if (payload.startsWith('/')) {
+          coyhaiqueRootNavigatorKey.currentContext?.go(payload);
+          return;
+        }
+        coyhaiqueRootNavigatorKey.currentContext?.go('/feed');
+      };
+
+      await BackgroundServiceImpl.initialize();
+      AppLogger.info('✅ Servicios secundarios inicializados en segundo plano');
+    });
   }, (error, stack) {
     // Captura errores de la zona
     AppLogger.fatal('Zone Error', error, stack);
@@ -105,42 +109,31 @@ Future<void> _initializeTimezone() async {
   AppLogger.debug('Timezone inicializado');
 }
 
-/// Inicializa servicios de Firebase (Analytics, Crashlytics).
+/// Inicializa servicios adicionales de Firebase en segundo plano (AppCheck, Crashlytics, Analytics).
 Future<void> _initializeFirebaseServices() async {
   try {
-    // Inicializar Firebase (necesario para Firestore en todas las plataformas)
-    await FirebaseService.initialize();
-    AppLogger.info('✅ Firebase core inicializado');
-
-    // Initialize App Check
     await FirebaseAppCheck.instance.activate(
       androidProvider:
           kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
       appleProvider:
           kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
-      webProvider: ReCaptchaEnterpriseProvider(
-          'recaptcha-site-key'), // Configure if needed
+      webProvider: ReCaptchaEnterpriseProvider('recaptcha-site-key'),
     );
     AppLogger.info('✅ Firebase App Check inicializado');
 
-    // Firebase Crashlytics y Analytics no están soportados en Web de la misma forma
-    // Solo inicializar estas herramientas de monitoreo en plataformas móviles por ahora
     if (!kIsWeb) {
-      // Inicializar Crashlytics primero para capturar errores de Analytics
       await CrashlyticsService.initialize();
       AppLogger.info('✅ Crashlytics inicializado');
-
-      // Inicializar Analytics
       await AnalyticsService.initialize();
       AppLogger.info('✅ Analytics inicializado');
-    } else {
-      AppLogger.info('ℹ️ Analytics y Crashlytics omitidos en Web');
     }
   } catch (e, stack) {
-    AppLogger.error('Error inicializando Firebase services', e, stack);
-    // Continuar sin Firebase - la app funcionará con datos mock si están implementados
+    AppLogger.error('Error inicializando Firebase services secundarios', e, stack);
   }
 }
+
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 /// Widget principal de la aplicación.
 class DreamsLoyaltyApp extends ConsumerWidget {
@@ -151,22 +144,32 @@ class DreamsLoyaltyApp extends ConsumerWidget {
     // Inicializar notificaciones reales
     ref.watch(realNotificationServiceProvider);
 
-    final appRouter = ref.watch(appRouterProvider);
+    final appRouter = ref.watch(coyhaiqueRouterProvider);
+    final streakData = ref.watch(streakProvider);
+    final currentTheme = AppTheme.getThemeByStreak(streakData.currentStreak);
 
     return MaterialApp.router(
       title: 'Dreams Club',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
+      themeMode: ThemeMode.dark, // The gamification UI relies on dark theme
+      theme: currentTheme,
+      darkTheme: currentTheme,
       routerConfig: appRouter,
       // Observer de Analytics para tracking automático de navegación
       // navigatorObservers: [
       //   if (AnalyticsService.observer != null) AnalyticsService.observer!,
       // ],
       builder: (context, child) {
-        // Wrapper para manejo de errores en UI
-        return _ErrorBoundary(child: child ?? const SizedBox.shrink());
+        // Wrapper para manejo de errores en UI y confeti global
+        return _ErrorBoundary(
+          child: Stack(
+            children: [
+              child ?? const SizedBox.shrink(),
+              const GlobalConfettiWidget(),
+            ],
+          ),
+        );
       },
     );
   }

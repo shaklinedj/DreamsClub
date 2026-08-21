@@ -52,104 +52,119 @@ class AdminCasinoRepository {
       }
       await batch.commit();
     } else {
-      final snapshot = await _db.collection('casinos').limit(1).get();
-      if (snapshot.docs.isNotEmpty) return; // Ya hay datos
+      final snapshot = await _db.collection('casinos').get();
+      if (snapshot.docs.isNotEmpty) {
+        // Buscar el documento de Coyhaique ('4')
+        final coyDoc = snapshot.docs.cast<DocumentSnapshot?>().firstWhere(
+              (doc) => doc?.id == '4',
+              orElse: () => null,
+            );
+        final data = coyDoc?.data() as Map<String, dynamic>?;
+        final address = data?['direccion'] as String?;
+        final lat = data?['latitud'] as num?;
+
+        // Si la dirección o la latitud no corresponden a la versión corregida,
+        // forzar la actualización de toda la colección.
+        if (address != 'Magallanes 131, Coyhaique' || lat == -45.5712) {
+          await seedInitialCasinos(forceReseed: true);
+        }
+        return; // Ya hay datos actualizados
+      }
     }
 
     final batch = _db.batch();
 
-    final initialCasinos = [
+    const initialCasinos = [
+      Casino(
+        id: '4',
+        nombre: 'Dreams Coyhaique',
+        ciudad: 'Coyhaique',
+        direccion: 'Magallanes 131, Coyhaique',
+        latitud: -45.57081,
+        longitud: -72.07419,
+        imageUrl: 'assets/images/coyhaique.jpg',
+        description: 'En el corazón de la Patagonia chilena. Salas de juegos, gastronomía regional, coctelería y eventos.',
+        features: ['Patagonia', 'Gastronomía de Autor', 'Ruleta', 'Shows en Vivo'],
+        rating: 4.8,
+        schedules: {'Lunes-Domingo': '12:00 - 04:00'},
+      ),
       Casino(
         id: '1',
         nombre: 'Dreams Iquique',
         ciudad: 'Iquique',
         direccion: 'Av. Arturo Prat 2755, Iquique',
-        latitud: -20.2122,
-        longitud: -70.1524,
+        latitud: -20.23528,
+        longitud: -70.14722,
         imageUrl: 'assets/images/iqq.jpg',
-        description: 'A pasos de playa Cavancha, diversión frente al mar.',
-        features: ['Playa Cavancha', 'Shows en Vivo', 'Gastronomía'],
+        description: 'Frente a Playa Brava, vistas al Pacífico y entretenimiento de primer nivel.',
+        features: ['Playa Brava', 'Hotel 5 Estrellas', 'Spa & Piscina', 'Buffet'],
         rating: 4.6,
-        schedules: {'Lunes-Domingo': '24 hrs'},
+        schedules: {'Lunes-Domingo': '24 Horas'},
       ),
       Casino(
         id: '2',
         nombre: 'Dreams Temuco',
         ciudad: 'Temuco',
         direccion: 'Av. Alemania 0945, Temuco',
-        latitud: -38.7359,
-        longitud: -72.5904,
+        latitud: -38.73315,
+        longitud: -72.61541,
         imageUrl: 'assets/images/temuco.jpg',
-        description: 'En el corazón de la Araucanía, lujo y cultura.',
-        features: ['Spa Hydra', 'Centro de Eventos', 'Hotel Dreams'],
-        rating: 4.7,
-        schedules: {'Lunes-Domingo': '24 hrs'},
+        description: 'El centro de entretenimiento más grande de la Araucanía.',
+        features: ['Centro de Convenciones', 'Restaurante In', 'Sky Bar', 'Shows'],
+        rating: 4.5,
+        schedules: {'Lunes-Domingo': '10:00 - 05:00'},
       ),
       Casino(
         id: '3',
         nombre: 'Dreams Valdivia',
         ciudad: 'Valdivia',
-        direccion: 'Av. Costanera Arturo Prat 0795, Valdivia',
-        latitud: -39.8142,
-        longitud: -73.2459,
+        direccion: 'Carampangue 190, Valdivia',
+        latitud: -39.8113,
+        longitud: -73.24611,
         imageUrl: 'assets/images/valdivia.jpg',
-        description:
-            'A orillas del río Calle-Calle, naturaleza y entretenimiento.',
-        features: ['Vista al Río', 'Restaurante Gourmet', 'Sala de Eventos'],
-        rating: 4.5,
-        schedules: {'Lunes-Domingo': '24 hrs'},
-      ),
-      Casino(
-        id: '4',
-        nombre: 'Dreams Coyhaique',
-        ciudad: 'Coyhaique',
-        direccion: 'Av. Baquedano 315, Coyhaique',
-        latitud: -45.5712,
-        longitud: -72.0685,
-        imageUrl: 'assets/images/coyhaique.jpg',
-        description: 'En la Patagonia chilena, aventura y diversión.',
-        features: ['Patagonia', 'Gastronomía Regional', 'Torneos'],
-        rating: 4.4,
+        description: 'A orillas del Río Calle-Calle con arquitectura icónica y gastronomía fluvial.',
+        features: ['Vista al Río', 'Sky Bar 360', 'Cervecería Artesanal', 'Hotel'],
+        rating: 4.7,
         schedules: {'Lunes-Domingo': '12:00 - 04:00'},
       ),
       Casino(
         id: '5',
         nombre: 'Dreams Punta Arenas',
         ciudad: 'Punta Arenas',
-        direccion: 'Av. Colón 556, Punta Arenas',
-        latitud: -53.1638,
-        longitud: -70.9171,
+        direccion: 'O\'Higgins 1235, Punta Arenas',
+        latitud: -53.16614,
+        longitud: -70.90611,
         imageUrl: 'assets/images/punta_arenas.jpg',
-        description: 'El casino más austral del mundo, experiencia única.',
-        features: ['Fin del Mundo', 'Hotel 5 Estrellas', 'Centro de Eventos'],
-        rating: 4.8,
-        schedules: {'Lunes-Domingo': '24 hrs'},
+        description: 'Frente al Estrecho de Magallanes, en el fin del mundo.',
+        features: ['Estrecho de Magallanes', 'Restaurante Doña Inés', 'Mirador'],
+        rating: 4.5,
+        schedules: {'Lunes-Domingo': '12:00 - 05:00'},
       ),
       Casino(
         id: '6',
         nombre: 'Dreams Puerto Varas',
         ciudad: 'Puerto Varas',
         direccion: 'Del Salvador 21, Puerto Varas',
-        latitud: -41.3167,
-        longitud: -72.9833,
+        latitud: -41.3195,
+        longitud: -72.9858,
         imageUrl: 'assets/images/puerto_varas.jpg',
-        description: 'Frente al lago Llanquihue con vista al volcán Osorno.',
-        features: ['Vista al Lago', 'Volcán Osorno', 'Hotel Radisson'],
-        rating: 4.7,
-        schedules: {'Lunes-Domingo': '24 hrs'},
+        description: 'A orillas del Lago Llanquihue con vista privilegiada a los volcanes Osorno y Calbuco.',
+        features: ['Vista Lago Llanquihue', 'Volcanes', 'Gastronomía Alemana'],
+        rating: 4.8,
+        schedules: {'Lunes-Domingo': '12:00 - 04:00'},
       ),
       Casino(
         id: '7',
-        nombre: 'Monticello Gran Casino',
+        nombre: 'Monticello',
         ciudad: 'San Francisco de Mostazal',
-        direccion: 'Ruta 5 Sur Km 59, San Francisco de Mostazal',
-        latitud: -33.9833,
-        longitud: -70.7000,
+        direccion: 'Panamericana Sur Km 57, Mostazal',
+        latitud: -33.92143,
+        longitud: -70.72161,
         imageUrl: 'assets/images/monticello.jpg',
-        description: 'El casino más grande de Sudamérica, cerca de Santiago.',
-        features: ['Hipódromo', 'Centro de Eventos', 'Gastronomía Premium'],
-        rating: 4.7,
-        schedules: {'Lunes-Domingo': '24 hrs'},
+        description: 'El casino y resort más grande de Chile con arena de conciertos internacional.',
+        features: ['Arena Monticello', 'Grand Casino', 'Gastronomía Internacional', 'Hotel Resort'],
+        rating: 4.9,
+        schedules: {'Lunes-Domingo': '24 Horas'},
       ),
     ];
 

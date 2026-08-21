@@ -1,0 +1,250 @@
+---
+import '../styles/global.css';
+---
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publicación en DreamsClub</title>
+    <meta name="description" content="Mira esta publicación en DreamsClub, la app oficial de Casinos Dreams." />
+    
+    <!-- Open Graph for WhatsApp/Social previews (Large Card layout) -->
+    <meta property="og:title" content="DreamsClub - Compartir publicación" />
+    <meta property="og:description" content="Mira esta publicación de Casinos Dreams en la app oficial de beneficios y entretención DreamsClub." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://dreams-casino-app.web.app/presentacion_dreams_club.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://dreams-casino-app.web.app/share" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
+        .bg-mesh {
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(147, 51, 234, 0.22) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(234, 179, 8, 0.15) 0px, transparent 40%),
+                radial-gradient(at 50% 80%, rgba(126, 34, 206, 0.18) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh text-slate-100 min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 backdrop-blur-md sticky top-0 z-50 bg-slate-950/60">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/download" class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-base">
+                    👑
+                </div>
+                <span class="text-xl font-black text-white font-heading">Dreams<span class="text-amber-400">Club</span></span>
+            </a>
+
+            <a 
+                href="/download" 
+                class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 text-slate-950 font-bold text-xs shadow-md"
+            >
+                Descargar App
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Card & Fallback Container -->
+    <main class="max-w-xl mx-auto px-6 py-12 flex-1 flex flex-col justify-center items-center w-full">
+        
+        <div class="w-full bg-slate-900/90 border border-slate-700/80 rounded-3xl p-8 backdrop-blur-xl shadow-2xl space-y-6 text-center">
+            
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-3xl">
+                📱
+            </div>
+
+            <div class="space-y-4">
+                <h1 id="shareTitle" class="text-2xl sm:text-3xl font-black text-white font-heading">
+                    Publicación Compartida
+                </h1>
+                <p id="shareStatus" class="text-sm text-slate-300">
+                    Cargando detalles de la publicación...
+                </p>
+                <!-- Dynamic Media Preview Container -->
+                <div id="mediaPreviewContainer" class="hidden w-full overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/40"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3 pt-2">
+                <a 
+                    id="openAppBtn"
+                    href="dreamsclub://home"
+                    class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-base shadow-lg shadow-purple-600/30 transition-all hover:scale-[1.02]"
+                >
+                    🚀 Abrir en DreamsClub App
+                </a>
+
+                <a 
+                    id="downloadAppBtn"
+                    href="/download"
+                    class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold text-sm border border-amber-500/30 transition-all"
+                >
+                    ⬇️ No tengo la app (Descargar APK)
+                </a>
+            </div>
+
+            <div class="border-t border-slate-800 pt-4 text-xs text-slate-500 flex items-center justify-center gap-4">
+                <span>🎰 Casinos Dreams</span>
+                <span>•</span>
+                <span>👑 Beneficios VIP</span>
+                <span>•</span>
+                <span>🎟️ Cartelera de Shows</span>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Fullscreen Zoom Modal -->
+    <div id="zoomModal" class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center cursor-zoom-out transition-all duration-300">
+        <img id="zoomImage" src="" alt="Zoomed Preview" class="max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl transition-transform duration-300 hover:scale-[1.01]" />
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 DreamsClub • Casinos Dreams. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Firebase JS SDK (V9 Compat) for Client-Side Firestore Loading -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" is:inline></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js" is:inline></script>
+
+    <!-- Smart Redirect Script -->
+    <script is:inline>
+        (function() {
+            // Firebase Config
+            const firebaseConfig = {
+                apiKey: 'AIzaSyDXOo7MAZTLSJ3gXZjNOE0od4-7-1HfScs',
+                appId: '1:326453914816:web:7dff6793ffc873fb291125',
+                messagingSenderId: '326453914816',
+                projectId: 'dreams-casino-app',
+                authDomain: 'dreams-casino-app.firebaseapp.com',
+                storageBucket: 'dreams-casino-app.firebasestorage.app',
+            };
+
+            // Initialize Firebase
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            const db = firebase.firestore();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('postId') || urlParams.get('id') || '';
+            const appSchemeUrl = postId ? `dreamsclub://post/${postId}` : 'dreamsclub://home';
+            const downloadUrl = `/download${postId ? `?postId=${postId}` : ''}`;
+
+            // No automatic redirects on page load to allow non-app users to read the post in peace
+
+            const openAppBtn = document.getElementById('openAppBtn');
+            const downloadAppBtn = document.getElementById('downloadAppBtn');
+            const shareTitle = document.getElementById('shareTitle');
+            const shareStatus = document.getElementById('shareStatus');
+            const mediaPreviewContainer = document.getElementById('mediaPreviewContainer');
+
+            if (openAppBtn) {
+                openAppBtn.href = 'javascript:void(0);';
+                openAppBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Attempt to launch app via hidden iframe
+                    const iframe = document.createElement('iframe');
+                    iframe.src = appSchemeUrl;
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    
+                    // Clean up iframe
+                    setTimeout(function() {
+                        if (iframe.parentNode) {
+                            iframe.parentNode.removeChild(iframe);
+                        }
+                    }, 1000);
+                });
+            }
+            if (downloadAppBtn) {
+                downloadAppBtn.href = "https://drive.google.com/uc?export=download&id=1v58BSGkbk7vP2AVkQXlfuTO8oJHDPlPi&confirm=t";
+                downloadAppBtn.setAttribute('target', '_blank');
+                downloadAppBtn.removeAttribute('download');
+            }
+
+            // Fetch dynamic post details if postId is present
+            if (postId) {
+                db.collection('posts').doc(postId).get().then((docSnap) => {
+                    if (docSnap.exists) {
+                        const post = docSnap.data();
+                        if (shareTitle) shareTitle.innerText = post.title || 'Publicación en DreamsClub';
+                        if (shareStatus) shareStatus.innerText = post.description || 'Abre esta publicación en la app.';
+                        
+                        // Render video/image preview dynamically
+                        if (post.mediaUrl && mediaPreviewContainer) {
+                            mediaPreviewContainer.classList.remove('hidden');
+                            
+                            // Format Google Drive direct links if applicable
+                            let formattedUrl = post.mediaUrl;
+                            const driveMatch = post.mediaUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || post.mediaUrl.match(/id=([a-zA-Z0-9_-]+)/);
+                            if (driveMatch && driveMatch[1]) {
+                                if (post.mediaType === 'video') {
+                                    formattedUrl = `https://drive.google.com/uc?export=download&id=${driveMatch[1]}`;
+                                } else {
+                                    formattedUrl = `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+                                }
+                            }
+
+                             if (post.mediaType === 'video') {
+                                 mediaPreviewContainer.innerHTML = `
+                                     <video src="${formattedUrl}" controls class="w-full max-h-72 object-cover block rounded-2xl mt-4"></video>
+                                 `;
+                             } else {
+                                 mediaPreviewContainer.innerHTML = `
+                                     <img src="${formattedUrl}" alt="Preview" class="w-full max-h-72 object-cover block rounded-2xl mt-4 cursor-zoom-in hover:brightness-95 transition-all" id="postPreviewImg" />
+                                 `;
+                                 
+                                 // Wire up zoom modal trigger
+                                 setTimeout(() => {
+                                     const postPreviewImg = document.getElementById('postPreviewImg');
+                                     const zoomModal = document.getElementById('zoomModal');
+                                     const zoomImage = document.getElementById('zoomImage');
+                                     if (postPreviewImg && zoomModal && zoomImage) {
+                                         postPreviewImg.addEventListener('click', function() {
+                                             zoomImage.src = formattedUrl;
+                                             zoomModal.classList.remove('hidden');
+                                             zoomModal.classList.add('flex');
+                                         });
+                                         zoomModal.addEventListener('click', function() {
+                                             zoomModal.classList.add('hidden');
+                                             zoomModal.classList.remove('flex');
+                                         });
+                                     }
+                                 }, 100);
+                             }
+                        }
+                    }
+                }).catch((err) => {
+                    console.error("Error fetching shared post:", err);
+                });
+            }
+
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobile) {
+                if (shareTitle && !postId) shareTitle.innerText = "¡Descarga DreamsClub!";
+                if (shareStatus && !postId) shareStatus.innerText = "Para ver esta publicación e interactuar con la comunidad, descarga la app oficial.";
+            } else {
+                if (shareTitle && !postId) shareTitle.innerText = "Ver publicación en DreamsClub";
+                if (shareStatus && !postId) shareStatus.innerText = "Para ver e interactuar con esta publicación, descarga la app móvil en tu teléfono.";
+            }
+        })();
+    </script>
+</body>
+</html>

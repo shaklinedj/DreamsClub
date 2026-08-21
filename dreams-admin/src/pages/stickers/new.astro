@@ -1,0 +1,19 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import StickerForm from '../../components/StickerForm';
+---
+
+<AdminLayout title="Nuevo Sticker">
+    <div class="mb-6">
+        <a href="/stickers" class="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
+            ← Volver a la Galería
+        </a>
+    </div>
+
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-white mb-2">Nuevo Sticker</h1>
+        <p class="text-slate-400 mb-8">Sube o enlaza una imagen para que esté disponible en la app móvil.</p>
+
+        <StickerForm client:load />
+    </div>
+</AdminLayout>

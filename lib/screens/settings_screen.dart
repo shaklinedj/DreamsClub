@@ -1,18 +1,16 @@
-import 'package:casinoloyalty_flutter/models/user_model.dart';
-import 'package:casinoloyalty_flutter/providers/casino_providers.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
-import 'package:casinoloyalty_flutter/providers/location_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:intl/intl.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
+import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -23,7 +21,9 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
   bool _isEditingName = false;
+  bool _isEditingPhone = false;
   bool _isUploadingImage = false;
   final ImagePicker _picker = ImagePicker();
 
@@ -32,73 +32,68 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     super.initState();
     final user = ref.read(userProvider);
     _nameController.text = user.name;
+    _phoneController.text = user.phoneNumber ?? '';
   }
 
   @override
   void dispose() {
     _nameController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
-  Future<void> _ensureContinuousLocationPermission() async {
-    try {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.whileInUse) {
-        // Intentar solicitar el permiso "always" directamente
-        final elevated = await Geolocator.requestPermission();
-
-        // Si aún no se obtuvo always, mostrar el diálogo para ir a ajustes
-        if (elevated != LocationPermission.always) {
-          if (!mounted) return;
-          if (context.mounted) {
-            showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: const Text('Permiso de ubicación continua'),
-                content: const Text(
-                  'Para registrar visitas en segundo plano y desbloquear logros automáticamente, necesitas habilitar "Permitir siempre" en los ajustes del sistema.\n\nEsto permitirá que la app detecte cuando visitas un casino, incluso cuando no la estés usando.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: const Text('Ahora no'),
-                  ),
-                  FilledButton(
-                    onPressed: () async {
-                      Navigator.of(ctx).pop();
-                      await Geolocator.openAppSettings();
-                    },
-                    child: const Text('Abrir Ajustes'),
-                  ),
-                ],
-              ),
-            );
-          }
-        } else {
-          // Éxito - mostrar confirmación
-          if (!mounted) return;
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('✅ Permiso de ubicación continua activado'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
-        }
-      }
-    } catch (_) {
-      // Silenciar errores (no bloquea UX)
-    }
+  Future<void> _pickAndUploadImage() async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1E2230),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: Colors.amber),
+              title: const Text('Elegir de la Galería', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pop(ctx);
+                _executePickAndUpload(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: Colors.amber),
+              title: const Text('Tomar Foto con la Cámara', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pop(ctx);
+                _executePickAndUpload(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.restore, color: Colors.redAccent),
+              title: const Text('Restablecer Logo Dreams por Defecto', style: TextStyle(color: Colors.white70)),
+              onTap: () async {
+                Navigator.pop(ctx);
+                await ref.read(userProvider.notifier).updateProfileImage('assets/images/logo-dreams.png');
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Foto de perfil restablecida')),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Future<void> _pickAndUploadImage() async {
+  Future<void> _executePickAndUpload(ImageSource source) async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
-        source: ImageSource.gallery,
+        source: source,
         maxWidth: 512,
         maxHeight: 512,
-        imageQuality: 70,
+        imageQuality: 75,
       );
 
       if (pickedFile == null) return;
@@ -107,22 +102,45 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         _isUploadingImage = true;
       });
 
-      final File file = File(pickedFile.path);
-      final String fileName =
-          'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
-      final Reference refStorage =
-          FirebaseStorage.instance.ref().child('user_profiles').child(fileName);
+      String cloudUrl = '';
 
-      final UploadTask uploadTask = refStorage.putFile(
-        file,
-        SettableMetadata(contentType: 'image/jpeg'),
-      );
+      // 1. Try Firebase Storage
+      try {
+        final File file = File(pickedFile.path);
+        final String fileName =
+            'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        final Reference refStorage =
+            FirebaseStorage.instance.ref().child('user_profiles').child(fileName);
 
-      final TaskSnapshot snapshot = await uploadTask;
-      final String downloadUrl = await snapshot.ref.getDownloadURL();
+        final UploadTask uploadTask = refStorage.putFile(
+          file,
+          SettableMetadata(contentType: 'image/jpeg'),
+        );
+
+        final TaskSnapshot snapshot = await uploadTask;
+        cloudUrl = await snapshot.ref.getDownloadURL();
+        if (cloudUrl.contains('?')) {
+          cloudUrl = '$cloudUrl&v=${DateTime.now().millisecondsSinceEpoch}';
+        } else {
+          cloudUrl = '$cloudUrl?v=${DateTime.now().millisecondsSinceEpoch}';
+        }
+      } catch (storageError) {
+        AppLogger.debug('Firebase Storage upload fallback: $storageError');
+      }
+
+      // 2. If Cloud URL failed or skipped, convert to permanent Base64 string
+      if (cloudUrl.isEmpty) {
+        try {
+          final bytes = await File(pickedFile.path).readAsBytes();
+          final base64String = base64Encode(bytes);
+          cloudUrl = 'data:image/jpeg;base64,$base64String';
+        } catch (e) {
+          AppLogger.error('Failed to convert avatar to base64', e);
+        }
+      }
 
       // Update User Provider
-      await ref.read(userProvider.notifier).updateProfileImage(downloadUrl);
+      await ref.read(userProvider.notifier).updateProfileImage(cloudUrl);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -144,12 +162,44 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
+  ImageProvider _resolveAvatar(String path) {
+    if (path.isEmpty) {
+      return const AssetImage('assets/images/logo-dreams.png');
+    }
+    if (path.startsWith('data:image')) {
+      try {
+        final commaIndex = path.indexOf(',');
+        if (commaIndex != -1) {
+          final base64Data = path.substring(commaIndex + 1);
+          return MemoryImage(base64Decode(base64Data));
+        }
+      } catch (_) {}
+    }
+    if (path.startsWith('assets/')) {
+      return AssetImage(path);
+    }
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return NetworkImage(path);
+    }
+    try {
+      final file = File(path);
+      if (file.existsSync()) {
+        return FileImage(file);
+      }
+    } catch (_) {}
+    return const AssetImage('assets/images/logo-dreams.png');
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => context.pop(),
+        ),
         title: const Text('Configuración'),
       ),
       body: ListView(
@@ -164,9 +214,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.grey[800],
-                  backgroundImage: user.profileImageUrl.startsWith('http')
-                      ? NetworkImage(user.profileImageUrl)
-                      : AssetImage(user.profileImageUrl) as ImageProvider,
+                  backgroundImage: _resolveAvatar(user.profileImageUrl),
                 ),
                 Positioned(
                   bottom: 0,
@@ -237,6 +285,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: Text(user.email),
             trailing: const Icon(Icons.lock_outline, size: 16),
           ),
+          if (user.rut != null && user.rut!.isNotEmpty)
+            ListTile(
+              title: const Text('RUT'),
+              subtitle: Text(user.rut!),
+              trailing: const Icon(Icons.badge_outlined, size: 16),
+            ),
           ListTile(
             title: const Text('Fecha de Nacimiento'),
             subtitle: Text(user.birthday != null
@@ -255,17 +309,65 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
+          SwitchListTile(
+            title: const Text('Deseo ser contactado'),
+            subtitle: const Text('Permitir que personal de Dreams me contacte'),
+            value: user.wantsContact,
+            activeThumbColor: AppTheme.kPrimaryBlue,
+            onChanged: (value) {
+              ref.read(userProvider.notifier).updateProfileDetails(
+                name: user.name,
+                wantsContact: value,
+                phoneNumber: user.phoneNumber,
+              );
+            },
+          ),
+          if (user.wantsContact)
+            ListTile(
+              title: const Text('Número de Teléfono'),
+              subtitle: _isEditingPhone
+                  ? TextField(
+                      controller: _phoneController,
+                      autofocus: true,
+                      keyboardType: TextInputType.phone,
+                      onSubmitted: (value) {
+                        ref.read(userProvider.notifier).updateProfileDetails(
+                          name: user.name,
+                          wantsContact: user.wantsContact,
+                          phoneNumber: value,
+                        );
+                        setState(() {
+                          _isEditingPhone = false;
+                        });
+                      },
+                    )
+                  : Text(user.phoneNumber?.isNotEmpty == true ? user.phoneNumber! : 'No configurado'),
+              trailing: IconButton(
+                icon: Icon(_isEditingPhone ? Icons.check : Icons.edit),
+                onPressed: () {
+                  if (_isEditingPhone) {
+                    ref.read(userProvider.notifier).updateProfileDetails(
+                      name: user.name,
+                      wantsContact: user.wantsContact,
+                      phoneNumber: _phoneController.text,
+                    );
+                    setState(() {
+                      _isEditingPhone = false;
+                    });
+                  } else {
+                    setState(() {
+                      _isEditingPhone = true;
+                    });
+                  }
+                },
+              ),
+            ),
           const Divider(),
           _buildSectionHeader('Preferencias'),
-          ListTile(
-            title: const Text('Casino Favorito'),
-            subtitle: Text(user.favoriteCasinoId != null
-                ? 'Casino #${user.favoriteCasinoId}'
-                : 'No seleccionado'),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {
-              _showFavoriteCasinoDialog(context, user);
-            },
+          const ListTile(
+            leading: Icon(Icons.location_city, color: Color(0xFFD4AF37)),
+            title: Text('Casino Principal'),
+            subtitle: Text('Dreams Coyhaique (Patagonia)'),
           ),
           SwitchListTile(
             title: const Text('Activar Notificaciones'),
@@ -325,80 +427,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
-          SwitchListTile(
-            title: Row(
-              children: [
-                const Flexible(
-                  child: Text(
-                    'Seguimiento de Ubicación',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (user.locationTrackingEnabled) ...[
-                  const SizedBox(width: 8),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade600,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.gps_fixed, size: 12, color: Colors.white),
-                        SizedBox(width: 4),
-                        Text(
-                          'ACTIVO',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-            subtitle: const Text(
-                'Detectar automáticamente cuando visitas un casino para desbloquear logros (funciona en segundo plano)'),
-            value: user.locationTrackingEnabled,
-            onChanged: (value) async {
-              if (value) {
-                // Solicitar permisos de ubicación
-                try {
-                  // Removed legacy updateLocationTrackingEnabled call
-                  if (!mounted) return;
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            '✅ GPS activado - Funciona incluso con la app cerrada'),
-                        backgroundColor: Colors.green,
-                        duration: Duration(seconds: 4),
-                      ),
-                    );
-                  }
-                  // Verificar si solo se concedió permiso whileInUse y guiar al usuario
-                  await _ensureContinuousLocationPermission();
-                } catch (e) {
-                  // ...
-                }
-              } else {
-                // Removed legacy updateLocationTrackingEnabled call
-                if (!mounted) return;
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Seguimiento de ubicación desactivado'),
-                    ),
-                  );
-                }
-              }
-            },
-          ),
           if (user.isAdmin) ...[
             const Divider(),
             _buildSectionHeader('Administración'),
@@ -419,16 +447,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onTap: () {
                 context.push('/admin/games');
               },
-            ),
-          ],
-          if (user.locationTrackingEnabled) ...[
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.bug_report),
-              title: const Text('Verificar Ubicación GPS'),
-              subtitle: const Text('Ver distancia a casinos cercanos'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () => _testGPSLocation(context),
             ),
           ],
           const Divider(),
@@ -459,6 +477,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
             },
           ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.redAccent),
+            title: const Text(
+              'Cerrar Sesión',
+              style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+            ),
+            onTap: () async {
+              await ref.read(authProvider.notifier).signOut();
+            },
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -474,168 +504,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-
-  Future<void> _testGPSLocation(BuildContext context) async {
-    try {
-      // Mostrar diálogo de carga
-      if (!context.mounted) return;
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-
-      final locationService = ref.read(locationServiceProvider);
-      final position = await locationService.getCurrentLocation();
-      final casinos = await ref.read(casinosProvider.future);
-
-      // Cerrar diálogo de carga
-      if (!context.mounted) return;
-      Navigator.pop(context);
-
-      // Calcular distancias
-      final distances = casinos.map((casino) {
-        final distance = Geolocator.distanceBetween(
-          position.latitude,
-          position.longitude,
-          casino.latitud,
-          casino.longitud,
-        );
-        return MapEntry(casino, distance);
-      }).toList()
-        ..sort((a, b) => a.value.compareTo(b.value));
-
-      // Mostrar resultado
-      if (!context.mounted) return;
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('📍 Tu Ubicación GPS'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Lat: ${position.latitude.toStringAsFixed(4)}'),
-                Text('Lon: ${position.longitude.toStringAsFixed(4)}'),
-                const Divider(height: 20),
-                const Text('Distancia a casinos:',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                ...distances.map((entry) {
-                  final casino = entry.key;
-                  final distanceMeters = entry.value;
-                  final distanceKm = distanceMeters / 1000;
-                  final isNear = distanceMeters <= 200;
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        Icon(
-                          isNear ? Icons.check_circle : Icons.circle_outlined,
-                          color: isNear ? Colors.green : Colors.grey,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            casino.nombre,
-                            style: TextStyle(
-                              fontWeight:
-                                  isNear ? FontWeight.bold : FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          distanceKm < 1
-                              ? '${distanceMeters.toInt()}m'
-                              : '${distanceKm.toStringAsFixed(1)}km',
-                          style: TextStyle(
-                            color: isNear ? Colors.green : Colors.grey,
-                            fontWeight:
-                                isNear ? FontWeight.bold : FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cerrar'),
-            ),
-          ],
-        ),
-      );
-    } catch (e) {
-      // Cerrar diálogo de carga si existe
-      if (context.mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al obtener ubicación: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  void _showFavoriteCasinoDialog(BuildContext context, User user) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        final casinosAsync = ref.watch(casinosProvider);
-        return AlertDialog(
-          title: const Text('Seleccionar Casino Favorito'),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: casinosAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text('Error: $err'),
-              data: (casinos) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: casinos.length,
-                  itemBuilder: (context, index) {
-                    final casino = casinos[index];
-                    final isSelected = user.favoriteCasinoId == casino.id;
-                    return ListTile(
-                      title: Text(casino.nombre),
-                      trailing: isSelected
-                          ? Icon(
-                              Icons.check_circle,
-                              color: Theme.of(context).primaryColor,
-                            )
-                          : const Icon(
-                              Icons.circle_outlined,
-                              color: Colors.grey,
-                            ),
-                      onTap: () {
-                        ref
-                            .read(userProvider.notifier)
-                            .updateFavoriteCasino(casino.id);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        );
-      },
     );
   }
 }

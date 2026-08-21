@@ -1,0 +1,13 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import PostInteractions from '../../components/PostInteractions';
+---
+
+<AdminLayout title="Interacciones de Publicación">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-white mb-2">Interacciones & Comentarios</h2>
+        <p class="text-slate-400">Revisa qué usuarios han interactuado, comentado o reaccionado a esta publicación.</p>
+    </div>
+
+    <PostInteractions client:load />
+</AdminLayout>

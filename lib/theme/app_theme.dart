@@ -117,21 +117,56 @@ class AppTheme {
     ),
   );
 
-  static final ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.dark,
-    primaryColor: kPrimaryBlue,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: kPrimaryBlue,
+  static ThemeData getThemeByStreak(int streak) {
+    if (streak < 3) {
+      // Racha inicial (1-2 días) -> Clásico MORADO/AZUL
+      return _buildDarkTheme(kPrimaryBlue);
+    } else if (streak >= 3 && streak < 7) {
+      // Racha frecuente (3-6 días) -> Dorado VIP (Gold)
+      return _buildDarkTheme(const Color(0xFFD4AF37));
+    } else if (streak >= 7 && streak < 14) {
+      // Racha patagónica (7-13 días) -> Platino Austral
+      return _buildDarkTheme(const Color(0xFF0EA5E9));
+    } else if (streak >= 14 && streak < 30) {
+      // Racha maestro (14-29 días) -> Especial Patagónico (Esmeralda)
+      return _buildDarkTheme(const Color(0xFF10B981));
+    } else {
+      // Racha leyenda (30+ días) -> Diamante Oscuro (Púrpura Neón / Oscuro VIP)
+      return _buildDarkTheme(const Color(0xFF8B5CF6));
+    }
+  }
+
+  static ThemeData _buildDarkTheme(Color primarySeed) {
+    return ThemeData(
+      useMaterial3: true,
       brightness: Brightness.dark,
-    ),
-    appBarTheme: const AppBarTheme(
-      elevation: 0,
-      centerTitle: false,
-    ),
-    textTheme: _appTextTheme.apply(
-      bodyColor: Colors.white,
-      displayColor: Colors.white,
-    ),
-  );
+      primaryColor: primarySeed,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primarySeed,
+        brightness: Brightness.dark,
+        primary: primarySeed,
+      ),
+      appBarTheme: const AppBarTheme(
+        elevation: 0,
+        centerTitle: false,
+      ),
+      textTheme: _appTextTheme.apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primarySeed,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primarySeed,
+        foregroundColor: Colors.white,
+      ),
+    );
+  }
+
+  static final ThemeData darkTheme = _buildDarkTheme(kPrimaryBlue);
 }

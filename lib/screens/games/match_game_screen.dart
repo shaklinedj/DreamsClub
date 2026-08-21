@@ -1,9 +1,16 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:casinoloyalty_flutter/providers/match_game_provider.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/location_provider.dart';
+import 'package:casinoloyalty_flutter/services/prize_service.dart';
+import 'package:casinoloyalty_flutter/services/spin_wheel_service.dart';
+import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
+import 'package:casinoloyalty_flutter/widgets/game_victory_dialog.dart';
 import 'package:casinoloyalty_flutter/services/match_game_service.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 
@@ -19,8 +26,8 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
   int? _selectedRow;
   int? _selectedCol;
   late AnimationController _pulseController;
-  bool _levelCompleteShown = false;
-  bool _gameOverShown = false;
+  final PrizeService _prizeService = PrizeService();
+  final SpinWheelService _spinWheelService = SpinWheelService();
 
   @override
   void initState() {
@@ -42,6 +49,15 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
     final gameState = ref.watch(matchGameProvider);
     final authState = ref.watch(authProvider);
     final isMember = authState.isMember;
+
+    // Listen to level complete and game over transitions
+    ref.listen<MatchGameState>(matchGameProvider, (previous, next) {
+      if (next.levelComplete && !(previous?.levelComplete ?? false)) {
+        _showLevelCompleteDialog();
+      } else if (next.gameOver && !(previous?.gameOver ?? false)) {
+        _showGameOverDialog();
+      }
+    });
 
     return Scaffold(
       body: Container(
@@ -120,19 +136,16 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                  color: AppTheme.kPrimaryBlue.withValues(alpha: 0.5)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.swap_horiz, color: Colors.white, size: 18),
+                const Icon(Icons.timer, color: Colors.white70, size: 16),
                 const SizedBox(width: 4),
                 Text(
                   '${gameState.movesLeft}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
                   ),
                 ),
               ],
@@ -147,17 +160,16 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
     final progress = (gameState.score / gameState.targetScore).clamp(0.0, 1.0);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${gameState.score}',
+                'Puntos: ${gameState.score}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -165,37 +177,20 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
                 'Meta: ${gameState.targetScore}',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.7),
-                  fontSize: 14,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Container(
-            height: 12,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Stack(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: MediaQuery.of(context).size.width * 0.85 * progress,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFD4AF37), Color(0xFFF5D061)],
-                    ),
-                    borderRadius: BorderRadius.circular(6),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFD4AF37).withValues(alpha: 0.5),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.white.withValues(alpha: 0.1),
+              valueColor: AlwaysStoppedAnimation(
+                progress >= 1.0 ? const Color(0xFF4CAF50) : const Color(0xFFD4AF37),
+              ),
+              minHeight: 12,
             ),
           ),
         ],
@@ -205,160 +200,91 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
 
   Widget _buildGameGrid(MatchGameState gameState) {
     if (gameState.grid.isEmpty) {
-      return const CircularProgressIndicator(color: Colors.white);
+      return const CircularProgressIndicator(color: Color(0xFFD4AF37));
     }
 
-    // Show level complete dialog (only once)
-    if (gameState.levelComplete && !_levelCompleteShown) {
-      _levelCompleteShown = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showLevelCompleteDialog();
-      });
-    } else if (!gameState.levelComplete) {
-      _levelCompleteShown = false;
-    }
-
-    // Show game over dialog (only once)
-    if (gameState.gameOver && !_gameOverShown) {
-      _gameOverShown = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showGameOverDialog();
-      });
-    } else if (!gameState.gameOver) {
-      _gameOverShown = false;
-    }
-
-    final gridSize = gameState.grid.length;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final cellSize = (screenWidth - 48) / gridSize;
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
-          width: 2,
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.1),
+            width: 2,
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(gridSize, (row) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(gridSize, (col) {
-              return _buildGemCell(gameState, row, col, cellSize);
-            }),
-          );
-        }),
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 8,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+          ),
+          itemCount: 64,
+          itemBuilder: (context, index) {
+            final row = index ~/ 8;
+            final col = index % 8;
+            final gem = gameState.grid[row][col];
+            final isSelected = _selectedRow == row && _selectedCol == col;
+
+            return _buildGemTile(row, col, gem, isSelected);
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildGemCell(
-      MatchGameState gameState, int row, int col, double size) {
-    final gem = gameState.grid[row][col];
-    final isSelected = _selectedRow == row && _selectedCol == col;
-    final isMatching = gameState.currentMatches.any(
-      (m) => m.row == row && m.col == col,
-    );
+  Widget _buildGemTile(int row, int col, GemType? gem, bool isSelected) {
+    if (gem == null) return const SizedBox.shrink();
 
     return GestureDetector(
-      onTap: () => _handleGemTap(row, col),
+      onTap: () => _handleTileTap(row, col),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        width: size,
-        height: size,
-        padding: const EdgeInsets.all(2),
-        child: AnimatedScale(
-          scale: isMatching ? 0.0 : (isSelected ? 1.15 : 1.0),
-          duration: const Duration(milliseconds: 200),
-          child: gem != null
-              ? _buildGem(gem, isSelected, size - 4)
-              : const SizedBox(),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? Colors.white.withValues(alpha: 0.3)
+              : Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(8),
+          border: isSelected
+              ? Border.all(color: const Color(0xFFD4AF37), width: 2)
+              : null,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFFD4AF37).withValues(alpha: 0.5),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                  ),
+                ]
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            gem.emoji,
+            style: const TextStyle(fontSize: 24),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildGem(GemType gem, bool isSelected, double size) {
-    final color = Color(gem.colorValue);
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            color.withValues(alpha: 0.9),
-            color,
-            color.withValues(alpha: 0.7),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(size * 0.25),
-        border: Border.all(
-          color:
-              isSelected ? Colors.white : Colors.white.withValues(alpha: 0.3),
-          width: isSelected ? 3 : 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: isSelected ? 0.6 : 0.4),
-            blurRadius: isSelected ? 12 : 6,
-            spreadRadius: isSelected ? 2 : 0,
-          ),
-          // Inner glow
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.2),
-            blurRadius: 4,
-            offset: const Offset(-2, -2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          _getGemIcon(gem),
-          style: TextStyle(fontSize: size * 0.5),
-        ),
-      ),
-    );
-  }
-
-  String _getGemIcon(GemType gem) {
-    switch (gem) {
-      case GemType.ruby:
-        return '💎';
-      case GemType.sapphire:
-        return '🔷';
-      case GemType.emerald:
-        return '💚';
-      case GemType.gold:
-        return '⭐';
-      case GemType.amethyst:
-        return '🔮';
-      case GemType.amber:
-        return '🔶';
-    }
-  }
-
-  void _handleGemTap(int row, int col) {
+  void _handleTileTap(int row, int col) {
     HapticFeedback.lightImpact();
 
-    if (_selectedRow == null || _selectedCol == null) {
+    if (_selectedRow == null) {
       setState(() {
         _selectedRow = row;
         _selectedCol = col;
       });
     } else {
-      // Check if adjacent
-      final rowDiff = (row - _selectedRow!).abs();
-      final colDiff = (col - _selectedCol!).abs();
+      final isAdjacent = (_selectedRow == row && (_selectedCol! - col).abs() == 1) ||
+          (_selectedCol == col && (_selectedRow! - row).abs() == 1);
 
-      if (rowDiff + colDiff == 1) {
-        // Swap gems
+      if (isAdjacent) {
         ref.read(matchGameProvider.notifier).swapGems(
               _selectedRow!,
               _selectedCol!,
@@ -376,21 +302,16 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
 
   Widget _buildPendingPointsBanner(MatchGameState gameState) {
     final progress =
-        gameState.pendingPoints / MatchGameService.maxPendingPoints;
+        (gameState.pendingPoints / MatchGameService.maxPendingPoints).clamp(0.0, 1.0);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xFFD4AF37).withValues(alpha: 0.2),
-            const Color(0xFFD4AF37).withValues(alpha: 0.1),
-          ],
-        ),
+        color: Colors.black.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFFD4AF37).withValues(alpha: 0.5),
+          color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -411,38 +332,35 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
                 },
               ),
               const SizedBox(width: 12),
-              Expanded(
+              const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Puntos Pendientes',
+                    Text(
+                      'Premios y Vouchers Dreams',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontSize: 13,
                       ),
                     ),
                     Text(
-                      '¡Obtén tu tarjeta Dreams para canjearlos!',
+                      '¡Supera cada nivel para desbloquear premios!',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
-                        fontSize: 12,
+                        color: Colors.white70,
+                        fontSize: 11,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
-                '${gameState.pendingPoints}',
-                style: const TextStyle(
-                  color: Color(0xFFD4AF37),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              const Text(
+                '🎁',
+                style: TextStyle(fontSize: 22),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
@@ -452,63 +370,63 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
               minHeight: 6,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            '${gameState.pendingPoints} / ${MatchGameService.maxPendingPoints} pts',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
-              fontSize: 11,
-            ),
-          ),
         ],
       ),
     );
   }
 
-  void _showLevelCompleteDialog() {
+  Future<void> _showLevelCompleteDialog() async {
+    final user = ref.read(userProvider);
+    final locationState = ref.read(locationProvider);
+    final casinoId = locationState.nearestCasino?.id ?? '4';
+
+    WonPrize? wonPrize;
+    try {
+      final catalog = await _prizeService.getPrizesCatalog();
+      if (catalog.isNotEmpty) {
+        final random = Random();
+        final selectedPrize = catalog[random.nextInt(catalog.length)];
+        wonPrize = _spinWheelService.createWonPrize(
+          prize: selectedPrize,
+          casinoId: casinoId,
+          userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+          userName: user.name,
+          userEmail: user.email,
+          userRut: user.rut ?? '',
+          gameSource: 'dreams_match',
+        );
+        await _prizeService.saveWonPrize(wonPrize);
+      }
+    } catch (_) {}
+
+    if (!mounted) return;
+
+    final currentLevel = ref.read(matchGameProvider).level;
+
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // ignore: prefer_const_constructors
-        title: Column(
-          children: const [
-            Text('🎉', style: TextStyle(fontSize: 48)),
-            SizedBox(height: 8),
-            Text(
-              '¡Nivel Completado!',
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        content: Text(
-          'Has superado el Nivel ${ref.read(matchGameProvider).level}',
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              context.pop();
-            },
-            child: const Text('Salir'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFD4AF37),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              ref.read(matchGameProvider.notifier).startNextLevel();
-            },
-            child: const Text('Siguiente Nivel',
-                style: TextStyle(color: Colors.black)),
-          ),
-        ],
+      useRootNavigator: true,
+      builder: (dialogContext) => GameVictoryDialog(
+        gameName: 'Dreams Match - Nivel $currentLevel',
+        prizeName: wonPrize?.prize.name ?? '¡Nivel $currentLevel Superado!',
+        prizeIcon: wonPrize?.prize.icon ?? '💎',
+        redemptionCode: wonPrize?.redemptionCode,
+        viewButtonLabel: wonPrize != null ? 'VER EN MIS PREMIOS' : 'SIGUIENTE NIVEL',
+        onViewPressed: () {
+          Future.delayed(const Duration(milliseconds: 100), () {
+            if (mounted) {
+              if (wonPrize != null) {
+                context.push('/my-prizes');
+              } else {
+                ref.read(matchGameProvider.notifier).startNextLevel();
+              }
+            }
+          });
+        },
+        onClose: () {
+          ref.read(matchGameProvider.notifier).startNextLevel();
+        },
       ),
     );
   }
@@ -532,7 +450,7 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
           ],
         ),
         content: Text(
-          'No alcanzaste la meta. ¡Inténtalo de nuevo!',
+          'No alcanzaste la meta de puntos. ¡Inténtalo de nuevo!',
           style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
           textAlign: TextAlign.center,
         ),

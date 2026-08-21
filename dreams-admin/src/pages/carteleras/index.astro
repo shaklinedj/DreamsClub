@@ -1,0 +1,17 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import CarteleraManager from '../../components/carteleras/CarteleraManager';
+---
+
+<AdminLayout title="Gestión de Carteleras">
+	<div class="mb-8 flex justify-between items-center">
+		<div>
+			<h2 class="text-3xl font-bold text-white mb-2">Carteleras Digitales</h2>
+			<p class="text-slate-400">Gestiona los banners y videos que se muestran en las pantallas por sucursal.</p>
+		</div>
+	</div>
+
+	<!-- Componente React para manejar la tabla y subida de datos a Firebase -->
+	<CarteleraManager client:load />
+
+</AdminLayout>

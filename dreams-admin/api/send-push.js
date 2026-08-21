@@ -59,6 +59,15 @@ export default async function handler(req, res) {
 
     const response = await getMessaging(app).sendEachForMulticast(message);
     
+    console.log(`Multicast results: Successes: ${response.successCount}, Failures: ${response.failureCount}`);
+    if (response.failureCount > 0) {
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          console.error(`Token at index ${idx} failed to send. Error:`, resp.error);
+        }
+      });
+    }
+
     return res.status(200).json({
       success: true,
       successCount: response.successCount,

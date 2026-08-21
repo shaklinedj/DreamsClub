@@ -27,7 +27,9 @@ export default async function handler(req, res) {
 
   try {
     // Initialize Firebase Admin SDK using Environment Variables (secure)
-    if (!admin.apps.length) {
+    try {
+      admin.app();
+    } catch (_) {
       const privateKey = process.env.FIREBASE_PRIVATE_KEY 
         ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') 
         : undefined;

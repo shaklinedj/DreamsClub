@@ -760,26 +760,17 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
             alignment: Alignment.center,
             child: Opacity(
               opacity: 0.999,
-              child: isShorts
-                  ? FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.width * (16 / 9),
-                        child: IgnorePointer(
-                          child: YoutubePlayer(
-                            controller: _youtubeController!,
-                            aspectRatio: 9 / 16,
-                          ),
-                        ),
-                      ),
-                    )
-                  : IgnorePointer(
-                      child: YoutubePlayer(
-                        controller: _youtubeController!,
-                        aspectRatio: playerAspectRatio,
-                      ),
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
+                  child: IgnorePointer(
+                    child: YoutubePlayer(
+                      controller: _youtubeController!,
+                      aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
                     ),
+                  ),
+                ),
+              ),
             ),
           ),
         );

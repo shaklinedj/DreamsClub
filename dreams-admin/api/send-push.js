@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { title, body, tokens, notificationId } = req.body;
+  const { title, body, tokens, notificationId, customRoute } = req.body;
 
   if (!title || !body || !tokens || !Array.isArray(tokens) || tokens.length === 0) {
     return res.status(400).json({ error: 'Missing parameters. Required: title, body, tokens (array)' });
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
         body,
       },
       data: {
-        route: `/notification-detail/${notificationId || ''}`,
+        route: customRoute || `/notification-detail/${notificationId || ''}`,
         click_action: 'FLUTTER_NOTIFICATION_CLICK',
       },
       tokens,

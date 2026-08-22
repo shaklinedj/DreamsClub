@@ -46,6 +46,8 @@ export default function NotificationManager() {
     const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
     const [history, setHistory] = useState<NotificationItem[]>([]);
     const [users, setUsers] = useState<UserItem[]>([]);
+    const [posts, setPosts] = useState<{ id: string; title: string; body?: string }[]>([]);
+    const [selectedPostId, setSelectedPostId] = useState('');
     const [loading, setLoading] = useState(true);
 
     // Filtros de Segmentación de Audiencia
@@ -81,9 +83,19 @@ export default function NotificationManager() {
             setUsers(uList);
         });
 
+        const unsubPosts = onSnapshot(collection(db, 'posts'), (snapshot) => {
+            const pList = snapshot.docs.map(d => ({
+                id: d.id,
+                title: d.data().title || d.data().description?.substring(0, 50) || d.id,
+                body: d.data().description || ''
+            }));
+            setPosts(pList);
+        });
+
         return () => {
             unsubNotifs();
             unsubUsers();
+            unsubPosts();
         };
     }, []);
 
@@ -167,6 +179,7 @@ export default function NotificationManager() {
                 body: body.trim(),
                 type: type,
                 imageUrl: finalImageUrl,
+                linkedPostId: selectedPostId || null,
                 casinoId: '4', // Coyhaique
                 createdAt: Timestamp.now(),
                 status: 'sent',
@@ -209,6 +222,7 @@ export default function NotificationManager() {
                                 body: body.trim(),
                                 tokens: targetTokens,
                                 notificationId: docRef.id,
+                                customRoute: selectedPostId ? `/post/${selectedPostId}` : undefined,
                             }),
                         });
                         if (response.ok) {
@@ -231,6 +245,7 @@ export default function NotificationManager() {
             setTitle('');
             setBody('');
             setImageUrl('');
+            setSelectedPostId('');
             setMediaFile(null);
         } catch (error: any) {
             console.error("Error sending notification:", error);
@@ -396,6 +411,34 @@ export default function NotificationManager() {
                                 </label>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Vincular Publicación */}
+                    <div>
+                        <label className="block text-slate-300 font-medium mb-2 text-sm">Vincular a Publicación Existente (Opcional)</label>
+                        <select
+                            value={selectedPostId}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setSelectedPostId(val);
+                                if (val) {
+                                    const post = posts.find(p => p.id === val);
+                                    if (post) {
+                                        setTitle(post.title);
+                                        setBody(post.body || '');
+                                    }
+                                }
+                            }}
+                            className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500"
+                        >
+                            <option value="">-- Ninguna (Notificación estándar) --</option>
+                            {posts.map(p => (
+                                <option key={p.id} value={p.id}>{p.title}</option>
+                            ))}
+                        </select>
+                        <p className="mt-1 text-[10px] text-slate-500">
+                            Si vinculas una publicación, cuando el usuario toque la notificación push en su celular, la app le abrirá directamente ese post.
+                        </p>
                     </div>
 
                     {/* Título y Mensaje */}

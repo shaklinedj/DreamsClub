@@ -146,7 +146,23 @@ import '../styles/global.css';
             const appSchemeUrl = postId ? `dreamsclub://post/${postId}` : 'dreamsclub://home';
             const downloadUrl = `/download${postId ? `?postId=${postId}` : ''}`;
 
-            // No automatic redirects on page load to allow non-app users to read the post in peace
+            // Attempt auto-redirect to app on mobile page load
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobile) {
+                setTimeout(function() {
+                    window.location.href = appSchemeUrl;
+                    
+                    const iframe = document.createElement('iframe');
+                    iframe.src = appSchemeUrl;
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    setTimeout(function() {
+                        if (iframe.parentNode) {
+                            iframe.parentNode.removeChild(iframe);
+                        }
+                    }, 500);
+                }, 600);
+            }
 
             const openAppBtn = document.getElementById('openAppBtn');
             const downloadAppBtn = document.getElementById('downloadAppBtn');

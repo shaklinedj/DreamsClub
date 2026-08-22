@@ -390,6 +390,11 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isShorts = widget.post.mediaUrl.toLowerCase().contains('/shorts/');
+    final playerAspectRatio = isShorts ? (9 / 16) : (16 / 9);
+    final targetWidth = MediaQuery.of(context).size.width * (isShorts ? 0.75 : 0.95);
+    final targetHeight = targetWidth / (isShorts ? (9 / 16) : playerAspectRatio);
+
     return Container(
       color: Colors.black,
       child: Stack(
@@ -421,22 +426,26 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                _buildMediaContent(),
+                _buildMediaContent(targetWidth, targetHeight),
                 if (_isYoutube)
-                  Positioned.fill(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        if (_youtubeController != null) {
-                          final state = _youtubeController!.value.playerState;
-                          if (state == PlayerState.playing) {
-                            _youtubeController!.pauseVideo();
-                          } else {
-                            _youtubeController!.playVideo();
+                  Center(
+                    child: SizedBox(
+                      width: targetWidth,
+                      height: targetHeight,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          if (_youtubeController != null) {
+                            final state = _youtubeController!.value.playerState;
+                            if (state == PlayerState.playing) {
+                              _youtubeController!.pauseVideo();
+                            } else {
+                              _youtubeController!.playVideo();
+                            }
                           }
-                        }
-                      },
-                      onDoubleTap: _handleDoubleTap,
+                        },
+                        onDoubleTap: _handleDoubleTap,
+                      ),
                     ),
                   ),
                 // Heart Animation Overlay
@@ -748,7 +757,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
 
 
 
-  Widget _buildMediaContent() {
+  Widget _buildMediaContent(double targetWidth, double targetHeight) {
     if (widget.post.mediaType == FeedMediaType.video) {
       if (_isYoutube && _youtubeController != null) {
         final isShorts = widget.post.mediaUrl.toLowerCase().contains('/shorts/');
@@ -761,8 +770,9 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
             child: Opacity(
               opacity: 0.999,
               child: Center(
-                child: AspectRatio(
-                  aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
+                child: SizedBox(
+                  width: targetWidth,
+                  height: targetHeight,
                   child: IgnorePointer(
                     child: YoutubePlayer(
                       controller: _youtubeController!,

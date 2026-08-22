@@ -461,8 +461,8 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
                                 onPressed: () async {
                                   final videoId = _extractYoutubeId(widget.post.mediaUrl);
                                   if (videoId != null) {
+                                    final currentPosition = await _youtubeController?.currentTime ?? 0.0;
                                     _youtubeController?.pauseVideo();
-                                    final currentPosition = _youtubeController?.value.position.inSeconds.toDouble() ?? 0.0;
                                     
                                     await Navigator.push(
                                       context,
@@ -1182,8 +1182,8 @@ class _FullScreenYoutubePlayerPageState extends State<FullScreenYoutubePlayerPag
     _controller = YoutubePlayerController.fromVideoId(
       videoId: widget.videoId,
       autoPlay: true,
-      params: YoutubePlayerParams(
-        startAt: Duration(seconds: widget.startSeconds.toInt()),
+      startSeconds: widget.startSeconds,
+      params: const YoutubePlayerParams(
         showControls: true,
         showFullscreenButton: false,
       ),

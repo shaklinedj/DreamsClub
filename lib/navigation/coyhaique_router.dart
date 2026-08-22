@@ -75,10 +75,19 @@ final coyhaiqueRouterProvider = Provider<GoRouter>((ref) {
 
       if (!authState.isAuthenticated) {
         if (isSplash) return null;
-        return isLoggingIn ? null : '/login';
+        if (isLoggingIn) return null;
+        final from = state.uri.toString();
+        return '/login?from=${Uri.encodeComponent(from)}';
       }
 
       if (isLoggingIn || isSplash) {
+        final from = state.uri.queryParameters['from'];
+        if (from != null && from.isNotEmpty) {
+          final decodedFrom = Uri.decodeComponent(from);
+          if (decodedFrom.startsWith('/')) {
+            return decodedFrom;
+          }
+        }
         return '/feed';
       }
 

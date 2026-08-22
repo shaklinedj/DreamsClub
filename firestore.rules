@@ -82,7 +82,7 @@ service cloud.firestore {
 
     // Collection: posts
     match /posts/{postId} {
-      allow read: if isAuthenticated();
+      allow read: if true;
       // Allow creation/deletion only by admin
       allow create, delete: if isAdmin();
       // Allow update by admin, or by normal users who are only changing counters or reaction map

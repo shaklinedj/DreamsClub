@@ -20,10 +20,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { title, body, tokens, notificationId, customRoute } = req.body;
+  const { title, body, tokens, recipients, notificationId, customRoute } = req.body;
 
-  if (!title || !body || !tokens || !Array.isArray(tokens) || tokens.length === 0) {
-    return res.status(400).json({ error: 'Missing parameters. Required: title, body, tokens (array)' });
+  const hasTokens = tokens && Array.isArray(tokens) && tokens.length > 0;
+  const hasRecipients = recipients && Array.isArray(recipients) && recipients.length > 0;
+
+  if (!title || !body || (!hasTokens && !hasRecipients)) {
+    return res.status(400).json({ error: 'Missing parameters. Required: title, body, and either tokens or recipients array' });
   }
 
   try {
@@ -45,19 +48,34 @@ export default async function handler(req, res) {
       app = getApp();
     }
 
-    const message = {
-      notification: {
-        title,
-        body,
-      },
-      data: {
-        route: customRoute || `/notification-detail/${notificationId || ''}`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK',
-      },
-      tokens,
-    };
-
-    const response = await getMessaging(app).sendEachForMulticast(message);
+    let response;
+    if (hasRecipients) {
+      const messages = recipients.map(r => ({
+        notification: {
+          title: r.title || title,
+          body: r.body || body,
+        },
+        data: {
+          route: r.customRoute || `/notification-detail/${notificationId || ''}`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        },
+        token: r.token,
+      }));
+      response = await getMessaging(app).sendEach(messages);
+    } else {
+      const message = {
+        notification: {
+          title,
+          body,
+        },
+        data: {
+          route: customRoute || `/notification-detail/${notificationId || ''}`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        },
+        tokens,
+      };
+      response = await getMessaging(app).sendEachForMulticast(message);
+    }
     
     console.log(`Multicast results: Successes: ${response.successCount}, Failures: ${response.failureCount}`);
     if (response.failureCount > 0) {

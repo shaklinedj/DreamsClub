@@ -55,6 +55,7 @@ interface PrizeItem {
     id: string;
     userId: string;
     status: string;
+    prizeName?: string;
 }
 
 export default function NotificationManager() {
@@ -130,7 +131,8 @@ export default function NotificationManager() {
             const pList = snapshot.docs.map(d => ({
                 id: d.id,
                 userId: d.data().userId || '',
-                status: d.data().status || 'disponible'
+                status: d.data().status || 'disponible',
+                prizeName: d.data().prizeName || 'premio'
             })) as PrizeItem[];
             setPrizes(pList);
         });
@@ -318,7 +320,7 @@ export default function NotificationManager() {
             // Dispatch background push notifications via Vercel FCM proxy if configured
             let pushStatus = '';
             if (vercelApiUrl.trim()) {
-                const targetTokens = users.filter((u) => {
+                const recipients = users.filter((u) => {
                     const streak = u.currentStreak || 0;
                     if (targetStreak === 'active' && streak < 1) return false;
                     if (targetStreak === 'bronze' && streak < 3) return false;
@@ -355,9 +357,35 @@ export default function NotificationManager() {
                     }
 
                     return !!u.fcmToken;
-                }).map(u => u.fcmToken) as string[];
+                }).map((u) => {
+                    const userName = u.displayName || u.name || 'Socio';
+                    const userPrize = prizes.find(p => 
+                        (p.userId === u.id || (u.email && p.userId === u.email) || (u.rut && p.userId === u.rut)) && 
+                        p.status === 'disponible'
+                    );
 
-                if (targetTokens.length > 0) {
+                    let personalizedBody = body.trim()
+                        .replace(/{name}/g, userName)
+                        .replace(/{nombre}/g, userName);
+
+                    if (userPrize) {
+                        personalizedBody = personalizedBody.replace(/{pending_prize}/g, `tu '${userPrize.prizeName || 'premio'}'`);
+                    } else {
+                        personalizedBody = personalizedBody.replace(/{pending_prize}/g, 'tus beneficios');
+                    }
+
+                    const personalizedTitle = title.trim()
+                        .replace(/{name}/g, userName)
+                        .replace(/{nombre}/g, userName);
+
+                    return {
+                        token: u.fcmToken,
+                        title: personalizedTitle,
+                        body: personalizedBody,
+                    };
+                });
+
+                if (recipients.length > 0) {
                     try {
                         const response = await fetch(vercelApiUrl.trim(), {
                             method: 'POST',
@@ -365,7 +393,7 @@ export default function NotificationManager() {
                             body: JSON.stringify({
                                 title: title.trim(),
                                 body: body.trim(),
-                                tokens: targetTokens,
+                                recipients: recipients,
                                 notificationId: docRef.id,
                                 customRoute: selectedPostId ? `/post/${selectedPostId}` : undefined,
                             }),
@@ -643,13 +671,13 @@ export default function NotificationManager() {
                     </div>
 
                     <div>
-                        <label className="block text-slate-300 font-medium mb-2 text-sm">Mensaje</label>
+                        <label className="block text-slate-300 font-medium mb-2 text-sm">Mensaje de la Notificación</label>
                         <textarea
                             required
                             rows={3}
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
-                            placeholder="Ej: Asiste hoy al casino Dreams y reclama tu bonus de racha."
+                            placeholder="Mensaje... (Usa {name} para el nombre del cliente, y {pending_prize} para mencionar su premio pendiente si tiene uno)"
                             className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 text-sm resize-none"
                         />
                     </div>

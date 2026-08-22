@@ -800,40 +800,24 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
         final videoId = _extractYoutubeId(widget.post.mediaUrl);
 
         return ClipRect(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // YouTube Thumbnail Backdrop Blur
-              if (videoId != null) ...[
-                Image.network(
-                  'https://img.youtube.com/vi/$videoId/hqdefault.jpg',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
-                ),
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                  child: Container(color: Colors.black.withOpacity(0.4)),
-                ),
-              ] else
-                Container(color: Colors.black),
-
-              // Main Youtube Video Player
-              Opacity(
-                opacity: 0.999,
-                child: Center(
-                  child: SizedBox(
-                    width: targetWidth,
-                    height: targetHeight,
-                    child: IgnorePointer(
-                      child: YoutubePlayer(
-                        controller: _youtubeController!,
-                        aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
-                      ),
+          child: Container(
+            color: Colors.black,
+            alignment: Alignment.center,
+            child: Opacity(
+              opacity: 0.999,
+              child: Center(
+                child: SizedBox(
+                  width: targetWidth,
+                  height: targetHeight,
+                  child: IgnorePointer(
+                    child: YoutubePlayer(
+                      controller: _youtubeController!,
+                      aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
                     ),
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         );
       }

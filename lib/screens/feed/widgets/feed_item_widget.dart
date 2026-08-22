@@ -407,14 +407,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
               if (widget.post.mediaType == FeedMediaType.image) {
                 _showFullScreenImage(context);
               } else if (widget.post.mediaType == FeedMediaType.video) {
-                if (_isYoutube && _youtubeController != null) {
-                  final state = _youtubeController!.value.playerState;
-                  if (state == PlayerState.playing) {
-                    _youtubeController!.pauseVideo();
-                  } else {
-                    _youtubeController!.playVideo();
-                  }
-                } else if (_videoPlayerController != null) {
+                if (!_isYoutube && _videoPlayerController != null) {
                   if (_videoPlayerController!.value.isPlaying) {
                     _videoPlayerController!.pause();
                   } else {
@@ -436,15 +429,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
                         children: [
                           Positioned.fill(
                             child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                final state = _youtubeController!.value.playerState;
-                                if (state == PlayerState.playing) {
-                                  _youtubeController!.pauseVideo();
-                                } else {
-                                  _youtubeController!.playVideo();
-                                }
-                              },
+                              behavior: HitTestBehavior.translucent,
                               onDoubleTap: _handleDoubleTap,
                             ),
                           ),
@@ -464,6 +449,7 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
                                     final currentPosition = await _youtubeController?.currentTime ?? 0.0;
                                     _youtubeController?.pauseVideo();
                                     
+                                    if (!context.mounted) return;
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -809,11 +795,9 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
                 child: SizedBox(
                   width: targetWidth,
                   height: targetHeight,
-                  child: IgnorePointer(
-                    child: YoutubePlayer(
-                      controller: _youtubeController!,
-                      aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
-                    ),
+                  child: YoutubePlayer(
+                    controller: _youtubeController!,
+                    aspectRatio: isShorts ? (9 / 16) : playerAspectRatio,
                   ),
                 ),
               ),

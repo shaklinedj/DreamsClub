@@ -77,3 +77,7 @@ else
         exit 1
     fi
 fi
+
+# --- 7. Actualización de Versión en Firestore ---
+echo "📤 Actualizando versión en la base de datos de Firestore (config/app)..."
+node dreams-admin/update_version.mjs

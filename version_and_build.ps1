@@ -112,3 +112,7 @@ else {
         exit 1
     }
 }
+
+# --- 7. Actualización de Versión en Firestore ---
+Write-Host "Actualizando versión en la base de datos de Firestore (config/app)..."
+cmd /c "node dreams-admin\update_version.mjs"

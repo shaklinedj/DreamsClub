@@ -35,7 +35,8 @@ class NotificationService {
     } catch (_) {}
 
     // Inicia el listener en tiempo real de alertas desde el panel (Plan Spark)
-    listenToLiveBroadcasts();
+    // Desactivado ya que los pushes reales a través de Vercel/FCM están activos.
+    // listenToLiveBroadcasts();
   }
 
   /// Escucha en tiempo real las notificaciones enviadas desde el Dashboard con segmentación de audiencia

@@ -3,9 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:casinoloyalty_flutter/providers/notification_provider.dart';
 import 'package:casinoloyalty_flutter/models/notification_model.dart';
+import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 class NotificationDetailScreen extends ConsumerStatefulWidget {
   final String notificationId;
@@ -13,11 +16,14 @@ class NotificationDetailScreen extends ConsumerStatefulWidget {
   const NotificationDetailScreen({super.key, required this.notificationId});
 
   @override
-  ConsumerState<NotificationDetailScreen> createState() => _NotificationDetailScreenState();
+  ConsumerState<NotificationDetailScreen> createState() =>
+      _NotificationDetailScreenState();
 }
 
-class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScreen> {
+class _NotificationDetailScreenState
+    extends ConsumerState<NotificationDetailScreen> {
   Map<String, dynamic>? _notificationData;
+  List<WonPrize>? _userPrizes;
   bool _isLoading = true;
   String? _error;
   bool _isSaved = false;
@@ -28,7 +34,9 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
     _fetchNotificationDetails();
     // Eliminar la notificación del listado local ya que se está revisando en detalle
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(notificationsProvider.notifier).removeNotification(widget.notificationId);
+      ref
+          .read(notificationsProvider.notifier)
+          .removeNotification(widget.notificationId);
     });
   }
 
@@ -40,9 +48,23 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
           .get();
 
       if (doc.exists && doc.data() != null) {
+        final user = ref.read(userProvider);
+        final userId = user.email.isNotEmpty ? user.email : (user.rut ?? '');
+
+        List<WonPrize> userPrizes = [];
+        try {
+          final querySnap = await FirebaseFirestore.instance
+              .collection('user_prizes')
+              .where('userId', isEqualTo: userId)
+              .get();
+          userPrizes =
+              querySnap.docs.map((d) => WonPrize.fromJson(d.data())).toList();
+        } catch (_) {}
+
         if (mounted) {
           setState(() {
             _notificationData = doc.data();
+            _userPrizes = userPrizes;
             _isLoading = false;
           });
         }
@@ -66,12 +88,41 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
 
   void _toggleSaveNotification() {
     if (_notificationData == null) return;
-    
-    final title = _notificationData!['title']?.toString() ?? 'Dreams Club';
-    final body = _notificationData!['body']?.toString() ?? '';
+
+    final user = ref.read(userProvider);
+    final userName = user.name.isNotEmpty ? user.name : 'Socio';
+
+    final rawTitle = _notificationData!['title']?.toString() ?? 'Dreams Club';
+    final rawBody = _notificationData!['body']?.toString() ?? '';
+
+    String body =
+        rawBody.replaceAll('{name}', userName).replaceAll('{nombre}', userName);
+
+    if (body.contains('{pending_prize}') || body.contains('{pendingPrize}')) {
+      final activePrize = (_userPrizes ?? []).firstWhereOrNull(
+        (p) => p.status == 'disponible' && !p.isRedeemed && !p.isExpired,
+      );
+
+      if (activePrize != null) {
+        body = body
+            .replaceAll('{pending_prize}',
+                "recuerda que tienes tu '${activePrize.prize.name}' por cobrar. ")
+            .replaceAll('{pendingPrize}',
+                "recuerda que tienes tu '${activePrize.prize.name}' por cobrar. ");
+      } else {
+        body = body
+            .replaceAll('{pending_prize}', '')
+            .replaceAll('{pendingPrize}', '');
+      }
+    }
+
+    String title = rawTitle
+        .replaceAll('{name}', userName)
+        .replaceAll('{nombre}', userName);
+
     final typeStr = _notificationData!['type']?.toString() ?? 'info';
     final createdAt = _notificationData!['createdAt'];
-    
+
     DateTime timestamp = DateTime.now();
     if (createdAt is Timestamp) {
       timestamp = createdAt.toDate();
@@ -101,7 +152,9 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
     });
 
     if (_isSaved) {
-      ref.read(notificationsProvider.notifier).restoreNotification(appNotification);
+      ref
+          .read(notificationsProvider.notifier)
+          .restoreNotification(appNotification);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Notificación guardada en el listado"),
@@ -109,7 +162,9 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
         ),
       );
     } else {
-      ref.read(notificationsProvider.notifier).removeNotification(widget.notificationId);
+      ref
+          .read(notificationsProvider.notifier)
+          .removeNotification(widget.notificationId);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Notificación eliminada del listado"),
@@ -127,7 +182,8 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
           onPressed: () {
             if (context.canPop()) {
               context.pop();
@@ -145,10 +201,13 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
             : [
                 IconButton(
                   icon: Icon(
-                    _isSaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                    _isSaved
+                        ? Icons.bookmark_rounded
+                        : Icons.bookmark_border_rounded,
                     color: _isSaved ? AppTheme.kPrimaryBlue : Colors.white,
                   ),
-                  tooltip: _isSaved ? "Mantener en listado" : "Guardar en listado",
+                  tooltip:
+                      _isSaved ? "Mantener en listado" : "Guardar en listado",
                   onPressed: _toggleSaveNotification,
                 ),
               ],
@@ -171,7 +230,8 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 60),
+              const Icon(Icons.error_outline_rounded,
+                  color: Colors.redAccent, size: 60),
               const SizedBox(height: 16),
               Text(
                 _error!,
@@ -183,7 +243,8 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
                 onPressed: () => context.go('/feed'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.kPrimaryBlue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text("Volver al Inicio"),
               ),
@@ -197,12 +258,40 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
       return const SizedBox.shrink();
     }
 
-    final title = _notificationData!['title']?.toString() ?? 'Dreams Club';
-    final body = _notificationData!['body']?.toString() ?? '';
+    final rawTitle = _notificationData!['title']?.toString() ?? 'Dreams Club';
+    final rawBody = _notificationData!['body']?.toString() ?? '';
     final imageUrl = _notificationData!['imageUrl']?.toString();
     final type = _notificationData!['type']?.toString() ?? 'info';
     final createdAt = _notificationData!['createdAt'];
-    
+
+    final user = ref.read(userProvider);
+    final userName = user.name.isNotEmpty ? user.name : 'Socio';
+
+    String body =
+        rawBody.replaceAll('{name}', userName).replaceAll('{nombre}', userName);
+
+    if (body.contains('{pending_prize}') || body.contains('{pendingPrize}')) {
+      final activePrize = (_userPrizes ?? []).firstWhereOrNull(
+        (p) => p.status == 'disponible' && !p.isRedeemed && !p.isExpired,
+      );
+
+      if (activePrize != null) {
+        body = body
+            .replaceAll('{pending_prize}',
+                "recuerda que tienes tu '${activePrize.prize.name}' por cobrar en caja. ")
+            .replaceAll('{pendingPrize}',
+                "recuerda que tienes tu '${activePrize.prize.name}' por cobrar en caja. ");
+      } else {
+        body = body
+            .replaceAll('{pending_prize}', '')
+            .replaceAll('{pendingPrize}', '');
+      }
+    }
+
+    String title = rawTitle
+        .replaceAll('{name}', userName)
+        .replaceAll('{nombre}', userName);
+
     DateTime timestamp = DateTime.now();
     if (createdAt is Timestamp) {
       timestamp = createdAt.toDate();
@@ -272,11 +361,13 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.broken_image_outlined, color: Colors.white38, size: 48),
+                          Icon(Icons.broken_image_outlined,
+                              color: Colors.white38, size: 48),
                           SizedBox(height: 8),
                           Text(
                             "Error al cargar la imagen",
-                            style: TextStyle(color: Colors.white38, fontSize: 12),
+                            style:
+                                TextStyle(color: Colors.white38, fontSize: 12),
                           )
                         ],
                       ),
@@ -296,7 +387,8 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: categoryColor.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(20),
@@ -409,7 +501,8 @@ class _NotificationDetailScreenState extends ConsumerState<NotificationDetailScr
                   );
                 },
                 errorBuilder: (context, error, stackTrace) => const Center(
-                  child: Icon(Icons.broken_image, color: Colors.white, size: 50),
+                  child:
+                      Icon(Icons.broken_image, color: Colors.white, size: 50),
                 ),
               ),
             ),

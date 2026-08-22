@@ -1,11 +1,10 @@
-# PowerShell Build Script
+# PowerShell Build Script - DreamsClub
+# Distribución via GitHub Releases (no Firebase App Distribution)
 
 $ErrorActionPreference = "Stop"
 
 # --- Configuración ---
-$APP_NAME = "DreamsFidelizacion"
-$FIREBASE_APP_ID = "1:326453914816:android:f9a04e57ae0461e6291125"
-$TESTER_GROUP = "testers"
+$APP_NAME = "DreamsClub"
 
 # --- 1. Verificación y Commit Interactivo de Cambios ---
 Write-Host "Verificando el estado de Git..."
@@ -69,50 +68,40 @@ $escapedFullVersion = [regex]::Escape($fullVersion)
 Write-Host "pubspec.yaml actualizado."
 
 # --- 3. Limpieza y Compilación ---
-Write-Host "Compilando APK para Android..."
-cmd /c "flutter build apk --release --no-tree-shake-icons"
+Write-Host "Compilando APK para Android (arm64-v8a split)..."
+cmd /c "flutter build apk --release --split-per-abi --no-tree-shake-icons --android-skip-build-dependency-validation"
 if ($LASTEXITCODE -ne 0) { throw "Error al compilar" }
 
-# --- 4. Renombrar APK ---
+# --- 4. Renombrar APK arm64-v8a ---
 $outputFolder = "build\app\outputs\flutter-apk"
-$originalApkPath = Join-Path $outputFolder "app-release.apk"
-$newApkPath = Join-Path $outputFolder "$APP_NAME-$newVersion.apk"
+$originalApkPath = Join-Path $outputFolder "app-arm64-v8a-release.apk"
+$newApkPath = Join-Path $outputFolder "$APP_NAME.apk"
 
 if (Test-Path $originalApkPath) {
-    Move-Item -Path $originalApkPath -Destination $newApkPath -Force
-    Write-Host "APK renombrado a: $APP_NAME-$newVersion.apk"
+    Copy-Item -Path $originalApkPath -Destination $newApkPath -Force
+    Write-Host "APK renombrado a: $APP_NAME.apk"
 }
 else {
     Write-Error "No se encontró el APK generado en $originalApkPath"
     exit 1
 }
 
-# --- 5. Commit y Tag en Git ---
+# --- 5. Commit, Tag y Push en Git ---
 $commitMessage = "chore(release): version $newVersion"
 Write-Host "Creando commit y tag en Git..."
 git add pubspec.yaml
 git commit -m "$commitMessage"
-git tag -a "v$newVersion" -m "$commitMessage"
-Write-Host "Commit y tag ('v$newVersion') creados."
+git tag -a "v$newSemVer" -m "$commitMessage"
+git push
+git push --tags
+Write-Host "Commit, tag ('v$newSemVer') y push a GitHub completados."
+Write-Host ""
+Write-Host ">> APK listo en: $newApkPath"
+Write-Host ">> Ahora ve a GitHub → Releases → 'Draft a new release' y selecciona el tag v$newSemVer"
+Write-Host ">> Adjunta el APK: DreamsClub-arm64-v8a-release.apk"
+Write-Host ">> Publica el release para que los usuarios reciban la actualización."
 
-# --- 6. Subida a Firebase ---
-Write-Host "Subiendo a Firebase App Distribution..."
-if ([string]::IsNullOrWhiteSpace($FIREBASE_APP_ID) -or $FIREBASE_APP_ID -eq "REPLACE_WITH_FIREBASE_APP_ID") {
-    Write-Host "Firebase App ID no configurado. Omite la distribución."
-}
-else {
-    # Usar cmd /c para asegurar que se ejecute el comando firebase si es un batch file
-    cmd /c "npx firebase appdistribution:distribute `"$newApkPath`" --app `"$FIREBASE_APP_ID`" --release-notes `"$commitMessage`" --groups `"$TESTER_GROUP`""
-    
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "Proceso completado! La versión $newVersion está disponible para el grupo '$TESTER_GROUP' en Firebase."
-    }
-    else {
-        Write-Host "Error al subir a Firebase App Distribution."
-        exit 1
-    }
-}
-
-# --- 7. Actualización de Versión en Firestore ---
+# --- 6. Actualización de Versión en Firestore ---
 Write-Host "Actualizando versión en la base de datos de Firestore (config/app)..."
 cmd /c "node dreams-admin\update_version.mjs"
+Write-Host "Proceso completo. Version $newVersion publicada."

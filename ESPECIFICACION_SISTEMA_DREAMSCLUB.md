@@ -1,7 +1,7 @@
 # 🎰 DreamsClub: Especificación Técnica y Funcional del Ecosistema
 
 > **Documento de Evaluación y Auditoría de Software**  
-> **Versión:** 1.2.0 • **Fecha:** Agosto 2026  
+> **Versión:** 1.3.0 • **Fecha:** Agosto 2026  
 > **Ecosistema:** Panel Web de Administración (Astro + Tailwind + Firebase) & App Móvil (Flutter + Riverpod + Firebase)
 
 ---
@@ -65,7 +65,7 @@ El panel de administración es el centro de control exclusivo para los administr
 | :--- | :---: | :--- |
 | **1. Dashboard Central** | ✅ Operativo | Muestra métricas clave en tiempo real: socios activos, juegos habilitados, puntos/créditos entregados y actividad reciente del feed. Accesos directos para *Nuevo Post*, *Enviar Notificación* y *Configurar Juegos*. |
 | **2. Feed & Publicaciones** | ✅ Operativo | Creación de posts multimedia (videos e imágenes). Soporta bypass de procesamiento de Google Drive (`uc?export=download`) y previsualizaciones locales. Categorización por tipo: **Noticia**, **Promoción** o **Evento**, y asignación por sede (`casinoId: '1'` a `'8'`). |
-| **3. Notificaciones Push & In-App** | ✅ Operativo | Envío de alertas masivas o segmentadas por casino con disparador directo a Firebase Cloud Messaging y registro en Firestore para el buzón in-app. |
+| **3. Notificaciones Push & In-App (Segmentadas y Personalizadas)** | ✅ Operativo | Envío de alertas masivas o segmentadas con filtros avanzados: **Racha** (Inicial/Austral/Leyenda/Maestro/VIP), **Asistencia** (hoy/inactivo 5d/10d), **Edad** (menores 30, 30-50, mayores 50), **Cumpleaños del día** y **Premios sin cobrar**. Soporta **plantillas dinámicas personalizadas** con claves `{name}` (nombre del socio) y `{pending_prize}` (nombre real del premio pendiente o texto vacío si no tiene). Al activar el filtro "Con premios sin cobrar", el formulario se auto-completa con una plantilla de mensaje lista para editar. La API (`/api/send-push`) usa `messaging.sendEach()` para personalizar cada push individualmente por receptor. |
 | **4. Gestor de Stickers** | ✅ Operativo | Creador de packs de stickers de WhatsApp. Permite definir qué nivel de racha o tipo de socio (*Bronce, Plata, Oro, Black*) desbloquea cada pack o meme. |
 | **5. Control de 4 Minijuegos** | ✅ Operativo | Interruptores de activación/desactivación individual y configuración de probabilidades/créditos: <br>1. *Ruleta Diaria*<br>2. *Trivia Dreams*<br>3. *Tragamonedas / Slot VIP*<br>4. *Raspa y Gana* |
 | **6. Gestión de Usuarios** | ✅ Operativo | Listado de socios registrados, balance de puntos, historial de visitas/rachas, edición de nivel de membresía y bloqueo/desbloqueo de cuentas. |
@@ -259,6 +259,11 @@ Este checklist permite auditar que todos los componentes funcionen de acuerdo a 
 - [x] **Despliegue Automático de Índices en Firestore:** Configuración e integración por CLI (`firebase deploy --only firestore:indexes`) para grupos de colecciones (`reactions`, `comments`, `posts`) indexadas por `userId`.
 - [x] **Blindaje y Reglas de Seguridad en Firebase (Firestore & Storage):** Archivos `firestore.rules` y `storage.rules` implementados para restringir que solo administradores o operadores autorizados (con `isAdmin == true` o dominio `@dreams.cl`) puedan escribir configuraciones globales, reglas de juegos y quemar premios en caja. Los usuarios comunes solo pueden actualizar su propio perfil y crear sus cupones ganados.
 - [x] **Obfuscación y Ofuscación en Builds de Android (R8/ProGuard):** Configuración de `isMinifyEnabled` y `isShrinkResources` activados en `android/app/build.gradle.kts` junto con el archivo de reglas `proguard-rules.pro` para evitar la ingeniería inversa de APKs e interceptación de llaves.
+- [x] **Foto de Perfil Sincronizada en la Nube (Firebase Storage):** Los socios pueden cambiar su foto de perfil desde Ajustes. La imagen se sube a Firebase Storage (`user_profiles/`) y la URL permanente en la nube se guarda en Firestore, garantizando que la foto aparezca correctamente en cualquier dispositivo donde el socio inicie sesión. Las reglas `storage.rules` permiten escritura a cualquier usuario autenticado en la carpeta `user_profiles/`.
+- [x] **Reacciones Reactivas desde Links Directos (Deep Links):** Al acceder a una publicación desde un link compartido, el botón de "Me gusta" refleja el estado real de reacción del usuario (corazón rojo si ya reaccionó, blanco si no). Se implementó `addOrUpdatePostLocally` en `FeedNotifier` para inyectar el post cargado desde la URL directa en el estado global del feed.
+- [x] **Racha Inicial Correcta (0 al Instalar):** Al instalar la app por primera vez, los valores de `streak`, `currentStreak`, `longestStreak` y `totalVisits` se inicializan en `0`. Las celebraciones de hito solo se disparan después del primer registro de visita física vía GPS, nunca al arrancar la app.
+- [x] **Notificaciones Personalizadas con Plantillas Todo-en-Uno (Dashboard & App):** El panel administrativo soporta las claves `{name}` y `{pending_prize}` en el título y cuerpo de cualquier notificación. Al seleccionar el filtro "Con premios sin cobrar", se auto-completa un mensaje de plantilla. El servidor (`send-push.js`) resuelve los valores por receptor usando `sendEach()`. En la pantalla de detalle de la notificación en la app, las claves se resuelven en tiempo real: `{name}` se reemplaza por el nombre del socio, y `{pending_prize}` por el nombre real del premio disponible en su billetera (o se elimina si no tiene ninguno).
+- [x] **Campañas Automáticas Diarias (Cron en Vercel):** El endpoint `/api/cron-campaigns.js` se ejecuta diariamente a las 10:00 AM vía cron de Vercel. Envía notificaciones automáticas de cumpleaños personalizadas y recordatorios de premios próximos a vencer (≈24h antes del límite de expiración).
 
 ---
 *Documento mantenido y actualizado para auditoría técnica y control de calidad de DreamsClub.*

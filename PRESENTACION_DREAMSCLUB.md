@@ -54,9 +54,11 @@ Para evitar el abuso del sistema y planificar las horas de mayor tráfico, el pa
 * **Días Específicos:** Habilitación de premios solo en días de baja afluencia (ej. lunes, martes y miércoles) o días de eventos especiales.
 * **Ventana Horaria:** Rangos de hora específicos donde los premios están disponibles en los juegos (ej. de 18:00 a 23:00 hrs).
 
-### E. Notificaciones Push Segmentadas
-* **Recuperación de Usuarios Inactivos:** En el dashboard de administración, el staff puede enviar notificaciones push personalizadas segmentando a los usuarios según su inactividad (ej: "Usuarios con 5 días o más sin asistir").
-* **Contenido de Atracción:** Mensajes del tipo *"Te extrañamos en sala. ¡Hoy tu ruleta diaria tiene doble probabilidad de trago de cortesía!"* se envían de forma segmentada para activar la intención de visita.
+### E. Notificaciones Push Personalizadas y Segmentadas
+* **Recuperación de Usuarios Inactivos:** En el dashboard de administración, el staff puede enviar notificaciones push personalizadas con filtros avanzados de audiencia: por **racha** (Inicial/Austral/Leyenda/Maestro/VIP), **asistencia** (presente hoy / inactivo 5d / 10d), **edad**, **cumpleaños del día** y **premios sin cobrar**.
+* **Plantillas Dinámicas Todo-en-Uno:** Los mensajes soportan las claves `{name}` (nombre real del socio) y `{pending_prize}` (nombre real del premio pendiente). Al activar el filtro "Con premios sin cobrar", el formulario se auto-completa con una plantilla lista para editar. La API del servidor resuelve y personaliza cada push de forma individual antes de enviarlo.
+* **Campañas Automáticas Diarias:** Se ejecutan tareas programadas diariamente que envían automáticamente felicitaciones de cumpleaños y recordatorios a socios con premios próximos a vencer, sin intervención manual del administrador.
+* **Detalle Personalizado en App:** Al abrir una notificación desde la app, la pantalla de detalle resuelve las claves dinámicamente mostrando el nombre del socio y su premio real (o nada, si no tiene premios pendientes).
 
 ---
 
@@ -68,6 +70,8 @@ Para evitar el abuso del sistema y planificar las horas de mayor tráfico, el pa
   * **Slot Machine (Tragamonedas VIP):** Tres rodillos giratorios que buscan combinaciones ganadoras para otorgar premios del catálogo físico.
   * **Dreams Match & Dreams Mania:** Minijuegos casuales de habilidad y memoria de gemas y cartas que otorgan premios físicos directos según las reglas de disponibilidad configuradas en el panel web.
 * **Billetera de Premios Offline-First:** Persistencia en caché local mediante `SharedPreferences` para mostrar cupones ganados instantáneamente incluso si el socio no tiene señal móvil dentro de la barra del casino.
+* **Foto de Perfil Sincronizada en la Nube:** Los socios pueden personalizar su foto de perfil desde Ajustes. La imagen se sube a Firebase Storage y la URL permanente se guarda en Firestore, garantizando que la foto aparezca correctamente en cualquier dispositivo donde el socio inicie sesión.
+* **Reacciones Reactivas desde Links Directos:** Al acceder a una publicación desde un link compartido, el botón de "Me gusta" refleja el estado real de reacción del usuario sin necesidad de navegar primero al feed principal.
 * **Desbloqueo de Temas y Estilos por Racha:** La interfaz cambia dinámicamente de apariencia (colores de la racha y logo personalizado) al acumular visitas presenciales seguidas.
 
 ---

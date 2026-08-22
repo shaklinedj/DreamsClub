@@ -620,7 +620,14 @@ export default function NotificationManager() {
                                     <input
                                         type="checkbox"
                                         checked={targetUnclaimedPrizes}
-                                        onChange={(e) => setTargetUnclaimedPrizes(e.target.checked)}
+                                        onChange={(e) => {
+                                            const val = e.target.checked;
+                                            setTargetUnclaimedPrizes(val);
+                                            if (val) {
+                                                setTitle("¡Tienes un beneficio esperándote! 🎁");
+                                                setBody("¡Hola {name}! Este fin de semana tenemos show de música en vivo a las 22:00. {pending_prize}¡Te esperamos!");
+                                            }
+                                        }}
                                         className="rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
                                     />
                                     <span>🎁 Con premios sin cobrar</span>

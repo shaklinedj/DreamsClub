@@ -427,24 +427,59 @@ class _FeedItemWidgetState extends ConsumerState<FeedItemWidget> {
               fit: StackFit.expand,
               children: [
                 _buildMediaContent(targetWidth, targetHeight),
-                if (_isYoutube)
+                if (_isYoutube && _youtubeController != null)
                   Center(
                     child: SizedBox(
                       width: targetWidth,
                       height: targetHeight,
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          if (_youtubeController != null) {
-                            final state = _youtubeController!.value.playerState;
-                            if (state == PlayerState.playing) {
-                              _youtubeController!.pauseVideo();
-                            } else {
-                              _youtubeController!.playVideo();
-                            }
-                          }
-                        },
-                        onDoubleTap: _handleDoubleTap,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                final state = _youtubeController!.value.playerState;
+                                if (state == PlayerState.playing) {
+                                  _youtubeController!.pauseVideo();
+                                } else {
+                                  _youtubeController!.playVideo();
+                                }
+                              },
+                              onDoubleTap: _handleDoubleTap,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 8,
+                            right: 8,
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Colors.black54,
+                              child: IconButton(
+                                iconSize: 16,
+                                padding: EdgeInsets.zero,
+                                icon: const Icon(Icons.fullscreen, color: Colors.white),
+                                onPressed: () async {
+                                  final videoId = _extractYoutubeId(widget.post.mediaUrl);
+                                  if (videoId != null) {
+                                    _youtubeController?.pauseVideo();
+                                    final currentPosition = _youtubeController?.value.position.inSeconds.toDouble() ?? 0.0;
+                                    
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullScreenYoutubePlayerPage(
+                                          videoId: videoId,
+                                          startSeconds: currentPosition,
+                                        ),
+                                      ),
+                                    );
+                                    _youtubeController?.playVideo();
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -1129,6 +1164,84 @@ class _ReactionPickerOverlayState extends State<_ReactionPickerOverlay>
             }),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FullScreenYoutubePlayerPage extends StatefulWidget {
+  final String videoId;
+  final double startSeconds;
+
+  const FullScreenYoutubePlayerPage({
+    super.key,
+    required this.videoId,
+    this.startSeconds = 0.0,
+  });
+
+  @override
+  State<FullScreenYoutubePlayerPage> createState() => _FullScreenYoutubePlayerPageState();
+}
+
+class _FullScreenYoutubePlayerPageState extends State<FullScreenYoutubePlayerPage> {
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: widget.videoId,
+      autoPlay: true,
+      params: YoutubePlayerParams(
+        startAt: Duration(seconds: widget.startSeconds.toInt()),
+        showControls: true,
+        showFullscreenButton: false,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    _controller.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          Center(
+            child: YoutubePlayer(
+              controller: _controller,
+              aspectRatio: 16 / 9,
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: SafeArea(
+              child: CircleAvatar(
+                backgroundColor: Colors.black54,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

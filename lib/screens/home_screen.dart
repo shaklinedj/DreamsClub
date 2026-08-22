@@ -9,6 +9,8 @@ import 'package:casinoloyalty_flutter/widgets/animated_bell.dart';
 import 'package:casinoloyalty_flutter/widgets/notifications_modal.dart';
 import 'package:casinoloyalty_flutter/providers/game_availability_provider.dart';
 import 'package:casinoloyalty_flutter/screens/coyhaique/coyhaique_shell.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Dreams Mania Imports
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
@@ -27,6 +29,93 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForUpdates();
+    });
+  }
+
+  Future<void> _checkForUpdates() async {
+    try {
+      const currentVersion = "1.0.1";
+      final doc = await FirebaseFirestore.instance
+          .collection('config')
+          .doc('app')
+          .get();
+
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null) {
+          final latestVersion = data['latestVersion']?.toString();
+          final downloadUrl = data['downloadUrl']?.toString() ?? 'https://dreams-casino-app.web.app/download';
+          
+          if (latestVersion != null && latestVersion != currentVersion) {
+            if (!mounted) return;
+            
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                  backgroundColor: const Color(0xFF1E1E2C),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
+                  ),
+                  title: const Row(
+                    children: [
+                      Text('🚀 ', style: TextStyle(fontSize: 20)),
+                      Text(
+                        'Actualización',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  content: Text(
+                    'Hay una nueva versión de Dreams Club disponible (v$latestVersion). Descárgala para disfrutar de las últimas mejoras y correcciones.',
+                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Más tarde',
+                        style: TextStyle(color: Colors.white38),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFD4AF37),
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        final uri = Uri.parse(downloadUrl);
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        }
+                      },
+                      child: const Text(
+                        'Actualizar Ahora',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        }
+      }
+    } catch (e) {
+      // Ignorar errores silenciosamente
+    }
   }
 
   @override

@@ -247,6 +247,11 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
     // Esto actualizará Firebase y disparará los listeners locales
     await ref.read(userProvider.notifier).setStreak(streak);
 
+    // Si la nueva racha es un hito de celebración, disparar trigger activo
+    if ([1, 3, 7, 14, 30].contains(streak)) {
+      ref.read(streakCelebrationTriggerProvider.notifier).state = streak;
+    }
+
     return true;
   }
 
@@ -263,6 +268,9 @@ final achievementsProvider =
 
 // Provider para disparar el evento de confeti
 final confettiTriggerProvider = StateProvider<Achievement?>((ref) => null);
+
+// Provider para disparar celebraciones de racha únicamente tras registro físico
+final streakCelebrationTriggerProvider = StateProvider<int?>((ref) => null);
 
 // ============================================================================
 // MISIONES DIARIAS - Solo relacionadas con VISITAS

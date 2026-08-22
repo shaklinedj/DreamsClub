@@ -166,6 +166,16 @@ class FeedNotifier extends StateNotifier<List<FeedPost>> {
     }).toList();
   }
 
+  void addOrUpdatePostLocally(FeedPost post) {
+    final index = _rawPosts.indexWhere((p) => p.id == post.id);
+    if (index == -1) {
+      _rawPosts.insert(0, post);
+    } else {
+      _rawPosts[index] = post;
+    }
+    _applyReactionsToState();
+  }
+
   // --- CREAR PUBLICACIÓN ---
 
   Future<void> addPost(FeedPost post) async {

@@ -47,40 +47,43 @@ class _GlobalConfettiWidgetState extends ConsumerState<GlobalConfettiWidget> {
       }
     });
 
-    ref.listen<StreakData>(streakProvider, (previous, next) async {
-      if (previous != null && next.currentStreak > previous.currentStreak) {
-        if ([1, 3, 7, 14, 30].contains(next.currentStreak)) {
-          final prefs = await SharedPreferences.getInstance();
-          final key = 'streak_notified_${next.currentStreak}';
-          if (prefs.getBool(key) == true) return; // Milestone already notified, skip
-          await prefs.setBool(key, true);
-
-          _controllerCenter.play();
-          
-          String title = '';
-          String desc = '';
-          String icon = '🔥';
-          
-          if (next.currentStreak >= 14) {
-            title = '¡Maestro de Coyhaique!';
-            desc = 'Tema Especial Patagónico desbloqueado.';
-            icon = '👑';
-          } else if (next.currentStreak >= 7) {
-            title = '¡Leyenda Patagónica!';
-            desc = 'Tema Platino Austral & Stickers VIP desbloqueados.';
-            icon = '🏆';
-          } else if (next.currentStreak >= 3) {
-            title = '¡Racha Austral!';
-            desc = 'Tema Dorado VIP & Stickers Memes desbloqueados.';
-            icon = '⭐';
-          } else if (next.currentStreak >= 1) {
-            title = '¡Primera Racha!';
-            desc = 'Pack de Stickers Patagónicos desbloqueados.';
-            icon = '🏔️';
-          }
-
-          _showUnlockDialog(icon, title, '¡Alcanzaste ${next.currentStreak} días de racha!', '🎁 $desc');
+    ref.listen<int?>(streakCelebrationTriggerProvider, (previous, streak) async {
+      if (streak != null) {
+        final prefs = await SharedPreferences.getInstance();
+        final key = 'streak_notified_$streak';
+        if (prefs.getBool(key) == true) {
+          ref.read(streakCelebrationTriggerProvider.notifier).state = null;
+          return; // Milestone already notified, skip
         }
+        await prefs.setBool(key, true);
+
+        _controllerCenter.play();
+        
+        String title = '';
+        String desc = '';
+        String icon = '🔥';
+        
+        if (streak >= 14) {
+          title = '¡Maestro de Coyhaique!';
+          desc = 'Tema Especial Patagónico desbloqueado.';
+          icon = '👑';
+        } else if (streak >= 7) {
+          title = '¡Leyenda Patagónica!';
+          desc = 'Tema Platino Austral & Stickers VIP desbloqueados.';
+          icon = '🏆';
+        } else if (streak >= 3) {
+          title = '¡Racha Austral!';
+          desc = 'Tema Dorado VIP & Stickers Memes desbloqueados.';
+          icon = '⭐';
+        } else if (streak >= 1) {
+          title = '¡Primera Racha!';
+          desc = 'Pack de Stickers Patagónicos desbloqueados.';
+          icon = '🏔️';
+        }
+
+        _showUnlockDialog(icon, title, '¡Alcanzaste $streak días de racha!', '🎁 $desc');
+        
+        ref.read(streakCelebrationTriggerProvider.notifier).state = null;
       }
     });
 

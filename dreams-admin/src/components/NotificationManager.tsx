@@ -34,6 +34,27 @@ interface UserItem {
     lastVisit?: any;
     isPresentToday?: boolean;
     fcmToken?: string;
+    birthday?: any;
+    name?: string;
+    displayName?: string;
+    email?: string;
+    rut?: string;
+}
+
+interface ScheduledCampaign {
+    id: string;
+    title: string;
+    body: string;
+    type: 'birthday' | 'prize_reminder' | 'custom';
+    status: string;
+    targetDate?: string | null;
+    createdAt: any;
+}
+
+interface PrizeItem {
+    id: string;
+    userId: string;
+    status: string;
 }
 
 export default function NotificationManager() {
@@ -51,9 +72,22 @@ export default function NotificationManager() {
     const [loading, setLoading] = useState(true);
 
     // Filtros de Segmentación de Audiencia
-    const [targetStreak, setTargetStreak] = useState<'all' | 'active' | 'high' | 'vip' | 'none'>('all');
+    const [targetStreak, setTargetStreak] = useState<'all' | 'active' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'none'>('all');
     const [targetPresence, setTargetPresence] = useState<'all' | 'today' | 'inactive5' | 'inactive10'>('all');
     const [targetConsentOnly, setTargetConsentOnly] = useState(false);
+
+    // Nuevos Filtros Avanzados
+    const [targetBirthday, setTargetBirthday] = useState(false);
+    const [targetUnclaimedPrizes, setTargetUnclaimedPrizes] = useState(false);
+    const [targetAgeRange, setTargetAgeRange] = useState<'all' | 'under30' | '30to50' | 'over50'>('all');
+    const [prizes, setPrizes] = useState<PrizeItem[]>([]);
+
+    // Campañas Programadas
+    const [scheduledCampaigns, setScheduledCampaigns] = useState<ScheduledCampaign[]>([]);
+    const [schedTitle, setSchedTitle] = useState('');
+    const [schedBody, setSchedBody] = useState('');
+    const [schedType, setSchedType] = useState<'birthday' | 'prize_reminder' | 'custom'>('birthday');
+    const [schedDate, setSchedDate] = useState('');
 
     // Drive config state
     const [driveConfigured, setDriveConfigured] = useState(false);
@@ -92,10 +126,29 @@ export default function NotificationManager() {
             setPosts(pList);
         });
 
+        const unsubPrizes = onSnapshot(collection(db, 'user_prizes'), (snapshot) => {
+            const pList = snapshot.docs.map(d => ({
+                id: d.id,
+                userId: d.data().userId || '',
+                status: d.data().status || 'disponible'
+            })) as PrizeItem[];
+            setPrizes(pList);
+        });
+
+        const unsubSched = onSnapshot(collection(db, 'scheduled_campaigns'), (snapshot) => {
+            const list = snapshot.docs.map(d => ({
+                id: d.id,
+                ...d.data()
+            })) as ScheduledCampaign[];
+            setScheduledCampaigns(list);
+        });
+
         return () => {
             unsubNotifs();
             unsubUsers();
             unsubPosts();
+            unsubPrizes();
+            unsubSched();
         };
     }, []);
 
@@ -118,11 +171,28 @@ export default function NotificationManager() {
         return Math.floor(diffTime / (1000 * 60 * 60 * 24));
     };
 
+    const calculateAge = (birthday: any): number => {
+        if (!birthday) return 999;
+        const date = birthday.toDate ? birthday.toDate() : new Date(birthday);
+        const ageDifMs = Date.now() - date.getTime();
+        const ageDate = new Date(ageDifMs);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    };
+
+    const isBirthdayToday = (birthday: any): boolean => {
+        if (!birthday) return false;
+        const date = birthday.toDate ? birthday.toDate() : new Date(birthday);
+        const today = new Date();
+        return date.getDate() === today.getDate() && date.getMonth() === today.getMonth();
+    };
+
     const targetUserCount = users.filter((u) => {
         const streak = u.currentStreak || 0;
         if (targetStreak === 'active' && streak < 1) return false;
-        if (targetStreak === 'high' && streak < 5) return false;
-        if (targetStreak === 'vip' && streak < 10) return false;
+        if (targetStreak === 'bronze' && streak < 3) return false;
+        if (targetStreak === 'silver' && streak < 7) return false;
+        if (targetStreak === 'gold' && streak < 14) return false;
+        if (targetStreak === 'platinum' && streak < 30) return false;
         if (targetStreak === 'none' && streak > 0) return false;
 
         const daysInactive = getDaysSinceLastVisit(u.lastVisit);
@@ -131,6 +201,26 @@ export default function NotificationManager() {
         if (targetPresence === 'inactive10' && daysInactive <= 10) return false;
 
         if (targetConsentOnly && !u.contactConsent) return false;
+
+        // Nuevos Filtros Avanzados
+        if (targetBirthday && !isBirthdayToday(u.birthday)) return false;
+
+        if (targetUnclaimedPrizes) {
+            const hasUnclaimed = prizes.some(p => 
+                (p.userId === u.id || 
+                 (u.email && p.userId === u.email) || 
+                 (u.rut && p.userId === u.rut)) && 
+                p.status === 'disponible'
+            );
+            if (!hasUnclaimed) return false;
+        }
+
+        if (targetAgeRange !== 'all') {
+            const age = calculateAge(u.birthday);
+            if (targetAgeRange === 'under30' && age >= 30) return false;
+            if (targetAgeRange === '30to50' && (age < 30 || age > 50)) return false;
+            if (targetAgeRange === 'over50' && age <= 50) return false;
+        }
 
         return true;
     }).length;
@@ -141,6 +231,39 @@ export default function NotificationManager() {
         localStorage.setItem('vercel_api_url', vercelApiUrl.trim());
         setShowDriveSetup(false);
         setStatusMessage({ type: 'success', text: '✅ Configuración guardada correctamente.' });
+    };
+
+    const handleAddScheduledCampaign = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!schedTitle.trim() || !schedBody.trim()) return;
+
+        try {
+            await addDoc(collection(db, 'scheduled_campaigns'), {
+                title: schedTitle.trim(),
+                body: schedBody.trim(),
+                type: schedType,
+                status: 'active',
+                targetDate: schedType === 'custom' ? schedDate : null,
+                createdAt: Timestamp.now(),
+            });
+            setSchedTitle('');
+            setSchedBody('');
+            setSchedDate('');
+            setStatusMessage({ type: 'success', text: '✅ Campaña programada guardada exitosamente.' });
+        } catch (err: any) {
+            console.error("Error creating scheduled campaign:", err);
+            setStatusMessage({ type: 'error', text: 'Error al guardar campaña: ' + err.message });
+        }
+    };
+
+    const handleDeleteScheduledCampaign = async (id: string) => {
+        if (confirm('¿Eliminar esta campaña programada?')) {
+            try {
+                await deleteDoc(doc(db, 'scheduled_campaigns', id));
+            } catch (err) {
+                console.error("Error deleting campaign:", err);
+            }
+        }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,8 +321,10 @@ export default function NotificationManager() {
                 const targetTokens = users.filter((u) => {
                     const streak = u.currentStreak || 0;
                     if (targetStreak === 'active' && streak < 1) return false;
-                    if (targetStreak === 'high' && streak < 5) return false;
-                    if (targetStreak === 'vip' && streak < 10) return false;
+                    if (targetStreak === 'bronze' && streak < 3) return false;
+                    if (targetStreak === 'silver' && streak < 7) return false;
+                    if (targetStreak === 'gold' && streak < 14) return false;
+                    if (targetStreak === 'platinum' && streak < 30) return false;
                     if (targetStreak === 'none' && streak > 0) return false;
 
                     const daysInactive = getDaysSinceLastVisit(u.lastVisit);
@@ -208,6 +333,26 @@ export default function NotificationManager() {
                     if (targetPresence === 'inactive10' && daysInactive <= 10) return false;
 
                     if (targetConsentOnly && !u.contactConsent) return false;
+
+                    // Nuevos Filtros Avanzados
+                    if (targetBirthday && !isBirthdayToday(u.birthday)) return false;
+
+                    if (targetUnclaimedPrizes) {
+                        const hasUnclaimed = prizes.some(p => 
+                            (p.userId === u.id || 
+                             (u.email && p.userId === u.email) || 
+                             (u.rut && p.userId === u.rut)) && 
+                            p.status === 'disponible'
+                        );
+                        if (!hasUnclaimed) return false;
+                    }
+
+                    if (targetAgeRange !== 'all') {
+                        const age = calculateAge(u.birthday);
+                        if (targetAgeRange === 'under30' && age >= 30) return false;
+                        if (targetAgeRange === '30to50' && (age < 30 || age > 50)) return false;
+                        if (targetAgeRange === 'over50' && age <= 50) return false;
+                    }
 
                     return !!u.fcmToken;
                 }).map(u => u.fcmToken) as string[];
@@ -378,9 +523,11 @@ export default function NotificationManager() {
                                     className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
                                 >
                                     <option value="all">🔥 Todos los usuarios</option>
-                                    <option value="active">🔥 Racha Activa (≥1 Día)</option>
-                                    <option value="high">⚡ Racha Alta (≥5 Días)</option>
-                                    <option value="vip">👑 Racha VIP (≥10 Días)</option>
+                                    <option value="active">🔥 Racha Inicial (≥1 Día)</option>
+                                    <option value="bronze">⭐ Racha Austral (≥3 Días)</option>
+                                    <option value="silver">🏆 Leyenda Patagónica (≥7 Días)</option>
+                                    <option value="gold">👑 Maestro de Coyhaique (≥14 Días)</option>
+                                    <option value="platinum">💎 Racha VIP Máxima (≥30 Días)</option>
                                     <option value="none">❄️ Sin Racha (0 Días)</option>
                                 </select>
                             </div>
@@ -408,6 +555,47 @@ export default function NotificationManager() {
                                         className="rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
                                     />
                                     <span>Solo si permite contacto</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        {/* Fila 2 de Segmentos Avanzados */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-slate-800 pt-4">
+                            <div>
+                                <label className="block text-xs text-slate-400 mb-1">Filtro por Edad</label>
+                                <select
+                                    value={targetAgeRange}
+                                    onChange={(e) => setTargetAgeRange(e.target.value as any)}
+                                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
+                                >
+                                    <option value="all">🎂 Todas las edades</option>
+                                    <option value="under30">🎂 Menores de 30 años</option>
+                                    <option value="30to50">🎂 Entre 30 y 50 años</option>
+                                    <option value="over50">🎂 Mayores de 50 años</option>
+                                </select>
+                            </div>
+
+                            <div className="flex items-end">
+                                <label className="flex items-center gap-2 cursor-pointer bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 text-xs text-slate-300 w-full">
+                                    <input
+                                        type="checkbox"
+                                        checked={targetBirthday}
+                                        onChange={(e) => setTargetBirthday(e.target.checked)}
+                                        className="rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
+                                    />
+                                    <span>🎂 Cumpleaños hoy</span>
+                                </label>
+                            </div>
+
+                            <div className="flex items-end">
+                                <label className="flex items-center gap-2 cursor-pointer bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 text-xs text-slate-300 w-full">
+                                    <input
+                                        type="checkbox"
+                                        checked={targetUnclaimedPrizes}
+                                        onChange={(e) => setTargetUnclaimedPrizes(e.target.checked)}
+                                        className="rounded text-purple-600 focus:ring-purple-500 bg-slate-900 border-slate-700"
+                                    />
+                                    <span>🎁 Con premios sin cobrar</span>
                                 </label>
                             </div>
                         </div>
@@ -501,6 +689,109 @@ export default function NotificationManager() {
                         )}
                     </button>
                 </form>
+            </div>
+
+            {/* Programación de Campañas Automáticas */}
+            <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 shadow-xl">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <span>⏰</span> Campañas Automáticas y Crons
+                </h3>
+
+                <form onSubmit={handleAddScheduledCampaign} className="space-y-4 mb-8 p-6 bg-slate-900 rounded-xl border border-slate-700">
+                    <p className="text-xs font-semibold text-purple-400 uppercase">Nueva Campaña Programada / Recurrente</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <label className="block text-xs text-slate-400 mb-1">Tipo de Campaña</label>
+                            <select
+                                value={schedType}
+                                onChange={(e) => setSchedType(e.target.value as any)}
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
+                            >
+                                <option value="birthday">🎂 Felicitación de Cumpleaños Diaria (10:00 AM)</option>
+                                <option value="prize_reminder">🎁 Recordatorio de Premios por Vencer (Diaria)</option>
+                                <option value="custom">📅 Notificación Especial en Fecha Única</option>
+                            </select>
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs text-slate-400 mb-1">Título del Push</label>
+                            <input
+                                type="text"
+                                required
+                                value={schedTitle}
+                                onChange={(e) => setSchedTitle(e.target.value)}
+                                placeholder="Ej: ¡Feliz cumpleaños, {name}! 🎉"
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="md:col-span-2">
+                            <label className="block text-xs text-slate-400 mb-1">Mensaje (Usa {"{name}"} para personalizar el nombre del cliente)</label>
+                            <input
+                                type="text"
+                                required
+                                value={schedBody}
+                                onChange={(e) => setSchedBody(e.target.value)}
+                                placeholder="Ej: Hola {name}, te deseamos lo mejor. Pasa hoy a cobrar tu regalo."
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
+                            />
+                        </div>
+
+                        {schedType === 'custom' && (
+                            <div>
+                                <label className="block text-xs text-slate-400 mb-1">Fecha de Envío (AAAA-MM-DD)</label>
+                                <input
+                                    type="date"
+                                    required
+                                    value={schedDate}
+                                    onChange={(e) => setSchedDate(e.target.value)}
+                                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold"
+                    >
+                        Programar Campaña
+                    </button>
+                </form>
+
+                {scheduledCampaigns.length === 0 ? (
+                    <p className="text-slate-500 text-center py-4 text-xs">No hay campañas programadas activas.</p>
+                ) : (
+                    <div className="space-y-3">
+                        {scheduledCampaigns.map((camp) => (
+                            <div key={camp.id} className="p-4 bg-slate-900 border border-slate-700 rounded-xl flex items-center justify-between gap-4">
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                                            {camp.type === 'birthday' ? '🎂 Cumpleaños' : camp.type === 'prize_reminder' ? '🎁 Recordatorio' : '📅 Especial'}
+                                        </span>
+                                        <h4 className="font-semibold text-white text-sm">{camp.title}</h4>
+                                    </div>
+                                    <p className="text-slate-400 text-xs">{camp.body}</p>
+                                    {camp.targetDate && (
+                                        <p className="text-[10px] text-slate-500">📅 Programada para: {camp.targetDate}</p>
+                                    )}
+                                </div>
+
+                                <button
+                                    onClick={() => handleDeleteScheduledCampaign(camp.id)}
+                                    className="text-slate-500 hover:text-red-400 p-1 text-xs"
+                                    title="Eliminar"
+                                >
+                                    ❌
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Historial de Notificaciones */}

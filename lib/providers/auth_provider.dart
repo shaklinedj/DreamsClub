@@ -164,11 +164,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!data.containsKey('balance')) updates['balance'] = 0;
 
       // Sincronización de Racha, Visita y Presencia para el Dashboard Astro
-      final currentStreak = data['currentStreak'] as int? ?? data['streak'] as int? ?? 1;
+      final currentStreak = data['currentStreak'] as int? ?? data['streak'] as int? ?? 0;
       final longestStreak = data['longestStreak'] as int? ?? currentStreak;
       
       updates['currentStreak'] = currentStreak;
       updates['longestStreak'] = longestStreak;
+      if (!data.containsKey('streak')) updates['streak'] = 0;
+      if (!data.containsKey('totalVisits')) updates['totalVisits'] = 0;
       if (!data.containsKey('contactConsent')) updates['contactConsent'] = true;
 
       // Membership flags used by AuthNotifier
@@ -291,8 +293,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
           'level': 'blue',
           'points': 100, // Bono inicial de bienvenida
           'balance': 0,
-          'streak': 1,
-          'totalVisits': 1,
+          'streak': 0,
+          'currentStreak': 0,
+          'longestStreak': 0,
+          'totalVisits': 0,
           'favoriteCasinoId': '4', // Dreams Coyhaique
           'profile_image_url': 'assets/images/logo-dreams.png',
           'isMember': true,

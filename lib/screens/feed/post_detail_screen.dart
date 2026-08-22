@@ -5,6 +5,10 @@ import 'package:casinoloyalty_flutter/models/feed_post_model.dart';
 import 'package:casinoloyalty_flutter/screens/feed/widgets/feed_item_widget.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
+import 'package:collection/collection.dart';
 
 class PostDetailScreen extends ConsumerStatefulWidget {
   final String postId;
@@ -16,7 +20,6 @@ class PostDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
-  FeedPost? _post;
   bool _isLoading = true;
   String? _error;
 
@@ -35,8 +38,18 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
 
       if (doc.exists) {
         if (mounted) {
+          final authUid = ref.read(authProvider).firebaseUser?.uid;
+          final user = ref.read(userProvider);
+          final currentUserId = (authUid != null && authUid.isNotEmpty)
+              ? authUid
+              : (user.email.isNotEmpty ? user.email : user.name);
+
+          final loadedPost = FeedPost.fromFirestore(doc, currentUserId: currentUserId);
+
+          // Register it in the feed provider so it becomes reactive and interactive
+          ref.read(feedProvider.notifier).addOrUpdatePostLocally(loadedPost);
+
           setState(() {
-            _post = FeedPost.fromFirestore(doc);
             _isLoading = false;
           });
         }
@@ -104,14 +117,17 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
       );
     }
 
-    if (_post != null) {
+    final posts = ref.watch(feedProvider);
+    final displayPost = posts.firstWhereOrNull((p) => p.id == widget.postId);
+
+    if (displayPost != null) {
       // Reuse FeedItemWidget but without preloading logic for single view
       return Center(
         child: ConstrainedBox(
           constraints:
               const BoxConstraints(maxWidth: 600), // Limit width for Web
           child: FeedItemWidget(
-            post: _post!,
+            post: displayPost,
             isVisible: true,
           ),
         ),

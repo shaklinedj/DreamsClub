@@ -135,14 +135,34 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final snap = await userRef.get();
       final data = snap.data() ?? <String, dynamic>{};
 
+      final updates = <String, dynamic>{};
+
+      // Migrate from old email-based document if it exists and hasn't been migrated yet
+      if (data['migrated_from_email'] != true && user.email != null && user.email!.isNotEmpty) {
+        try {
+          final emailDocRef = FirebaseFirestore.instance.collection('users').doc(user.email);
+          final emailSnap = await emailDocRef.get();
+          if (emailSnap.exists && emailSnap.data() != null) {
+            final emailData = emailSnap.data()!;
+            emailData.forEach((key, value) {
+              updates[key] = value;
+            });
+            // Update local data variable so the checks below see the migrated fields!
+            data.addAll(emailData);
+            AppLogger.info('Migrating user data from old email document to UID document: ${user.email}');
+          }
+        } catch (migrationError) {
+          AppLogger.error('Error during user document migration', migrationError);
+        }
+        updates['migrated_from_email'] = true;
+      }
+
       final derivedName = (user.displayName ??
               data['name'] as String? ??
               data['displayName'] as String? ??
               '')
           .trim();
       // Se remueve derivedPhotoUrl porque forzamos logo-dreams.png para nuevos usuarios
-
-      final updates = <String, dynamic>{};
 
       if (!data.containsKey('id')) updates['id'] = user.uid;
       if (!data.containsKey('email')) updates['email'] = user.email;

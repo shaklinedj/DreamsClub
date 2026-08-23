@@ -82,3 +82,20 @@ The push notification API lives in `dreams-admin/api/` and is deployed automatic
 
 - API URL: `https://dreamsclub.vercel.app/api/send-push`
 - Cron jobs (birthday reminders, prize expiration): `dreams-admin/api/cron-campaigns.js` (scheduled in `dreams-admin/vercel.json`)
+
+---
+
+## 4. Restricciones de Distribución y Aprendizajes (¡Muy Importante!)
+
+### Repositorio Público para Descargas
+El repositorio de código `shaklinedj/DreamsClub` es **privado**. Si los usuarios anónimos (sin cuenta de GitHub) intentan descargar el APK directamente desde allí, GitHub les pedirá iniciar sesión o les dará un error 404.
+* **Solución**: Se utiliza el repositorio **público** `shaklinedj/DreamsClub-Release` para subir los APKs de distribución pública. Los enlaces en la web apuntan a:
+  `https://github.com/shaklinedj/DreamsClub-Release/releases/download/vVERSION/DreamsClub.apk`
+
+### Restricción de Archivos APK en Firebase Hosting
+El plan gratuito (Spark) de Firebase Hosting **prohíbe estrictamente subir archivos ejecutables** (incluyendo `.apk`). Subir archivos con esta extensión causará un error HTTP 400 (`Executable files are forbidden on the Spark billing plan`) y abortará el despliegue.
+* **Regla**: Nunca agregues o compiles el `.apk` dentro de la carpeta `public/` o `dist/` que se despliegue a Firebase Hosting.
+
+### Migración de Perfiles (Email a UID)
+En la base de datos Firestore, los documentos de usuario originalmente se creaban usando el `email` del socio como ID de documento. Para corregir la creación de cupones duplicados, ahora se utiliza el `uid` de Firebase Auth.
+* **Migración**: Al iniciar sesión, la app ejecuta un proceso de migración de una sola vez en `_ensureUserDocument` (`auth_provider.dart`) que copia todo el historial de puntos, racha, nivel, permisos de administrador y foto de perfil desde el antiguo documento `users/{email}` al nuevo documento `users/{uid}`.

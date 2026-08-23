@@ -174,7 +174,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
         updates['displayName'] = derivedName;
       }
 
-      if (!data.containsKey('profile_image_url')) {
+      final existingPhoto = data['profile_image_url'] as String?;
+      if (existingPhoto == null || existingPhoto.isEmpty) {
         updates['profile_image_url'] = 'assets/images/logo-dreams.png';
       }
       if (data.containsKey('photoURL')) {
@@ -186,13 +187,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!data.containsKey('points')) updates['points'] = 0;
       if (!data.containsKey('balance')) updates['balance'] = 0;
 
-      // Sincronización de Racha, Visita y Presencia para el Dashboard Astro
-      final currentStreak = data['currentStreak'] as int? ?? data['streak'] as int? ?? 0;
-      final longestStreak = data['longestStreak'] as int? ?? currentStreak;
-      
-      updates['currentStreak'] = currentStreak;
-      updates['longestStreak'] = longestStreak;
-      if (!data.containsKey('streak')) updates['streak'] = 0;
+      // Sincronización de Racha, Visita y Presencia — ONLY write if missing to avoid overwriting real data
+      final hasCurrentStreak = data.containsKey('currentStreak');
+      final hasStreak = data.containsKey('streak');
+      final hasLongestStreak = data.containsKey('longestStreak');
+
+      if (!hasCurrentStreak && !hasStreak) {
+        // Brand new user: initialize streaks to 0
+        updates['currentStreak'] = 0;
+        updates['streak'] = 0;
+        updates['longestStreak'] = 0;
+      } else if (hasCurrentStreak && !hasLongestStreak) {
+        // Has streak but missing longestStreak: derive it without resetting
+        final currentStreakVal = (data['currentStreak'] as num?)?.toInt() ?? 0;
+        updates['longestStreak'] = currentStreakVal;
+      }
       if (!data.containsKey('totalVisits')) updates['totalVisits'] = 0;
       if (!data.containsKey('contactConsent')) updates['contactConsent'] = true;
 

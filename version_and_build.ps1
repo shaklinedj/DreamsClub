@@ -47,9 +47,9 @@ Write-Host "[2] Minor ($major.$($minor+1).0) - Nuevas funcionalidades compatible
 Write-Host "[3] Major ($($major+1).0.0) - Cambios incompatibles/grandes"
 Write-Host "[4] Ninguno (Mantener $semVer) - Solo nueva build"
 
-do {
+$selection = "1";#
     $selection = Read-Host "Opción (1-4)"
-} until ($selection -match "^[1-4]$")
+
 
 switch ($selection) {
     "1" { $patch++; $newSemVer = "$major.$minor.$patch" }

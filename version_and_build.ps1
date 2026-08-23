@@ -68,9 +68,9 @@ $escapedFullVersion = [regex]::Escape($fullVersion)
 Write-Host "pubspec.yaml actualizado."
 
 # --- 3. Limpieza y Compilación ---
-# Write-Host "Compilando APK para Android (arm64-v8a split)..."
-# cmd /c "flutter build apk --release --split-per-abi --no-tree-shake-icons --android-skip-build-dependency-validation"
-# if ($LASTEXITCODE -ne 0) { throw "Error al compilar" }
+Write-Host "Compilando APK para Android (arm64-v8a split)..."
+cmd /c "flutter build apk --release --split-per-abi --no-tree-shake-icons --android-skip-build-dependency-validation"
+if ($LASTEXITCODE -ne 0) { throw "Error al compilar" }
 
 # --- 4. Renombrar APK arm64-v8a ---
 $outputFolder = "build\app\outputs\flutter-apk"

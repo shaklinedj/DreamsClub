@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:casinoloyalty_flutter/providers/game_history_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SpinWheelScreen extends ConsumerStatefulWidget {
   const SpinWheelScreen({super.key});
@@ -50,7 +51,7 @@ class _SpinWheelScreenState extends ConsumerState<SpinWheelScreen> {
     final wonPrize = _spinService.createWonPrize(
       prize: prize,
       casinoId: casinoId,
-      userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+      userId: FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? '')),
       userName: user.name,
       userEmail: user.email,
       userRut: user.rut ?? '',

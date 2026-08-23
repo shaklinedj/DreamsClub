@@ -222,22 +222,30 @@ final gameAvailabilityProvider =
 
         final maxAllowed = rules.maxDailyGamesAllowed > 0 ? rules.maxDailyGamesAllowed : 1;
 
-        if (playedToday.length >= maxAllowed) {
-          if (!playedToday.contains(gameId)) {
-            final gameNames = {
-              'roulette': 'Ruleta de la Suerte',
-              'slots': 'Máquina de Premios',
-              'dreams_mania': 'Dreams Manía',
-              'dreams_match': 'Dreams Match',
-            };
-            final playedNames = playedToday.map((id) => gameNames[id] ?? id).join(', ');
+        // 1. If this game has already been played today, lock it
+        if (playedToday.contains(gameId)) {
+          return GameAvailability(
+            config: config,
+            status: GameStatus.lockedFrequency,
+            message: 'Ya jugaste a este juego hoy.',
+          );
+        }
 
-            return GameAvailability(
-              config: config,
-              status: GameStatus.lockedFrequency,
-              message: 'Límite diario alcanzado ($maxAllowed). Ya jugaste: $playedNames hoy.',
-            );
-          }
+        // 2. If they have reached the maximum allowed daily games limit
+        if (playedToday.length >= maxAllowed) {
+          final gameNames = {
+            'roulette': 'Ruleta de la Suerte',
+            'slots': 'Máquina de Premios',
+            'dreams_mania': 'Dreams Manía',
+            'dreams_match': 'Dreams Match',
+          };
+          final playedNames = playedToday.map((id) => gameNames[id] ?? id).join(', ');
+
+          return GameAvailability(
+            config: config,
+            status: GameStatus.lockedFrequency,
+            message: 'Límite diario alcanzado ($maxAllowed). Ya jugaste: $playedNames hoy.',
+          );
         }
       }
 

@@ -67,12 +67,16 @@ export default function FeedList() {
         if (confirm('¿Estás seguro de que quieres eliminar esta publicación?')) {
             try {
                 if (post.mediaUrl) {
-                    await deleteFromDrive(post.mediaUrl);
+                    try {
+                        await deleteFromDrive(post.mediaUrl);
+                    } catch (driveError) {
+                        console.warn("Error deleting media from Google Drive:", driveError);
+                    }
                 }
                 await deleteDoc(doc(db, 'posts', post.id));
             } catch (error) {
                 console.error("Error deleting post:", error);
-                alert("Error al eliminar el post");
+                alert("Error al eliminar la publicación");
             }
         }
     };

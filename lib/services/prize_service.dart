@@ -4,6 +4,7 @@ import 'package:casinoloyalty_flutter/models/prize_model.dart';
 import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class GameRulesConfig {
   final int cooldownHours;
@@ -170,9 +171,20 @@ class PrizeService {
       return Stream.value([]);
     }
 
+    final queryIds = [userId];
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      if (currentUser.uid.isNotEmpty && !queryIds.contains(currentUser.uid)) {
+        queryIds.add(currentUser.uid);
+      }
+      if (currentUser.email != null && currentUser.email!.isNotEmpty && !queryIds.contains(currentUser.email!)) {
+        queryIds.add(currentUser.email!);
+      }
+    }
+
     return _firestore
         .collection('user_prizes')
-        .where('userId', isEqualTo: userId)
+        .where('userId', whereIn: queryIds)
         .snapshots()
         .map((snapshot) {
       final list = snapshot.docs
@@ -187,11 +199,25 @@ class PrizeService {
 
   /// Get all user's prizes (combining Firestore with local cache)
   Future<List<WonPrize>> getMyPrizes([String? userId]) async {
+    final queryIds = <String>[];
     if (userId != null && userId.isNotEmpty) {
+      queryIds.add(userId);
+    }
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      if (currentUser.uid.isNotEmpty && !queryIds.contains(currentUser.uid)) {
+        queryIds.add(currentUser.uid);
+      }
+      if (currentUser.email != null && currentUser.email!.isNotEmpty && !queryIds.contains(currentUser.email!)) {
+        queryIds.add(currentUser.email!);
+      }
+    }
+
+    if (queryIds.isNotEmpty) {
       try {
         final snapshot = await _firestore
             .collection('user_prizes')
-            .where('userId', isEqualTo: userId)
+            .where('userId', whereIn: queryIds)
             .get();
 
         if (snapshot.docs.isNotEmpty) {

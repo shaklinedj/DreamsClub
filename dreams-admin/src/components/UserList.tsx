@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 interface UserItem {
@@ -16,10 +16,12 @@ interface UserItem {
     isPresentToday?: boolean;
     tier?: string;
     createdAt?: any;
+    rut?: string;
 }
 
 export default function UserList() {
     const [users, setUsers] = useState<UserItem[]>([]);
+    const [prizes, setPrizes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [streakFilter, setStreakFilter] = useState<'all' | 'active' | 'high' | 'vip' | 'none'>('all');
@@ -27,8 +29,8 @@ export default function UserList() {
     const [consentOnly, setConsentOnly] = useState(false);
 
     useEffect(() => {
-        const q = query(collection(db, 'users'));
-        const unsubscribe = onSnapshot(q, (snapshot) => {
+        const qUsers = query(collection(db, 'users'));
+        const unsubscribeUsers = onSnapshot(qUsers, (snapshot) => {
             const list = snapshot.docs.map((d) => ({
                 id: d.id,
                 ...d.data()
@@ -37,12 +39,35 @@ export default function UserList() {
             setLoading(false);
         }, (err) => {
             console.error("Error reading users:", err);
-            // Si la colección 'users' no existe aún, mostramos lista vacía o demo
             setLoading(false);
         });
 
-        return () => unsubscribe();
+        const qPrizes = query(collection(db, 'user_prizes'));
+        const unsubscribePrizes = onSnapshot(qPrizes, (snapshot) => {
+            const list = snapshot.docs.map((d) => ({
+                id: d.id,
+                ...d.data()
+            }));
+            setPrizes(list);
+        }, (err) => {
+            console.error("Error reading prizes:", err);
+        });
+
+        return () => {
+            unsubscribeUsers();
+            unsubscribePrizes();
+        };
     }, []);
+
+    // Helper to check if lastVisit is strictly today in server/client time
+    const isLastVisitToday = (lastVisit: any): boolean => {
+        if (!lastVisit) return false;
+        const date = lastVisit.toDate ? lastVisit.toDate() : new Date(lastVisit);
+        const today = new Date();
+        return date.getDate() === today.getDate() &&
+               date.getMonth() === today.getMonth() &&
+               date.getFullYear() === today.getFullYear();
+    };
 
     // Calcular días sin asistir desde lastVisit
     const getDaysSinceLastVisit = (lastVisit: any): number => {
@@ -50,6 +75,18 @@ export default function UserList() {
         const date = lastVisit.toDate ? lastVisit.toDate() : new Date(lastVisit);
         const diffTime = Math.abs(new Date().getTime() - date.getTime());
         return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    };
+
+    // Mapear estadísticas de premios por usuario
+    const getUserPrizeStats = (u: UserItem) => {
+        const userPrizes = prizes.filter(p => 
+            p.userId === u.id || 
+            (u.email && p.userId === u.email) || 
+            (u.rut && p.userId === u.rut)
+        );
+        const total = userPrizes.length;
+        const claimed = userPrizes.filter(p => p.status === 'cobrado').length;
+        return { total, claimed };
     };
 
     // Filtrar usuarios
@@ -73,7 +110,8 @@ export default function UserList() {
 
         // Filtro por presencia / inactividad
         const daysInactive = getDaysSinceLastVisit(u.lastVisit);
-        if (presenceFilter === 'today' && !u.isPresentToday && daysInactive > 0) return false;
+        const visitedToday = isLastVisitToday(u.lastVisit);
+        if (presenceFilter === 'today' && !visitedToday) return false;
         if (presenceFilter === 'inactive5' && daysInactive <= 5) return false;
         if (presenceFilter === 'inactive10' && daysInactive <= 10) return false;
 
@@ -109,9 +147,9 @@ export default function UserList() {
                 </div>
 
                 <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
-                    <p className="text-xs font-semibold uppercase text-slate-400">Presentes Hoy / Recientes</p>
+                    <p className="text-xs font-semibold uppercase text-slate-400">Presentes Hoy</p>
                     <p className="text-3xl font-bold text-purple-400 mt-2">
-                        {users.filter(u => u.isPresentToday || getDaysSinceLastVisit(u.lastVisit) === 0).length}
+                        {users.filter(u => isLastVisitToday(u.lastVisit)).length}
                     </p>
                 </div>
 
@@ -128,11 +166,11 @@ export default function UserList() {
                 <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
                     <div className="w-full md:w-1/3 relative">
                         <input
-                            type="text"
-                            placeholder="🔍 Buscar por nombre, email o teléfono..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 text-sm"
+                             type="text"
+                             placeholder="🔍 Buscar por nombre, email o teléfono..."
+                             value={searchTerm}
+                             onChange={(e) => setSearchTerm(e.target.value)}
+                             className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 text-sm"
                         />
                     </div>
 
@@ -186,13 +224,14 @@ export default function UserList() {
                                 <th className="px-6 py-4">Contacto</th>
                                 <th className="px-6 py-4">Racha Actual / Récord</th>
                                 <th className="px-6 py-4">Presencia / Última Visita</th>
+                                <th className="px-6 py-4">Premios</th>
                                 <th className="px-6 py-4">Permite Contacto</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-700/50">
                             {filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                                    <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                                         No se encontraron usuarios con los filtros seleccionados.
                                     </td>
                                 </tr>
@@ -201,6 +240,8 @@ export default function UserList() {
                                     const streak = u.currentStreak || u.streak || 0;
                                     const longest = u.longestStreak || streak;
                                     const daysInactive = getDaysSinceLastVisit(u.lastVisit);
+                                    const visitedToday = isLastVisitToday(u.lastVisit);
+                                    const { total: totalPrizes, claimed: claimedPrizes } = getUserPrizeStats(u);
 
                                     return (
                                         <tr key={u.id} className="hover:bg-slate-750 transition-colors">
@@ -236,7 +277,7 @@ export default function UserList() {
                                             </td>
 
                                             <td className="px-6 py-4">
-                                                {u.isPresentToday || daysInactive === 0 ? (
+                                                {visitedToday ? (
                                                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                                                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                                                         En Casino Hoy
@@ -246,6 +287,19 @@ export default function UserList() {
                                                         {daysInactive === 999 ? 'Sin registros' : `Hace ${daysInactive} días`}
                                                     </span>
                                                 )}
+                                            </td>
+
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-1.5">
+                                                    <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
+                                                        claimedPrizes > 0 ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-slate-700 text-slate-400'
+                                                    }`}>
+                                                        🏆 {claimedPrizes} cobrados
+                                                    </span>
+                                                    <span className="text-xs text-slate-500">
+                                                        de {totalPrizes}
+                                                    </span>
+                                                </div>
                                             </td>
 
                                             <td className="px-6 py-4">

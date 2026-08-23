@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyPrizesScreen extends ConsumerStatefulWidget {
   const MyPrizesScreen({super.key});
@@ -53,7 +54,7 @@ class _MyPrizesScreenState extends ConsumerState<MyPrizesScreen>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    final userId = user.email.isNotEmpty ? user.email : (user.rut ?? '');
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? ''));
 
     return Scaffold(
       backgroundColor: const Color(0xFF12121A),

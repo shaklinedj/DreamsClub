@@ -12,6 +12,7 @@ import 'package:casinoloyalty_flutter/services/prize_service.dart';
 import 'package:casinoloyalty_flutter/services/spin_wheel_service.dart';
 import 'package:casinoloyalty_flutter/widgets/game_victory_dialog.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SlotMachineScreen extends ConsumerStatefulWidget {
   const SlotMachineScreen({super.key});
@@ -112,7 +113,7 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
           wonPhysicalPrize = _spinWheelService.createWonPrize(
             prize: selectedPrize,
             casinoId: casinoId,
-            userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+            userId: FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? '')),
             userName: user.name,
             userEmail: user.email,
             userRut: user.rut ?? '',
@@ -135,7 +136,7 @@ class _SlotMachineScreenState extends ConsumerState<SlotMachineScreen> {
           wonPhysicalPrize = _spinWheelService.createWonPrize(
             prize: selectedPrize,
             casinoId: casinoId,
-            userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+            userId: FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? '')),
             userName: user.name,
             userEmail: user.email,
             userRut: user.rut ?? '',

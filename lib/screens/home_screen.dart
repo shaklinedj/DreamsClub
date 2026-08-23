@@ -11,6 +11,7 @@ import 'package:casinoloyalty_flutter/providers/game_availability_provider.dart'
 import 'package:casinoloyalty_flutter/screens/coyhaique/coyhaique_shell.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Dreams Mania Imports
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
@@ -121,7 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    final userId = user.email.isNotEmpty ? user.email : (user.rut ?? '');
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? ''));
 
     return Scaffold(
         extendBodyBehindAppBar: false,

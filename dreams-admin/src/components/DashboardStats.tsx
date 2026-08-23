@@ -7,7 +7,8 @@ export default function DashboardStats() {
     const [stats, setStats] = useState({
         users: 0,
         games: 0,
-        posts: 0
+        posts: 0,
+        claimedPrizes: 0
     });
     const [loading, setLoading] = useState(true);
 
@@ -27,10 +28,16 @@ export default function DashboardStats() {
                 const postsColl = collection(db, 'posts');
                 const postsSnapshot = await getCountFromServer(postsColl);
 
+                // Claimed Prizes Count
+                const prizesColl = collection(db, 'user_prizes');
+                const qPrizes = query(prizesColl, where("status", "==", "cobrado"));
+                const prizesSnapshot = await getCountFromServer(qPrizes);
+
                 setStats({
                     users: usersSnapshot.data().count,
                     games: gamesSnapshot.data().count,
-                    posts: postsSnapshot.data().count
+                    posts: postsSnapshot.data().count,
+                    claimedPrizes: prizesSnapshot.data().count
                 });
             } catch (error) {
                 console.error("Error fetching stats:", error);
@@ -54,7 +61,7 @@ export default function DashboardStats() {
                 <h3 className="text-slate-400 text-sm font-medium mb-1">Usuarios Totales</h3>
                 <p className="text-3xl font-bold text-white">{stats.users}</p>
                 <div className="mt-2 text-xs text-green-400 font-medium">
-                    +12% vs mes anterior
+                    En base de datos
                 </div>
             </div>
 
@@ -67,10 +74,10 @@ export default function DashboardStats() {
             </div>
 
             <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700">
-                <h3 className="text-slate-400 text-sm font-medium mb-1">Puntos Entregados</h3>
-                <p className="text-3xl font-bold text-white">1.2M</p>
+                <h3 className="text-slate-400 text-sm font-medium mb-1">Premios Cobrados</h3>
+                <p className="text-3xl font-bold text-white">{stats.claimedPrizes}</p>
                 <div className="mt-2 text-xs text-green-400 font-medium">
-                    +50k hoy
+                    Canjes verificados
                 </div>
             </div>
 

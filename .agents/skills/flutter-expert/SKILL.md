@@ -16,3 +16,6 @@ Esta skill define el protocolo de desarrollo experto en Flutter:
 - Prevención de colisiones de importación mediante alias explícitos.
 - Arquitectura reactiva con Riverpod / StateNotifier.
 - Sincronización transparente con Firebase Firestore mediante subcolecciones y Collection Group Queries.
+- **Evitar el uso de `BuildContext` a través de brechas asíncronas (`use_build_context_synchronously`)**:
+  - Nunca llames a métodos que consuman `BuildContext` (como `Navigator.pop`, `ScaffoldMessenger.of(context)`, `context.push`, etc.) inmediatamente después de un `await` sin verificar antes `if (!mounted) return;`.
+  - Preferiblemente, guarda referencias a controladores, `Theme`, `MediaQuery` o `ScaffoldMessengerState` locales *antes* de la operación asíncrona si es necesario usarlos después.

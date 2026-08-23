@@ -100,11 +100,31 @@ class UserNotifier extends StateNotifier<User> {
           .listen((snapshot) {
         if (snapshot.exists && snapshot.data() != null) {
           try {
-            final user = User.fromMap(snapshot.data()!);
+            final data = snapshot.data()!;
+            final user = User.fromMap(data);
             if (mounted) {
               state = user;
               // Save to cache for offline use
               _saveToCache(user);
+            }
+
+            // Self-correct isPresentToday if lastVisit was on a different day
+            final lastVisitTimestamp = data['lastVisit'] as Timestamp?;
+            final isPresentToday = data['isPresentToday'] as bool? ?? false;
+
+            if (isPresentToday && lastVisitTimestamp != null) {
+              final lastVisitDate = lastVisitTimestamp.toDate();
+              final now = DateTime.now();
+              final isSameDay = lastVisitDate.year == now.year &&
+                  lastVisitDate.month == now.month &&
+                  lastVisitDate.day == now.day;
+
+              if (!isSameDay) {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(_uid)
+                    .update({'isPresentToday': false});
+              }
             }
             AppLogger.info('🔄 User synced from Firestore: streak=${user.streak}, visits=${user.totalVisits}');
           } catch (e) {

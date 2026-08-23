@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
+import 'dart:math';
 
 import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -200,6 +203,27 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
     );
   }
 
+  Future<String?> _uploadAttachment(Uint8List bytes, String mimeType) async {
+    try {
+      final extension = mimeType.split('/').last;
+      final fileName = 'comment_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(9999)}.$extension';
+      final refStorage = FirebaseStorage.instance
+          .ref()
+          .child('comment_attachments')
+          .child(fileName);
+
+      final uploadTask = refStorage.putData(
+        bytes,
+        SettableMetadata(contentType: mimeType),
+      );
+      final snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      AppLogger.error('Error uploading comment attachment to Storage', e);
+      return null;
+    }
+  }
+
   Future<void> _pickCustomStickerFromGallery() async {
     try {
       final ImagePicker picker = ImagePicker();
@@ -210,10 +234,25 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
         imageQuality: 80,
       );
       if (file != null) {
+        setState(() {
+          _isSubmitting = true;
+        });
         final bytes = await file.readAsBytes();
-        final base64Data = base64Encode(bytes);
         final mimeType = file.mimeType ?? 'image/jpeg';
-        _sendStickerComment('data:$mimeType;base64,$base64Data');
+
+        final url = await _uploadAttachment(bytes, mimeType);
+        if (url != null) {
+          _sendStickerComment(url);
+        } else {
+          setState(() {
+            _isSubmitting = false;
+          });
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Error al subir imagen a Firebase Storage')),
+            );
+          }
+        }
       }
     } catch (e) {
       AppLogger.error('Error picking custom sticker from gallery', e);
@@ -485,12 +524,31 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                             'image/jpeg',
                           ],
                           onContentInserted: (KeyboardInsertedContent content) async {
+                            final messenger = ScaffoldMessenger.of(context);
                             if (content.data != null) {
-                              final base64Data = base64Encode(content.data!);
-                              final mimeType = content.mimeType;
-                              _sendStickerComment('data:$mimeType;base64,$base64Data');
+                              setState(() {
+                                _isSubmitting = true;
+                              });
+                              final url = await _uploadAttachment(content.data!, content.mimeType);
+                              if (url != null) {
+                                _sendStickerComment(url);
+                              } else {
+                                setState(() {
+                                  _isSubmitting = false;
+                                });
+                                messenger.showSnackBar(
+                                  const SnackBar(content: Text('Error al procesar el archivo del teclado')),
+                                );
+                              }
                             } else if (content.uri.isNotEmpty) {
-                              _sendStickerComment(content.uri);
+                              if (content.uri.startsWith('http')) {
+                                _sendStickerComment(content.uri);
+                              } else {
+                                // For content:// paths, inform the user they cannot be uploaded directly
+                                messenger.showSnackBar(
+                                  const SnackBar(content: Text('Formato de teclado local no soportado')),
+                                );
+                              }
                             }
                           },
                         ),

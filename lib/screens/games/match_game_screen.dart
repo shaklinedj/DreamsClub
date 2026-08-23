@@ -13,6 +13,8 @@ import 'package:casinoloyalty_flutter/services/spin_wheel_service.dart';
 import 'package:casinoloyalty_flutter/models/won_prize_model.dart';
 import 'package:casinoloyalty_flutter/widgets/game_victory_dialog.dart';
 import 'package:casinoloyalty_flutter/services/match_game_service.dart';
+import 'package:casinoloyalty_flutter/providers/game_history_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 
 class MatchGameScreen extends ConsumerStatefulWidget {
@@ -271,13 +273,176 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
               : null,
         ),
         child: Center(
-          child: Text(
-            gem.emoji,
-            style: const TextStyle(fontSize: 24),
-          ),
+          child: _buildPremiumCandy(gem),
         ),
       ),
     );
+  }
+
+  Widget _buildPremiumCandy(GemType gem) {
+    final color = Color(gem.colorValue);
+    
+    switch (gem) {
+      case GemType.ruby: // Red Diamond Candy
+        return Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(4),
+            gradient: LinearGradient(
+              colors: [color, color.withAlpha(120)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(100),
+                blurRadius: 6,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: Transform.rotate(
+            angle: 45 * 3.14159 / 180,
+            child: Container(
+              margin: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white.withAlpha(180), width: 1),
+                color: Colors.white.withAlpha(40),
+              ),
+            ),
+          ),
+        );
+      case GemType.sapphire: // Blue Shiny Orb
+        return Container(
+          width: 26,
+          height: 26,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [Colors.white.withAlpha(180), color, color.withAlpha(200)],
+              center: const Alignment(-0.3, -0.3),
+              radius: 0.85,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(120),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            border: Border.all(color: Colors.white.withAlpha(100), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.star_border, color: Colors.white60, size: 10),
+          ),
+        );
+      case GemType.emerald: // Green Teardrop Candy
+        return Container(
+          width: 26,
+          height: 26,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(14),
+              topRight: Radius.circular(4),
+              bottomLeft: Radius.circular(4),
+              bottomRight: Radius.circular(14),
+            ),
+            gradient: LinearGradient(
+              colors: [color, color.withAlpha(100)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(120),
+                blurRadius: 6,
+              ),
+            ],
+            border: Border.all(color: Colors.white.withAlpha(180), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.favorite_border_rounded, color: Colors.white70, size: 10),
+          ),
+        );
+      case GemType.gold: // Golden Star Candy
+        return Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const RadialGradient(
+              colors: [Color(0xFFFFF59D), Color(0xFFFBC02D), Color(0xFFF57F17)],
+              center: Alignment(-0.2, -0.2),
+              radius: 0.9,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.amber.withAlpha(150),
+                blurRadius: 8,
+              ),
+            ],
+            border: Border.all(color: Colors.white.withAlpha(200), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.star, color: Colors.white, size: 14),
+          ),
+        );
+      case GemType.amethyst: // Purple Gem Candy
+        return Container(
+          width: 25,
+          height: 25,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            gradient: LinearGradient(
+              colors: [color, color.withAlpha(100)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(120),
+                blurRadius: 6,
+              ),
+            ],
+            border: Border.all(color: Colors.white.withAlpha(150), width: 1.5),
+          ),
+          child: const Center(
+            child: Icon(Icons.diamond_outlined, color: Colors.white70, size: 10),
+          ),
+        );
+      case GemType.amber: // Orange Oval Candy
+        return Container(
+          width: 26,
+          height: 22,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: RadialGradient(
+              colors: [Colors.white.withAlpha(150), color, color.withAlpha(180)],
+              center: const Alignment(-0.2, -0.2),
+              radius: 0.8,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(120),
+                blurRadius: 6,
+              ),
+            ],
+            border: Border.all(color: Colors.white.withAlpha(100), width: 1.5),
+          ),
+          child: Center(
+            child: Container(
+              width: 14,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        );
+    }
   }
 
   void _handleTileTap(int row, int col) {
@@ -397,13 +562,16 @@ class _MatchGameScreenState extends ConsumerState<MatchGameScreen>
         wonPrize = _spinWheelService.createWonPrize(
           prize: selectedPrize,
           casinoId: casinoId,
-          userId: user.email.isNotEmpty ? user.email : (user.rut ?? ''),
+          userId: FirebaseAuth.instance.currentUser?.uid ?? (user.email.isNotEmpty ? user.email : (user.rut ?? '')),
           userName: user.name,
           userEmail: user.email,
           userRut: user.rut ?? '',
           gameSource: 'dreams_match',
         );
         await _prizeService.saveWonPrize(wonPrize);
+        
+        // Record the play history to lock the daily limit
+        await ref.read(gameHistoryProvider.notifier).recordPlay('dreams_match');
       }
     } catch (_) {}
 

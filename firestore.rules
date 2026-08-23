@@ -42,6 +42,12 @@ service cloud.firestore {
         allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
         allow write: if isAuthenticated() && (isOwner(userId) || isAdmin());
       }
+
+      // Subcollection: game_history
+      match /game_history/{gameId} {
+        allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+        allow write: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      }
     }
 
     // Collection: mini_game_prizes

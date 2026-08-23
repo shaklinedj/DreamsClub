@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
+import 'package:giphy_get/giphy_get.dart';
 
 import 'package:casinoloyalty_flutter/providers/feed_provider.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
@@ -13,6 +14,8 @@ import 'package:casinoloyalty_flutter/models/comment_model.dart';
 import 'package:casinoloyalty_flutter/screens/feed/widgets/comment_item.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
+
+const _kGiphyApiKey = 'GlVGYHkr3WSBnllca54iNt0yFbjz7L65'; // Giphy SDK key
 
 ImageProvider _resolveAvatar(String? path) {
   if (path == null || path.isEmpty) {
@@ -124,28 +127,28 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
     });
   }
 
-  void _showStickerPickerModal() {
-    final gifs = [
-      {'name': 'Fiesta Confeti', 'url': 'https://media.giphy.com/media/26tOZbfHHHJVjB3Ww/giphy.gif'},
-      {'name': 'Ganador Jackpot', 'url': 'https://media.giphy.com/media/l2JdZOg7N5l1s8s0M/giphy.gif'},
-      {'name': 'Fuego & Celebración', 'url': 'https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif'},
-      {'name': 'Fichas Casino', 'url': 'https://media.giphy.com/media/l0HlHJGHe3yAMhdQY/giphy.gif'},
-      {'name': 'Gato Bailando', 'url': 'https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif'},
-      {'name': 'Aplausos', 'url': 'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},
-      {'name': 'Slots Win', 'url': 'https://media.giphy.com/media/3o6Zt8qDiPE2dRy5tC/giphy.gif'},
-      {'name': 'Ruleta Dinero', 'url': 'https://media.giphy.com/media/l41lFw057l4e7MQdG/giphy.gif'},
-      {'name': 'Cartas Poker', 'url': 'https://media.giphy.com/media/26ufcVAp3AiJJsrIs/giphy.gif'},
-      {'name': 'Celebración Woohoo', 'url': 'https://media.giphy.com/media/lz67zcX2C39GURpRU1/giphy.gif'},
-      {'name': 'Minions Fiesta', 'url': 'https://media.giphy.com/media/MOWPkhRAUbR7i/giphy.gif'},
-      {'name': 'Dinero Volando', 'url': 'https://media.giphy.com/media/h0MTqLyvgG0Wk/giphy.gif'},
-      {'name': 'Gato con Lentes', 'url': 'https://media.giphy.com/media/C9x8gX5j5q227MI4mc/giphy.gif'},
-      {'name': 'Éxito Baile', 'url': 'https://media.giphy.com/media/12B39IawiNSDMQ/giphy.gif'},
-      {'name': 'Brindis Copas', 'url': 'https://media.giphy.com/media/BPR6NwBUWoO3u/giphy.gif'},
-      {'name': 'Mate Patagónico', 'url': 'https://media.giphy.com/media/M33UV4F9i2TR6/giphy.gif'},
-      {'name': 'Nieve Patagonia', 'url': 'https://media.giphy.com/media/3o6Zt481isntZOnd60/giphy.gif'},
-      {'name': 'Felicidad Perro', 'url': 'https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif'},
-    ];
+  Future<void> _showStickerPickerModal() async {
+    // Open Giphy picker directly — full search + trending
+    final GiphyGif? gif = await GiphyGet.getGif(
+      context: context,
+      apiKey: _kGiphyApiKey,
+      lang: GiphyLanguage.spanish,
+      randomID: '',
+      tabColor: Colors.amber,
+      // Show stickers + GIFs tabs
+    );
 
+    if (gif != null) {
+      final url = gif.images?.original?.url ?? '';
+      if (url.isNotEmpty) {
+        _sendStickerComment(url);
+      }
+      return;
+    }
+  }
+
+  /// Picker alternativo: subir imagen propia desde galería
+  void _showAttachmentOptions() {
     showModalBottomSheet(
       context: context,
       backgroundColor: const Color(0xFF1E2230),
@@ -153,61 +156,40 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (ctx) => Container(
-        height: 340,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Header with Gallery Pick Option
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Enviar Sticker o GIF',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _pickCustomStickerFromGallery();
-                  },
-                  icon: const Icon(Icons.photo_library_rounded, size: 16),
-                  label: const Text('Galería / Sticker Propio', style: TextStyle(fontSize: 12)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber[800],
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: gifs.length,
-                itemBuilder: (context, index) {
-                  final item = gifs[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      _sendStickerComment(item['url']!);
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        item['url']!,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (_, child, progress) => progress == null ? child : const Center(child: CircularProgressIndicator(color: Colors.amber)),
-                      ),
-                    ),
-                  );
-                },
+            ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Color(0xFF2A2E3D),
+                child: Icon(Icons.gif_box_rounded, color: Colors.amber),
               ),
+              title: const Text('Buscar en Giphy',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              subtitle: const Text('Millones de GIFs animados',
+                  style: TextStyle(color: Colors.white54, fontSize: 12)),
+              onTap: () {
+                Navigator.pop(ctx);
+                _showStickerPickerModal();
+              },
+            ),
+            const Divider(color: Colors.white10),
+            ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Color(0xFF2A2E3D),
+                child: Icon(Icons.photo_library_rounded, color: Colors.purple),
+              ),
+              title: const Text('Subir imagen propia',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              subtitle: const Text('Desde la galería de tu teléfono',
+                  style: TextStyle(color: Colors.white54, fontSize: 12)),
+              onTap: () {
+                Navigator.pop(ctx);
+                _pickCustomStickerFromGallery();
+              },
             ),
           ],
         ),
@@ -215,10 +197,13 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
     );
   }
 
+  // Legacy: kept for reference but no longer shown as primary picker
+
   Future<String?> _uploadAttachment(Uint8List bytes, String mimeType) async {
     try {
       final extension = mimeType.split('/').last;
-      final fileName = 'comment_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(9999)}.$extension';
+      final fileName =
+          'comment_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(9999)}.$extension';
       final refStorage = FirebaseStorage.instance
           .ref()
           .child('comment_attachments')
@@ -261,7 +246,8 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
           });
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Error al subir imagen a Firebase Storage')),
+              const SnackBar(
+                  content: Text('Error al subir imagen a Firebase Storage')),
             );
           }
         }
@@ -510,17 +496,20 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.sticky_note_2_rounded, color: Colors.amber, size: 22),
-                                onPressed: _showStickerPickerModal,
-                                tooltip: 'Enviar Sticker o GIF',
+                                icon: const Icon(Icons.gif_box_rounded,
+                                    color: Colors.amber, size: 26),
+                                onPressed: _showAttachmentOptions,
+                                tooltip: 'GIF / Imagen',
                               ),
                               _isSubmitting
                                   ? const SizedBox(
                                       width: 20,
                                       height: 20,
-                                      child: CircularProgressIndicator(strokeWidth: 2))
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2))
                                   : IconButton(
-                                      icon: const Icon(Icons.send, color: Colors.blue),
+                                      icon: const Icon(Icons.send,
+                                          color: Colors.blue),
                                       onPressed: _submitComment,
                                     ),
                             ],
@@ -528,20 +517,23 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                         ),
                         onSubmitted: (_) => _submitComment(),
                         enabled: !_isSubmitting,
-                        contentInsertionConfiguration: ContentInsertionConfiguration(
+                        contentInsertionConfiguration:
+                            ContentInsertionConfiguration(
                           allowedMimeTypes: const [
                             'image/gif',
                             'image/png',
                             'image/webp',
                             'image/jpeg',
                           ],
-                          onContentInserted: (KeyboardInsertedContent content) async {
+                          onContentInserted:
+                              (KeyboardInsertedContent content) async {
                             final messenger = ScaffoldMessenger.of(context);
                             if (content.data != null) {
                               setState(() {
                                 _isSubmitting = true;
                               });
-                              final url = await _uploadAttachment(content.data!, content.mimeType);
+                              final url = await _uploadAttachment(
+                                  content.data!, content.mimeType);
                               if (url != null) {
                                 _sendStickerComment(url);
                               } else {
@@ -549,7 +541,9 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                                   _isSubmitting = false;
                                 });
                                 messenger.showSnackBar(
-                                  const SnackBar(content: Text('Error al procesar el archivo del teclado')),
+                                  const SnackBar(
+                                      content: Text(
+                                          'Error al procesar el archivo del teclado')),
                                 );
                               }
                             } else if (content.uri.isNotEmpty) {
@@ -558,7 +552,9 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
                               } else {
                                 // For content:// paths, inform the user they cannot be uploaded directly
                                 messenger.showSnackBar(
-                                  const SnackBar(content: Text('Formato de teclado local no soportado')),
+                                  const SnackBar(
+                                      content: Text(
+                                          'Formato de teclado local no soportado')),
                                 );
                               }
                             }

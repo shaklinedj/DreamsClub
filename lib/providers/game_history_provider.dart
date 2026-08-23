@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
 
 class GameHistoryNotifier

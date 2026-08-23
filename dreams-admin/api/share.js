@@ -76,7 +76,7 @@ export default async function handler(req, res) {
   const safeDescription = escapeHtml(description);
   const shareUrl = `https://dreams-casino-app.web.app/share${postId ? `?postId=${encodeURIComponent(postId)}` : ''}`;
   const appSchemeUrl = postId ? `dreamsclub://post/${postId}` : 'dreamsclub://home';
-  const apkUrl = 'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.7/app-arm64-v8a-release.apk';
+  const apkUrl = 'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.8/app-arm64-v8a-release.apk';
 
   const html = `<!DOCTYPE html>
 <html lang="es" class="dark">

@@ -1,7 +1,7 @@
 name: casinoloyalty_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.6+31
+version: 1.0.8+33
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -99,7 +99,7 @@ flutter:
     - assets/sounds/
     - assets/lottie/
 
- 
+
 flutter_launcher_icons:
   android: true
   ios: true

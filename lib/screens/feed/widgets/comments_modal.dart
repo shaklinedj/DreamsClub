@@ -132,6 +132,18 @@ class _CommentsModalState extends ConsumerState<CommentsModal> {
       {'name': 'Fichas Casino', 'url': 'https://media.giphy.com/media/l0HlHJGHe3yAMhdQY/giphy.gif'},
       {'name': 'Gato Bailando', 'url': 'https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif'},
       {'name': 'Aplausos', 'url': 'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},
+      {'name': 'Slots Win', 'url': 'https://media.giphy.com/media/3o6Zt8qDiPE2dRy5tC/giphy.gif'},
+      {'name': 'Ruleta Dinero', 'url': 'https://media.giphy.com/media/l41lFw057l4e7MQdG/giphy.gif'},
+      {'name': 'Cartas Poker', 'url': 'https://media.giphy.com/media/26ufcVAp3AiJJsrIs/giphy.gif'},
+      {'name': 'Celebración Woohoo', 'url': 'https://media.giphy.com/media/lz67zcX2C39GURpRU1/giphy.gif'},
+      {'name': 'Minions Fiesta', 'url': 'https://media.giphy.com/media/MOWPkhRAUbR7i/giphy.gif'},
+      {'name': 'Dinero Volando', 'url': 'https://media.giphy.com/media/h0MTqLyvgG0Wk/giphy.gif'},
+      {'name': 'Gato con Lentes', 'url': 'https://media.giphy.com/media/C9x8gX5j5q227MI4mc/giphy.gif'},
+      {'name': 'Éxito Baile', 'url': 'https://media.giphy.com/media/12B39IawiNSDMQ/giphy.gif'},
+      {'name': 'Brindis Copas', 'url': 'https://media.giphy.com/media/BPR6NwBUWoO3u/giphy.gif'},
+      {'name': 'Mate Patagónico', 'url': 'https://media.giphy.com/media/M33UV4F9i2TR6/giphy.gif'},
+      {'name': 'Nieve Patagonia', 'url': 'https://media.giphy.com/media/3o6Zt481isntZOnd60/giphy.gif'},
+      {'name': 'Felicidad Perro', 'url': 'https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif'},
     ];
 
     showModalBottomSheet(

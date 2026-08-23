@@ -177,6 +177,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!data.containsKey('profile_image_url')) {
         updates['profile_image_url'] = 'assets/images/logo-dreams.png';
       }
+      if (data.containsKey('photoURL')) {
+        updates['photoURL'] = FieldValue.delete();
+      }
 
       // Defaults for app logic
       if (!data.containsKey('level')) updates['level'] = 'blue';

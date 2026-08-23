@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
 
 class GameHistoryNotifier
     extends StateNotifier<AsyncValue<Map<String, DateTime>>> {
@@ -99,8 +100,7 @@ class GameHistoryNotifier
 
 final gameHistoryProvider = StateNotifierProvider<GameHistoryNotifier,
     AsyncValue<Map<String, DateTime>>>((ref) {
-  final user = ref.watch(userProvider);
-  // Isolate by user ID (uid) for reliable backend syncing
-  final userId = user.id;
+  final authState = ref.watch(authProvider);
+  final userId = authState.firebaseUser?.uid ?? '';
   return GameHistoryNotifier(userId);
 });

@@ -56,7 +56,7 @@ export default async function handler(req, res) {
           body: r.body || body,
         },
         data: {
-          route: r.customRoute || `/notification-detail/${notificationId || ''}`,
+          route: r.customRoute || customRoute || `/notification-detail/${notificationId || ''}`,
           click_action: 'FLUTTER_NOTIFICATION_CLICK',
         },
         token: r.token,

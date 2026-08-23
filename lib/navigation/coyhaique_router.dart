@@ -59,6 +59,17 @@ final coyhaiqueRouterProvider = Provider<GoRouter>((ref) {
         }
       }
 
+      // Interceptar App Links https:// que Android abre directo en la app
+      // (ej: enlaces compartidos por WhatsApp a dreams-casino-app.web.app/share?postId=X)
+      if (state.uri.path == '/share' || state.uri.path == '/download') {
+        final postId = state.uri.queryParameters['postId'] ??
+            state.uri.queryParameters['id'];
+        if (postId != null && postId.isNotEmpty) {
+          return '/post/$postId';
+        }
+        return '/feed';
+      }
+
       final authState = ref.read(authProvider);
       final isLoggingIn = state.uri.path == '/login';
       final isSplash = state.uri.path == '/';

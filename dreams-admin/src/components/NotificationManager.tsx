@@ -96,8 +96,9 @@ export default function NotificationManager() {
     const [driveClientId, setDriveClientId] = useState('');
     const [driveFolderId, setDriveFolderId] = useState('');
 
-    // Vercel API state
-    const [vercelApiUrl, setVercelApiUrl] = useState('');
+    // Vercel API state (URL fija del proxy de push; se guarda para no tener que reingresarla)
+    const DEFAULT_VERCEL_API_URL = 'https://dreams-club.vercel.app/api/send-push';
+    const [vercelApiUrl, setVercelApiUrl] = useState(DEFAULT_VERCEL_API_URL);
 
     useEffect(() => {
         const qNotifs = query(collection(db, 'notifications'), orderBy('createdAt', 'desc'));
@@ -161,7 +162,7 @@ export default function NotificationManager() {
         setDriveConfigured(isDriveConfigured());
         loadGoogleIdentityScript().catch(() => {});
 
-        const savedVercelUrl = localStorage.getItem('vercel_api_url') || '';
+        const savedVercelUrl = localStorage.getItem('vercel_api_url') || DEFAULT_VERCEL_API_URL;
         setVercelApiUrl(savedVercelUrl);
     }, []);
 

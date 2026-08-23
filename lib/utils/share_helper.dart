@@ -4,6 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 class ShareHelper {
   // Using Firebase Hosting domain for App Links (HTTPS)
   static const String _deepLinkBase = 'https://dreams-casino-app.web.app';
+  // Vercel-hosted endpoint that renders dynamic OG tags (image/video) per post,
+  // needed because WhatsApp/social previews can't run the client-side JS on the static Firebase page.
+  static const String _postShareBase = 'https://dreams-club.vercel.app/api';
 
   static Future<void> shareToWhatsApp(String text) async {
     final uri = Uri.parse('whatsapp://send?text=${Uri.encodeComponent(text)}');
@@ -17,7 +20,7 @@ class ShareHelper {
 
   static Future<void> sharePost(
       String id, String title, String description) async {
-    final link = '$_deepLinkBase/share?postId=$id';
+    final link = '$_postShareBase/share?postId=$id';
     await SharePlus.instance.share(ShareParams(
       text: '$title\n\n$description\n\n📲 Ver en DreamsClub:\n$link',
     ));

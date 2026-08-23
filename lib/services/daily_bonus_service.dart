@@ -1,4 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dailyBonusProvider =
@@ -39,14 +41,58 @@ class DailyBonusNotifier extends StateNotifier<DailyBonusState> {
     _loadState();
   }
 
+  DocumentReference<Map<String, dynamic>>? get _userRef {
+    final uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null || uid.isEmpty) return null;
+    return FirebaseFirestore.instance.collection('users').doc(uid);
+  }
+
+  Future<Map<String, dynamic>?> _readCloudState() async {
+    final userRef = _userRef;
+    if (userRef == null) return null;
+    try {
+      final data = (await userRef.get()).data()?['dailyBonus'];
+      return data is Map ? Map<String, dynamic>.from(data) : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _writeCloudState(DateTime date, int streak) async {
+    final userRef = _userRef;
+    if (userRef == null) return;
+    try {
+      await userRef.set({
+        'dailyBonus': {
+          'lastClaimDate': Timestamp.fromDate(date),
+          'streak': streak,
+        },
+      }, SetOptions(merge: true));
+    } catch (_) {
+      // La caché local permite reclamar cuando no hay red.
+    }
+  }
+
   Future<void> _loadState() async {
     final prefs = await SharedPreferences.getInstance();
     final lastClaimIso = prefs.getString('last_daily_claim');
-    final streak = prefs.getInt('daily_streak') ?? 0;
+    final cloudState = await _readCloudState();
+    final cloudDate = cloudState?['lastClaimDate'];
+    final cloudStreak = cloudState?['streak'];
+    final streak = cloudStreak is num
+        ? cloudStreak.toInt()
+        : prefs.getInt('daily_streak') ?? 0;
 
     DateTime? lastClaim;
-    if (lastClaimIso != null) {
+    if (cloudDate is Timestamp) {
+      lastClaim = cloudDate.toDate();
+    } else if (lastClaimIso != null) {
       lastClaim = DateTime.parse(lastClaimIso);
+    }
+
+    if (lastClaim != null) {
+      await prefs.setString('last_daily_claim', lastClaim.toIso8601String());
+      await prefs.setInt('daily_streak', streak);
     }
 
     final now = DateTime.now();
@@ -87,6 +133,7 @@ class DailyBonusNotifier extends StateNotifier<DailyBonusState> {
 
     await prefs.setString('last_daily_claim', now.toIso8601String());
     await prefs.setInt('daily_streak', newStreak);
+    await _writeCloudState(now, newStreak);
 
     state = DailyBonusState(
       canClaim: false,

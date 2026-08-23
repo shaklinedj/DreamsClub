@@ -451,6 +451,7 @@ class StreakNotifier extends StateNotifier<StreakData> {
   Future<void> _syncWithFirebase(int firebaseStreak) async {
     final lastVisit = await _service.getLastVisitDate();
     final weekProgress = await _service.getCurrentWeekProgress();
+    final cloudLongestStreak = await _service.getLongestStreak();
 
     // Sincronizar localmente si no coinciden
     final localStreak = await _service.getConsecutiveVisits();
@@ -458,9 +459,18 @@ class StreakNotifier extends StateNotifier<StreakData> {
       await _service.setConsecutiveVisits(firebaseStreak);
     }
 
+    final longestStreak = cloudLongestStreak > firebaseStreak
+        ? cloudLongestStreak
+        : firebaseStreak;
+    if (longestStreak > cloudLongestStreak) {
+      await _service.setLongestStreak(longestStreak);
+    }
+
     state = state.copyWith(
       currentStreak: firebaseStreak,
-      longestStreak: firebaseStreak > state.longestStreak ? firebaseStreak : state.longestStreak,
+      longestStreak: longestStreak > state.longestStreak
+          ? longestStreak
+          : state.longestStreak,
       lastCheckIn: lastVisit,
       weekProgress: weekProgress,
       bonusMultiplier: _calculateMultiplier(firebaseStreak),

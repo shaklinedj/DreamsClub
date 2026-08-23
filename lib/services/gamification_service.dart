@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class GamificationService {
   static const String _achievementsKey = 'gamification_achievements';
@@ -14,21 +16,67 @@ class GamificationService {
   /// Mínimo de horas entre visitas válidas (24 horas = 1 día)
   static const int minimumHoursBetweenVisits = 24;
 
+  DocumentReference<Map<String, dynamic>>? get _userRef {
+    final uid = firebase_auth.FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null || uid.isEmpty) return null;
+    return FirebaseFirestore.instance.collection('users').doc(uid);
+  }
+
+  Future<dynamic> _readCloud(String field) async {
+    final userRef = _userRef;
+    if (userRef == null) return null;
+    try {
+      final snapshot = await userRef.get();
+      return snapshot.data()?[field];
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _writeCloud(String field, dynamic value) async {
+    final userRef = _userRef;
+    if (userRef == null) return;
+    try {
+      await userRef.set({field: value}, SetOptions(merge: true));
+    } catch (_) {
+      // La caché local sigue disponible cuando no hay red.
+    }
+  }
+
   // ========== PUNTOS ==========
   Future<int> getTotalPoints() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudPoints = await _readCloud('gamificationPoints');
+    if (cloudPoints is num) {
+      final points = cloudPoints.toInt();
+      await prefs.setInt(_pointsKey, points);
+      return points;
+    }
     return prefs.getInt(_pointsKey) ?? 0;
   }
 
   Future<void> addPoints(int points) async {
     final prefs = await SharedPreferences.getInstance();
     final current = await getTotalPoints();
-    await prefs.setInt(_pointsKey, current + points);
+    final newTotal = current + points;
+    await prefs.setInt(_pointsKey, newTotal);
+    await _writeCloud('gamificationPoints', newTotal);
   }
 
   // ========== LOGROS ==========
   Future<Map<String, dynamic>> getAchievementData(String achievementId) async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudAchievements = await _readCloud('gamificationAchievements');
+    if (cloudAchievements is Map && cloudAchievements[achievementId] is Map) {
+      final cloudData = Map<String, dynamic>.from(
+        cloudAchievements[achievementId] as Map,
+      );
+      await prefs.setString(
+        '${_achievementsKey}_$achievementId',
+        json.encode(cloudData),
+      );
+      return cloudData;
+    }
     final String? data = prefs.getString('${_achievementsKey}_$achievementId');
     if (data == null) {
       return {
@@ -50,6 +98,7 @@ class GamificationService {
       '${_achievementsKey}_$achievementId',
       json.encode(data),
     );
+    await _writeCloud('gamificationAchievements.$achievementId', data);
   }
 
   Future<void> unlockAchievement(String achievementId, int pointsReward) async {
@@ -88,6 +137,12 @@ class GamificationService {
   // ========== VISITAS A CASINOS ==========
   Future<Set<String>> getVisitedCasinos() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudCasinos = await _readCloud('visitedCasinos');
+    if (cloudCasinos is List) {
+      final casinos = cloudCasinos.whereType<String>().toSet();
+      await prefs.setStringList(_visitedCasinosKey, casinos.toList());
+      return casinos;
+    }
     final List<String>? casinos = prefs.getStringList(_visitedCasinosKey);
     if (casinos == null) return {};
     return casinos.toSet();
@@ -101,10 +156,17 @@ class GamificationService {
       _visitedCasinosKey,
       visited.toList(),
     );
+    await _writeCloud('visitedCasinos', visited.toList());
   }
 
   Future<int> getTotalVisits() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudVisits = await _readCloud('totalVisits');
+    if (cloudVisits is num) {
+      final visits = cloudVisits.toInt();
+      await prefs.setInt(_totalVisitsKey, visits);
+      return visits;
+    }
     return prefs.getInt(_totalVisitsKey) ?? 0;
   }
 
@@ -136,7 +198,9 @@ class GamificationService {
 
     final prefs = await SharedPreferences.getInstance();
     final current = await getTotalVisits();
-    await prefs.setInt(_totalVisitsKey, current + 1);
+    final newTotal = current + 1;
+    await prefs.setInt(_totalVisitsKey, newTotal);
+    await _writeCloud('totalVisits', newTotal);
 
     // Guardar en historial de visitas
     await _addVisitToHistory(DateTime.now());
@@ -156,6 +220,19 @@ class GamificationService {
   /// Obtiene el historial de fechas de visitas válidas
   Future<List<DateTime>> getVisitHistory() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudHistory = await _readCloud('visitHistoryDates');
+    if (cloudHistory is List) {
+      final dates = cloudHistory
+          .whereType<String>()
+          .map(DateTime.tryParse)
+          .whereType<DateTime>()
+          .toList();
+      await prefs.setStringList(
+        _visitHistoryKey,
+        dates.map((date) => date.toIso8601String()).toList(),
+      );
+      return dates;
+    }
     final List<String>? dates = prefs.getStringList(_visitHistoryKey);
     if (dates == null) return [];
     return dates.map((d) => DateTime.parse(d)).toList();
@@ -174,6 +251,10 @@ class GamificationService {
     await prefs.setStringList(
       _visitHistoryKey,
       trimmed.map((d) => d.toIso8601String()).toList(),
+    );
+    await _writeCloud(
+      'visitHistoryDates',
+      trimmed.map((date) => date.toIso8601String()).toList(),
     );
   }
 
@@ -201,6 +282,20 @@ class GamificationService {
   // ========== RACHA DE VISITAS ==========
   Future<DateTime?> getLastVisitDate() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudDate = await _readCloud('lastVisitDate') ??
+        await _readCloud('lastVisit');
+    if (cloudDate is Timestamp) {
+      final date = cloudDate.toDate();
+      await prefs.setString(_lastVisitDateKey, date.toIso8601String());
+      return date;
+    }
+    if (cloudDate is String) {
+      final date = DateTime.tryParse(cloudDate);
+      if (date != null) {
+        await prefs.setString(_lastVisitDateKey, date.toIso8601String());
+        return date;
+      }
+    }
     final String? dateStr = prefs.getString(_lastVisitDateKey);
     if (dateStr == null) return null;
     return DateTime.parse(dateStr);
@@ -209,16 +304,35 @@ class GamificationService {
   Future<void> setLastVisitDate(DateTime date) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_lastVisitDateKey, date.toIso8601String());
+    await _writeCloud('lastVisitDate', Timestamp.fromDate(date));
   }
 
   Future<int> getConsecutiveVisits() async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudStreak = await _readCloud('consecutiveVisits') ??
+        await _readCloud('currentStreak') ??
+        await _readCloud('streak');
+    if (cloudStreak is num) {
+      final streak = cloudStreak.toInt();
+      await prefs.setInt(_consecutiveVisitsKey, streak);
+      return streak;
+    }
     return prefs.getInt(_consecutiveVisitsKey) ?? 0;
   }
 
   Future<void> setConsecutiveVisits(int count) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_consecutiveVisitsKey, count);
+    await _writeCloud('consecutiveVisits', count);
+  }
+
+  Future<int> getLongestStreak() async {
+    final cloudStreak = await _readCloud('longestStreak');
+    return cloudStreak is num ? cloudStreak.toInt() : 0;
+  }
+
+  Future<void> setLongestStreak(int streak) async {
+    await _writeCloud('longestStreak', streak);
   }
 
   Future<int> updateStreak() async {
@@ -258,6 +372,15 @@ class GamificationService {
   // ========== MISIONES DIARIAS ==========
   Future<Map<String, dynamic>> getMissionData(String missionId) async {
     final prefs = await SharedPreferences.getInstance();
+    final cloudMissions = await _readCloud('gamificationMissions');
+    if (cloudMissions is Map && cloudMissions[missionId] is Map) {
+      final cloudData = Map<String, dynamic>.from(cloudMissions[missionId] as Map);
+      await prefs.setString(
+        '${_missionsKey}_$missionId',
+        json.encode(cloudData),
+      );
+      return cloudData;
+    }
     final String? data = prefs.getString('${_missionsKey}_$missionId');
     if (data == null) {
       return {
@@ -295,6 +418,7 @@ class GamificationService {
       '${_missionsKey}_$missionId',
       json.encode(data),
     );
+    await _writeCloud('gamificationMissions.$missionId', data);
   }
 
   Future<void> updateMissionProgress(

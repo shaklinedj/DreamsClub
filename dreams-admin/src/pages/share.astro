@@ -190,7 +190,7 @@ import '../styles/global.css';
                 });
             }
             if (downloadAppBtn) {
-                downloadAppBtn.href = "https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.4/DreamsClub.apk";
+                downloadAppBtn.href = "https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.5/DreamsClub-arm64.apk";
                 downloadAppBtn.setAttribute('target', '_blank');
                 downloadAppBtn.removeAttribute('download');
             }
@@ -249,16 +249,17 @@ import '../styles/global.css';
                     }
                 }).catch((err) => {
                     console.error("Error fetching shared post:", err);
+                    if (shareStatus) shareStatus.innerText = "No se pudo cargar la publicación. Ábrela en la app.";
                 });
-            }
-
-            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            if (isMobile) {
-                if (shareTitle && !postId) shareTitle.innerText = "¡Descarga DreamsClub!";
-                if (shareStatus && !postId) shareStatus.innerText = "Para ver esta publicación e interactuar con la comunidad, descarga la app oficial.";
             } else {
-                if (shareTitle && !postId) shareTitle.innerText = "Ver publicación en DreamsClub";
-                if (shareStatus && !postId) shareStatus.innerText = "Para ver e interactuar con esta publicación, descarga la app móvil en tu teléfono.";
+                // No postId: show generic download prompts
+                if (isMobile) {
+                    if (shareTitle) shareTitle.innerText = "¡Descarga DreamsClub!";
+                    if (shareStatus) shareStatus.innerText = "Para ver esta publicación e interactuar con la comunidad, descarga la app oficial.";
+                } else {
+                    if (shareTitle) shareTitle.innerText = "Ver publicación en DreamsClub";
+                    if (shareStatus) shareStatus.innerText = "Para ver e interactuar con esta publicación, descarga la app móvil en tu teléfono.";
+                }
             }
         })();
     </script>

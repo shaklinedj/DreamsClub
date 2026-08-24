@@ -1,17 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:casinoloyalty_flutter/models/notification_model.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationNotifier extends StateNotifier<List<AppNotification>> {
-  NotificationNotifier(this.ref) : super([]) {
+  NotificationNotifier(this.ref, this._uid) : super([]) {
     _loadInitialNotifications();
     _listenToFirestoreNotifications();
   }
 
   final Ref ref;
+  final String _uid;
   StreamSubscription? _firestoreSubscription;
 
   // Keys for tracking shown notifications
@@ -26,6 +28,24 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
 
     final removedList = prefs.getStringList(_removedNotificationsKey) ?? [];
     _removedIds = removedList.toSet();
+
+    // Also load from Firestore for persistence across reinstalls
+    if (_uid.isNotEmpty) {
+      try {
+        final userDoc = await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+        if (userDoc.exists) {
+          final data = userDoc.data();
+          if (data != null && data['deleted_notifications'] != null) {
+            final List<dynamic> list = data['deleted_notifications'];
+            _removedIds.addAll(list.cast<String>());
+            // Sync back to SharedPreferences
+            await prefs.setStringList(_removedNotificationsKey, _removedIds.toList());
+          }
+        }
+      } catch (e) {
+        // Ignorar silenciosamente
+      }
+    }
 
     // Static notifications (always available in the list)
     state = [];
@@ -74,8 +94,23 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
     state = [notification, ...state];
   }
 
-  void clearAll() {
+  Future<void> clearAll() async {
+    final idsToClear = state.map((n) => n.id).toList();
+    _removedIds.addAll(idsToClear);
     state = [];
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_removedNotificationsKey, _removedIds.toList());
+
+    if (_uid.isNotEmpty && idsToClear.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(_uid).update({
+          'deleted_notifications': FieldValue.arrayUnion(idsToClear)
+        });
+      } catch (e) {
+        // Ignorar silenciosamente
+      }
+    }
   }
 
   Future<void> removeNotification(String id) async {
@@ -84,6 +119,17 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
     
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_removedNotificationsKey, _removedIds.toList());
+
+    // Sync to Firestore for persistence
+    if (_uid.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(_uid).update({
+          'deleted_notifications': FieldValue.arrayUnion([id])
+        });
+      } catch (e) {
+        // Ignorar silenciosamente
+      }
+    }
   }
 
   Future<void> restoreNotification(AppNotification notification) async {
@@ -191,5 +237,6 @@ class NotificationNotifier extends StateNotifier<List<AppNotification>> {
 
 final notificationsProvider =
     StateNotifierProvider<NotificationNotifier, List<AppNotification>>((ref) {
-  return NotificationNotifier(ref);
+  final uid = ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
+  return NotificationNotifier(ref, uid ?? '');
 });

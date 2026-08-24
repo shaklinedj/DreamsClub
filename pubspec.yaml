@@ -79,6 +79,7 @@ dependencies:
   youtube_player_iframe: ^6.0.2
   collection: ^1.19.1
   giphy_get: ^3.6.1+1
+  package_info_plus: ^9.0.1
 
 
 

@@ -12,6 +12,7 @@ import 'package:casinoloyalty_flutter/screens/coyhaique/coyhaique_shell.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 // Dreams Mania Imports
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
@@ -37,7 +38,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> _checkForUpdates() async {
     try {
-      const currentVersion = "1.0.1";
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
       final doc = await FirebaseFirestore.instance
           .collection('config')
           .doc('app')

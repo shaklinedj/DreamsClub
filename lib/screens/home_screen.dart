@@ -13,6 +13,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_filex/open_filex.dart';
 
 // Dreams Mania Imports
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
@@ -58,58 +61,133 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               context: context,
               barrierDismissible: false,
               builder: (context) {
-                return AlertDialog(
-                  backgroundColor: const Color(0xFF1E1E2C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
-                  ),
-                  title: const Row(
-                    children: [
-                      Text('🚀 ', style: TextStyle(fontSize: 20)),
-                      Text(
-                        'Actualización',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                bool isDownloading = false;
+                double downloadProgress = 0.0;
+                String downloadStatus = '';
+
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      backgroundColor: const Color(0xFF1E1E2C),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
                       ),
-                    ],
-                  ),
-                  content: Text(
-                    'Hay una nueva versión de Dreams Club disponible (v$latestVersion). Descárgala para disfrutar de las últimas mejoras y correcciones.',
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Más tarde',
-                        style: TextStyle(color: Colors.white38),
+                      title: const Row(
+                        children: [
+                          Text('🚀 ', style: TextStyle(fontSize: 20)),
+                          Text(
+                            'Actualización Disponible',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD4AF37),
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Hay una nueva versión de Dreams Club disponible (v$latestVersion). Descárgala para disfrutar de las últimas mejoras y correcciones.',
+                            style: const TextStyle(color: Colors.white70, fontSize: 14),
+                          ),
+                          if (isDownloading) ...[
+                            const SizedBox(height: 20),
+                            LinearProgressIndicator(
+                              value: downloadProgress,
+                              backgroundColor: Colors.white24,
+                              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFD4AF37)),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              downloadStatus,
+                              style: const TextStyle(color: Colors.white70, fontSize: 12),
+                            ),
+                          ]
+                        ],
                       ),
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        final uri = Uri.parse(downloadUrl);
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri, mode: LaunchMode.externalApplication);
-                        }
-                      },
-                      child: const Text(
-                        'Actualizar Ahora',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                      actions: [
+                        if (!isDownloading)
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text(
+                              'Más tarde',
+                              style: TextStyle(color: Colors.white38),
+                            ),
+                          ),
+                        if (!isDownloading)
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFD4AF37),
+                              foregroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () async {
+                              setState(() {
+                                isDownloading = true;
+                                downloadStatus = 'Iniciando descarga...';
+                              });
+                              
+                              try {
+                                final tempDir = await getTemporaryDirectory();
+                                final savePath = '${tempDir.path}/DreamsApp-v$latestVersion.apk';
+                                
+                                final dio = Dio();
+                                await dio.download(
+                                  downloadUrl,
+                                  savePath,
+                                  onReceiveProgress: (received, total) {
+                                    if (total != -1) {
+                                      setState(() {
+                                        downloadProgress = received / total;
+                                        downloadStatus = 'Descargando: ${(downloadProgress * 100).toStringAsFixed(0)}%';
+                                      });
+                                    }
+                                  },
+                                );
+                                
+                                setState(() {
+                                  downloadStatus = 'Abriendo instalador...';
+                                });
+                                
+                                final result = await OpenFilex.open(savePath);
+                                
+                                // Si no hay app que maneje archivos APK o falla el intent
+                                if (result.type != ResultType.done) {
+                                  final uri = Uri.parse(downloadUrl);
+                                  if (await canLaunchUrl(uri)) {
+                                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                  }
+                                }
+                                
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              } catch (e) {
+                                setState(() {
+                                  isDownloading = false;
+                                });
+                                final uri = Uri.parse(downloadUrl);
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                }
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              }
+                            },
+                            child: const Text(
+                              'Actualizar Ahora',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 );
               },
             );

@@ -46,7 +46,7 @@ class GamificationService {
   // ========== PUNTOS ==========
   Future<int> getTotalPoints() async {
     final prefs = await SharedPreferences.getInstance();
-    final cloudPoints = await _readCloud('gamificationPoints');
+    final cloudPoints = await _readCloud('points') ?? await _readCloud('gamificationPoints');
     if (cloudPoints is num) {
       final points = cloudPoints.toInt();
       await prefs.setInt(_pointsKey, points);
@@ -60,7 +60,15 @@ class GamificationService {
     final current = await getTotalPoints();
     final newTotal = current + points;
     await prefs.setInt(_pointsKey, newTotal);
-    await _writeCloud('gamificationPoints', newTotal);
+    final userRef = _userRef;
+    if (userRef != null) {
+      try {
+        await userRef.set({
+          'points': newTotal,
+          'gamificationPoints': newTotal,
+        }, SetOptions(merge: true));
+      } catch (_) {}
+    }
   }
 
   // ========== LOGROS ==========
@@ -323,7 +331,16 @@ class GamificationService {
   Future<void> setConsecutiveVisits(int count) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_consecutiveVisitsKey, count);
-    await _writeCloud('consecutiveVisits', count);
+    final userRef = _userRef;
+    if (userRef != null) {
+      try {
+        await userRef.set({
+          'consecutiveVisits': count,
+          'currentStreak': count,
+          'streak': count,
+        }, SetOptions(merge: true));
+      } catch (_) {}
+    }
   }
 
   Future<int> getLongestStreak() async {

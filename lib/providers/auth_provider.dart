@@ -194,26 +194,30 @@ class AuthNotifier extends StateNotifier<AuthState> {
         updates['photoURL'] = FieldValue.delete();
       }
 
-      // Defaults for app logic
-      if (!data.containsKey('level')) updates['level'] = 'blue';
-      if (!data.containsKey('points')) updates['points'] = 0;
-      if (!data.containsKey('balance')) updates['balance'] = 0;
+      // Limpieza y eliminación de campos duplicados/obsoletos
+      final s1 = (data['streak'] as num?)?.toInt() ?? 0;
+      final s2 = (data['currentStreak'] as num?)?.toInt() ?? 0;
+      final s3 = (data['consecutiveVisits'] as num?)?.toInt() ?? 0;
+      final maxStreak = [s1, s2, s3].reduce((a, b) => a > b ? a : b);
 
-      // Sincronización de Racha, Visita y Presencia — ONLY write if missing to avoid overwriting real data
-      final hasCurrentStreak = data.containsKey('currentStreak');
-      final hasStreak = data.containsKey('streak');
-      final hasLongestStreak = data.containsKey('longestStreak');
-
-      if (!hasCurrentStreak && !hasStreak) {
-        // Brand new user: initialize streaks to 0
-        updates['currentStreak'] = 0;
-        updates['streak'] = 0;
-        updates['longestStreak'] = 0;
-      } else if (hasCurrentStreak && !hasLongestStreak) {
-        // Has streak but missing longestStreak: derive it without resetting
-        final currentStreakVal = (data['currentStreak'] as num?)?.toInt() ?? 0;
-        updates['longestStreak'] = currentStreakVal;
+      updates['streak'] = maxStreak;
+      if (!data.containsKey('longestStreak')) {
+        updates['longestStreak'] = maxStreak;
       }
+
+      // Eliminar campos duplicados/obsoletos para simplificar la base de datos
+      if (data.containsKey('displayName')) updates['displayName'] = FieldValue.delete();
+      if (data.containsKey('currentStreak')) updates['currentStreak'] = FieldValue.delete();
+      if (data.containsKey('consecutiveVisits')) updates['consecutiveVisits'] = FieldValue.delete();
+      if (data.containsKey('gamificationPoints')) updates['gamificationPoints'] = FieldValue.delete();
+      if (data.containsKey('points')) updates['points'] = FieldValue.delete();
+      if (data.containsKey('balance')) updates['balance'] = FieldValue.delete();
+      if (data.containsKey('lastVisitDate')) updates['lastVisitDate'] = FieldValue.delete();
+      if (data.containsKey('createdAt') && data.containsKey('created_at')) {
+        updates['createdAt'] = FieldValue.delete();
+      }
+      if (data.containsKey('pin')) updates['pin'] = FieldValue.delete();
+
       if (!data.containsKey('totalVisits')) updates['totalVisits'] = 0;
       if (!data.containsKey('contactConsent')) updates['contactConsent'] = true;
 

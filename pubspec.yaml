@@ -1,7 +1,7 @@
 name: casinoloyalty_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.9+35
+version: 1.0.10+36
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -80,6 +80,7 @@ dependencies:
   collection: ^1.19.1
   giphy_get: ^3.6.1+1
   package_info_plus: ^9.0.1
+  open_filex: ^4.7.0
 
 
 

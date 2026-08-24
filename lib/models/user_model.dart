@@ -128,12 +128,18 @@ class User {
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
+    final pointsVal = map['points']?.toInt() ?? map['gamificationPoints']?.toInt() ?? 0;
+    final streakVal = map['currentStreak']?.toInt() ??
+        map['streak']?.toInt() ??
+        map['consecutiveVisits']?.toInt() ??
+        0;
+
     return User(
       name: map['name'] ?? map['displayName'] ?? '',
       email: map['email'] ?? '',
       profileImageUrl: map['profile_image_url'] ?? '',
       level: _parseUserLevel(map['level']),
-      points: map['points']?.toInt() ?? 0,
+      points: pointsVal,
       balance: map['balance']?.toInt() ?? 0,
       rut: map['rut'],
       pin: map['pin'],
@@ -146,7 +152,7 @@ class User {
           : null,
       notificationsEnabled: map['notifications_enabled'] ?? true,
       locationTrackingEnabled: map['location_tracking_enabled'] ?? true,
-      streak: map['currentStreak']?.toInt() ?? map['streak']?.toInt() ?? 0,
+      streak: streakVal,
       totalVisits: map['totalVisits']?.toInt() ?? 0,
       wantsContact: map['wantsContact'] ?? map['wants_contact'] ?? false,
       phoneNumber: map['phoneNumber'] ?? map['phone_number'],
@@ -158,18 +164,14 @@ class User {
       'name': name,
       'email': email,
       'profile_image_url': profileImageUrl,
-      'level': level.name, // Saves as 'black', 'gold', etc.
-      'points': points,
-      'balance': balance,
+      'level': level.name,
       'rut': rut,
-      'pin': pin,
       'isAdmin': isAdmin,
       'favoriteCasinoId': favoriteCasinoId,
       'birthday': birthday?.toIso8601String(),
       'notifications_enabled': notificationsEnabled,
       'location_tracking_enabled': locationTrackingEnabled,
       'streak': streak,
-      'currentStreak': streak,
       'totalVisits': totalVisits,
       'wantsContact': wantsContact,
       'phoneNumber': phoneNumber,

@@ -188,6 +188,18 @@ service cloud.firestore {
       );
     }
 
+    // Allow collection group queries on comments
+    match /{path=**}/comments/{commentId} {
+      allow read: if isAuthenticated();
+    }
+
+    // Collection: coyhaique_posts
+    match /coyhaique_posts/{postId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || isAuthenticated();
+    }
+
     // Fallback: Default deny all other collections to prevent unauthorized access
     match /{document=**} {
       allow read, write: if false;

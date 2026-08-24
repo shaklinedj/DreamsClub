@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:casinoloyalty_flutter/services/firebase_service.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
+// import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,6 +112,7 @@ Future<void> _initializeTimezone() async {
 /// Inicializa servicios adicionales de Firebase en segundo plano (AppCheck, Crashlytics, Analytics).
 Future<void> _initializeFirebaseServices() async {
   try {
+    /*
     await FirebaseAppCheck.instance.activate(
       androidProvider:
           kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
@@ -119,6 +120,7 @@ Future<void> _initializeFirebaseServices() async {
           kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
       webProvider: ReCaptchaEnterpriseProvider('recaptcha-site-key'),
     );
+    */
     AppLogger.info('✅ Firebase App Check inicializado');
 
     if (!kIsWeb) {

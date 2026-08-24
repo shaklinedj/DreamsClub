@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
+import 'package:dio/dio.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -104,39 +105,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
       String cloudUrl = '';
 
-      // 1. Try Firebase Storage
+      // Convert to Base64
+      final bytes = await File(pickedFile.path).readAsBytes();
+      final base64String = base64Encode(bytes);
+      final mimeType = 'image/jpeg';
+      final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      
+      // Upload to Google Drive via Vercel API
       try {
-        final File file = File(pickedFile.path);
-        final String fileName =
-            'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final Reference refStorage =
-            FirebaseStorage.instance.ref().child('user_profiles').child(fileName);
-
-        final UploadTask uploadTask = refStorage.putFile(
-          file,
-          SettableMetadata(contentType: 'image/jpeg'),
+        final dio = Dio();
+        final response = await dio.post(
+          'https://dreams-club.vercel.app/api/upload',
+          data: {
+            'base64Image': 'data:$mimeType;base64,$base64String',
+            'fileName': fileName,
+            'mimeType': mimeType,
+          },
+          options: Options(
+            headers: {'Content-Type': 'application/json'},
+            sendTimeout: const Duration(seconds: 30),
+            receiveTimeout: const Duration(seconds: 30),
+          )
         );
 
-        final TaskSnapshot snapshot = await uploadTask;
-        cloudUrl = await snapshot.ref.getDownloadURL();
-        if (cloudUrl.contains('?')) {
-          cloudUrl = '$cloudUrl&v=${DateTime.now().millisecondsSinceEpoch}';
+        if (response.statusCode == 200 && response.data['success'] == true) {
+          cloudUrl = response.data['url'];
         } else {
-          cloudUrl = '$cloudUrl?v=${DateTime.now().millisecondsSinceEpoch}';
+          throw Exception('Error en respuesta del servidor: ${response.data}');
         }
-      } catch (storageError) {
-        AppLogger.debug('Firebase Storage upload fallback: $storageError');
-      }
-
-      // 2. If Cloud URL failed or skipped, convert to permanent Base64 string
-      if (cloudUrl.isEmpty) {
-        try {
-          final bytes = await File(pickedFile.path).readAsBytes();
-          final base64String = base64Encode(bytes);
-          cloudUrl = 'data:image/jpeg;base64,$base64String';
-        } catch (e) {
-          AppLogger.error('Failed to convert avatar to base64', e);
-        }
+      } catch (uploadError) {
+        AppLogger.error('Error uploading to Vercel/GDrive', uploadError);
+        // Fallback a Base64 local si el servidor falla o no está configurado aún
+        cloudUrl = 'data:$mimeType;base64,$base64String';
       }
 
       // Update User Provider

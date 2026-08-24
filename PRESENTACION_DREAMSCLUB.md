@@ -42,7 +42,7 @@ flowchart TD
   * 1 Sandwich Gourmet / Cerveza artesanal 🍔
 * **Validez Temporal (Urgencia):** Cada premio ganado tiene una fecha de expiración automática (configurable, por ejemplo, 7 días). El usuario tiene una ventana limitada de tiempo para ir físicamente a cobrarlo antes de que expire.
 * **Billetera Móvil y Código Único:** Al ganar, la app genera un código alfanumérico único e infalsificable (ej: `DRM-7K9A2X`) y un código QR asociado en la **Billetera de Premios (My Prizes)**.
-* **Distribución Oficial del APK:** La descarga pública se entrega como `DreamsApp-v1.0.8.apk` desde GitHub Releases, con nombre profesional claro para usuarios finales y sin depender de Firebase Hosting, que bloquea archivos ejecutables en el plan gratuito. **Regla operativa:** no se volverá a subir la aplicación a Firebase Hosting para la distribución; la entrega será siempre por GitHub Releases para evitar errores de despliegue y versiones inconsistentes.
+* **Distribución Oficial del APK:** La descarga pública se entrega como `DreamsApp-v1.0.9.apk` desde GitHub Releases, con nombre profesional claro para usuarios finales y sin depender de Firebase Hosting, que bloquea archivos ejecutables en el plan gratuito. **Regla operativa:** no se volverá a subir la aplicación a Firebase Hosting para la distribución; la entrega será siempre por GitHub Releases para evitar errores de despliegue y versiones inconsistentes.
 
 ### C. Portal de Canje en Caja con Impresión de Tickets
 * **Validación en Tiempo Real:** En el casino físico, el socio muestra su pantalla con el código o QR al personal (cajero, barman o atendedor).

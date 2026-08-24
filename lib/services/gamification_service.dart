@@ -377,6 +377,12 @@ class GamificationService {
 
     await setConsecutiveVisits(currentStreak);
     await setLastVisitDate(now);
+
+    final longest = await getLongestStreak();
+    if (currentStreak > longest) {
+      await setLongestStreak(currentStreak);
+    }
+
     return currentStreak;
   }
 

@@ -289,7 +289,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<bool> signInWithEmail(String email, String password) async {
     try {
       state = state.copyWith(errorMessage: null);
-      await _auth.setPersistence(Persistence.LOCAL);
 
       await _auth.signInWithEmailAndPassword(
         email: email,
@@ -315,7 +314,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       {String? rut}) async {
     try {
       state = state.copyWith(errorMessage: null);
-      await _auth.setPersistence(Persistence.LOCAL);
 
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,

@@ -320,7 +320,6 @@ class UserNotifier extends StateNotifier<User> {
     await _saveToCache(state);
     await _updateFirestore({
       'streak': newStreak,
-      'currentStreak': newStreak,
       'lastVisit': FieldValue.serverTimestamp(),
       'isPresentToday': true,
     });

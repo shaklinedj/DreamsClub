@@ -49,8 +49,6 @@ class UserApiService {
         'email': user.email,
         'profile_image_url': user.profileImageUrl,
         'level': user.level.name,
-        'points': user.points,
-        'balance': user.balance,
         'favorite_casino_id': user.favoriteCasinoId,
         'birthday': user.birthday?.toIso8601String(),
         'notifications_enabled': user.notificationsEnabled,

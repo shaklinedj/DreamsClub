@@ -44,7 +44,7 @@ class RealNotificationService {
             id: 999,
             title: '🎂 ¡Feliz Cumpleaños, $userName!',
             body:
-                'Te regalamos 5000 puntos Dreams para celebrar tu día especial. ¡Disfruta!',
+                '¡Ven a celebrar tu cumpleaños a Dreams! Tenemos una sorpresa esperándote. ¡Disfruta!',
             payload: 'birthday',
           );
         });

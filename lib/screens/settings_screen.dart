@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 import 'package:dio/dio.dart';
@@ -108,7 +107,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       // Convert to Base64
       final bytes = await File(pickedFile.path).readAsBytes();
       final base64String = base64Encode(bytes);
-      final mimeType = 'image/jpeg';
+      const mimeType = 'image/jpeg';
       final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
       
       // Upload to Google Drive via Vercel API

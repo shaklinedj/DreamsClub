@@ -79,12 +79,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   Future<void> _init() async {
-    try {
-      await _auth.setPersistence(Persistence.LOCAL);
-    } catch (e) {
-      AppLogger.warning(
-          'No se pudo configurar persistencia local de Firebase Auth: $e');
-    }
 
     // Initialize state immediately for users without Firebase Auth
     await _initializeState(_auth.currentUser);
@@ -194,15 +188,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
         updates['photoURL'] = FieldValue.delete();
       }
 
-      // Limpieza y eliminación de campos duplicados/obsoletos
-      final s1 = (data['streak'] as num?)?.toInt() ?? 0;
-      final s2 = (data['currentStreak'] as num?)?.toInt() ?? 0;
-      final s3 = (data['consecutiveVisits'] as num?)?.toInt() ?? 0;
-      final maxStreak = [s1, s2, s3].reduce((a, b) => a > b ? a : b);
-
-      updates['streak'] = maxStreak;
+      // Migración limpia de streak: solo si existen campos viejos y streak actual es 0 o no existe
+      final hasLegacyStreak =
+          data.containsKey('currentStreak') || data.containsKey('consecutiveVisits');
+      if (hasLegacyStreak && !data.containsKey('streak')) {
+        final s2 = (data['currentStreak'] as num?)?.toInt() ?? 0;
+        final s3 = (data['consecutiveVisits'] as num?)?.toInt() ?? 0;
+        final migratedStreak = s2 > s3 ? s2 : s3;
+        updates['streak'] = migratedStreak;
+        if (!data.containsKey('longestStreak')) {
+          updates['longestStreak'] = migratedStreak;
+        }
+      } else if (!data.containsKey('streak')) {
+        // Nuevo usuario: iniciar en 0
+        updates['streak'] = 0;
+      }
       if (!data.containsKey('longestStreak')) {
-        updates['longestStreak'] = maxStreak;
+        updates['longestStreak'] = (data['streak'] as num?)?.toInt() ?? 0;
       }
 
       // Eliminar campos duplicados/obsoletos para simplificar la base de datos

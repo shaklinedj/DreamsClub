@@ -4,7 +4,9 @@
 $ErrorActionPreference = "Stop"
 
 # --- Configuración ---
-$APP_NAME = "DreamsClub"
+$APP_NAME = "DreamsApp"
+
+Write-Host "Política de distribución: compilación local + GitHub Release. Firebase Hosting NO se usa para APK."
 
 # --- 1. Verificación y Commit Interactivo de Cambios ---
 Write-Host "Verificando el estado de Git..."
@@ -15,7 +17,7 @@ else {
     Write-Host "Se encontraron cambios sin confirmar."
     git status -s
     $COMMIT_MESSAGE = Read-Host "Por favor, introduce un mensaje para el commit de estos cambios y presiona Enter"
-    
+
     if ([string]::IsNullOrWhiteSpace($COMMIT_MESSAGE)) {
         $COMMIT_MESSAGE = "chore: Commit de cambios previos al build"
     }
@@ -47,8 +49,8 @@ Write-Host "[2] Minor ($major.$($minor+1).0) - Nuevas funcionalidades compatible
 Write-Host "[3] Major ($($major+1).0.0) - Cambios incompatibles/grandes"
 Write-Host "[4] Ninguno (Mantener $semVer) - Solo nueva build"
 
-$selection = "1";#
-    $selection = Read-Host "Opción (1-4)"
+$selection = "1"
+$selection = Read-Host "Opción (1-4)"
 
 
 switch ($selection) {
@@ -75,11 +77,11 @@ if ($LASTEXITCODE -ne 0) { throw "Error al compilar" }
 # --- 4. Renombrar APK arm64-v8a ---
 $outputFolder = "build\app\outputs\flutter-apk"
 $originalApkPath = Join-Path $outputFolder "app-arm64-v8a-release.apk"
-$newApkPath = Join-Path $outputFolder "$APP_NAME.apk"
+$newApkPath = Join-Path $outputFolder "$APP_NAME-v$newSemVer.apk"
 
 if (Test-Path $originalApkPath) {
     Copy-Item -Path $originalApkPath -Destination $newApkPath -Force
-    Write-Host "APK renombrado a: $APP_NAME.apk"
+    Write-Host "APK renombrado a: $APP_NAME-v$newSemVer.apk"
 }
 else {
     Write-Error "No se encontró el APK generado en $originalApkPath"
@@ -87,6 +89,7 @@ else {
 }
 
 # --- 5. Commit, Tag y Push en Git ---
+# La app NO se despliega a Firebase Hosting. El APK se publica manualmente como GitHub Release.
 $commitMessage = "chore(release): version $newVersion"
 Write-Host "Creando commit y tag en Git..."
 git add pubspec.yaml
@@ -98,7 +101,7 @@ Write-Host "Commit, tag ('v$newSemVer') y push a GitHub completados."
 Write-Host ""
 Write-Host ">> APK listo en: $newApkPath"
 Write-Host ">> Ahora ve a GitHub → Releases → 'Draft a new release' y selecciona el tag v$newSemVer"
-Write-Host ">> Adjunta el APK: DreamsClub-arm64-v8a-release.apk"
+Write-Host ">> Adjunta el APK: DreamsApp-v$newSemVer.apk"
 Write-Host ">> Publica el release para que los usuarios reciban la actualización."
 
 # --- 6. Actualización de Versión en Firestore ---

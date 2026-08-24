@@ -79,6 +79,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   Future<void> _init() async {
+    try {
+      await _auth.setPersistence(Persistence.LOCAL);
+    } catch (e) {
+      AppLogger.warning(
+          'No se pudo configurar persistencia local de Firebase Auth: $e');
+    }
+
     // Initialize state immediately for users without Firebase Auth
     await _initializeState(_auth.currentUser);
 
@@ -93,7 +100,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> _initializeState(User? user) async {
     final isInitialized = state.status != AuthStatus.unknown;
-    
+
     if (user != null) {
       // Ensure user profile doc exists (avoids downstream failures)
       await _ensureUserDocument(user);
@@ -138,9 +145,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final updates = <String, dynamic>{};
 
       // Migrate from old email-based document if it exists and hasn't been migrated yet
-      if (data['migrated_from_email'] != true && user.email != null && user.email!.isNotEmpty) {
+      if (data['migrated_from_email'] != true &&
+          user.email != null &&
+          user.email!.isNotEmpty) {
         try {
-          final emailDocRef = FirebaseFirestore.instance.collection('users').doc(user.email);
+          final emailDocRef =
+              FirebaseFirestore.instance.collection('users').doc(user.email);
           final emailSnap = await emailDocRef.get();
           if (emailSnap.exists && emailSnap.data() != null) {
             final emailData = emailSnap.data()!;
@@ -149,10 +159,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
             });
             // Update local data variable so the checks below see the migrated fields!
             data.addAll(emailData);
-            AppLogger.info('Migrating user data from old email document to UID document: ${user.email}');
+            AppLogger.info(
+                'Migrating user data from old email document to UID document: ${user.email}');
           }
         } catch (migrationError) {
-          AppLogger.error('Error during user document migration', migrationError);
+          AppLogger.error(
+              'Error during user document migration', migrationError);
         }
         updates['migrated_from_email'] = true;
       }
@@ -277,6 +289,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<bool> signInWithEmail(String email, String password) async {
     try {
       state = state.copyWith(errorMessage: null);
+      await _auth.setPersistence(Persistence.LOCAL);
 
       await _auth.signInWithEmailAndPassword(
         email: email,
@@ -298,10 +311,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   /// Register with email and password
-  Future<bool> registerWithEmail(
-      String email, String password, String name, {String? rut}) async {
+  Future<bool> registerWithEmail(String email, String password, String name,
+      {String? rut}) async {
     try {
       state = state.copyWith(errorMessage: null);
+      await _auth.setPersistence(Persistence.LOCAL);
 
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -360,7 +374,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(errorMessage: _getAuthErrorMessage(e.code));
       return false;
     } catch (e) {
-      state = state.copyWith(errorMessage: 'Error al enviar correo de recuperación');
+      state = state.copyWith(
+          errorMessage: 'Error al enviar correo de recuperación');
       return false;
     }
   }

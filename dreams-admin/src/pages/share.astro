@@ -6,12 +6,12 @@ import '../styles/global.css';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Publicación en DreamsClub</title>
-    <meta name="description" content="Mira esta publicación en DreamsClub, la app oficial de Casinos Dreams." />
+    <title>Publicación en DreamsApp</title>
+    <meta name="description" content="Mira esta publicación en DreamsApp, la app oficial de Casinos Dreams." />
     
     <!-- Open Graph for WhatsApp/Social previews (Large Card layout) -->
-    <meta property="og:title" content="DreamsClub - Compartir publicación" />
-    <meta property="og:description" content="Mira esta publicación de Casinos Dreams en la app oficial de beneficios y entretención DreamsClub." />
+    <meta property="og:title" content="DreamsApp - Compartir publicación" />
+    <meta property="og:description" content="Mira esta publicación de Casinos Dreams en la app oficial de beneficios y entretención DreamsApp." />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://dreams-casino-app.web.app/presentacion_dreams_club.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -45,7 +45,7 @@ import '../styles/global.css';
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-black text-base">
                     👑
                 </div>
-                <span class="text-xl font-black text-white font-heading">Dreams<span class="text-amber-400">Club</span></span>
+                <span class="text-xl font-black text-white font-heading">Dreams<span class="text-amber-400">App</span></span>
             </a>
 
             <a 
@@ -84,7 +84,7 @@ import '../styles/global.css';
                     href="dreamsclub://home"
                     class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-base shadow-lg shadow-purple-600/30 transition-all hover:scale-[1.02]"
                 >
-                    🚀 Abrir en DreamsClub App
+                    🚀 Abrir en DreamsApp
                 </a>
 
                 <a 
@@ -190,7 +190,7 @@ import '../styles/global.css';
                 });
             }
             if (downloadAppBtn) {
-                downloadAppBtn.href = "https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.7/app-arm64-v8a-release.apk";
+                downloadAppBtn.href = "https://github.com/shaklinedj/DreamsClub-Release/releases/download/v1.0.9/DreamsApp-v1.0.9.apk";
                 downloadAppBtn.setAttribute('target', '_blank');
                 downloadAppBtn.removeAttribute('download');
             }
@@ -200,7 +200,7 @@ import '../styles/global.css';
                 db.collection('posts').doc(postId).get().then((docSnap) => {
                     if (docSnap.exists) {
                         const post = docSnap.data();
-                        if (shareTitle) shareTitle.innerText = post.title || 'Publicación en DreamsClub';
+                        if (shareTitle) shareTitle.innerText = post.title || 'Publicación en DreamsApp';
                         if (shareStatus) shareStatus.innerText = post.description || 'Abre esta publicación en la app.';
                         
                         // Render video/image preview dynamically
@@ -254,10 +254,10 @@ import '../styles/global.css';
             } else {
                 // No postId: show generic download prompts
                 if (isMobile) {
-                    if (shareTitle) shareTitle.innerText = "¡Descarga DreamsClub!";
+                    if (shareTitle) shareTitle.innerText = "¡Descarga DreamsApp!";
                     if (shareStatus) shareStatus.innerText = "Para ver esta publicación e interactuar con la comunidad, descarga la app oficial.";
                 } else {
-                    if (shareTitle) shareTitle.innerText = "Ver publicación en DreamsClub";
+                    if (shareTitle) shareTitle.innerText = "Ver publicación en DreamsApp";
                     if (shareStatus) shareStatus.innerText = "Para ver e interactuar con esta publicación, descarga la app móvil en tu teléfono.";
                 }
             }

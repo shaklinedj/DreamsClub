@@ -35,7 +35,7 @@
     </queries>
 
     <application
-        android:label="DreamsClub"
+        android:label="DreamsApp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <!-- WhatsApp Stickers ContentProvider -->

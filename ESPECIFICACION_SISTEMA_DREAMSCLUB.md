@@ -70,7 +70,7 @@ El panel de administración es el centro de control exclusivo para los administr
 | **5. Control de 4 Minijuegos** | ✅ Operativo | Interruptores de activación/desactivación individual y configuración de probabilidades/créditos: <br>1. *Ruleta Diaria*<br>2. *Trivia Dreams*<br>3. *Tragamonedas / Slot VIP*<br>4. *Raspa y Gana* |
 | **6. Gestión de Usuarios** | ✅ Operativo | Listado de socios registrados, balance de puntos, historial de visitas/rachas, edición de nivel de membresía y bloqueo/desbloqueo de cuentas. |
 | **7. Página Pública de Compartir (`/share`)** | ✅ Operativo | Página web optimizada para Open Graph (WhatsApp/Twitter/Facebook) con render dinámico del post, reproductor de video nativo, modal de zoom en imágenes en pantalla completa y enlaces limpios sin redirecciones automáticas invasivas. |
-| **8. Centro de Descargas (`/download`)** | ✅ Operativo | Landing page oficial para descarga directa del APK Android (`DreamsClub.apk`) sin extensiones zip ni bloqueos de planes gratuitos. |
+| **8. Centro de Descargas (`/download`)** | ✅ Operativo | Landing page oficial para descarga directa del APK Android desde GitHub Releases con nombre público `DreamsApp-vX.Y.Z.apk` (ej. `DreamsApp-v1.0.8.apk`), evitando archivos ejecutables dentro del hosting de Firebase y manteniendo una distribución rápida y verificable. **Política de distribución:** la app NO se sube ni se distribuye desde Firebase Hosting; la entrega pública se hace únicamente mediante GitHub Releases para evitar errores de despliegue, restricciones del plan gratuito y versiones inconsistentes. |
 
 ---
 
@@ -193,12 +193,12 @@ sequenceDiagram
     Usuario->>Amigo: Envía enlace https://dreams-casino-app.web.app/share?postId=123
     
     alt Si el amigo TIENE la app instalada
-        Amigo->>Amigo: Pulsa "🚀 Abrir en DreamsClub App"
+        Amigo->>Amigo: Pulsa "🚀 Abrir en DreamsApp"
         Note over Amigo: El deep link dreamsclub://post/123 abre la app nativa en el post exacto
     else Si el amigo NO TIENE la app instalada
         Amigo->>Amigo: Ve la publicación en la web en total calma
         Amigo->>Amigo: Puede hacer zoom a la imagen en pantalla completa
-        Amigo->>Amigo: Puede pulsar "⬇️ Descargar APK" para instalar DreamsClub.apk
+        Amigo->>Amigo: Puede pulsar "⬇️ Descargar APK" para instalar `DreamsApp-vX.Y.Z.apk` desde el GitHub Release público
     end
 ```
 
@@ -241,7 +241,7 @@ Este checklist permite auditar que todos los componentes funcionen de acuerdo a 
 - [ ] **Dashboard Web:** Métricas de usuarios, juegos y puntos cargando en tiempo real desde Firestore.
 - [ ] **Feed Web:** Creación de post con link de Google Drive; verificación de que se reproduzca de inmediato sin mensaje de espera.
 - [ ] **Stickers Web:** Posibilidad de crear un pack asignando el nivel mínimo de racha requerido.
-- [ ] **Descarga APK:** Descarga directa de `DreamsClub.apk` desde `/download`.
+- [ ] **Descarga APK:** Descarga directa de `DreamsApp-vX.Y.Z.apk` desde GitHub Releases, enlazada desde `/download` y compartida en `/share` sin depender del hosting de Firebase por limitaciones del plan gratuito sobre archivos ejecutables. **Regla operativa:** no volver a subir el APK a Firebase Hosting; la distribución oficial será siempre GitHub Releases.
 - [x] **Sitios Web y Auditoría de Hoteles:** Auditoría vía WebScrape oficial en `dreams.cl` de las 8 sedes. Ocultación dinámica de botones de reserva de hotel cuando `reservationUrl == null` (como en Dreams Iquique que no posee hotel y Dreams Talca en desarrollo), y aperturas con fallback en navegador secundario para evitar fallos.
 - [x] **Motor de Segmentación de Notificaciones:** Evaluación del objetivo (`streak`, `presence`, `inactive5`, `inactive10`, `consentOnly`) en `NotificationService._checkUserSegmentEligibility` contra Firestore antes de desplegar alertas en el dispositivo del usuario, garantizando que notificaciones enviadas a "usuarios de 5 días o más sin asistir" lleguen de forma estricta y exclusiva al público objetivo.
 - [x] **Comentarios con GIFs y Stickers de Teclado Nativo:** Soporte para inserción directa desde teclados de Android/iOS (Gboard/Samsung/Apple) vía `ContentInsertionConfiguration`, buscador de GIFs animados y selector para subir imágenes/stickers propios desde la Galería.

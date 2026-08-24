@@ -30,7 +30,8 @@ const String _userCacheKey = 'user_snapshot_cache';
 final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
   final service = ref.watch(userProfileServiceProvider);
   // Only watch the firebase user's UID to prevent provider recreation when other auth state properties change.
-  final uid = ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
+  final uid =
+      ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
   return UserNotifier(service, _defaultUser, uid ?? '');
 });
 
@@ -47,13 +48,33 @@ class UserNotifier extends StateNotifier<User> {
   final String _uid;
   StreamSubscription? _userSubscription;
 
-  /// Initialize: Load cache first for instant UI, then sync with Firestore
+  /// Initialize: Firestore is the source of truth. Cache is only a fallback.
   Future<void> _initWithCacheThenSync() async {
-    // 1. Load from cache immediately (offline-first)
-    await _loadFromCache();
-    
-    // 2. Start realtime listener to Firestore (will update cache when data arrives)
+    await _loadFromFirestore(fallbackToCache: true);
     _initRealtimeListener();
+  }
+
+  Future<void> _loadFromFirestore({bool fallbackToCache = true}) async {
+    try {
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+
+      if (doc.exists && doc.data() != null) {
+        final user = User.fromMap(doc.data()!);
+        if (mounted) {
+          state = user;
+        }
+        await _saveToCache(user);
+        AppLogger.info('📥 Loaded user from Firestore: ${user.name}');
+        return;
+      }
+    } catch (e) {
+      AppLogger.error('Error loading user from Firestore', e);
+    }
+
+    if (fallbackToCache) {
+      await _loadFromCache();
+    }
   }
 
   /// Load user data from local cache (SharedPreferences)
@@ -61,7 +82,7 @@ class UserNotifier extends StateNotifier<User> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(_userCacheKey);
-      
+
       if (cached != null) {
         final map = json.decode(cached) as Map<String, dynamic>;
         final user = User.fromMap(map);
@@ -126,7 +147,8 @@ class UserNotifier extends StateNotifier<User> {
                     .update({'isPresentToday': false});
               }
             }
-            AppLogger.info('🔄 User synced from Firestore: streak=${user.streak}, visits=${user.totalVisits}');
+            AppLogger.info(
+                '🔄 User synced from Firestore: streak=${user.streak}, visits=${user.totalVisits}');
           } catch (e) {
             AppLogger.error("Error parsing user data", e);
           }
@@ -185,7 +207,7 @@ class UserNotifier extends StateNotifier<User> {
     await _saveToCache(state);
     await _storage.savePhotoPath(newPath);
     await _updateFirestore({'profile_image_url': newPath});
-    
+
     // Sync the new avatar across the database (e.g., comments)
     await _syncProfileAcrossDatabase(newPath);
   }
@@ -227,7 +249,8 @@ class UserNotifier extends StateNotifier<User> {
 
       if (totalUpdates > 0) {
         await batch.commit();
-        AppLogger.info('✅ Avatar de usuario sincronizado en $totalUpdates documentos.');
+        AppLogger.info(
+            '✅ Avatar de usuario sincronizado en $totalUpdates documentos.');
       }
     } catch (e) {
       AppLogger.debug('Sincronización de avatar completada.');

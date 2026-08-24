@@ -5,6 +5,14 @@ import fs from 'fs';
 const PROJECT_ID = 'dreams-casino-app';
 const BUCKET = 'dreams-casino-app.firebasestorage.app';
 
+const ALLOW_FIREBASE_UPLOAD = process.env.ALLOW_FIREBASE_APK_UPLOAD === 'true';
+
+if (!ALLOW_FIREBASE_UPLOAD) {
+    console.log('Upload de APK desactivado por defecto. Política: distribuir por GitHub Releases, no por Firebase Hosting ni Storage automatizado.');
+    console.log('Para habilitarlo manualmente, ejecuta: ALLOW_FIREBASE_APK_UPLOAD=true node dreams-admin/upload_apk.mjs');
+    process.exit(0);
+}
+
 const app = initializeApp({
     projectId: PROJECT_ID,
     storageBucket: BUCKET,
@@ -22,14 +30,14 @@ async function uploadApk() {
     const stats = fs.statSync(APK_PATH);
     console.log(`📦 Archivo APK detectado: ${(stats.size / (1024 * 1024)).toFixed(2)} MB`);
 
-    const destination = 'releases/DreamsClub.apk';
+    const destination = 'releases/DreamsApp-v1.0.9.apk';
     console.log(`📤 Subiendo a Firebase Storage (${BUCKET}/${destination})...`);
 
     await bucket.upload(APK_PATH, {
         destination,
         metadata: {
             contentType: 'application/vnd.android.package-archive',
-            contentDisposition: 'attachment; filename="DreamsClub.apk"',
+            contentDisposition: 'attachment; filename="DreamsApp-v1.0.9.apk"',
             metadata: {
                 firebaseStorageDownloadTokens: 'dreamsclub-release-v1'
             }

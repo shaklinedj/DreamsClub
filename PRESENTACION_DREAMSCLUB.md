@@ -10,8 +10,9 @@ Este documento detalla el funcionamiento del ecosistema **DreamsClub** (App Móv
 
 ### Componentes del Ecosistema:
 1. **DreamsClub App (Flutter):** La aplicación móvil del socio. Concentra cartelera de espectáculos, minijuegos diarios, billetera de premios ganados y el registro de racha presencial.
-2. **Dreams Admin (Astro):** El panel de control central para la administración. Desde aquí se editan los posts del feed, se crean premios dinámicos, se configuran las reglas de los juegos y se realiza el cobro (quemado) de cupones con impresión de tickets en caja.
-3. **Servicios de Nube (Firebase):** Sincronización en tiempo real mediante Firestore, autenticación y notificaciones push masivas o segmentadas por Firebase Cloud Messaging (FCM).
+2. **Dreams App (identidad pública de descarga):** El nombre visible y descargable para usuarios finales es **DreamsApp**. El APK público se entrega con formato `DreamsApp-vX.Y.Z.apk` desde un GitHub Release oficial para mantener la descarga limpia, verificable y compatible con la restricción de Firebase Hosting sobre archivos ejecutables.
+3. **Dreams Admin (Astro):** El panel de control central para la administración. Desde aquí se editan los posts del feed, se crean premios dinámicos, se configuran las reglas de los juegos y se realiza el cobro (quemado) de cupones con impresión de tickets en caja.
+4. **Servicios de Nube (Firebase):** Sincronización en tiempo real mediante Firestore, autenticación y notificaciones push masivas o segmentadas por Firebase Cloud Messaging (FCM).
 
 ---
 
@@ -41,6 +42,7 @@ flowchart TD
   * 1 Sandwich Gourmet / Cerveza artesanal 🍔
 * **Validez Temporal (Urgencia):** Cada premio ganado tiene una fecha de expiración automática (configurable, por ejemplo, 7 días). El usuario tiene una ventana limitada de tiempo para ir físicamente a cobrarlo antes de que expire.
 * **Billetera Móvil y Código Único:** Al ganar, la app genera un código alfanumérico único e infalsificable (ej: `DRM-7K9A2X`) y un código QR asociado en la **Billetera de Premios (My Prizes)**.
+* **Distribución Oficial del APK:** La descarga pública se entrega como `DreamsApp-v1.0.8.apk` desde GitHub Releases, con nombre profesional claro para usuarios finales y sin depender de Firebase Hosting, que bloquea archivos ejecutables en el plan gratuito. **Regla operativa:** no se volverá a subir la aplicación a Firebase Hosting para la distribución; la entrega será siempre por GitHub Releases para evitar errores de despliegue y versiones inconsistentes.
 
 ### C. Portal de Canje en Caja con Impresión de Tickets
 * **Validación en Tiempo Real:** En el casino físico, el socio muestra su pantalla con el código o QR al personal (cajero, barman o atendedor).
@@ -65,6 +67,8 @@ Para evitar el abuso del sistema y planificar las horas de mayor tráfico, el pa
 ## 📱 3. Características Clave de la App Móvil (Flutter)
 
 * **Feed Social Estilo Reels Inmersivo:** Scroll vertical de alto rendimiento con carga instantánea y reproducción de videos a pantalla completa (videos verticales en 100% de pantalla, y horizontales con letterbox). Cuenta con barra de acciones lateral derecha (Me gusta con Lottie animado, comentarios, compartir nativo, enlaces y vinilo de audio girando), barra inferior de comentarios flotante, y apertura de comentarios en Bottom Sheet (70% de pantalla) para no interrumpir la reproducción activa del fondo.
+* **Identidad pública de la APP:** El nombre visible para el usuario final se presenta como **DreamsApp**, reforzando credibilidad y claridad en la descarga, la web de compartir y el proceso de instalación desde el GitHub Release oficial.
+* **No usar Firebase Hosting para distribuir el APK:** Esta decisión queda explícita como política: la app no se sube ni se distribuye desde Firebase Hosting para evitar volver a cometer el mismo error y mantener una canalización de descarga limpia, segura y verificable.
 * **Gamificación Centralizada:** Pestaña interactiva de minijuegos:
   * **Ruleta de la Suerte (Spin Wheel):** Animación física de rueda con detención aleatoria y sincronización de estado de premio.
   * **Slot Machine (Tragamonedas VIP):** Tres rodillos giratorios que buscan combinaciones ganadoras para otorgar premios del catálogo físico.

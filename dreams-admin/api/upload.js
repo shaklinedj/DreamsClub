@@ -33,20 +33,46 @@ export default async function handler(req, res) {
       base64Data = base64Image.split(',')[1];
     }
 
-    // Las credenciales de la cuenta de servicio deben estar en las variables de entorno
-    const privateKey = process.env.GDRIVE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-    const clientEmail = process.env.GDRIVE_CLIENT_EMAIL;
-    const folderId = process.env.GDRIVE_FOLDER_ID;
+    // --- Carga de credenciales (2 modos) ---
+    let credentials;
+    let folderId;
 
-    if (!privateKey || !clientEmail || !folderId) {
-      return res.status(500).json({ error: 'Falta configuración de credenciales de Google Drive en Vercel' });
+    if (process.env.GDRIVE_SERVICE_ACCOUNT_B64) {
+      // MODO RECOMENDADO: JSON completo en base64 → sin problemas de saltos de línea
+      try {
+        const decoded = Buffer.from(process.env.GDRIVE_SERVICE_ACCOUNT_B64, 'base64').toString('utf8');
+        const json = JSON.parse(decoded);
+        credentials = {
+          client_email: json.client_email,
+          private_key: json.private_key,
+        };
+        folderId = process.env.GDRIVE_FOLDER_ID;
+      } catch (parseErr) {
+        return res.status(500).json({ error: 'GDRIVE_SERVICE_ACCOUNT_B64 no es un JSON base64 válido', details: parseErr.message });
+      }
+    } else {
+      // MODO ALTERNATIVO: variables individuales (puede tener problemas con \n)
+      const rawKey = process.env.GDRIVE_PRIVATE_KEY ?? '';
+      // Normalizar saltos de línea: maneja \n y \\n
+      const privateKey = rawKey
+        .replace(/\\n/g, '\n')
+        .replace(/\\\\n/g, '\n');
+
+      credentials = {
+        client_email: process.env.GDRIVE_CLIENT_EMAIL,
+        private_key: privateKey,
+      };
+      folderId = process.env.GDRIVE_FOLDER_ID;
+    }
+
+    if (!credentials.client_email || !credentials.private_key || !folderId) {
+      return res.status(500).json({
+        error: 'Faltan credenciales. Configura GDRIVE_SERVICE_ACCOUNT_B64 y GDRIVE_FOLDER_ID en Vercel.',
+      });
     }
 
     const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: clientEmail,
-        private_key: privateKey,
-      },
+      credentials,
       scopes: ['https://www.googleapis.com/auth/drive.file'],
     });
 
@@ -60,7 +86,7 @@ export default async function handler(req, res) {
     const response = await drive.files.create({
       requestBody: {
         name: fileName,
-        parents: [folderId], // Guardar en la carpeta específica
+        parents: [folderId],
       },
       media: {
         mimeType: mimeType || 'image/jpeg',
@@ -70,8 +96,6 @@ export default async function handler(req, res) {
     });
 
     const fileId = response.data.id;
-    
-    // Devolver el link directo usando el ID
     const directLink = `https://drive.google.com/uc?export=view&id=${fileId}`;
 
     return res.status(200).json({
@@ -81,7 +105,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Error subiendo a Google Drive:', error);
+    console.error('Error subiendo a Google Drive:', error.message ?? error);
     return res.status(500).json({ error: 'Error interno del servidor', details: error.message });
   }
 }

@@ -90,11 +90,42 @@ The push notification API lives in `dreams-admin/api/` and is deployed automatic
 ### Repositorio Público para Descargas
 El repositorio de código `shaklinedj/DreamsClub` es **privado**. Si los usuarios anónimos (sin cuenta de GitHub) intentan descargar el APK directamente desde allí, GitHub les pedirá iniciar sesión o les dará un error 404.
 * **Solución**: Se utiliza el repositorio **público** `shaklinedj/DreamsClub-Release` para subir los APKs de distribución pública. Los enlaces en la web apuntan a:
-  `https://github.com/shaklinedj/DreamsClub-Release/releases/download/vVERSION/DreamsClub.apk`
+  `https://github.com/shaklinedj/DreamsClub-Release/releases/download/vVERSION/DreamsApp-vVERSION.apk`
 
-### Restricción de Archivos APK en Firebase Hosting
-El plan gratuito (Spark) de Firebase Hosting **prohíbe estrictamente subir archivos ejecutables** (incluyendo `.apk`). Subir archivos con esta extensión causará un error HTTP 400 (`Executable files are forbidden on the Spark billing plan`) y abortará el despliegue.
-* **Regla**: Nunca agregues o compiles el `.apk` dentro de la carpeta `public/` o `dist/` que se despliegue a Firebase Hosting.
+### Automatización de la Publicación de Releases con GitHub CLI
+En lugar de crear y publicar drafts de releases manualmente, utiliza el GitHub CLI (`gh`), el cual ya está autenticado con la cuenta oficial `shaklinedj`:
+```bash
+# Crear release en repositorio público y subir el APK automáticamente
+gh release create v1.0.9 "build\app\outputs\flutter-apk\DreamsApp-v1.0.9.apk" --repo shaklinedj/DreamsClub-Release --title "DreamsApp v1.0.9" --notes "Release de DreamsApp v1.0.9"
+
+# Si necesitas resubir o corregir el APK del release existente, usa el flag --clobber
+gh release upload v1.0.9 "build\app\outputs\flutter-apk\DreamsApp-v1.0.9.apk" --repo shaklinedj/DreamsClub-Release --clobber
+```
+
+### Sincronización de Versión en Firestore sin Credenciales (REST API)
+Si la máquina local no tiene configuradas las credenciales por defecto de Google Cloud (`getApplicationDefaultAsync` error en Node/Firebase Admin), puedes intercambiar el token de refresco local de Firebase CLI por un token de acceso activo y actualizar Firestore mediante su API REST:
+1. Lee las credenciales de Firebase CLI desde `C:\Users\Dell\.config\configstore\firebase-tools.json`.
+2. Refresca el token llamando a `POST https://oauth2.googleapis.com/token` con el ID de cliente oficial de Firebase CLI (`563577306548-5284ar49gldss0777vl12m25r1t5ja2e.apps.googleusercontent.com`) y secreto (`j9z1mS2iT3tvdV7mYgTyMIyc`).
+3. Envía una petición `PATCH` a la URL REST de Firestore para actualizar el documento `config/app`:
+   `https://firestore.googleapis.com/v1/projects/dreams-casino-app/databases/(default)/documents/config/app?updateMask.fieldPaths=latestVersion&updateMask.fieldPaths=downloadUrl&updateMask.fieldPaths=updatedAt`
+
+### Resolución de Bloqueo de Build (libflutter.so)
+En sistemas Windows, los daemons de Gradle o procesos de Java/Dart a veces bloquean `libflutter.so` en la carpeta `build/`.
+* **Solución**: Ejecuta `flutter clean` desde la terminal. Esto borra la carpeta `build` por completo liberando cualquier handle activo, permitiendo recompilar desde cero sin colisiones.
+
+### Detección de Actualizaciones en la App
+* **Regla de Firestore**: Para permitir que los clientes validen si hay una nueva versión, la colección `/config` debe tener una regla de lectura pública en `firestore.rules`:
+  ```javascript
+  match /config/{configId} {
+    allow read: if true;
+    allow write: if isAdmin();
+  }
+  ```
+* **Comparación Dinámica**: La app lee su versión dinámicamente mediante `PackageInfo.fromPlatform()` (paquete `package_info_plus`) en lugar de usar cadenas fijas, comparándola contra el campo `latestVersion` del documento `config/app` en Firestore.
+
+### Persistencia de Notificaciones Leídas / Borradas
+* **Consistencia**: Guardar las notificaciones borradas solo en `SharedPreferences` local causa que reaparezcan al desinstalar/reinstalar la app.
+* **Solución**: Sincroniza y persiste el listado de IDs borrados directamente en el documento del usuario en Firestore (`users/{uid}/deleted_notifications`) mediante `FieldValue.arrayUnion` cuando el usuario descarta o borra notificaciones. Al iniciar, recupera el estado de Firestore para poblar la UI.
 
 ### Migración de Perfiles (Email a UID)
 En la base de datos Firestore, los documentos de usuario originalmente se creaban usando el `email` del socio como ID de documento. Para corregir la creación de cupones duplicados, ahora se utiliza el `uid` de Firebase Auth.

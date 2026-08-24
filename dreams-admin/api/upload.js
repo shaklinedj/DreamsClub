@@ -73,7 +73,7 @@ export default async function handler(req, res) {
 
     const auth = new google.auth.GoogleAuth({
       credentials,
-      scopes: ['https://www.googleapis.com/auth/drive.file'],
+      scopes: ['https://www.googleapis.com/auth/drive'],
     });
 
     const drive = google.drive({ version: 'v3', auth });
@@ -82,17 +82,18 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(base64Data, 'base64');
     const stream = Readable.from(buffer);
 
-    // Subir al Drive del service account (sin especificar carpeta para evitar errores de permisos)
+    // Subir a la carpeta de Drive compartida con el service account
     const response = await drive.files.create({
       requestBody: {
         name: fileName,
-        // No usamos 'parents' para evitar problemas de acceso a carpetas externas
+        parents: [folderId],
       },
       media: {
         mimeType: mimeType || 'image/jpeg',
         body: stream,
       },
       fields: 'id',
+      supportsAllDrives: true,
     });
 
     const fileId = response.data.id;

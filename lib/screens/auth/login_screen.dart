@@ -53,10 +53,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           );
     }
 
-    setState(() => _isLoading = false);
+    if (mounted) {
+      setState(() => _isLoading = false);
 
-    if (success && mounted) {
-      context.go('/feed');
+      if (success) {
+        context.go('/feed');
+      } else {
+        final errorMsg = ref.read(authProvider).errorMessage ?? 'Error en la autenticación';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMsg),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        );
+      }
     }
   }
 

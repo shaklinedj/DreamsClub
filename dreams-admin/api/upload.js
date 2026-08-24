@@ -82,11 +82,11 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(base64Data, 'base64');
     const stream = Readable.from(buffer);
 
-    // Subir a Drive
+    // Subir al Drive del service account (sin especificar carpeta para evitar errores de permisos)
     const response = await drive.files.create({
       requestBody: {
         name: fileName,
-        parents: [folderId],
+        // No usamos 'parents' para evitar problemas de acceso a carpetas externas
       },
       media: {
         mimeType: mimeType || 'image/jpeg',
@@ -96,6 +96,16 @@ export default async function handler(req, res) {
     });
 
     const fileId = response.data.id;
+
+    // Hacer el archivo público (lectura para cualquiera)
+    await drive.permissions.create({
+      fileId,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone',
+      },
+    });
+
     const directLink = `https://drive.google.com/uc?export=view&id=${fileId}`;
 
     return res.status(200).json({

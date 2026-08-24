@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dreams-casino-app",
+  "private_key_id": "818498a71df021d6a4ffa614ff7eb5af96a40f97",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD45xijSucCPaW9\nWzBeIzAUwu0N4DisVxeY4zeBpEJXimzcxaszrPqsxAkWoFxxwL8PxiFz1cmqWdWN\nWJrzEkf9bAIgmoMorJszL6UirStr3I3BqVJfT8qStSiZ2RB63d6GUw7YQmh1oIra\nDqfqHiwEy34ULB5duRFXFpWISRAfk3dD5rGncBlsCCWq8OTx4fOtYmV2eUFNOxLo\nuuFVHiD5YyaHCJpLsfstzHn4Y5rVR/ayzc7d62pYJ8nd4AW3vHRyxaBKAfoMQRa4\nL4mZmVfImmYTsNR7nI9P4jQhH4Yti7wgdx8Z8Korq/zggqk8zWHUC0Bol0c/W+n0\nji4dGEIRAgMBAAECggEABofNsi8ba4ghipvTY4zpzImmvZf19LOeR2EiyjB8mx5j\nJ9G54bO2qgTEtkbD1io3+Rp6MzdXQLR1sW0zN5Bxuhj031Ueftk0gz3LR+MiQgS5\n5WxjYGPQDVRaedrjn02l8oFIYO0xH3D0Y69BwZdEEWYjazUTIONjrJTHnJlKJoHj\nPp9KpjhFoWxqWrmTfGQxjAt2ZlBEBBwL9n3NXkxSDhseBQTPoatCVxgjQtpz9682\nubvfgD6WQYXbNMsHsmlf7uoNI5iVXZFhiJbSeslKipGofpqpwhhmNu1s6ihiDvJ2\n9Mcn5iKhN+P7ydBfR9t2JAHQEQDEv4tc5r/GlSdqbwKBgQD+IMhpb6fYy1mJABBq\ni/wRJMeHCIF9u3LcusCqX9JfwAy5LvDGziPucR7bRUBYTamiJTePX3wulVHzvov2\n9MKQYst0UPJ9GxoorsFw1ZGFDlkBjyE9WJfPkA9bUnaJzI7P6IVjzfwJQxavz1xU\n8kAHdwMFbgFj8nk3vQjMskH4ZwKBgQD6vHW1fpYtK26NT9jHheFtemKsvKBlft1q\nlHEw6eDhZKLbyw3UKdNtO8BAYqLNfT6KAktmjrlNKesXm4iwOy+7+HTXYwfAgt6P\nDjc5WrtTAkitp00PsQbvo+M/TJGUVjDSbRPyowvgLgGCsbGEt7hOKO5QcfAScuhv\npo87UHxGxwKBgQDDszFC6OZkMG0Z8L+znWuXNDCnj2hREBprWzHlwnb6n6XssfZf\n0v2esORnTZQ4rE4W/PwlYA38vabnwvR8UI7IrBwrze5/Y3CopbN4Fi/DPIJUjgm1\n+VSnVjRNSlrY0XulJlYavtT5uP1ulIxxKkEevorIEqfldSPeRafSIvBkvwKBgEye\n6K2EuGmnOwpN2yXloKSu4JZ+sdkyMoFOSWS0I7dc5HOcEmbCPUzFFJPYUH3RBxpv\nZxE5DiEpbSDys4t/GrArVbE4HvdSRqaapn+NXW8ZZJJEbMUdyMvUXi5KvLYCvLqh\nAJaGAqwIAwgoOuIermCcG29T0hQhLyxnTp/GkaOjAoGATLM5aarE8nL976eHhTtr\n6d2ANG0O86XLgthE+yUP+eOpH1U/Xqo5XLwb1FDWFkMZ1ycnoa98uOQMnJyzHh6e\nC2cs3xslwCRQjm20/66ct0yPOh/qZNBhiBT3b8LRiYgRd756L2Hk+mt0LUwTOUaq\n8DZ4zSgUO4azp1BxMZn90RU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dreams-upload-bot@dreams-casino-app.iam.gserviceaccount.com",
+  "client_id": "112806863556547473983",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dreams-upload-bot%40dreams-casino-app.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

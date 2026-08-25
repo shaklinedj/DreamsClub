@@ -27,6 +27,8 @@ enum MembershipStatus {
   member,
 }
 
+const _unsetFirebaseUser = Object();
+
 class AuthState {
   final AuthStatus status;
   final User? firebaseUser;
@@ -53,7 +55,7 @@ class AuthState {
 
   AuthState copyWith({
     AuthStatus? status,
-    User? firebaseUser,
+    Object? firebaseUser = _unsetFirebaseUser,
     MembershipStatus? membershipStatus,
     bool? biometricEnabled,
     bool? requiresBiometric,
@@ -61,7 +63,9 @@ class AuthState {
   }) {
     return AuthState(
       status: status ?? this.status,
-      firebaseUser: firebaseUser ?? this.firebaseUser,
+      firebaseUser: identical(firebaseUser, _unsetFirebaseUser)
+          ? this.firebaseUser
+          : firebaseUser as User?,
       membershipStatus: membershipStatus ?? this.membershipStatus,
       biometricEnabled: biometricEnabled ?? this.biometricEnabled,
       requiresBiometric: requiresBiometric ?? this.requiresBiometric,
@@ -79,7 +83,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   Future<void> _init() async {
-
     // Initialize state immediately for users without Firebase Auth
     await _initializeState(_auth.currentUser);
 
@@ -138,37 +141,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       final updates = <String, dynamic>{};
 
-      // Migrate from old email-based document if it exists and hasn't been migrated yet
-      if (data['migrated_from_email'] != true &&
-          user.email != null &&
-          user.email!.isNotEmpty) {
-        try {
-          final emailDocRef =
-              FirebaseFirestore.instance.collection('users').doc(user.email);
-          final emailSnap = await emailDocRef.get();
-          if (emailSnap.exists && emailSnap.data() != null) {
-            final emailData = emailSnap.data()!;
-            emailData.forEach((key, value) {
-              updates[key] = value;
-            });
-            // Update local data variable so the checks below see the migrated fields!
-            data.addAll(emailData);
-            AppLogger.info(
-                'Migrating user data from old email document to UID document: ${user.email}');
-          }
-        } catch (migrationError) {
-          AppLogger.error(
-              'Error during user document migration', migrationError);
-        }
-        updates['migrated_from_email'] = true;
-      }
-
-      final derivedName = (user.displayName ??
-              data['name'] as String? ??
-              data['displayName'] as String? ??
-              '')
-          .trim();
-      // Se remueve derivedPhotoUrl porque forzamos logo-dreams.png para nuevos usuarios
+      final derivedName =
+          (data['name'] as String? ?? user.displayName ?? '').trim();
 
       if (!data.containsKey('id')) updates['id'] = user.uid;
       if (!data.containsKey('email')) updates['email'] = user.email;
@@ -176,49 +150,36 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!data.containsKey('name') && derivedName.isNotEmpty) {
         updates['name'] = derivedName;
       }
-      if (!data.containsKey('displayName') && derivedName.isNotEmpty) {
-        updates['displayName'] = derivedName;
-      }
-
       final existingPhoto = data['profile_image_url'] as String?;
       if (existingPhoto == null || existingPhoto.isEmpty) {
         updates['profile_image_url'] = 'assets/images/logo-dreams.png';
       }
-      if (data.containsKey('photoURL')) {
-        updates['photoURL'] = FieldValue.delete();
+
+      final legacyDailyBonus = data['dailyBonus'];
+      if (legacyDailyBonus is Map) {
+        final legacyStreak = (legacyDailyBonus['streak'] as num?)?.toInt() ?? 0;
+        final currentStreak = (data['streak'] as num?)?.toInt() ?? 0;
+        final currentLongest = (data['longestStreak'] as num?)?.toInt() ?? 0;
+        if (legacyStreak > currentStreak) {
+          updates['streak'] = legacyStreak;
+          updates['longestStreak'] =
+              legacyStreak > currentLongest ? legacyStreak : currentLongest;
+          updates['lastVisit'] = FieldValue.serverTimestamp();
+          updates['visitHistoryDates'] = [DateTime.now().toIso8601String()];
+        }
+        updates['dailyBonus'] = FieldValue.delete();
       }
 
-      // Migración limpia de streak: solo si existen campos viejos y streak actual es 0 o no existe
-      final hasLegacyStreak =
-          data.containsKey('currentStreak') || data.containsKey('consecutiveVisits');
-      if (hasLegacyStreak && !data.containsKey('streak')) {
-        final s2 = (data['currentStreak'] as num?)?.toInt() ?? 0;
-        final s3 = (data['consecutiveVisits'] as num?)?.toInt() ?? 0;
-        final migratedStreak = s2 > s3 ? s2 : s3;
-        updates['streak'] = migratedStreak;
-        if (!data.containsKey('longestStreak')) {
-          updates['longestStreak'] = migratedStreak;
-        }
-      } else if (!data.containsKey('streak')) {
-        // Nuevo usuario: iniciar en 0
+      if (!data.containsKey('streak') && !updates.containsKey('streak')) {
         updates['streak'] = 0;
       }
-      if (!data.containsKey('longestStreak')) {
-        updates['longestStreak'] = (data['streak'] as num?)?.toInt() ?? 0;
+      if (!data.containsKey('longestStreak') &&
+          !updates.containsKey('longestStreak')) {
+        final effectiveStreak =
+            (updates['streak'] as num? ?? data['streak'] as num? ?? 0)
+                .toInt();
+        updates['longestStreak'] = effectiveStreak;
       }
-
-      // Eliminar campos duplicados/obsoletos para simplificar la base de datos
-      if (data.containsKey('displayName')) updates['displayName'] = FieldValue.delete();
-      if (data.containsKey('currentStreak')) updates['currentStreak'] = FieldValue.delete();
-      if (data.containsKey('consecutiveVisits')) updates['consecutiveVisits'] = FieldValue.delete();
-      if (data.containsKey('gamificationPoints')) updates['gamificationPoints'] = FieldValue.delete();
-      if (data.containsKey('points')) updates['points'] = FieldValue.delete();
-      if (data.containsKey('balance')) updates['balance'] = FieldValue.delete();
-      if (data.containsKey('lastVisitDate')) updates['lastVisitDate'] = FieldValue.delete();
-      if (data.containsKey('createdAt') && data.containsKey('created_at')) {
-        updates['createdAt'] = FieldValue.delete();
-      }
-      if (data.containsKey('pin')) updates['pin'] = FieldValue.delete();
 
       if (!data.containsKey('totalVisits')) updates['totalVisits'] = 0;
       if (!data.containsKey('contactConsent')) updates['contactConsent'] = true;
@@ -235,12 +196,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         updates['location_tracking_enabled'] = true;
       }
 
-      // Timestamps (keep both keys to support mixed schema)
+      // Timestamp único de creación del documento.
       if (!data.containsKey('createdAt')) {
         updates['createdAt'] = FieldValue.serverTimestamp();
-      }
-      if (!data.containsKey('created_at')) {
-        updates['created_at'] = FieldValue.serverTimestamp();
       }
 
       if (updates.isNotEmpty) {
@@ -307,6 +265,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
       return true;
     } on FirebaseAuthException catch (e) {
+      AppLogger.error('Firebase sign-in failed: ${e.code}', e);
       state = state.copyWith(errorMessage: _getAuthErrorMessage(e.code));
       return false;
     } catch (e) {
@@ -320,6 +279,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       {String? rut}) async {
     try {
       state = state.copyWith(errorMessage: null);
+
+      // Clear any old cache from previous sessions/users
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
 
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -338,13 +301,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
           'uid': user.uid,
           'email': email,
           'name': name,
-          'displayName': name,
           'rut': rut ?? '',
           'level': 'blue',
           'points': 100, // Bono inicial de bienvenida
           'balance': 0,
           'streak': 0,
-          'currentStreak': 0,
           'longestStreak': 0,
           'totalVisits': 0,
           'favoriteCasinoId': '4', // Dreams Coyhaique
@@ -387,8 +348,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Sign out
   Future<void> signOut() async {
     await _auth.signOut();
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.remove('is_guest_session');
+
+    // Clear all local cache on logout
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
 
     state = state.copyWith(
       status: AuthStatus.unauthenticated,
@@ -473,6 +436,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       case 'user-not-found':
         return 'No existe una cuenta con este correo';
       case 'wrong-password':
+      case 'invalid-credential':
         return 'Contraseña incorrecta';
       case 'email-already-in-use':
         return 'Este correo ya está registrado';
@@ -482,8 +446,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
         return 'Correo electrónico inválido';
       case 'too-many-requests':
         return 'Demasiados intentos. Intenta más tarde';
+      case 'network-request-failed':
+        return 'No se pudo conectar. Revisa tu conexión a internet';
+      case 'operation-not-allowed':
+        return 'El acceso por correo y contraseña no está habilitado';
       default:
-        return 'Error de autenticación';
+        return 'No se pudo iniciar sesión ($code)';
     }
   }
 }

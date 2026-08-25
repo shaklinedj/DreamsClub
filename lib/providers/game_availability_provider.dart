@@ -122,6 +122,14 @@ final globalGameRulesProvider = StreamProvider<GameRulesConfig>((ref) {
   return PrizeService().streamRulesConfig();
 });
 
+final gameAvailabilityClockProvider =
+    StreamProvider.autoDispose<DateTime>((ref) {
+  return Stream.periodic(
+    const Duration(seconds: 1),
+    (_) => DateTime.now(),
+  );
+});
+
 // Logic Provider to check status across ALL mini-games
 final gameAvailabilityProvider =
     Provider.family<GameAvailability, String>((ref, gameId) {
@@ -129,6 +137,7 @@ final gameAvailabilityProvider =
   final rulesAsync = ref.watch(globalGameRulesProvider);
   final user = ref.watch(userProvider);
   final historyAsync = ref.watch(gameHistoryProvider);
+  ref.watch(gameAvailabilityClockProvider);
 
   final defaultConfig = GameConfig(
     gameId: gameId,
@@ -168,7 +177,8 @@ final gameAvailabilityProvider =
       // 2. Allowed Days of the Week Check (0=Sun, 1=Mon, ..., 6=Sat)
       // Note: DateTime.weekday is 1 (Mon) to 7 (Sun). Convert 7 -> 0 for Sunday
       final currentWeekday = now.weekday % 7;
-      if (rules.allowedDays.isNotEmpty && !rules.allowedDays.contains(currentWeekday)) {
+      if (rules.allowedDays.isNotEmpty &&
+          !rules.allowedDays.contains(currentWeekday)) {
         return GameAvailability(
           config: config,
           status: GameStatus.lockedTime,
@@ -181,10 +191,12 @@ final gameAvailabilityProvider =
         final currentHour = now.hour;
         bool isInsideWindow;
         if (rules.startHour <= rules.endHour) {
-          isInsideWindow = currentHour >= rules.startHour && currentHour < rules.endHour;
+          isInsideWindow =
+              currentHour >= rules.startHour && currentHour < rules.endHour;
         } else {
           // Crosses midnight (e.g. 18 to 2)
-          isInsideWindow = currentHour >= rules.startHour || currentHour < rules.endHour;
+          isInsideWindow =
+              currentHour >= rules.startHour || currentHour < rules.endHour;
         }
 
         if (!isInsideWindow) {
@@ -199,71 +211,62 @@ final gameAvailabilityProvider =
       }
 
       // 4. User Streak Tier Check (Streak in days)
-      if (rules.minStreakRequired > 0 && user.streak < rules.minStreakRequired) {
+      if (rules.minStreakRequired > 0 &&
+          user.streak < rules.minStreakRequired) {
         return GameAvailability(
           config: config,
           status: GameStatus.lockedStreak,
-          message: 'Requiere racha mínima de ${rules.minStreakRequired} días (Tienes ${user.streak}d)',
+          message:
+              'Requiere racha mínima de ${rules.minStreakRequired} días (Tienes ${user.streak}d)',
         );
       }
 
-      // 4.5 Global Daily Limit Check (Check daily game allowance set from Astro)
       final history = historyAsync.asData?.value;
       if (history != null && history.isNotEmpty) {
-        final playedToday = <String>[];
-        for (final entry in history.entries) {
-          final lastPlayed = entry.value;
-          if (lastPlayed.year == now.year &&
-              lastPlayed.month == now.month &&
-              lastPlayed.day == now.day) {
-            playedToday.add(entry.key);
-          }
-        }
-
-        final maxAllowed = rules.maxDailyGamesAllowed > 0 ? rules.maxDailyGamesAllowed : 1;
-
-        // 1. If this game has already been played today, lock it
-        if (playedToday.contains(gameId)) {
-          return GameAvailability(
-            config: config,
-            status: GameStatus.lockedFrequency,
-            message: 'Ya jugaste a este juego hoy.',
-          );
-        }
-
-        // 2. If they have reached the maximum allowed daily games limit
-        if (playedToday.length >= maxAllowed) {
-          final gameNames = {
-            'roulette': 'Ruleta de la Suerte',
-            'slots': 'Máquina de Premios',
-            'dreams_mania': 'Dreams Manía',
-            'dreams_match': 'Dreams Match',
-          };
-          final playedNames = playedToday.map((id) => gameNames[id] ?? id).join(', ');
-
-          return GameAvailability(
-            config: config,
-            status: GameStatus.lockedFrequency,
-            message: 'Límite diario alcanzado ($maxAllowed). Ya jugaste: $playedNames hoy.',
-          );
-        }
-      }
-
-      // 5. Cooldown Check (48h or configured cooldown)
-      if (history != null) {
         final lastPlayed = history[gameId];
-        if (lastPlayed != null) {
-          final diff = now.difference(lastPlayed);
-          final cooldownHours = rules.cooldownHours > 0 ? rules.cooldownHours : 48;
+        final intervalStart =
+            now.subtract(Duration(hours: rules.cooldownHours));
+        final playsInInterval = history.values
+            .where((playedAt) => playedAt.isAfter(intervalStart))
+            .toList();
 
-          if (diff.inHours < cooldownHours) {
-            final hoursLeft = cooldownHours - diff.inHours;
+        if (rules.cooldownHours > 0 && lastPlayed != null) {
+          final cooldownEnd =
+              lastPlayed.add(Duration(hours: rules.cooldownHours));
+          final remaining = cooldownEnd.difference(now);
+          if (remaining > Duration.zero) {
+            final hoursLeft = remaining.inHours;
+            final minutesLeft = remaining.inMinutes % 60;
+            final secondsLeft = remaining.inSeconds % 60;
+            final String timeMsg = hoursLeft > 0
+                ? '${hoursLeft}h ${minutesLeft}min'
+                : minutesLeft > 0
+                    ? '${minutesLeft}min ${secondsLeft}s'
+                    : '${secondsLeft}s';
             return GameAvailability(
               config: config,
               status: GameStatus.lockedFrequency,
-              message: 'Premio ganado. Próxima tirada en $hoursLeft hrs',
+              message: 'Ya jugaste este juego. Espera $timeMsg',
             );
           }
+        }
+
+        if (rules.cooldownHours > 0 &&
+            rules.maxGamesPerInterval > 0 &&
+            playsInInterval.length >= rules.maxGamesPerInterval) {
+          final earliestPlay = playsInInterval.reduce(
+            (earliest, playedAt) =>
+                playedAt.isBefore(earliest) ? playedAt : earliest,
+          );
+          final remaining = earliestPlay
+              .add(Duration(hours: rules.cooldownHours))
+              .difference(now);
+          final minutesLeft = remaining.inMinutes.ceil();
+          return GameAvailability(
+            config: config,
+            status: GameStatus.lockedFrequency,
+            message: 'Alcanzaste el límite. Podrás jugar en $minutesLeft min',
+          );
         }
       }
 

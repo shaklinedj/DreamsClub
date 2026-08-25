@@ -13,7 +13,9 @@ class GamificationSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
     final localStreak = ref.watch(streakProvider);
-    final longest = localStreak.longestStreak < user.streak ? user.streak : localStreak.longestStreak;
+    final longest = localStreak.longestStreak < user.streak
+        ? user.streak
+        : localStreak.longestStreak;
 
     final streakData = localStreak.copyWith(
       currentStreak: user.streak,
@@ -31,8 +33,6 @@ class GamificationSection extends ConsumerWidget {
       ],
     );
   }
-
-
 }
 
 class _StreakCard extends ConsumerStatefulWidget {
@@ -63,7 +63,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                     });
 
                     try {
-                      final result = await CoyhaiqueLocationService.checkCoyhaiqueLocation();
+                      final result = await CoyhaiqueLocationService
+                          .checkCoyhaiqueLocation();
 
                       if (!mounted || !context.mounted) return;
 
@@ -79,7 +80,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                             action: SnackBarAction(
                               label: 'ACTIVAR',
                               textColor: Colors.yellow,
-                              onPressed: () => Geolocator.openLocationSettings(),
+                              onPressed: () =>
+                                  Geolocator.openLocationSettings(),
                             ),
                           ),
                         );
@@ -94,6 +96,19 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                               style: TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (result.timedOut) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              '📍 El GPS tardó demasiado en obtener una ubicación precisa. Reintenta en unos segundos.',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.orange,
                           ),
                         );
                         return;
@@ -117,32 +132,54 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                         return;
                       }
 
-                      final achievementsNotifier = ref.read(achievementsProvider.notifier);
-                      final success = await achievementsNotifier.registerCasinoVisit('4');
-                      if (mounted && context.mounted) {
+                      try {
+                        final achievementsNotifier =
+                            ref.read(achievementsProvider.notifier);
+                        final success =
+                            await achievementsNotifier.registerCasinoVisit('4');
+                        if (!mounted || !context.mounted) return;
+
                         if (success) {
-                          ref.read(streakProvider.notifier).registerVisit();
+                          await ref
+                              .read(streakProvider.notifier)
+                              .registerVisit();
+                          if (!mounted || !context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('¡Visita registrada! 🎉 Tu racha ha aumentado.'),
+                              content: Text(
+                                  '¡Visita registrada! 🎉 Tu racha ha aumentado.'),
                               backgroundColor: Colors.green,
                             ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Ya registraste tu visita hoy. ¡Vuelve mañana!'),
+                              content: Text(
+                                  'Ya registraste tu visita hoy. ¡Vuelve mañana!'),
                               backgroundColor: Colors.orange,
                             ),
                           );
                         }
+                      } catch (e, stackTrace) {
+                        debugPrint(
+                            'Error al registrar la visita: $e\n$stackTrace');
+                        if (!mounted || !context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'No se pudo registrar tu visita. Revisa tu conexión e inténtalo de nuevo.'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
                       }
-                    } catch (e) {
-                      debugPrint('Error en registro de racha: $e');
+                    } catch (e, stackTrace) {
+                      debugPrint(
+                          'Error al verificar la ubicación: $e\n$stackTrace');
                       if (mounted && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Error al verificar tu ubicación. Inténtalo de nuevo.'),
+                            content: Text(
+                                'Error al verificar tu ubicación. Inténtalo de nuevo.'),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -184,7 +221,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                           children: [
                             const Text(
                               '🔥 Racha Actual',
-                              style: TextStyle(color: Colors.white70, fontSize: 12),
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 12),
                             ),
                             const SizedBox(height: 4),
                             Row(
@@ -207,7 +245,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                                   padding: EdgeInsets.only(bottom: 6, left: 4),
                                   child: Text(
                                     'días',
-                                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                                    style: TextStyle(
+                                        color: Colors.white70, fontSize: 14),
                                   ),
                                 ),
                               ],
@@ -220,7 +259,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
@@ -228,7 +268,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.bolt, color: Colors.yellow, size: 16),
+                                const Icon(Icons.bolt,
+                                    color: Colors.yellow, size: 16),
                                 const SizedBox(width: 4),
                                 Text(
                                   'x${widget.streak.bonusMultiplier}',
@@ -243,7 +284,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                           const SizedBox(height: 8),
                           Text(
                             'Récord: ${widget.streak.longestStreak} días',
-                            style: const TextStyle(color: Colors.white60, fontSize: 11),
+                            style: const TextStyle(
+                                color: Colors.white60, fontSize: 11),
                           ),
                         ],
                       ),
@@ -281,7 +323,8 @@ class _StreakCardState extends ConsumerState<_StreakCard> {
                             ),
                             child: Center(
                               child: isCompleted
-                                  ? const Icon(Icons.check, color: Colors.deepOrange, size: 18)
+                                  ? const Icon(Icons.check,
+                                      color: Colors.deepOrange, size: 18)
                                   : null,
                             ),
                           ),
@@ -343,7 +386,7 @@ class _MiniAchievementsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final achievements = ref.watch(achievementsProvider);
-    
+
     // Mostramos solo algunos para mantenerlo mínimo
     final displayAchievements = achievements.take(5).toList();
 
@@ -352,7 +395,8 @@ class _MiniAchievementsList extends ConsumerWidget {
       children: [
         const Text(
           'Recompensas & Logros',
-          style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         SizedBox(
@@ -366,10 +410,14 @@ class _MiniAchievementsList extends ConsumerWidget {
                 width: 56,
                 margin: const EdgeInsets.only(right: 12),
                 decoration: BoxDecoration(
-                  color: achievement.isUnlocked ? Colors.orange.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
+                  color: achievement.isUnlocked
+                      ? Colors.orange.withValues(alpha: 0.15)
+                      : Colors.white.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: achievement.isUnlocked ? Colors.orange.withValues(alpha: 0.5) : Colors.transparent,
+                    color: achievement.isUnlocked
+                        ? Colors.orange.withValues(alpha: 0.5)
+                        : Colors.transparent,
                   ),
                 ),
                 child: Center(
@@ -380,7 +428,9 @@ class _MiniAchievementsList extends ConsumerWidget {
                         achievement.icon,
                         style: TextStyle(
                           fontSize: 24,
-                          color: achievement.isUnlocked ? Colors.white : Colors.white30,
+                          color: achievement.isUnlocked
+                              ? Colors.white
+                              : Colors.white30,
                         ),
                       ),
                       if (!achievement.isUnlocked)
@@ -396,4 +446,3 @@ class _MiniAchievementsList extends ConsumerWidget {
     );
   }
 }
-

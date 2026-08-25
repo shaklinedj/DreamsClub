@@ -72,7 +72,8 @@ class NotificationService {
   }
 
   /// Verifica si el usuario actual cumple con el segmento objetivo enviado por el Admin
-  static Future<bool> _checkUserSegmentEligibility(Map<String, dynamic> data) async {
+  static Future<bool> _checkUserSegmentEligibility(
+      Map<String, dynamic> data) async {
     final isBroadcast = data['broadcast'] == true;
     if (isBroadcast) return true;
 
@@ -82,24 +83,28 @@ class NotificationService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final userEmail = prefs.getString('user_email') ?? '';
-      
+
       if (userEmail.isEmpty) return true;
 
-      final activeUserDoc = await FirebaseFirestore.instance.collection('users').doc(userEmail).get();
+      final activeUserDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userEmail)
+          .get();
       if (!activeUserDoc.exists) return true;
 
       final userData = activeUserDoc.data() ?? {};
 
       // 1. Consent Filter
       final consentOnly = targetSegment['consentOnly'] as bool? ?? false;
-      final contactConsent = userData['contactConsent'] ?? userData['wantsContact'] ?? true;
+      final contactConsent =
+          userData['contactConsent'] ?? userData['wantsContact'] ?? true;
       if (consentOnly && contactConsent != true) {
         return false;
       }
 
       // 2. Streak Filter
       final streakFilter = targetSegment['streak'] as String? ?? 'all';
-      final streak = (userData['currentStreak'] as num?)?.toInt() ?? (userData['streak'] as num?)?.toInt() ?? 0;
+      final streak = (userData['streak'] as num?)?.toInt() ?? 0;
       if (streakFilter == 'active' && streak < 1) return false;
       if (streakFilter == 'high' && streak < 5) return false;
       if (streakFilter == 'vip' && streak < 10) return false;
@@ -115,7 +120,9 @@ class NotificationService {
         lastVisitDate = DateTime.tryParse(lastVisitRaw);
       }
 
-      final daysInactive = lastVisitDate == null ? 999 : DateTime.now().difference(lastVisitDate).inDays;
+      final daysInactive = lastVisitDate == null
+          ? 999
+          : DateTime.now().difference(lastVisitDate).inDays;
       final isPresentToday = userData['isPresentToday'] as bool? ?? false;
 
       if (presenceFilter == 'today' && !isPresentToday && daysInactive > 0) {

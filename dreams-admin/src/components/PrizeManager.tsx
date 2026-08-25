@@ -20,7 +20,7 @@ interface GameRules {
     startHour: number;
     endHour: number;
     minStreakRequired: number;
-    maxDailyGamesAllowed: number;
+    maxGamesPerInterval: number;
 }
 
 const defaultRules: GameRules = {
@@ -30,7 +30,7 @@ const defaultRules: GameRules = {
     startHour: 18,
     endHour: 2,
     minStreakRequired: 0,
-    maxDailyGamesAllowed: 1,
+    maxGamesPerInterval: 4,
 };
 
 const daysOfWeek = [
@@ -91,7 +91,17 @@ export default function PrizeManager() {
                 const docRef = doc(db, 'game_rules_config', 'global');
                 const snap = await getDoc(docRef);
                 if (snap.exists()) {
-                    setRules({ ...defaultRules, ...snap.data() });
+                    const savedRules = snap.data() as Partial<GameRules> & {
+                        maxDailyGamesAllowed?: number;
+                    };
+                    setRules({
+                        ...defaultRules,
+                        ...savedRules,
+                        maxGamesPerInterval:
+                            savedRules.maxGamesPerInterval ??
+                            savedRules.maxDailyGamesAllowed ??
+                            defaultRules.maxGamesPerInterval,
+                    });
                 } else {
                     await setDoc(docRef, defaultRules);
                 }
@@ -253,24 +263,43 @@ export default function PrizeManager() {
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {/* Cooldown 48h */}
+                    {/* Cooldown por juego */}
                     <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700">
                         <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
-                            ⏱️ Cooldown entre victorias
+                            ⏱️ Cooldown por juego
                         </label>
                         <div className="flex items-center gap-3">
                             <input
                                 type="number"
-                                min="1"
+                                min="0"
                                 max="168"
                                 value={rules.cooldownHours}
                                 onChange={(e) => setRules({ ...rules, cooldownHours: Number(e.target.value) })}
                                 className="w-24 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white font-bold text-lg text-center"
                             />
-                            <span className="text-slate-300 font-medium">Horas (ej: 48)</span>
+                            <span className="text-slate-300 font-medium">Horas (0 = sin límite)</span>
                         </div>
                         <p className="text-xs text-slate-400 mt-2">
-                            El usuario podrá ganar 1 premio cada {rules.cooldownHours} horas.
+                            El usuario deberá esperar {rules.cooldownHours} horas antes de volver a jugar el mismo minijuego.
+                        </p>
+                    </div>
+
+                    <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700">
+                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
+                            🎮 Límite de juegos por intervalo
+                        </label>
+                        <select
+                            value={rules.maxGamesPerInterval}
+                            onChange={(e) => setRules({ ...rules, maxGamesPerInterval: Number(e.target.value) })}
+                            className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white font-bold"
+                        >
+                            <option value={1}>1 juego por intervalo</option>
+                            <option value={2}>2 juegos por intervalo</option>
+                            <option value={3}>3 juegos por intervalo</option>
+                            <option value={4}>4 juegos por intervalo</option>
+                        </select>
+                        <p className="text-xs text-slate-400 mt-2">
+                            Máximo de minijuegos permitidos durante las {rules.cooldownHours} horas configuradas.
                         </p>
                     </div>
 
@@ -293,26 +322,6 @@ export default function PrizeManager() {
                         </select>
                         <p className="text-xs text-slate-400 mt-2">
                             Segmenta qué nivel de racha puede desbloquear premios.
-                        </p>
-                    </div>
-
-                    {/* Límite de Juegos Diarios */}
-                    <div className="bg-slate-900/60 p-5 rounded-xl border border-slate-700">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">
-                            🎮 Límite de Juegos Diarios
-                        </label>
-                        <select
-                            value={rules.maxDailyGamesAllowed ?? 1}
-                            onChange={(e) => setRules({ ...rules, maxDailyGamesAllowed: Number(e.target.value) })}
-                            className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white font-bold"
-                        >
-                            <option value={1}>Permitir solo 1 juego al día</option>
-                            <option value={2}>Permitir hasta 2 juegos al día</option>
-                            <option value={3}>Permitir hasta 3 juegos al día</option>
-                            <option value={4}>Permitir los 4 juegos (Sin límite)</option>
-                        </select>
-                        <p className="text-xs text-slate-400 mt-2">
-                            Cuántos juegos distintos puede seleccionar el usuario por día.
                         </p>
                     </div>
 

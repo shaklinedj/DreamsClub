@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:casinoloyalty_flutter/services/daily_bonus_service.dart';
 import 'package:casinoloyalty_flutter/services/coyhaique_location_service.dart';
 import 'package:casinoloyalty_flutter/services/sound_service.dart';
+import 'package:casinoloyalty_flutter/providers/gamification_provider.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +25,8 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
   String? _locationErrorMessage;
   bool _isGpsDisabled = false;
   String _rewardTitle = 'Pack de Stickers Dreams Coyhaique 🎨';
-  String _rewardDesc = '¡Stickers exclusivos para WhatsApp desbloqueados por tu visita a Coyhaique!';
+  String _rewardDesc =
+      '¡Stickers exclusivos para WhatsApp desbloqueados por tu visita a Coyhaique!';
 
   @override
   void initState() {
@@ -64,7 +66,15 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
     if (result.permissionDenied) {
       setState(() {
         _locationErrorMessage =
-            '📍 Permiso de ubicación denegado. Se requieren permisos de GPS para verificar tu racha.';
+            '📍 No se pudo verificar tu ubicación. Verifica que:\n• El GPS esté activado en tu teléfono\n• Hayas dado permisos de ubicación a Dreams Club\n• Tengas buena señal GPS\n\nIntenta de nuevo en unos segundos.';
+      });
+      return;
+    }
+
+    if (result.timedOut) {
+      setState(() {
+        _locationErrorMessage =
+            '📍 El GPS tardó demasiado en obtener una ubicación precisa. Abre el mapa, espera unos segundos al aire libre y reintenta.';
       });
       return;
     }
@@ -85,16 +95,28 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
   }
 
   Future<void> _executeClaim() async {
-    await ref.read(dailyBonusProvider.notifier).claimBonus();
-    final streak = ref.read(dailyBonusProvider).currentStreak;
+    final success =
+        await ref.read(achievementsProvider.notifier).registerCasinoVisit('4');
+    if (!success) {
+      setState(() {
+        _locationErrorMessage =
+            '📍 Ya registraste tu visita de hoy. Vuelve mañana para continuar tu racha.';
+      });
+      return;
+    }
+
+    await ref.read(streakProvider.notifier).registerVisit();
+    final streak = ref.read(userProvider).streak;
 
     // Digital Rewards logic based on streak
     if (streak >= 7) {
       _rewardTitle = '🌟 Tema Dorado VIP + Pack Stickers Pro';
-      _rewardDesc = '¡Racha legendaria de $streak días en Coyhaique! Acceso al tema Gold exclusivo y todos los stickers.';
+      _rewardDesc =
+          '¡Racha legendaria de $streak días en Coyhaique! Acceso al tema Gold exclusivo y todos los stickers.';
     } else if (streak >= 3) {
       _rewardTitle = '🎨 Pack Stickers Animados Coyhaique';
-      _rewardDesc = '¡Stickers con movimiento para compartir en WhatsApp con amigos!';
+      _rewardDesc =
+          '¡Stickers con movimiento para compartir en WhatsApp con amigos!';
     } else {
       _rewardTitle = '🎁 Pack Stickers Oficiales Día $streak';
       _rewardDesc = '¡Stickers de la Patagonia y Dreams para tu WhatsApp!';
@@ -117,7 +139,7 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
   }
 
   Future<void> _shareStreak() async {
-    final streak = ref.read(dailyBonusProvider).currentStreak;
+    final streak = ref.read(userProvider).streak;
     await SharePlus.instance.share(ShareParams(
       text:
           '🔥 ¡Llevo una racha de $streak días en Dreams Club Coyhaique y desbloqueé stickers exclusivos! 🎰✨ #DreamsClub #Coyhaique',
@@ -126,7 +148,7 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(dailyBonusProvider);
+    final streak = ref.watch(userProvider).streak;
 
     return Stack(
       alignment: Alignment.center,
@@ -172,7 +194,8 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
                     decoration: BoxDecoration(
                       color: const Color(0xFFD4AF37).withValues(alpha: 0.15),
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFFD4AF37), width: 1.5),
+                      border: Border.all(
+                          color: const Color(0xFFD4AF37), width: 1.5),
                     ),
                     child: const Center(
                       child: Text('🔥', style: TextStyle(fontSize: 38)),
@@ -180,7 +203,7 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '¡Racha actual: ${state.currentStreak} días!',
+                    '¡Racha actual: $streak días!',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -209,32 +232,46 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
                       decoration: BoxDecoration(
                         color: Colors.amber.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Colors.amber.withValues(alpha: 0.4)),
+                        border: Border.all(
+                            color: Colors.amber.withValues(alpha: 0.4)),
                       ),
                       child: Column(
                         children: [
                           Text(
                             _locationErrorMessage!,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.amber, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.amber, fontSize: 12),
                           ),
                           const SizedBox(height: 8),
                           if (_isGpsDisabled) ...[
                             ElevatedButton.icon(
-                              onPressed: () => Geolocator.openLocationSettings(),
-                              icon: const Icon(Icons.settings, size: 16, color: Colors.black),
-                              label: const Text('Activar GPS en Ajustes', style: TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.bold)),
+                              onPressed: () =>
+                                  Geolocator.openLocationSettings(),
+                              icon: const Icon(Icons.settings,
+                                  size: 16, color: Colors.black),
+                              label: const Text('Activar GPS en Ajustes',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold)),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFD4AF37),
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
                               ),
                             ),
                             const SizedBox(height: 8),
                           ],
                           TextButton.icon(
                             onPressed: _claimBonus,
-                            icon: const Icon(Icons.refresh, size: 16, color: Colors.white),
-                            label: const Text('Reintentar Verificación GPS', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                            icon: const Icon(Icons.refresh,
+                                size: 16, color: Colors.white),
+                            label: const Text('Reintentar Verificación GPS',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),
@@ -292,9 +329,11 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
                     icon: const Icon(Icons.download, size: 20),
                     label: const Text('Descargar / Usar Stickers'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF25D366), // WhatsApp green
+                      backgroundColor:
+                          const Color(0xFF25D366), // WhatsApp green
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -306,13 +345,16 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
                     children: [
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cerrar', style: TextStyle(color: Colors.white60)),
+                        child: const Text('Cerrar',
+                            style: TextStyle(color: Colors.white60)),
                       ),
                       const SizedBox(width: 12),
                       TextButton.icon(
                         onPressed: _shareStreak,
-                        icon: const Icon(Icons.share, size: 16, color: Colors.blueAccent),
-                        label: const Text('Compartir Racha', style: TextStyle(color: Colors.blueAccent)),
+                        icon: const Icon(Icons.share,
+                            size: 16, color: Colors.blueAccent),
+                        label: const Text('Compartir Racha',
+                            style: TextStyle(color: Colors.blueAccent)),
                       ),
                     ],
                   ),
@@ -345,4 +387,3 @@ class _DailyBonusDialogState extends ConsumerState<DailyBonusDialog> {
     );
   }
 }
-

@@ -122,18 +122,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           },
           options: Options(
             headers: {'Content-Type': 'application/json'},
-            sendTimeout: const Duration(seconds: 30),
-            receiveTimeout: const Duration(seconds: 30),
+            sendTimeout: const Duration(seconds: 60),
+            receiveTimeout: const Duration(seconds: 60),
           )
         );
 
         if (response.statusCode == 200 && response.data['success'] == true) {
           cloudUrl = response.data['url'];
+          AppLogger.info('✅ Foto subida a GDrive: $cloudUrl');
         } else {
+          AppLogger.error('❌ Vercel respondió ${response.statusCode}: ${response.data}', null);
           throw Exception('Error en respuesta del servidor: ${response.data}');
         }
+      } on DioException catch (dioErr) {
+        // Log del cuerpo de la respuesta de error para debug
+        final errBody = dioErr.response?.data;
+        AppLogger.error('❌ Vercel error ${dioErr.response?.statusCode} → $errBody', dioErr);
+        // Fallback a Base64 local si el servidor falla
+        cloudUrl = 'data:$mimeType;base64,$base64String';
       } catch (uploadError) {
-        AppLogger.error('Error uploading to Vercel/GDrive', uploadError);
+        AppLogger.error('❌ Error uploading to Vercel/GDrive', uploadError);
         // Fallback a Base64 local si el servidor falla o no está configurado aún
         cloudUrl = 'data:$mimeType;base64,$base64String';
       }

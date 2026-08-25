@@ -24,8 +24,7 @@ final userProfileServiceProvider = Provider<UserProfileService>((ref) {
   return UserProfileService();
 });
 
-// Key for caching user snapshot
-const String _userCacheKey = 'user_snapshot_cache';
+const String _userCacheKeyPrefix = 'user_snapshot_cache_';
 
 final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
   final service = ref.watch(userProfileServiceProvider);
@@ -50,7 +49,8 @@ class UserNotifier extends StateNotifier<User> {
 
   /// Initialize: Firestore is the source of truth. Cache is only a fallback.
   Future<void> _initWithCacheThenSync() async {
-    await _loadFromFirestore(fallbackToCache: true);
+    await _loadFromCache();
+    await _loadFromFirestore(fallbackToCache: false);
     _initRealtimeListener();
   }
 
@@ -68,6 +68,13 @@ class UserNotifier extends StateNotifier<User> {
         AppLogger.info('📥 Loaded user from Firestore: ${user.name}');
         return;
       }
+
+      // A successful read with no document is authoritative. Do not resurrect
+      // an old local snapshot in this case.
+      if (mounted) {
+        state = _defaultUser;
+      }
+      return;
     } catch (e) {
       AppLogger.error('Error loading user from Firestore', e);
     }
@@ -81,7 +88,7 @@ class UserNotifier extends StateNotifier<User> {
   Future<void> _loadFromCache() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final cached = prefs.getString(_userCacheKey);
+      final cached = prefs.getString('$_userCacheKeyPrefix$_uid');
 
       if (cached != null) {
         final map = json.decode(cached) as Map<String, dynamic>;
@@ -104,7 +111,7 @@ class UserNotifier extends StateNotifier<User> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final map = user.toMap();
-      await prefs.setString(_userCacheKey, json.encode(map));
+      await prefs.setString('$_userCacheKeyPrefix$_uid', json.encode(map));
       await prefs.setInt('cached_user_streak', user.streak);
       AppLogger.debug('💾 User snapshot & streak (${user.streak}d) cached');
     } catch (e) {

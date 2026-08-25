@@ -128,14 +128,11 @@ class User {
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
-    final pointsVal = map['points']?.toInt() ?? map['gamificationPoints']?.toInt() ?? 0;
-    final streakVal = map['currentStreak']?.toInt() ??
-        map['streak']?.toInt() ??
-        map['consecutiveVisits']?.toInt() ??
-        0;
+    final pointsVal = (map['points'] as num?)?.toInt() ?? 0;
+    final streakVal = (map['streak'] as num?)?.toInt() ?? 0;
 
     return User(
-      name: map['name'] ?? map['displayName'] ?? '',
+      name: map['name'] ?? '',
       email: map['email'] ?? '',
       profileImageUrl: map['profile_image_url'] ?? '',
       level: _parseUserLevel(map['level']),
@@ -165,7 +162,10 @@ class User {
       'email': email,
       'profile_image_url': profileImageUrl,
       'level': level.name,
+      'points': points,
+      'balance': balance,
       'rut': rut,
+      'pin': pin,
       'isAdmin': isAdmin,
       'favoriteCasinoId': favoriteCasinoId,
       'birthday': birthday?.toIso8601String(),

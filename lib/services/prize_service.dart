@@ -8,12 +8,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class GameRulesConfig {
   final int cooldownHours;
-  final List<int> allowedDays; // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+  final List<int>
+      allowedDays; // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
   final bool timeWindowEnabled;
   final int startHour;
   final int endHour;
   final int minStreakRequired;
-  final int maxDailyGamesAllowed;
+  final int maxGamesPerInterval;
 
   const GameRulesConfig({
     this.cooldownHours = 48,
@@ -22,7 +23,7 @@ class GameRulesConfig {
     this.startHour = 0,
     this.endHour = 24,
     this.minStreakRequired = 0,
-    this.maxDailyGamesAllowed = 1,
+    this.maxGamesPerInterval = 4,
   });
 
   factory GameRulesConfig.fromMap(Map<String, dynamic>? map) {
@@ -40,7 +41,9 @@ class GameRulesConfig {
       startHour: (map['startHour'] as num?)?.toInt() ?? 0,
       endHour: (map['endHour'] as num?)?.toInt() ?? 24,
       minStreakRequired: (map['minStreakRequired'] as num?)?.toInt() ?? 0,
-      maxDailyGamesAllowed: (map['maxDailyGamesAllowed'] as num?)?.toInt() ?? 1,
+      maxGamesPerInterval: (map['maxGamesPerInterval'] as num?)?.toInt() ??
+          (map['maxDailyGamesAllowed'] as num?)?.toInt() ??
+          4,
     );
   }
 
@@ -52,7 +55,7 @@ class GameRulesConfig {
       'startHour': startHour,
       'endHour': endHour,
       'minStreakRequired': minStreakRequired,
-      'maxDailyGamesAllowed': maxDailyGamesAllowed,
+      'maxGamesPerInterval': maxGamesPerInterval,
     };
   }
 }
@@ -66,13 +69,17 @@ class PrizeService {
   static String generateRedemptionCode() {
     const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
     final random = Random.secure();
-    final randomCode = List.generate(6, (index) => chars[random.nextInt(chars.length)]).join();
+    final randomCode =
+        List.generate(6, (index) => chars[random.nextInt(chars.length)]).join();
     return 'DRM-$randomCode';
   }
 
   /// Stream of active prizes from Firestore catalog with fallback
   Stream<List<Prize>> streamPrizesCatalog() {
-    return _firestore.collection('mini_game_prizes').snapshots().map((snapshot) {
+    return _firestore
+        .collection('mini_game_prizes')
+        .snapshots()
+        .map((snapshot) {
       if (snapshot.docs.isEmpty) {
         return mockPrizes;
       }
@@ -126,7 +133,8 @@ class PrizeService {
   /// Fetch global rules configuration once
   Future<GameRulesConfig> getRulesConfig() async {
     try {
-      final doc = await _firestore.collection('game_rules_config').doc('global').get();
+      final doc =
+          await _firestore.collection('game_rules_config').doc('global').get();
       if (!doc.exists) {
         const defaultConfig = GameRulesConfig();
         await _firestore
@@ -145,7 +153,10 @@ class PrizeService {
   Future<void> saveWonPrize(WonPrize prize) async {
     try {
       // 1. Save to global user_prizes in Firestore
-      await _firestore.collection('user_prizes').doc(prize.id).set(prize.toJson());
+      await _firestore
+          .collection('user_prizes')
+          .doc(prize.id)
+          .set(prize.toJson());
 
       // 2. Also save to user subcollection for quick rules evaluation
       if (prize.userId.isNotEmpty) {
@@ -177,7 +188,9 @@ class PrizeService {
       if (currentUser.uid.isNotEmpty && !queryIds.contains(currentUser.uid)) {
         queryIds.add(currentUser.uid);
       }
-      if (currentUser.email != null && currentUser.email!.isNotEmpty && !queryIds.contains(currentUser.email!)) {
+      if (currentUser.email != null &&
+          currentUser.email!.isNotEmpty &&
+          !queryIds.contains(currentUser.email!)) {
         queryIds.add(currentUser.email!);
       }
     }
@@ -208,7 +221,9 @@ class PrizeService {
       if (currentUser.uid.isNotEmpty && !queryIds.contains(currentUser.uid)) {
         queryIds.add(currentUser.uid);
       }
-      if (currentUser.email != null && currentUser.email!.isNotEmpty && !queryIds.contains(currentUser.email!)) {
+      if (currentUser.email != null &&
+          currentUser.email!.isNotEmpty &&
+          !queryIds.contains(currentUser.email!)) {
         queryIds.add(currentUser.email!);
       }
     }
@@ -260,7 +275,8 @@ class PrizeService {
 
   /// Check 48h (or configured) cooldown eligibility for a user
   /// Returns null if eligible, or Duration remaining if locked
-  Future<Duration?> checkCooldownRemaining(String userId, {int cooldownHours = 48}) async {
+  Future<Duration?> checkCooldownRemaining(String userId,
+      {int cooldownHours = 48}) async {
     final allPrizes = await getMyPrizes(userId);
     if (allPrizes.isEmpty) return null;
 

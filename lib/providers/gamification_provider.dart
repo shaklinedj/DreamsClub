@@ -155,7 +155,6 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
     }
   }
 
-
   Future<void> _loadAchievements() async {
     final List<Achievement> loadedAchievements = [];
 
@@ -218,7 +217,9 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
             currentValue: newValue,
             progress: (newValue / a.targetValue).clamp(0.0, 1.0),
             isUnlocked: isNowUnlocked,
-            unlockedAt: shouldUnlock ? DateTime.now() : (isNowUnlocked ? a.unlockedAt : null),
+            unlockedAt: shouldUnlock
+                ? DateTime.now()
+                : (isNowUnlocked ? a.unlockedAt : null),
           )
         else
           a
@@ -453,18 +454,9 @@ class StreakNotifier extends StateNotifier<StreakData> {
     final weekProgress = await _service.getCurrentWeekProgress();
     final cloudLongestStreak = await _service.getLongestStreak();
 
-    // Sincronizar localmente si no coinciden
-    final localStreak = await _service.getConsecutiveVisits();
-    if (localStreak != firebaseStreak) {
-      await _service.setConsecutiveVisits(firebaseStreak);
-    }
-
     final longestStreak = cloudLongestStreak > firebaseStreak
         ? cloudLongestStreak
         : firebaseStreak;
-    if (longestStreak > cloudLongestStreak) {
-      await _service.setLongestStreak(longestStreak);
-    }
 
     state = state.copyWith(
       currentStreak: firebaseStreak,
@@ -498,7 +490,9 @@ class StreakNotifier extends StateNotifier<StreakData> {
 
   String getStreakReward() {
     if (state.currentStreak >= 14) return '🌲 Tema Especial Patagónico';
-    if (state.currentStreak >= 7) return '❄️ Tema Platino Austral & Stickers VIP';
+    if (state.currentStreak >= 7) {
+      return '❄️ Tema Platino Austral & Stickers VIP';
+    }
     if (state.currentStreak >= 3) return '👑 Tema Dorado VIP & Stickers Memes';
     if (state.currentStreak >= 1) return '🏔️ Pack de Stickers Patagónicos';
     return '🔥 ¡Inicia tu racha hoy!';

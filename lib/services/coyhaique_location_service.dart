@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/foundation.dart';
 
@@ -6,19 +8,22 @@ class LocationCheckResult {
   final double? distanceKm;
   final bool serviceDisabled;
   final bool permissionDenied;
+  final bool timedOut;
 
   LocationCheckResult({
     required this.isNear,
     this.distanceKm,
     this.serviceDisabled = false,
     this.permissionDenied = false,
+    this.timedOut = false,
   });
 }
 
 class CoyhaiqueLocationService {
   static const double dreamsCoyhaiqueLat = -45.57081;
   static const double dreamsCoyhaiqueLng = -72.07419;
-  static const double maxDistanceMeters = 1500; // 1.5 km radio de cobertura en Coyhaique
+  static const double maxDistanceMeters =
+      1500; // 1.5 km radio de cobertura en Coyhaique
 
   /// Realiza la verificación completa de ubicación retornando el estado detallado de GPS y permisos
   static Future<LocationCheckResult> checkCoyhaiqueLocation() async {
@@ -41,8 +46,8 @@ class CoyhaiqueLocationService {
       }
 
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.medium,
-        timeLimit: const Duration(seconds: 8),
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 30),
       );
 
       final distanceMeters = Geolocator.distanceBetween(
@@ -59,8 +64,15 @@ class CoyhaiqueLocationService {
         isNear: isNear,
         distanceKm: distanceKm,
       );
+    } on TimeoutException catch (e) {
+      debugPrint('GPS timeout al obtener ubicación: $e');
+      return LocationCheckResult(
+        isNear: false,
+        timedOut: true,
+      );
     } catch (e) {
       debugPrint('Error obteniendo ubicación para Coyhaique: $e');
+      // Return a generic error (isNear=false, no specific error flag)
       return LocationCheckResult(isNear: false);
     }
   }
@@ -77,4 +89,3 @@ class CoyhaiqueLocationService {
     return result.isNear;
   }
 }
-

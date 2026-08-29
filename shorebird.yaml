@@ -1,0 +1,6 @@
+# Shorebird CodePush Configuration - DreamsClub
+# Run 'shorebird init' or 'shorebird patch android' to trigger instant silent Dart OTA updates.
+# For more info: https://docs.shorebird.dev
+
+# App ID configured for Shorebird OTA Updates
+# app_id: "your-shorebird-app-id-uuid"

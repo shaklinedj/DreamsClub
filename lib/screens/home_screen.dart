@@ -17,6 +17,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 // Dreams Mania Imports
 import 'package:casinoloyalty_flutter/services/dreams_mania_service.dart';
 import 'package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart';
+import 'package:ota_update/ota_update.dart';
+import 'package:casinoloyalty_flutter/services/app_update_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -53,23 +55,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           
           if (latestVersion != null && latestVersion != currentVersion) {
             if (!mounted) return;
+
+            final directApkUrl = 'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v$latestVersion/DreamsApp-v$latestVersion.apk';
             
             showDialog(
               context: context,
               barrierDismissible: false,
               builder: (context) {
-                return AlertDialog(
+                bool isDownloading = false;
+                int progressPercentage = 0;
+                String statusMessage = 'Hay una nueva versión de Dreams Club disponible (v$latestVersion).';
+
+                return StatefulBuilder(
+                  builder: (context, setDialogState) {
+                    return AlertDialog(
                       backgroundColor: const Color(0xFF1E1E2C),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                         side: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
                       ),
-                      title: const Row(
+                      title: Row(
                         children: [
-                          Text('🚀 ', style: TextStyle(fontSize: 20)),
+                          const Text('🚀 ', style: TextStyle(fontSize: 20)),
                           Text(
-                            'Actualización Disponible',
-                            style: TextStyle(
+                            isDownloading ? 'Descargando Actualización' : 'Actualización Disponible',
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -79,22 +89,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hay una nueva versión de Dreams Club disponible (v$latestVersion). Te llevaremos a la página oficial para descargarla e instalarla.',
+                            statusMessage,
                             style: const TextStyle(color: Colors.white70, fontSize: 14),
                           ),
+                          if (isDownloading) ...[
+                            const SizedBox(height: 16),
+                            LinearProgressIndicator(
+                              value: progressPercentage > 0 ? progressPercentage / 100.0 : null,
+                              backgroundColor: Colors.white10,
+                              color: const Color(0xFFD4AF37),
+                            ),
+                            const SizedBox(height: 8),
+                            Center(
+                              child: Text(
+                                '$progressPercentage%',
+                                style: const TextStyle(
+                                  color: Color(0xFFD4AF37),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                       actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text(
-                            'Más tarde',
-                            style: TextStyle(color: Colors.white38),
+                        if (!isDownloading) ...[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text(
+                              'Más tarde',
+                              style: TextStyle(color: Colors.white38),
+                            ),
                           ),
-                        ),
-                        ElevatedButton(
+                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFD4AF37),
                               foregroundColor: Colors.black,
@@ -103,21 +134,67 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              final launched = await launchUrl(
-                                Uri.parse(downloadUrl),
-                                mode: LaunchMode.externalApplication,
-                              );
-                              if (launched && context.mounted) {
-                                Navigator.pop(context);
+                              if (AppUpdateService.instance.isInAppApkSupported) {
+                                setDialogState(() {
+                                  isDownloading = true;
+                                  statusMessage = 'Descargando actualización en segundo plano... Por favor no cierres la app.';
+                                });
+
+                                AppUpdateService.instance.downloadAndInstallApk(directApkUrl).listen(
+                                  (OtaEvent event) {
+                                    setDialogState(() {
+                                      switch (event.status) {
+                                        case OtaStatus.DOWNLOADING:
+                                          progressPercentage = int.tryParse(event.value ?? '0') ?? progressPercentage;
+                                          break;
+                                        case OtaStatus.INSTALLING:
+                                          statusMessage = '¡Descarga completada! Abriendo instalador de Android...';
+                                          progressPercentage = 100;
+                                          break;
+                                        case OtaStatus.ALREADY_RUNNING_ERROR:
+                                          statusMessage = 'La descarga ya está en ejecución.';
+                                          break;
+                                        case OtaStatus.PERMISSION_NOT_GRANTED_ERROR:
+                                          statusMessage = 'Permiso de instalación denegado. Abriendo navegador...';
+                                          isDownloading = false;
+                                          launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                          break;
+                                        default:
+                                          statusMessage = 'Error en la descarga. Abriendo navegador web...';
+                                          isDownloading = false;
+                                          launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                          break;
+                                      }
+                                    });
+                                  },
+                                  onError: (error) {
+                                    setDialogState(() {
+                                      isDownloading = false;
+                                      statusMessage = 'Error al descargar. Redirigiendo a web...';
+                                    });
+                                    launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                  },
+                                );
+                              } else {
+                                final launched = await launchUrl(
+                                  Uri.parse(downloadUrl),
+                                  mode: LaunchMode.externalApplication,
+                                );
+                                if (launched && context.mounted) {
+                                  Navigator.pop(context);
+                                }
                               }
                             },
                             child: const Text(
-                              'Ir a descarga',
+                              'Actualizar ahora',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
+                        ],
                       ],
                     );
+                  },
+                );
               },
             );
           }

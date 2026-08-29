@@ -1053,7 +1053,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "package_connectivity_plus_connectivity_plus_dart",
-      "community": 189,
+      "community": 90,
       "norm_label": "package:connectivity_plus/connectivity_plus.dart"
     },
     {
@@ -1125,7 +1125,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "package_share_plus_share_plus_dart",
-      "community": 124,
+      "community": 135,
       "norm_label": "package:share_plus/share_plus.dart"
     },
     {
@@ -1693,6 +1693,114 @@
       "source_location": "L1",
       "id": "dart_tool_flutter_build_e5a6d17b431516515557c99fe0a0af5a_recorded_uses_json",
       "community": 254,
+      "norm_label": "recorded_uses.json"
+    },
+    {
+      "label": "build_hooks_result.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/build_hooks_result.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_build_hooks_result_json",
+      "community": 137,
+      "norm_label": "build_hooks_result.json"
+    },
+    {
+      "label": "link_hooks_result.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "community": 69,
+      "norm_label": "link_hooks_result.json"
+    },
+    {
+      "label": "build_start",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_start",
+      "community": 69,
+      "norm_label": "build_start"
+    },
+    {
+      "label": "build_end",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_end",
+      "community": 69,
+      "norm_label": "build_end"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_dependencies",
+      "community": 69,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "code_assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_code_assets",
+      "community": 69,
+      "norm_label": "code_assets"
+    },
+    {
+      "label": "data_assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_data_assets",
+      "community": 69,
+      "norm_label": "data_assets"
+    },
+    {
+      "label": "native_assets.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_native_assets_json",
+      "community": 136,
+      "norm_label": "native_assets.json"
+    },
+    {
+      "label": "format-version",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_format_version",
+      "community": 136,
+      "norm_label": "format-version"
+    },
+    {
+      "label": "native-assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
+      "source_location": "L1",
+      "id": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_native_assets",
+      "community": 136,
+      "norm_label": "native-assets"
+    },
+    {
+      "label": "outputs.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/outputs.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_outputs_json",
+      "community": 163,
+      "norm_label": "outputs.json"
+    },
+    {
+      "label": "recorded_uses.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/recorded_uses.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_recorded_uses_json",
+      "community": 186,
       "norm_label": "recorded_uses.json"
     },
     {
@@ -7300,7 +7408,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "lib_firebase_options_dart",
-      "community": 47,
+      "community": 273,
       "norm_label": "firebase_options.dart"
     },
     {
@@ -7309,7 +7417,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_firebase_options_dart_defaultfirebaseoptions",
-      "community": 47,
+      "community": 273,
       "norm_label": "defaultfirebaseoptions"
     },
     {
@@ -7318,7 +7426,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_firebase_options_dart_unsupportederror",
-      "community": 47,
+      "community": 273,
       "norm_label": "unsupportederror"
     },
     {
@@ -7327,7 +7435,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_firebase_core_firebase_core_dart",
-      "community": 47,
+      "community": 273,
       "norm_label": "package:firebase_core/firebase_core.dart"
     },
     {
@@ -7336,7 +7444,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "package_flutter_foundation_dart",
-      "community": 84,
+      "community": 22,
       "norm_label": "package:flutter/foundation.dart"
     },
     {
@@ -7453,7 +7561,7 @@
       "source_file": "lib/widgets/dreams_mania/dreams_mania_dialog.dart",
       "source_location": null,
       "id": "dart_async",
-      "community": 31,
+      "community": 22,
       "norm_label": "dart:async"
     },
     {
@@ -7462,7 +7570,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_firebase_service_dart",
-      "community": 9,
+      "community": 55,
       "norm_label": "package:casinoloyalty_flutter/services/firebase_service.dart"
     },
     {
@@ -7489,7 +7597,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_intl_date_symbol_data_local_dart",
-      "community": 9,
+      "community": 55,
       "norm_label": "package:intl/date_symbol_data_local.dart"
     },
     {
@@ -7498,7 +7606,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_timezone_data_latest_dart",
-      "community": 9,
+      "community": 55,
       "norm_label": "package:timezone/data/latest.dart"
     },
     {
@@ -7507,7 +7615,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_shared_preferences_shared_preferences_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "package:shared_preferences/shared_preferences.dart"
     },
     {
@@ -7534,7 +7642,7 @@
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_theme_app_theme_dart",
-      "community": 9,
+      "community": 55,
       "norm_label": "package:casinoloyalty_flutter/theme/app_theme.dart"
     },
     {
@@ -7696,7 +7804,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "lib_main_coyhaique_social_dart",
-      "community": 9,
+      "community": 55,
       "norm_label": "main_coyhaique_social.dart"
     },
     {
@@ -7705,7 +7813,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_coyhaiquesocialapp",
-      "community": 9,
+      "community": 55,
       "norm_label": "coyhaiquesocialapp"
     },
     {
@@ -7714,7 +7822,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_main",
-      "community": 9,
+      "community": 55,
       "norm_label": "main"
     },
     {
@@ -7723,7 +7831,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_runzonedguarded",
-      "community": 9,
+      "community": 55,
       "norm_label": "runzonedguarded"
     },
     {
@@ -7732,7 +7840,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_build",
-      "community": 9,
+      "community": 55,
       "norm_label": "build"
     },
     {
@@ -7786,7 +7894,7 @@
       "source_file": "lib/widgets/loyalty_card_widget.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_user_model_dart",
-      "community": 62,
+      "community": 185,
       "norm_label": "package:casinoloyalty_flutter/models/user_model.dart"
     },
     {
@@ -8047,7 +8155,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "lib_core_services_connectivity_service_dart",
-      "community": 189,
+      "community": 90,
       "norm_label": "connectivity_service.dart"
     },
     {
@@ -8056,7 +8164,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_connectivitynotifier",
-      "community": 189,
+      "community": 90,
       "norm_label": "connectivitynotifier"
     },
     {
@@ -8065,7 +8173,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_updatestate",
-      "community": 189,
+      "community": 90,
       "norm_label": "_updatestate"
     },
     {
@@ -8074,7 +8182,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_dispose",
-      "community": 189,
+      "community": 90,
       "norm_label": "dispose"
     },
     {
@@ -8335,7 +8443,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "lib_core_utils_rate_limiter_dart",
-      "community": 90,
+      "community": 80,
       "norm_label": "rate_limiter.dart"
     },
     {
@@ -8344,7 +8452,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_ratelimiter",
-      "community": 90,
+      "community": 80,
       "norm_label": "ratelimiter"
     },
     {
@@ -8353,7 +8461,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_operation",
-      "community": 90,
+      "community": 80,
       "norm_label": "operation"
     },
     {
@@ -8362,7 +8470,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_canexecute",
-      "community": 90,
+      "community": 80,
       "norm_label": "canexecute"
     },
     {
@@ -8371,7 +8479,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_reset",
-      "community": 90,
+      "community": 80,
       "norm_label": "reset"
     },
     {
@@ -8380,7 +8488,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_clear",
-      "community": 90,
+      "community": 80,
       "norm_label": "clear"
     },
     {
@@ -8389,7 +8497,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "lib_core_utils_retry_helper_dart",
-      "community": 31,
+      "community": 22,
       "norm_label": "retry_helper.dart"
     },
     {
@@ -8398,7 +8506,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_retry_helper_dart_operation",
-      "community": 31,
+      "community": 22,
       "norm_label": "operation"
     },
     {
@@ -8407,7 +8515,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_retry_helper_dart_retryoperation",
-      "community": 31,
+      "community": 22,
       "norm_label": "retryoperation"
     },
     {
@@ -8443,7 +8551,7 @@
       "source_file": "lib/data/mock_feed_data.dart",
       "source_location": null,
       "id": "lib_data_mock_feed_data_dart",
-      "community": 110,
+      "community": 147,
       "norm_label": "mock_feed_data.dart"
     },
     {
@@ -8452,7 +8560,7 @@
       "source_file": "lib/services/feed_media_prefetch_service.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_feed_post_model_dart",
-      "community": 110,
+      "community": 147,
       "norm_label": "package:casinoloyalty_flutter/models/feed_post_model.dart"
     },
     {
@@ -8461,7 +8569,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "lib_data_repositories_admin_casino_repository_dart",
-      "community": 193,
+      "community": 274,
       "norm_label": "admin_casino_repository.dart"
     },
     {
@@ -8470,7 +8578,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_admin_casino_repository_dart_admincasinorepository",
-      "community": 193,
+      "community": 274,
       "norm_label": "admincasinorepository"
     },
     {
@@ -8479,7 +8587,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_admin_casino_repository_dart_seedinitialcasinos",
-      "community": 193,
+      "community": 274,
       "norm_label": "seedinitialcasinos"
     },
     {
@@ -8497,7 +8605,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_casino_model_dart",
-      "community": 193,
+      "community": 274,
       "norm_label": "package:casinoloyalty_flutter/models/casino_model.dart"
     },
     {
@@ -8542,7 +8650,7 @@
       "source_file": "lib/screens/feed/widgets/comment_item.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_comment_model_dart",
-      "community": 110,
+      "community": 147,
       "norm_label": "package:casinoloyalty_flutter/models/comment_model.dart"
     },
     {
@@ -8569,7 +8677,7 @@
       "source_file": "lib/data/repositories/feed_repository.dart",
       "source_location": null,
       "id": "lib_data_repositories_feed_repository_dart",
-      "community": 110,
+      "community": 147,
       "norm_label": "feed_repository.dart"
     },
     {
@@ -8578,7 +8686,7 @@
       "source_file": "lib/data/repositories/feed_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_feed_repository_dart_feedrepository",
-      "community": 110,
+      "community": 147,
       "norm_label": "feedrepository"
     },
     {
@@ -8812,7 +8920,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "lib_models_user_model_dart",
-      "community": 108,
+      "community": 86,
       "norm_label": "user_model.dart"
     },
     {
@@ -8821,7 +8929,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_user",
-      "community": 108,
+      "community": 86,
       "norm_label": "user"
     },
     {
@@ -8830,7 +8938,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_copywith",
-      "community": 108,
+      "community": 86,
       "norm_label": "copywith"
     },
     {
@@ -8839,7 +8947,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_parseuserlevel",
-      "community": 108,
+      "community": 86,
       "norm_label": "_parseuserlevel"
     },
     {
@@ -8848,7 +8956,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "lib_models_won_prize_model_dart",
-      "community": 109,
+      "community": 204,
       "norm_label": "won_prize_model.dart"
     },
     {
@@ -8857,7 +8965,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_won_prize_model_dart_wonprize",
-      "community": 109,
+      "community": 204,
       "norm_label": "wonprize"
     },
     {
@@ -8866,7 +8974,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_won_prize_model_dart_copywith",
-      "community": 109,
+      "community": 204,
       "norm_label": "copywith"
     },
     {
@@ -8875,7 +8983,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_prize_model_dart",
-      "community": 109,
+      "community": 204,
       "norm_label": "package:casinoloyalty_flutter/models/prize_model.dart"
     },
     {
@@ -8974,7 +9082,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_feed_feed_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/feed/feed_screen.dart"
     },
     {
@@ -9001,7 +9109,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_achievements_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/achievements_screen.dart"
     },
     {
@@ -9010,7 +9118,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_all_casinos_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/all_casinos_screen.dart"
     },
     {
@@ -9019,7 +9127,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_casino_detail_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/casino_detail_screen.dart"
     },
     {
@@ -9055,7 +9163,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_my_prizes_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/my_prizes_screen.dart"
     },
     {
@@ -9064,7 +9172,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_prize_detail_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/prize_detail_screen.dart"
     },
     {
@@ -9082,7 +9190,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_settings_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/settings_screen.dart"
     },
     {
@@ -9100,7 +9208,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_slot_machine_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/slot_machine_screen.dart"
     },
     {
@@ -9163,7 +9271,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_auth_login_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/auth/login_screen.dart"
     },
     {
@@ -9172,7 +9280,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_auth_biometric_lock_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/auth/biometric_lock_screen.dart"
     },
     {
@@ -9181,7 +9289,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_game_config_model_dart",
-      "community": 272,
+      "community": 21,
       "norm_label": "package:casinoloyalty_flutter/models/game_config_model.dart"
     },
     {
@@ -9199,7 +9307,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_providers_auth_provider_dart",
-      "community": 136,
+      "community": 44,
       "norm_label": "package:casinoloyalty_flutter/providers/auth_provider.dart"
     },
     {
@@ -9208,7 +9316,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "lib_navigation_coyhaique_router_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "coyhaique_router.dart"
     },
     {
@@ -9217,7 +9325,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_authrouternotifier",
-      "community": 22,
+      "community": 19,
       "norm_label": "authrouternotifier"
     },
     {
@@ -9226,7 +9334,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_gorouter",
-      "community": 22,
+      "community": 19,
       "norm_label": "gorouter"
     },
     {
@@ -9235,7 +9343,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_coyhaiqueshell",
-      "community": 22,
+      "community": 19,
       "norm_label": "coyhaiqueshell"
     },
     {
@@ -9244,7 +9352,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_casinodetailscreen",
-      "community": 22,
+      "community": 19,
       "norm_label": "casinodetailscreen"
     },
     {
@@ -9253,7 +9361,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_postdetailscreen",
-      "community": 22,
+      "community": 19,
       "norm_label": "postdetailscreen"
     },
     {
@@ -9262,7 +9370,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_notificationdetailscreen",
-      "community": 22,
+      "community": 19,
       "norm_label": "notificationdetailscreen"
     },
     {
@@ -9271,7 +9379,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_prizedetailscreen",
-      "community": 22,
+      "community": 19,
       "norm_label": "prizedetailscreen"
     },
     {
@@ -9280,7 +9388,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_navigation_coyhaique_router_dart_inappwebviewscreen",
-      "community": 22,
+      "community": 19,
       "norm_label": "inappwebviewscreen"
     },
     {
@@ -9298,7 +9406,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_notification_detail_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/notification_detail_screen.dart"
     },
     {
@@ -9307,7 +9415,7 @@
       "source_file": "lib/navigation/coyhaique_router.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_in_app_webview_screen_dart",
-      "community": 22,
+      "community": 19,
       "norm_label": "package:casinoloyalty_flutter/screens/in_app_webview_screen.dart"
     },
     {
@@ -9388,7 +9496,7 @@
       "source_file": "lib/widgets/dreams_mania/dreams_mania_dialog.dart",
       "source_location": null,
       "id": "package_firebase_auth_firebase_auth_dart",
-      "community": 125,
+      "community": 74,
       "norm_label": "package:firebase_auth/firebase_auth.dart"
     },
     {
@@ -9532,7 +9640,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "lib_providers_game_availability_provider_dart",
-      "community": 272,
+      "community": 21,
       "norm_label": "game_availability_provider.dart"
     },
     {
@@ -9541,7 +9649,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameavailability",
-      "community": 272,
+      "community": 21,
       "norm_label": "gameavailability"
     },
     {
@@ -9550,7 +9658,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameconfigrepository",
-      "community": 272,
+      "community": 21,
       "norm_label": "gameconfigrepository"
     },
     {
@@ -9559,7 +9667,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameconfig",
-      "community": 272,
+      "community": 21,
       "norm_label": "gameconfig"
     },
     {
@@ -9568,7 +9676,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_prizeservice",
-      "community": 272,
+      "community": 21,
       "norm_label": "prizeservice"
     },
     {
@@ -9577,7 +9685,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_duration",
-      "community": 272,
+      "community": 21,
       "norm_label": "duration"
     },
     {
@@ -9586,7 +9694,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_providers_game_history_provider_dart",
-      "community": 272,
+      "community": 21,
       "norm_label": "package:casinoloyalty_flutter/providers/game_history_provider.dart"
     },
     {
@@ -9622,7 +9730,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "lib_providers_gamification_provider_dart",
-      "community": 86,
+      "community": 52,
       "norm_label": "gamification_provider.dart"
     },
     {
@@ -9631,7 +9739,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_achievementsnotifier",
-      "community": 86,
+      "community": 52,
       "norm_label": "achievementsnotifier"
     },
     {
@@ -9640,7 +9748,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_dailymissionsnotifier",
-      "community": 86,
+      "community": 52,
       "norm_label": "dailymissionsnotifier"
     },
     {
@@ -9649,7 +9757,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_streaknotifier",
-      "community": 86,
+      "community": 52,
       "norm_label": "streaknotifier"
     },
     {
@@ -9658,7 +9766,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_listentouserupdates",
-      "community": 86,
+      "community": 52,
       "norm_label": "_listentouserupdates"
     },
     {
@@ -9667,7 +9775,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_updateprogress",
-      "community": 86,
+      "community": 52,
       "norm_label": "updateprogress"
     },
     {
@@ -9676,7 +9784,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_dailymission",
-      "community": 86,
+      "community": 52,
       "norm_label": "dailymission"
     },
     {
@@ -9685,7 +9793,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_syncwithfirebase",
-      "community": 86,
+      "community": 52,
       "norm_label": "_syncwithfirebase"
     },
     {
@@ -9694,7 +9802,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_calculatemultiplier",
-      "community": 86,
+      "community": 52,
       "norm_label": "_calculatemultiplier"
     },
     {
@@ -9703,7 +9811,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_gamification_provider_dart_getstreakreward",
-      "community": 86,
+      "community": 52,
       "norm_label": "getstreakreward"
     },
     {
@@ -9712,7 +9820,7 @@
       "source_file": "lib/widgets/global_confetti_widget.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_gamification_model_dart",
-      "community": 86,
+      "community": 52,
       "norm_label": "package:casinoloyalty_flutter/models/gamification_model.dart"
     },
     {
@@ -9721,7 +9829,7 @@
       "source_file": "lib/providers/gamification_provider.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_gamification_service_dart",
-      "community": 86,
+      "community": 52,
       "norm_label": "package:casinoloyalty_flutter/services/gamification_service.dart"
     },
     {
@@ -9793,7 +9901,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "lib_providers_match_game_provider_dart",
-      "community": 55,
+      "community": 44,
       "norm_label": "match_game_provider.dart"
     },
     {
@@ -9802,7 +9910,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchgamestate",
-      "community": 55,
+      "community": 44,
       "norm_label": "matchgamestate"
     },
     {
@@ -9811,7 +9919,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchresult",
-      "community": 55,
+      "community": 44,
       "norm_label": "matchresult"
     },
     {
@@ -9820,7 +9928,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchgamenotifier",
-      "community": 55,
+      "community": 44,
       "norm_label": "matchgamenotifier"
     },
     {
@@ -9829,7 +9937,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_copywith",
-      "community": 55,
+      "community": 44,
       "norm_label": "copywith"
     },
     {
@@ -9838,7 +9946,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_generategrid",
-      "community": 55,
+      "community": 44,
       "norm_label": "_generategrid"
     },
     {
@@ -9847,7 +9955,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_randomgem",
-      "community": 55,
+      "community": 44,
       "norm_label": "_randomgem"
     },
     {
@@ -9856,7 +9964,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_hasmatchat",
-      "community": 55,
+      "community": 44,
       "norm_label": "_hasmatchat"
     },
     {
@@ -9865,7 +9973,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_processmatches",
-      "community": 55,
+      "community": 44,
       "norm_label": "_processmatches"
     },
     {
@@ -9874,7 +9982,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_completelevel",
-      "community": 55,
+      "community": 44,
       "norm_label": "_completelevel"
     },
     {
@@ -9883,7 +9991,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_applygravity",
-      "community": 55,
+      "community": 44,
       "norm_label": "_applygravity"
     },
     {
@@ -9892,7 +10000,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_fillemptyspaces",
-      "community": 55,
+      "community": 44,
       "norm_label": "_fillemptyspaces"
     },
     {
@@ -9901,7 +10009,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_startnextlevel",
-      "community": 55,
+      "community": 44,
       "norm_label": "startnextlevel"
     },
     {
@@ -9910,7 +10018,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_restartlevel",
-      "community": 55,
+      "community": 44,
       "norm_label": "restartlevel"
     },
     {
@@ -9928,7 +10036,7 @@
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_match_game_service_dart",
-      "community": 55,
+      "community": 44,
       "norm_label": "package:casinoloyalty_flutter/services/match_game_service.dart"
     },
     {
@@ -9937,7 +10045,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "lib_providers_notification_provider_dart",
-      "community": 94,
+      "community": 51,
       "norm_label": "notification_provider.dart"
     },
     {
@@ -9946,7 +10054,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_notificationnotifier",
-      "community": 94,
+      "community": 51,
       "norm_label": "notificationnotifier"
     },
     {
@@ -9955,7 +10063,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_loadinitialnotifications",
-      "community": 94,
+      "community": 51,
       "norm_label": "_loadinitialnotifications"
     },
     {
@@ -9964,7 +10072,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_markasread",
-      "community": 94,
+      "community": 51,
       "norm_label": "markasread"
     },
     {
@@ -9973,7 +10081,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_addnotification",
-      "community": 94,
+      "community": 51,
       "norm_label": "addnotification"
     },
     {
@@ -9982,7 +10090,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_isnotificationremoved",
-      "community": 94,
+      "community": 51,
       "norm_label": "isnotificationremoved"
     },
     {
@@ -9991,7 +10099,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_addproximitynotification",
-      "community": 94,
+      "community": 51,
       "norm_label": "addproximitynotification"
     },
     {
@@ -10000,7 +10108,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_addachievementnotification",
-      "community": 94,
+      "community": 51,
       "norm_label": "addachievementnotification"
     },
     {
@@ -10009,7 +10117,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_listentofirestorenotifications",
-      "community": 94,
+      "community": 51,
       "norm_label": "_listentofirestorenotifications"
     },
     {
@@ -10018,7 +10126,7 @@
       "source_file": "lib/providers/notification_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_notification_provider_dart_dispose",
-      "community": 94,
+      "community": 51,
       "norm_label": "dispose"
     },
     {
@@ -10027,7 +10135,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_notification_model_dart",
-      "community": 94,
+      "community": 51,
       "norm_label": "package:casinoloyalty_flutter/models/notification_model.dart"
     },
     {
@@ -10796,6 +10904,15 @@
       "norm_label": "initstate"
     },
     {
+      "label": "StatefulBuilder",
+      "file_type": "code",
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_statefulbuilder",
+      "community": 40,
+      "norm_label": "statefulbuilder"
+    },
+    {
       "label": "AlertDialog",
       "file_type": "code",
       "source_file": "lib/screens/home_screen.dart",
@@ -10803,6 +10920,24 @@
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_alertdialog",
       "community": 40,
       "norm_label": "alertdialog"
+    },
+    {
+      "label": "Text",
+      "file_type": "code",
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_text",
+      "community": 40,
+      "norm_label": "text"
+    },
+    {
+      "label": "SizedBox",
+      "file_type": "code",
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_sizedbox",
+      "community": 40,
+      "norm_label": "sizedbox"
     },
     {
       "label": "build",
@@ -10830,24 +10965,6 @@
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_container",
       "community": 40,
       "norm_label": "container"
-    },
-    {
-      "label": "Text",
-      "file_type": "code",
-      "source_file": "lib/screens/home_screen.dart",
-      "source_location": null,
-      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_text",
-      "community": 40,
-      "norm_label": "text"
-    },
-    {
-      "label": "SizedBox",
-      "file_type": "code",
-      "source_file": "lib/screens/home_screen.dart",
-      "source_location": null,
-      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_sizedbox",
-      "community": 40,
-      "norm_label": "sizedbox"
     },
     {
       "label": "GestureDetector",
@@ -10911,6 +11028,24 @@
       "id": "package_casinoloyalty_flutter_widgets_dreams_mania_dreams_mania_dialog_dart",
       "community": 40,
       "norm_label": "package:casinoloyalty_flutter/widgets/dreams_mania/dreams_mania_dialog.dart"
+    },
+    {
+      "label": "package:ota_update/ota_update.dart",
+      "file_type": "code",
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "id": "package_ota_update_ota_update_dart",
+      "community": 22,
+      "norm_label": "package:ota_update/ota_update.dart"
+    },
+    {
+      "label": "package:casinoloyalty_flutter/services/app_update_service.dart",
+      "file_type": "code",
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "id": "package_casinoloyalty_flutter_services_app_update_service_dart",
+      "community": 40,
+      "norm_label": "package:casinoloyalty_flutter/services/app_update_service.dart"
     },
     {
       "label": "in_app_webview_screen.dart",
@@ -11305,7 +11440,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_providers_notification_provider_dart",
-      "community": 137,
+      "community": 51,
       "norm_label": "package:casinoloyalty_flutter/providers/notification_provider.dart"
     },
     {
@@ -13159,7 +13294,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "lib_screens_auth_biometric_lock_screen_dart",
-      "community": 135,
+      "community": 44,
       "norm_label": "biometric_lock_screen.dart"
     },
     {
@@ -13168,7 +13303,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_biometriclockscreen",
-      "community": 135,
+      "community": 44,
       "norm_label": "biometriclockscreen"
     },
     {
@@ -13177,7 +13312,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_biometriclockscreenstate",
-      "community": 135,
+      "community": 44,
       "norm_label": "_biometriclockscreenstate"
     },
     {
@@ -13186,7 +13321,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_initstate",
-      "community": 135,
+      "community": 44,
       "norm_label": "initstate"
     },
     {
@@ -13195,7 +13330,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_dispose",
-      "community": 135,
+      "community": 44,
       "norm_label": "dispose"
     },
     {
@@ -13204,7 +13339,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_build",
-      "community": 135,
+      "community": 44,
       "norm_label": "build"
     },
     {
@@ -13213,7 +13348,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_scaffold",
-      "community": 135,
+      "community": 44,
       "norm_label": "scaffold"
     },
     {
@@ -13222,7 +13357,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_sizedbox",
-      "community": 135,
+      "community": 44,
       "norm_label": "sizedbox"
     },
     {
@@ -13600,7 +13735,7 @@
       "source_file": "lib/screens/feed/post_detail_screen.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_feed_widgets_feed_item_widget_dart",
-      "community": 46,
+      "community": 65,
       "norm_label": "package:casinoloyalty_flutter/screens/feed/widgets/feed_item_widget.dart"
     },
     {
@@ -13933,7 +14068,7 @@
       "source_file": "lib/services/firebase_service.dart",
       "source_location": null,
       "id": "package_firebase_storage_firebase_storage_dart",
-      "community": 47,
+      "community": 98,
       "norm_label": "package:firebase_storage/firebase_storage.dart"
     },
     {
@@ -14446,7 +14581,7 @@
       "source_file": "lib/widgets/scaffold_with_nav_bar.dart",
       "source_location": null,
       "id": "dart_ui",
-      "community": 163,
+      "community": 123,
       "norm_label": "dart:ui"
     },
     {
@@ -14900,12 +15035,39 @@
       "norm_label": "sizedbox"
     },
     {
+      "label": "app_update_service.dart",
+      "file_type": "code",
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "id": "lib_services_app_update_service_dart",
+      "community": 22,
+      "norm_label": "app_update_service.dart"
+    },
+    {
+      "label": "AppUpdateService",
+      "file_type": "code",
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_services_app_update_service_dart_appupdateservice",
+      "community": 22,
+      "norm_label": "appupdateservice"
+    },
+    {
+      "label": "OtaUpdate",
+      "file_type": "code",
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_services_app_update_service_dart_otaupdate",
+      "community": 22,
+      "norm_label": "otaupdate"
+    },
+    {
       "label": "background_service_impl.dart",
       "file_type": "code",
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "lib_services_background_service_impl_dart",
-      "community": 31,
+      "community": 94,
       "norm_label": "background_service_impl.dart"
     },
     {
@@ -14914,7 +15076,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_background_service_impl_dart_backgroundserviceimpl",
-      "community": 31,
+      "community": 94,
       "norm_label": "backgroundserviceimpl"
     },
     {
@@ -14923,7 +15085,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_background_service_impl_dart_backgroundserviceonstart",
-      "community": 31,
+      "community": 94,
       "norm_label": "backgroundserviceonstart"
     },
     {
@@ -14932,7 +15094,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "package_flutter_background_service_flutter_background_service_dart",
-      "community": 31,
+      "community": 94,
       "norm_label": "package:flutter_background_service/flutter_background_service.dart"
     },
     {
@@ -14977,7 +15139,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "lib_services_coyhaique_location_service_dart",
-      "community": 84,
+      "community": 22,
       "norm_label": "coyhaique_location_service.dart"
     },
     {
@@ -14986,7 +15148,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_coyhaique_location_service_dart_locationcheckresult",
-      "community": 84,
+      "community": 22,
       "norm_label": "locationcheckresult"
     },
     {
@@ -14995,7 +15157,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_coyhaique_location_service_dart_coyhaiquelocationservice",
-      "community": 84,
+      "community": 22,
       "norm_label": "coyhaiquelocationservice"
     },
     {
@@ -15004,7 +15166,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "package_geolocator_geolocator_dart",
-      "community": 84,
+      "community": 22,
       "norm_label": "package:geolocator/geolocator.dart"
     },
     {
@@ -15013,7 +15175,7 @@
       "source_file": "lib/services/daily_game_service.dart",
       "source_location": null,
       "id": "lib_services_daily_game_service_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "daily_game_service.dart"
     },
     {
@@ -15022,7 +15184,7 @@
       "source_file": "lib/services/daily_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_daily_game_service_dart_dailygameservice",
-      "community": 97,
+      "community": 47,
       "norm_label": "dailygameservice"
     },
     {
@@ -15175,7 +15337,7 @@
       "source_file": "lib/services/firebase_service.dart",
       "source_location": null,
       "id": "lib_services_firebase_service_dart",
-      "community": 47,
+      "community": 98,
       "norm_label": "firebase_service.dart"
     },
     {
@@ -15184,7 +15346,7 @@
       "source_file": "lib/services/firebase_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_firebase_service_dart_firebaseservice",
-      "community": 47,
+      "community": 98,
       "norm_label": "firebaseservice"
     },
     {
@@ -15193,7 +15355,7 @@
       "source_file": "lib/services/firebase_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_firebase_service_dart_exception",
-      "community": 47,
+      "community": 98,
       "norm_label": "exception"
     },
     {
@@ -15202,7 +15364,7 @@
       "source_file": "lib/services/firebase_service.dart",
       "source_location": null,
       "id": "firebase_options_dart",
-      "community": 47,
+      "community": 98,
       "norm_label": "../firebase_options.dart"
     },
     {
@@ -15427,7 +15589,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "lib_services_match_game_service_dart",
-      "community": 98,
+      "community": 47,
       "norm_label": "match_game_service.dart"
     },
     {
@@ -15436,7 +15598,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_matchgameservice",
-      "community": 98,
+      "community": 47,
       "norm_label": "matchgameservice"
     },
     {
@@ -15445,7 +15607,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_levelconfig",
-      "community": 98,
+      "community": 47,
       "norm_label": "levelconfig"
     },
     {
@@ -15454,7 +15616,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_clearpendingpoints",
-      "community": 98,
+      "community": 47,
       "norm_label": "clearpendingpoints"
     },
     {
@@ -15463,7 +15625,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_getlevelconfig",
-      "community": 98,
+      "community": 47,
       "norm_label": "getlevelconfig"
     },
     {
@@ -15472,7 +15634,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "lib_services_messaging_service_dart",
-      "community": 125,
+      "community": 74,
       "norm_label": "messaging_service.dart"
     },
     {
@@ -15481,7 +15643,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_messaging_service_dart_messagingservice",
-      "community": 125,
+      "community": 74,
       "norm_label": "messagingservice"
     },
     {
@@ -15490,7 +15652,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "package_firebase_messaging_firebase_messaging_dart",
-      "community": 125,
+      "community": 74,
       "norm_label": "package:firebase_messaging/firebase_messaging.dart"
     },
     {
@@ -15553,7 +15715,7 @@
       "source_file": "lib/services/onboarding_service.dart",
       "source_location": null,
       "id": "lib_services_onboarding_service_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "onboarding_service.dart"
     },
     {
@@ -15562,7 +15724,7 @@
       "source_file": "lib/services/onboarding_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_onboarding_service_dart_onboardingservice",
-      "community": 97,
+      "community": 47,
       "norm_label": "onboardingservice"
     },
     {
@@ -15724,7 +15886,7 @@
       "source_file": "lib/services/user_profile_service.dart",
       "source_location": null,
       "id": "lib_services_user_profile_service_dart",
-      "community": 62,
+      "community": 185,
       "norm_label": "user_profile_service.dart"
     },
     {
@@ -15733,7 +15895,7 @@
       "source_file": "lib/services/user_profile_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_user_profile_service_dart_userprofileservice",
-      "community": 62,
+      "community": 185,
       "norm_label": "userprofileservice"
     },
     {
@@ -15958,7 +16120,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "lib_utils_share_helper_dart",
-      "community": 124,
+      "community": 135,
       "norm_label": "share_helper.dart"
     },
     {
@@ -15967,7 +16129,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_utils_share_helper_dart_sharehelper",
-      "community": 124,
+      "community": 135,
       "norm_label": "sharehelper"
     },
     {
@@ -15976,7 +16138,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_utils_share_helper_dart_launchurl",
-      "community": 124,
+      "community": 135,
       "norm_label": "launchurl"
     },
     {
@@ -16030,7 +16192,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "lib_widgets_achievement_notification_dart",
-      "community": 69,
+      "community": 52,
       "norm_label": "achievement_notification.dart"
     },
     {
@@ -16039,7 +16201,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_achievementnotification",
-      "community": 69,
+      "community": 52,
       "norm_label": "achievementnotification"
     },
     {
@@ -16048,7 +16210,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_achievementnotificationwidget",
-      "community": 69,
+      "community": 52,
       "norm_label": "_achievementnotificationwidget"
     },
     {
@@ -16057,7 +16219,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_achievementnotificationwidgetstate",
-      "community": 69,
+      "community": 52,
       "norm_label": "_achievementnotificationwidgetstate"
     },
     {
@@ -16066,7 +16228,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_show",
-      "community": 69,
+      "community": 52,
       "norm_label": "show"
     },
     {
@@ -16075,7 +16237,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_initstate",
-      "community": 69,
+      "community": 52,
       "norm_label": "initstate"
     },
     {
@@ -16084,7 +16246,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_dispose",
-      "community": 69,
+      "community": 52,
       "norm_label": "dispose"
     },
     {
@@ -16093,7 +16255,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_dismiss",
-      "community": 69,
+      "community": 52,
       "norm_label": "_dismiss"
     },
     {
@@ -16102,7 +16264,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_build",
-      "community": 69,
+      "community": 52,
       "norm_label": "build"
     },
     {
@@ -16111,7 +16273,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_positioned",
-      "community": 69,
+      "community": 52,
       "norm_label": "positioned"
     },
     {
@@ -16120,7 +16282,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_sizedbox",
-      "community": 69,
+      "community": 52,
       "norm_label": "sizedbox"
     },
     {
@@ -16129,7 +16291,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_text",
-      "community": 69,
+      "community": 52,
       "norm_label": "text"
     },
     {
@@ -16138,7 +16300,7 @@
       "source_file": "lib/widgets/achievement_notification.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_achievement_notification_dart_icon",
-      "community": 69,
+      "community": 52,
       "norm_label": "icon"
     },
     {
@@ -16147,7 +16309,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "lib_widgets_animated_bell_dart",
-      "community": 137,
+      "community": 51,
       "norm_label": "animated_bell.dart"
     },
     {
@@ -16156,7 +16318,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_animatedbell",
-      "community": 137,
+      "community": 51,
       "norm_label": "animatedbell"
     },
     {
@@ -16165,7 +16327,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_animatedbellstate",
-      "community": 137,
+      "community": 51,
       "norm_label": "_animatedbellstate"
     },
     {
@@ -16174,7 +16336,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_initstate",
-      "community": 137,
+      "community": 51,
       "norm_label": "initstate"
     },
     {
@@ -16183,7 +16345,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_dispose",
-      "community": 137,
+      "community": 51,
       "norm_label": "dispose"
     },
     {
@@ -16192,7 +16354,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_build",
-      "community": 137,
+      "community": 51,
       "norm_label": "build"
     },
     {
@@ -16201,7 +16363,7 @@
       "source_file": "lib/widgets/animated_bell.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_animated_bell_dart_animatedbuilder",
-      "community": 137,
+      "community": 51,
       "norm_label": "animatedbuilder"
     },
     {
@@ -16849,7 +17011,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "lib_widgets_glass_container_dart",
-      "community": 163,
+      "community": 123,
       "norm_label": "glass_container.dart"
     },
     {
@@ -16858,7 +17020,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_glasscontainer",
-      "community": 163,
+      "community": 123,
       "norm_label": "glasscontainer"
     },
     {
@@ -16867,7 +17029,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_build",
-      "community": 163,
+      "community": 123,
       "norm_label": "build"
     },
     {
@@ -16876,7 +17038,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_container",
-      "community": 163,
+      "community": 123,
       "norm_label": "container"
     },
     {
@@ -16966,7 +17128,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "lib_widgets_guest_access_widget_dart",
-      "community": 136,
+      "community": 44,
       "norm_label": "guest_access_widget.dart"
     },
     {
@@ -16975,7 +17137,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_guestaccesswidget",
-      "community": 136,
+      "community": 44,
       "norm_label": "guestaccesswidget"
     },
     {
@@ -16984,7 +17146,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_membershipguard",
-      "community": 136,
+      "community": 44,
       "norm_label": "membershipguard"
     },
     {
@@ -16993,7 +17155,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_build",
-      "community": 136,
+      "community": 44,
       "norm_label": "build"
     },
     {
@@ -17002,7 +17164,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_container",
-      "community": 136,
+      "community": 44,
       "norm_label": "container"
     },
     {
@@ -17011,7 +17173,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_sizedbox",
-      "community": 136,
+      "community": 44,
       "norm_label": "sizedbox"
     },
     {
@@ -17020,7 +17182,7 @@
       "source_file": "lib/widgets/guest_access_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_guest_access_widget_dart_icon",
-      "community": 136,
+      "community": 44,
       "norm_label": "icon"
     },
     {
@@ -17200,7 +17362,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "lib_widgets_notifications_modal_dart",
-      "community": 80,
+      "community": 51,
       "norm_label": "notifications_modal.dart"
     },
     {
@@ -17209,7 +17371,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_notificationsmodal",
-      "community": 80,
+      "community": 51,
       "norm_label": "notificationsmodal"
     },
     {
@@ -17218,7 +17380,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_notificationitem",
-      "community": 80,
+      "community": 51,
       "norm_label": "_notificationitem"
     },
     {
@@ -17227,7 +17389,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_build",
-      "community": 80,
+      "community": 51,
       "norm_label": "build"
     },
     {
@@ -17236,7 +17398,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_container",
-      "community": 80,
+      "community": 51,
       "norm_label": "container"
     },
     {
@@ -17245,7 +17407,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_text",
-      "community": 80,
+      "community": 51,
       "norm_label": "text"
     },
     {
@@ -17254,7 +17416,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_material",
-      "community": 80,
+      "community": 51,
       "norm_label": "material"
     },
     {
@@ -17263,7 +17425,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_sizedbox",
-      "community": 80,
+      "community": 51,
       "norm_label": "sizedbox"
     },
     {
@@ -17272,7 +17434,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_handletap",
-      "community": 80,
+      "community": 51,
       "norm_label": "_handletap"
     },
     {
@@ -17281,7 +17443,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_buildicon",
-      "community": 80,
+      "community": 51,
       "norm_label": "_buildicon"
     },
     {
@@ -17290,7 +17452,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_formattime",
-      "community": 80,
+      "community": 51,
       "norm_label": "_formattime"
     },
     {
@@ -17299,7 +17461,7 @@
       "source_file": "lib/widgets/notifications_modal.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_notifications_modal_dart_dateformat",
-      "community": 80,
+      "community": 51,
       "norm_label": "dateformat"
     },
     {
@@ -18154,7 +18316,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "lib_widgets_dreams_mania_victory_card_dialog_dart",
-      "community": 186,
+      "community": 108,
       "norm_label": "victory_card_dialog.dart"
     },
     {
@@ -18163,7 +18325,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_victorycarddialog",
-      "community": 186,
+      "community": 108,
       "norm_label": "victorycarddialog"
     },
     {
@@ -18172,7 +18334,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_build",
-      "community": 186,
+      "community": 108,
       "norm_label": "build"
     },
     {
@@ -18181,7 +18343,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_dialog",
-      "community": 186,
+      "community": 108,
       "norm_label": "dialog"
     },
     {
@@ -18190,7 +18352,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_sizedbox",
-      "community": 186,
+      "community": 108,
       "norm_label": "sizedbox"
     },
     {
@@ -25255,6 +25417,76 @@
       "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_e5a6d17b431516515557c99fe0a0af5a_native_assets_json",
       "target": "e5a6d17b431516515557c99fe0a0af5a_native_assets_native_assets"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_end",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_code_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_data_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_native_assets_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_format_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_native_assets_json",
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_native_assets",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -33268,6 +33500,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
+      "target": "package_flutter_foundation_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "weight": 1.0,
@@ -33692,6 +33934,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_auth_biometric_lock_screen_dart",
+      "target": "dart_async"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
       "target": "dart_async"
     },
     {
@@ -35408,10 +35660,30 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/screens/feed/widgets/comments_modal.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_feed_widgets_comments_modal_dart",
+      "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/screens/feed/widgets/feed_item_widget.dart",
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_feed_widgets_feed_item_widget_dart",
+      "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
       "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
     },
     {
@@ -35432,16 +35704,6 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_services_messaging_service_dart",
-      "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/screens/feed/widgets/comments_modal.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "lib_screens_feed_widgets_comments_modal_dart",
       "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
     },
     {
@@ -40322,7 +40584,37 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_home_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_statefulbuilder"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_home_screen_dart",
       "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_alertdialog"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_home_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_text"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_home_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_sizedbox"
     },
     {
       "relation": "defines",
@@ -40353,26 +40645,6 @@
       "weight": 1.0,
       "source": "lib_screens_home_screen_dart",
       "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_container"
-    },
-    {
-      "relation": "defines",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/screens/home_screen.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "lib_screens_home_screen_dart",
-      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_text"
-    },
-    {
-      "relation": "defines",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "lib/screens/home_screen.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "lib_screens_home_screen_dart",
-      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_home_screen_dart_sizedbox"
     },
     {
       "relation": "defines",
@@ -40443,6 +40715,26 @@
       "weight": 1.0,
       "source": "lib_screens_home_screen_dart",
       "target": "package_casinoloyalty_flutter_widgets_dreams_mania_dreams_mania_dialog_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_home_screen_dart",
+      "target": "package_ota_update_ota_update_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/home_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_home_screen_dart",
+      "target": "package_casinoloyalty_flutter_services_app_update_service_dart"
     },
     {
       "relation": "imports",
@@ -40583,6 +40875,16 @@
       "weight": 1.0,
       "source": "lib_widgets_dreams_mania_dreams_mania_dialog_dart",
       "target": "package_casinoloyalty_flutter_services_dreams_mania_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
+      "target": "package_ota_update_ota_update_dart"
     },
     {
       "relation": "defines",
@@ -45083,6 +45385,26 @@
       "weight": 1.0,
       "source": "lib_screens_widgets_casino_card_dart",
       "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_widgets_casino_card_dart_sizedbox"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_services_app_update_service_dart_appupdateservice"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/services/app_update_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_services_app_update_service_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_services_app_update_service_dart_otaupdate"
     },
     {
       "relation": "defines",
@@ -54110,5 +54432,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a7b8ade0bf892178100032d685fb0bdc3a758fa2"
+  "built_at_commit": "6fcf1abeea916d0a688c2ff04160ccf40077388a"
 }

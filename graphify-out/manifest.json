@@ -50,13 +50,13 @@
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\package_config.json": {
-    "mtime": 1788028961.255,
-    "ast_hash": "9c696f32e57838b4c7ada942a81f96ea",
+    "mtime": 1788030483.278,
+    "ast_hash": "eeaf47d2775bde48da665ce6b9cb72f5",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\package_graph.json": {
-    "mtime": 1788028940.1462588,
-    "ast_hash": "adccec35ba5701fd2dc304d57200e4f3",
+    "mtime": 1788030480.0803492,
+    "ast_hash": "7110586735a8dc238afb02e934994cfc",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\dartpad\\web_plugin_registrant.dart": {
@@ -174,6 +174,31 @@
     "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
     "semantic_hash": ""
   },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\ed92e6bbe0cb414fe57aed27b4430c94\\build_hooks_result.json": {
+    "mtime": 1788029604.4918644,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\ed92e6bbe0cb414fe57aed27b4430c94\\link_hooks_result.json": {
+    "mtime": 1788029651.281356,
+    "ast_hash": "3df8f2e67d9e7440210fae6c65b8acb9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\ed92e6bbe0cb414fe57aed27b4430c94\\native_assets.json": {
+    "mtime": 1788029652.380584,
+    "ast_hash": "f3a664e105b4f792c6c7fe4e4d22c398",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\ed92e6bbe0cb414fe57aed27b4430c94\\outputs.json": {
+    "mtime": 1788029698.404893,
+    "ast_hash": "0c94307b14140822905564200cf4407e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\ed92e6bbe0cb414fe57aed27b4430c94\\recorded_uses.json": {
+    "mtime": 1788029645.6427522,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
   "E:\\DreamsClub-master\\DreamsClub-master\\.devcontainer\\devcontainer.json": {
     "mtime": 1786569923.3221364,
     "ast_hash": "8c1042b392c31a8042d2afff40427bc9",
@@ -240,8 +265,8 @@
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\java\\io\\flutter\\plugins\\GeneratedPluginRegistrant.java": {
-    "mtime": 1787601974.4629352,
-    "ast_hash": "597419148d40936b8bf5a22d4277d32b",
+    "mtime": 1788030482.8382661,
+    "ast_hash": "f23ddb1e6dd24f6f0f67309d78ffcdf8",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\kotlin\\com\\example\\casinoloyalty_flutter\\MainActivity.kt": {
@@ -355,12 +380,12 @@
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\content.d.ts": {
-    "mtime": 1787623183.762206,
+    "mtime": 1788029347.6927147,
     "ast_hash": "c433e09761f4f6c6bbfc762715c0f373",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\types.d.ts": {
-    "mtime": 1787623183.7632017,
+    "mtime": 1788029347.693457,
     "ast_hash": "f3d48b2aa569815a445d3509aa161559",
     "semantic_hash": ""
   },
@@ -1000,8 +1025,8 @@
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\home_screen.dart": {
-    "mtime": 1787623411.05379,
-    "ast_hash": "7af7304f899ebee0a69c880a84a95f73",
+    "mtime": 1788030683.7582982,
+    "ast_hash": "650caa0f55d56dbef616d7e5d849035e",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\in_app_webview_screen.dart": {
@@ -1137,6 +1162,11 @@
   "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\widgets\\casino_card.dart": {
     "mtime": 1786569929.6929352,
     "ast_hash": "6470eb6c97ee9404e300819f2b2c2ae0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\app_update_service.dart": {
+    "mtime": 1788030487.9166293,
+    "ast_hash": "315276bc8c76435f19ed58315df9faeb",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\background_service_impl.dart": {
@@ -1525,8 +1555,8 @@
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\pubspec.yaml": {
-    "mtime": 1788028949.4663355,
-    "ast_hash": "df46d76650c771014fb076aae1b0dac2",
+    "mtime": 1788030472.7613566,
+    "ast_hash": "9f624be61f48a5db8c5961416874276f",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\README.md": {
@@ -1537,6 +1567,11 @@
   "E:\\DreamsClub-master\\DreamsClub-master\\READMEori.md": {
     "mtime": 1787771474.371043,
     "ast_hash": "a0c71626ced977f94ff84f2c6ec9d32c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\shorebird.yaml": {
+    "mtime": 1788030518.2491384,
+    "ast_hash": "480cc69dc24eca7d8469c940f4727920",
     "semantic_hash": ""
   },
   "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\concordancia_eficiencia.md": {

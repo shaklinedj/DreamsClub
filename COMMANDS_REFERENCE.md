@@ -66,23 +66,9 @@ flutter build appbundle --release
 # Build iOS (requiere Mac)
 flutter build ios --release
 
-# Build con variables de entorno
+# Build con variables de entorno (ejemplo general)
 flutter build apk --release \
-  --dart-define=SUPABASE_URL=https://tu-proyecto.supabase.co \
-  --dart-define=SUPABASE_ANON_KEY=tu-anon-key
-```
-
-### Supabase en Flutter
-
-```bash
-# Instalar Supabase
-flutter pub add supabase_flutter
-
-# Actualizar dependencia
-flutter pub upgrade supabase_flutter
-
-# Ver versión instalada
-flutter pub deps | grep supabase
+  --dart-define=API_URL=https://tu-servidor-api.com
 ```
 
 ## 🌐 Next.js Admin Panel
@@ -147,70 +133,10 @@ cp .env.local.example .env.local
 notepad .env.local
 
 # Variables requeridas:
-# NEXT_PUBLIC_SUPABASE_URL=...
-# NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-# SUPABASE_SERVICE_ROLE_KEY=...
+# NEXT_PUBLIC_API_URL=...
 ```
 
-## 🗄️ Supabase
 
-### SQL
-
-```sql
--- Ejecutar schema completo
--- (Copiar contenido de supabase/schema.sql al SQL Editor)
-
--- Ver todas las tablas
-SELECT table_name 
-FROM information_schema.tables 
-WHERE table_schema = 'public';
-
--- Contar registros en una tabla
-SELECT COUNT(*) FROM events;
-
--- Ver políticas RLS
-SELECT * FROM pg_policies WHERE tablename = 'users';
-
--- Habilitar RLS en una tabla
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-
--- Crear política básica
-CREATE POLICY "Anyone can view" 
-ON public.events 
-FOR SELECT 
-USING (true);
-```
-
-### CLI de Supabase
-
-```bash
-# Instalar Supabase CLI
-npm install -g supabase
-
-# Login
-supabase login
-
-# Inicializar proyecto local
-supabase init
-
-# Iniciar Supabase local
-supabase start
-
-# Detener Supabase local
-supabase stop
-
-# Ver status
-supabase status
-
-# Crear migración
-supabase migration new nombre_migracion
-
-# Aplicar migraciones
-supabase db push
-
-# Deploy función edge
-supabase functions deploy nombre-funcion
-```
 
 ## 🔧 Git
 
@@ -416,7 +342,7 @@ vercel --prod
 # .env.local
 # android/key.properties
 # *.jks
-# lib/config/supabase_config.dart (si tiene credenciales)
+# Archivos de configuración locales que contengan credenciales
 
 # Verificar qué se va a commitear
 git status
@@ -431,13 +357,10 @@ echo ".env.local" >> .gitignore
 
 ## 📊 Monitoreo
 
-### Supabase
+### Base de Datos (Ejemplo general)
 
-```bash
-# Ver logs en tiempo real (Dashboard)
-# Supabase Dashboard -> Logs
-
-# Ejecutar query para estadísticas
+```sql
+-- Ejecutar query para estadísticas de usuarios
 SELECT 
   COUNT(*) as total_users,
   COUNT(CASE WHEN level = 'gold' THEN 1 END) as gold_users,
@@ -477,9 +400,8 @@ rm -rf .next node_modules
 npm install
 npm run build
 
-# Error: Supabase connection
-# Verificar credenciales en .env.local
-# Verificar que Supabase está online
+# Error: API Connection
+# Verificar endpoint y conectividad de red
 ```
 
 ---
@@ -488,7 +410,8 @@ npm run build
 
 - [Flutter Docs](https://docs.flutter.dev/)
 - [Next.js Docs](https://nextjs.org/docs)
-- [Supabase Docs](https://supabase.com/docs)
+- [Strapi Docs](https://docs.strapi.io/)
+- [Appwrite Docs](https://appwrite.io/docs)
 - [Git Cheatsheet](https://education.github.com/git-cheat-sheet-education.pdf)
 
 ---

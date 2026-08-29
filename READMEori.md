@@ -1,6 +1,6 @@
 # Dreams Casino - App de Fidelización
 
-Sistema de fidelización para los casinos Dreams, construido con Flutter para la aplicación móvil y Supabase como backend.
+Sistema de fidelización para los casinos Dreams, construido con Flutter para la aplicación móvil y Firebase como backend.
 
 ## 🎰 Descripción
 
@@ -18,11 +18,10 @@ Esta aplicación permite a los clientes de los casinos Dreams:
 - **GoRouter**: Para la navegación.
 
 ### Backend
-- **Supabase**: Plataforma de backend como servicio (BaaS) que proporciona:
-    - **PostgreSQL Database**: Para almacenar todos los datos.
-    - **Authentication**: Gestión de usuarios y seguridad a nivel de fila (RLS).
-    - **Storage**: Para almacenar archivos como imágenes de promociones y casinos.
-    - **APIs automáticas**: APIs RESTful generadas automáticamente.
+- **Firebase**: Plataforma de backend como servicio (BaaS) que proporciona:
+    - **Cloud Firestore**: Base de datos NoSQL para almacenar datos.
+    - **Authentication**: Gestión de usuarios.
+    - **Firebase Storage**: Almacenamiento de archivos e imágenes.
 
 ## 📂 Estructura del Proyecto
 
@@ -38,24 +37,16 @@ fidelizacion/
 │   ├── pubspec.yaml       # Dependencias y configuración del proyecto
 │   └── ...
 │
-├── admin_panel/           # Panel de administración (React)
-│
-├── TUTORIAL_SUPABASE.md   # Guía paso a paso para configurar Supabase
+├── admin_panel/           # Panel de administración
 │
 └── README.md              # Este archivo
 ```
 
 ## 🚀 Instalación y Configuración
 
-### 1. Backend (Supabase)
+### 1. Backend (Firebase)
 
-Antes de ejecutar la aplicación, necesitas configurar tu backend en Supabase.
-
-1.  **Crea un proyecto** en [supabase.com](https://supabase.com/).
-2.  Sigue las instrucciones detalladas en el archivo **[TUTORIAL_SUPABASE.md](TUTORIAL_SUPABASE.md)** para:
-    *   Crear las tablas necesarias (`casinos`, `events`, etc.).
-    *   Configurar las políticas de seguridad (Row Level Security).
-    *   Obtener tu **URL de proyecto** y tu clave **anon key**.
+Antes de ejecutar la aplicación, necesitas configurar tu proyecto de Firebase y descargar los archivos de configuración correspondientes (`google-services.json` para Android y `GoogleService-Info.plist` para iOS).
 
 ### 2. App Móvil (Flutter)
 
@@ -71,10 +62,8 @@ Antes de ejecutar la aplicación, necesitas configurar tu backend en Supabase.
     flutter pub get
     ```
 
-4.  **Configura las credenciales de Supabase**:
-    Una vez que tengas tu URL y tu clave `anon` de Supabase, deberás configurarlas en la aplicación. El lugar recomendado para hacerlo será en el archivo `lib/main.dart` por ahora.
-
-    *(Te ayudaré a hacer esto en el siguiente paso, una vez que me proporciones las credenciales.)*
+4.  **Configura las credenciales de Firebase**:
+    Asegúrate de ejecutar `flutterfire configure` o colocar los archivos de configuración correspondientes en tu proyecto para inicializar Firebase.
 
 5.  **Ejecuta la aplicación**:
     ```bash

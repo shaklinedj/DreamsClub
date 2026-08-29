@@ -24,6 +24,10 @@ final userProfileServiceProvider = Provider<UserProfileService>((ref) {
   return UserProfileService();
 });
 
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError('sharedPreferencesProvider must be overridden in ProviderScope');
+});
+
 const String _userCacheKeyPrefix = 'user_snapshot_cache_';
 
 final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
@@ -31,13 +35,15 @@ final userProvider = StateNotifierProvider<UserNotifier, User>((ref) {
   // Only watch the firebase user's UID to prevent provider recreation when other auth state properties change.
   final uid =
       ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
-  return UserNotifier(service, _defaultUser, uid ?? '');
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return UserNotifier(service, _defaultUser, uid ?? '', prefs);
 });
 
 class UserNotifier extends StateNotifier<User> {
-  UserNotifier(this._storage, this._defaultUser, this._uid)
+  UserNotifier(this._storage, this._defaultUser, this._uid, this._prefs)
       : super(_defaultUser) {
     if (_uid.isNotEmpty) {
+      _initFromCacheSynchronously();
       _initWithCacheThenSync();
     }
   }
@@ -45,11 +51,31 @@ class UserNotifier extends StateNotifier<User> {
   final UserProfileService _storage;
   final User _defaultUser;
   final String _uid;
+  final SharedPreferences _prefs;
   StreamSubscription? _userSubscription;
+
+  void _initFromCacheSynchronously() {
+    try {
+      final cached = _prefs.getString('$_userCacheKeyPrefix$_uid');
+      if (cached != null) {
+        final map = json.decode(cached) as Map<String, dynamic>;
+        state = User.fromMap(map);
+        AppLogger.info('📦 Loaded user synchronously from cache: ${state.name}');
+      } else {
+        // Fallback: check if we have a separate cached streak or default
+        final cachedStreak = _prefs.getInt('cached_user_streak');
+        if (cachedStreak != null) {
+          state = _defaultUser.copyWith(streak: cachedStreak);
+          AppLogger.info('📦 Restored cached streak synchronously: $cachedStreak');
+        }
+      }
+    } catch (e) {
+      AppLogger.error('Error loading from cache synchronously', e);
+    }
+  }
 
   /// Initialize: Firestore is the source of truth. Cache is only a fallback.
   Future<void> _initWithCacheThenSync() async {
-    await _loadFromCache();
     await _loadFromFirestore(fallbackToCache: false);
     _initRealtimeListener();
   }
@@ -113,6 +139,14 @@ class UserNotifier extends StateNotifier<User> {
       final map = user.toMap();
       await prefs.setString('$_userCacheKeyPrefix$_uid', json.encode(map));
       await prefs.setInt('cached_user_streak', user.streak);
+
+      // Save global "last user profile" for login screen recovery
+      if (user.email.isNotEmpty) {
+        await prefs.setString('last_logged_in_email', user.email);
+        await prefs.setString('last_logged_in_name', user.name);
+        await prefs.setString('last_logged_in_photo', user.profileImageUrl);
+      }
+
       AppLogger.debug('💾 User snapshot & streak (${user.streak}d) cached');
     } catch (e) {
       AppLogger.error('Error saving to cache', e);

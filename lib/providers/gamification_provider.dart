@@ -120,7 +120,8 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
 
   void _listenToUserUpdates() {
     ref.listen<User>(userProvider, (previous, next) {
-      if (previous == null || previous.streak != next.streak) {
+      if (previous == null || previous.name == 'Cargando...' || next.name == 'Cargando...') return;
+      if (previous.streak != next.streak) {
         _checkStreakAchievements(next.streak);
       }
     });
@@ -328,7 +329,7 @@ class DailyMissionsNotifier extends StateNotifier<List<DailyMission>> {
 
   void _listenToUserUpdates() {
     ref.listen<User>(userProvider, (previous, next) {
-      if (previous == null) return;
+      if (previous == null || previous.name == 'Cargando...' || next.name == 'Cargando...') return;
 
       // Check for visit today
       if (next.totalVisits > previous.totalVisits) {
@@ -443,7 +444,8 @@ class StreakNotifier extends StateNotifier<StreakData> {
 
   void _listenToUserUpdates() {
     ref.listen<User>(userProvider, (previous, next) {
-      if (previous == null || previous.streak != next.streak) {
+      if (next.name == 'Cargando...') return;
+      if (previous == null || previous.streak != next.streak || previous.name == 'Cargando...') {
         _syncWithFirebase(next.streak);
       }
     });

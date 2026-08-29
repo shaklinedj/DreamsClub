@@ -38,7 +38,7 @@ class FirebaseService {
   }
 
   // ============================================================
-  // MÉTODOS DE UTILIDAD (Similares a SupabaseService para facilitar migración)
+  // MÉTODOS DE UTILIDAD
   // ============================================================
 
   /// Obtiene todos los documentos de una colección

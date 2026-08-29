@@ -1,0 +1,2207 @@
+{
+  "E:\\DreamsClub-master\\DreamsClub-master\\cors.json": {
+    "mtime": 1786569923.1729243,
+    "ast_hash": "718445b0bc62210b2f3494b7ad4459fb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\firebase.json": {
+    "mtime": 1787257879.2960773,
+    "ast_hash": "ab81bb6bb676bca89564cbedd670d507",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\firestore.indexes.json": {
+    "mtime": 1787235944.7542188,
+    "ast_hash": "48a7bc095c822ab549450a327dd02de6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\google-services.json": {
+    "mtime": 1786569923.2253723,
+    "ast_hash": "719428d83f3f226a67df01e18e91f47a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\scrapp.json": {
+    "mtime": 1786569923.2588978,
+    "ast_hash": "ade361274638e03b34d6074593e26dca",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\setup_flutter.ps1": {
+    "mtime": 1786569923.264968,
+    "ast_hash": "ba712886dffa4d5c2912339dc2e177ee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\update_version_rest.py": {
+    "mtime": 1787605027.3336954,
+    "ast_hash": "08f7a975af5ce3caa942ad868c1b4e9a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\upload_apk_gcs.py": {
+    "mtime": 1786859690.2037356,
+    "ast_hash": "609c7a8506429dc02c6c7708ddf90fef",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\version_and_build.ps1": {
+    "mtime": 1787623248.0728648,
+    "ast_hash": "1ad7421a98723fae3860a59317838879",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\version_and_build.sh": {
+    "mtime": 1787413970.2328634,
+    "ast_hash": "7a994c68d3695df3227f2a8606ff9b20",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\package_config.json": {
+    "mtime": 1788028961.255,
+    "ast_hash": "9c696f32e57838b4c7ada942a81f96ea",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\package_graph.json": {
+    "mtime": 1788028940.1462588,
+    "ast_hash": "adccec35ba5701fd2dc304d57200e4f3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\dartpad\\web_plugin_registrant.dart": {
+    "mtime": 1787603990.4699063,
+    "ast_hash": "08c25b1b60f1b954b7cb14505f7e5ef7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\extension_discovery\\vs_code.json": {
+    "mtime": 1787624037.3360195,
+    "ast_hash": "fd832d53f5fb2b310225f79373b0aecb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\dart_plugin_registrant.dart": {
+    "mtime": 1787604024.8744361,
+    "ast_hash": "e791b94bfb2c2554dcdcc06fd03afb7a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\19127920a23adb1e149c663eab7d92d5\\build_hooks_result.json": {
+    "mtime": 1787604764.5186682,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\19127920a23adb1e149c663eab7d92d5\\link_hooks_result.json": {
+    "mtime": 1787605080.0168996,
+    "ast_hash": "c404a510ecbedc1206ab4f6078e04db7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\19127920a23adb1e149c663eab7d92d5\\native_assets.json": {
+    "mtime": 1787605080.0870035,
+    "ast_hash": "f3a664e105b4f792c6c7fe4e4d22c398",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\19127920a23adb1e149c663eab7d92d5\\outputs.json": {
+    "mtime": 1787619724.3008766,
+    "ast_hash": "fe0adeee94a37cdb3e11ddcc650074ae",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\19127920a23adb1e149c663eab7d92d5\\recorded_uses.json": {
+    "mtime": 1787619696.100087,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\75095a7cade057aa93c5f81a74f6626a\\build_hooks_result.json": {
+    "mtime": 1787621005.3831296,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\75095a7cade057aa93c5f81a74f6626a\\link_hooks_result.json": {
+    "mtime": 1787621100.975216,
+    "ast_hash": "943d16ee19758c5f6083d865c959b630",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\75095a7cade057aa93c5f81a74f6626a\\native_assets.json": {
+    "mtime": 1787621112.2958584,
+    "ast_hash": "f3a664e105b4f792c6c7fe4e4d22c398",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\75095a7cade057aa93c5f81a74f6626a\\outputs.json": {
+    "mtime": 1787621166.558408,
+    "ast_hash": "1297fa6aecd84f3f862900433c6bd4f7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\75095a7cade057aa93c5f81a74f6626a\\recorded_uses.json": {
+    "mtime": 1787621091.1433759,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\8439d4e26dbb56fa03a94aaeade3b364\\build_hooks_result.json": {
+    "mtime": 1787604023.9573195,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\8439d4e26dbb56fa03a94aaeade3b364\\link_hooks_result.json": {
+    "mtime": 1787604163.6195834,
+    "ast_hash": "2919742f7c017d4a1832b7a5d7dd734b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\8439d4e26dbb56fa03a94aaeade3b364\\native_assets.json": {
+    "mtime": 1787604164.949617,
+    "ast_hash": "f3a664e105b4f792c6c7fe4e4d22c398",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\8439d4e26dbb56fa03a94aaeade3b364\\outputs.json": {
+    "mtime": 1787604232.5733159,
+    "ast_hash": "6ef39999a01861a915b47d2befa28eab",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\8439d4e26dbb56fa03a94aaeade3b364\\recorded_uses.json": {
+    "mtime": 1787604152.712822,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\e5a6d17b431516515557c99fe0a0af5a\\build_hooks_result.json": {
+    "mtime": 1787622393.4548876,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\e5a6d17b431516515557c99fe0a0af5a\\link_hooks_result.json": {
+    "mtime": 1787622626.526794,
+    "ast_hash": "f2ac47a3a9cf49eda26e3c0d2d9af766",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\e5a6d17b431516515557c99fe0a0af5a\\native_assets.json": {
+    "mtime": 1787622626.6275902,
+    "ast_hash": "f3a664e105b4f792c6c7fe4e4d22c398",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\e5a6d17b431516515557c99fe0a0af5a\\outputs.json": {
+    "mtime": 1787840629.3762712,
+    "ast_hash": "fe0adeee94a37cdb3e11ddcc650074ae",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.dart_tool\\flutter_build\\e5a6d17b431516515557c99fe0a0af5a\\recorded_uses.json": {
+    "mtime": 1787840578.404113,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.devcontainer\\devcontainer.json": {
+    "mtime": 1786569923.3221364,
+    "ast_hash": "8c1042b392c31a8042d2afff40427bc9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.idx\\mcp.json": {
+    "mtime": 1786569923.4352424,
+    "ast_hash": "586ee0a6a65043cb187edb12c54e95fd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vs\\CMakeWorkspaceSettings.json": {
+    "mtime": 1786569923.4560905,
+    "ast_hash": "bcc9a5b14f6113a9a043a7e684c560da",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vs\\ProjectSettings.json": {
+    "mtime": 1786569923.469731,
+    "ast_hash": "7076d1ff41b1a5e17ab68cd419289590",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vs\\VSWorkspaceState.json": {
+    "mtime": 1786569923.4833705,
+    "ast_hash": "7a2ae0b23d46eea9646c82f73e10b4c9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vs\\DreamsClub.slnx\\v18\\DocumentLayout.json": {
+    "mtime": 1786569924.6231513,
+    "ast_hash": "0b526b8dbc3759ff9d50186196f2047e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vscode\\settings.json": {
+    "mtime": 1786569924.7366345,
+    "ast_hash": "949ed6a4766b6865c727e5b4129c3d53",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.vscode\\tasks.json": {
+    "mtime": 1786569924.749779,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\build.gradle.kts": {
+    "mtime": 1786569924.7825437,
+    "ast_hash": "f11f360aed44d4f6871b398346af14f0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\gradlew": {
+    "mtime": 1786570090.58015,
+    "ast_hash": "7f1cd7eb3f75a1dc85cd37753972a6e2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\settings.gradle.kts": {
+    "mtime": 1786569924.82224,
+    "ast_hash": "de865c5f14c4c4d5c7c5692b78181c5b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\build.gradle.kts": {
+    "mtime": 1787257844.4432328,
+    "ast_hash": "50cd69d27a6b09a169d9a548dfc401c5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\google-services.json": {
+    "mtime": 1786569924.8573093,
+    "ast_hash": "719428d83f3f226a67df01e18e91f47a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\java\\io\\flutter\\plugins\\GeneratedPluginRegistrant.java": {
+    "mtime": 1787601974.4629352,
+    "ast_hash": "597419148d40936b8bf5a22d4277d32b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\kotlin\\com\\example\\casinoloyalty_flutter\\MainActivity.kt": {
+    "mtime": 1786569924.9996376,
+    "ast_hash": "890cfdaa5e9fe1d6d5eb298385ccba99",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\angry.json": {
+    "mtime": 1786569926.2146704,
+    "ast_hash": "0afa6756f1171d9dba82b7d94813133e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\haha.json": {
+    "mtime": 1786569926.2295115,
+    "ast_hash": "045ff417725591a860b2fcff3927037f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\like.json": {
+    "mtime": 1786569926.2416122,
+    "ast_hash": "eb4e1824c6c400f20dcf4bc638da92c6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\like_old.json": {
+    "mtime": 1786569926.2536983,
+    "ast_hash": "e43bf261096904711e4b9da920fd9ad4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\love.json": {
+    "mtime": 1786569926.2675846,
+    "ast_hash": "71d569f2ad9f908d983c48a636935613",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\love_old.json": {
+    "mtime": 1786569926.281906,
+    "ast_hash": "3e8d350d294619cfb5ea1ddbb24ab1c5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\sad.json": {
+    "mtime": 1786569926.2940557,
+    "ast_hash": "9a3112ddce60e72e6ea1626427117bee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\lottie\\wow.json": {
+    "mtime": 1786569926.3086421,
+    "ast_hash": "c4ef47c5a48f1965076d4dd92b872880",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\astro.config.mjs": {
+    "mtime": 1786569926.6154351,
+    "ast_hash": "acbbf0bebf423f93fd8613c147f68841",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\check_stickers.js": {
+    "mtime": 1787165510.7081926,
+    "ast_hash": "23dcb715f4cd72bab3ed0f1598aaad6f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\delete_posts.mjs": {
+    "mtime": 1786750080.330947,
+    "ast_hash": "80e50686eea207d4a5591966ca85da7f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\dreams-casino-app-59bfc331de45.json": {
+    "mtime": 1787613438.4302871,
+    "ast_hash": "4b855cfb3ad10d530a219ee532c5e518",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\firebase.json": {
+    "mtime": 1787065628.490299,
+    "ast_hash": "e1a46683292aa69c0627145b514802dd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\package.json": {
+    "mtime": 1787603453.8432739,
+    "ast_hash": "0b917a2fdc764888ea936645844d31fd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\tsconfig.json": {
+    "mtime": 1786670852.8689427,
+    "ast_hash": "05fe7a7a3fa82765ef60f2faefbb3ccf",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\update_version.mjs": {
+    "mtime": 1787413948.2698936,
+    "ast_hash": "432639b07af41fb5396e1bc7dc02667f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\upload_apk.mjs": {
+    "mtime": 1787536952.5602603,
+    "ast_hash": "81e52a8985ac208ea498e85161707ecb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\upload_client.mjs": {
+    "mtime": 1786859622.312559,
+    "ast_hash": "1938ecb95ffdae6e023f500ed45bfdae",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\vercel.json": {
+    "mtime": 1787415664.4624324,
+    "ast_hash": "ba4830ceef5e78d87d510547df2c7589",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\content-assets.mjs": {
+    "mtime": 1786670409.9821324,
+    "ast_hash": "8aeea624d36ca2b4c7d0e0748b76ba28",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\content-modules.mjs": {
+    "mtime": 1786670409.9838445,
+    "ast_hash": "8aeea624d36ca2b4c7d0e0748b76ba28",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\content.d.ts": {
+    "mtime": 1787623183.762206,
+    "ast_hash": "c433e09761f4f6c6bbfc762715c0f373",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.astro\\types.d.ts": {
+    "mtime": 1787623183.7632017,
+    "ast_hash": "f3d48b2aa569815a445d3509aa161559",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.vercel\\project.json": {
+    "mtime": 1787614341.9541783,
+    "ast_hash": "bf530784cce84304038d19fab076f47e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.vscode\\extensions.json": {
+    "mtime": 1786569926.7004826,
+    "ast_hash": "3adedb22d082dbd1ebb00b75d21403aa",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.vscode\\launch.json": {
+    "mtime": 1786569926.7145844,
+    "ast_hash": "60493763dcbc2d109e57da86d997602a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\api\\cron-campaigns.js": {
+    "mtime": 1787415657.3939245,
+    "ast_hash": "6cd00c158c2e3366c48708798ce52beb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\api\\send-push.js": {
+    "mtime": 1787459964.8267925,
+    "ast_hash": "6c0c0e1d66127f42f5bdaeb6fb5a37b5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\api\\share.js": {
+    "mtime": 1787536952.3265934,
+    "ast_hash": "d26f33d2c199df63d387a37c970c9c38",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\api\\upload.js": {
+    "mtime": 1787615062.1963358,
+    "ast_hash": "7cb4d99a5c06a903cfe7828bdbfd510c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\AuthGuard.tsx": {
+    "mtime": 1786849466.3666558,
+    "ast_hash": "af123d9a268209df7c76e885ee62efb9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\CashierRedemption.tsx": {
+    "mtime": 1787250655.4046957,
+    "ast_hash": "d29476daa3505bba36b9d299d7ee610e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\DashboardStats.tsx": {
+    "mtime": 1787449972.4829104,
+    "ast_hash": "5de4419698279cc2983bd4ebce9ad068",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\FeedForm.tsx": {
+    "mtime": 1787164487.381624,
+    "ast_hash": "c36aa587a6ec936cf2d18aedbe757926",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\FeedList.tsx": {
+    "mtime": 1787450004.7008793,
+    "ast_hash": "9e4dece8884b540422f04ce151e8e41f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\GameList.tsx": {
+    "mtime": 1786669769.4060123,
+    "ast_hash": "e7e7ec2ffa70bb3ab4b1c6f25527ec1d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\LoginForm.tsx": {
+    "mtime": 1786849479.5120218,
+    "ast_hash": "5d4835a272f814db530292040c308f0f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\NotificationManager.tsx": {
+    "mtime": 1787459964.834247,
+    "ast_hash": "6f77f1e1a27cb0a58af9d5c11befb8d7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\PostInteractions.tsx": {
+    "mtime": 1787242214.2091365,
+    "ast_hash": "0150b84a6e8c39d601eb47590e0c479d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\PrizeManager.tsx": {
+    "mtime": 1787619564.5831404,
+    "ast_hash": "97fad2abeb6d59fb6803626a59537584",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\QRCodeDisplay.tsx": {
+    "mtime": 1786569926.8330917,
+    "ast_hash": "822370911fb07d158b8feb41de6df665",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\StickerForm.tsx": {
+    "mtime": 1787165570.5541084,
+    "ast_hash": "d32468e02ee6b1c3d6d5de55c2072405",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\StickerList.tsx": {
+    "mtime": 1787165579.1930735,
+    "ast_hash": "f40c08833282c33e9fd70f2a4487c09c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\UserList.tsx": {
+    "mtime": 1787449994.4220238,
+    "ast_hash": "ec3469b304c048cfba00510430dbfa8d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\UserMenu.tsx": {
+    "mtime": 1786849499.3882492,
+    "ast_hash": "22e59e023217d1b079cfe0056ce73064",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\components\\carteleras\\CarteleraManager.tsx": {
+    "mtime": 1786668863.1871903,
+    "ast_hash": "d865952ac9af500b79a21bf7035266ff",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\layouts\\AdminLayout.astro": {
+    "mtime": 1787250683.5035982,
+    "ast_hash": "287485df9d4d64bc79b7935e9f869017",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\lib\\firebase.ts": {
+    "mtime": 1788028851.6950212,
+    "ast_hash": "18bcbcf475400f15b4d84f4b1baae2c3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\lib\\google-drive.ts": {
+    "mtime": 1786768209.8325095,
+    "ast_hash": "1b982a5ea97985ddf85fb7047cf8f371",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\lib\\image-compressor.ts": {
+    "mtime": 1786758989.3834007,
+    "ast_hash": "527e7f2739dcf351b5b1ce691cea66e2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\canje.astro": {
+    "mtime": 1787250670.3799436,
+    "ast_hash": "7d1e5eeb57408e8e4643e1c75e76cb8b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\descargar.astro": {
+    "mtime": 1786858411.8114064,
+    "ast_hash": "140705b148cd7b34dc7196cd50f26786",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\download.astro": {
+    "mtime": 1787623088.9003716,
+    "ast_hash": "028a8e91e09766da1c53adbce60f562d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\feed.astro": {
+    "mtime": 1786569926.9224682,
+    "ast_hash": "05e21e4974221c90e0a6e10b64f1dcac",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\games.astro": {
+    "mtime": 1786569926.9315453,
+    "ast_hash": "d1889c848ea53be9d2bf0e77ce571c54",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\index.astro": {
+    "mtime": 1786669071.0147073,
+    "ast_hash": "38d26fd4b4021e14901536084ce8d8fd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\login.astro": {
+    "mtime": 1786849489.4287694,
+    "ast_hash": "3408cd18f143f7aab4734011fb79f2e4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\messages.astro": {
+    "mtime": 1786672240.55916,
+    "ast_hash": "30cd234bc71951413f9f276e3f1b80d6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\prizes.astro": {
+    "mtime": 1787250663.7301064,
+    "ast_hash": "b34ddd57a0e2430fc891c1fb45e2ca16",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\qr.astro": {
+    "mtime": 1786569926.958779,
+    "ast_hash": "963264f6486514ad8dbd8194fd25522e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\share.astro": {
+    "mtime": 1787623088.918021,
+    "ast_hash": "5cbba28d9fd3b53dd5b59a241fdf3a18",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\carteleras\\index.astro": {
+    "mtime": 1786668841.5514886,
+    "ast_hash": "79d17620a6f88a97e921f06192655439",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\feed\\detail.astro": {
+    "mtime": 1786672219.762455,
+    "ast_hash": "e382ccdfffab1413a932aab726df5002",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\feed\\new.astro": {
+    "mtime": 1786569926.9804082,
+    "ast_hash": "fd76bc8837befd3cb09cf071eccf77bc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\stickers\\index.astro": {
+    "mtime": 1786845432.3313868,
+    "ast_hash": "e8d9a40f8c510ce716e40e36b0173a33",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\stickers\\new.astro": {
+    "mtime": 1786845434.5397007,
+    "ast_hash": "da075b911f4eab11d8cc88be505cf1bf",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\src\\pages\\users\\index.astro": {
+    "mtime": 1786849533.294943,
+    "ast_hash": "b438e43a03b6fb6f6e5e0a913f529f62",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\.dart_tool\\package_config.json": {
+    "mtime": 1787335640.679,
+    "ast_hash": "e7abce9ce2137e7e8b605f0f2ce806a3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\.dart_tool\\package_graph.json": {
+    "mtime": 1787335662.590402,
+    "ast_hash": "e17686a3c7642ee4141f5ac9d9391e87",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\.dart_tool\\extension_discovery\\devtools.json": {
+    "mtime": 1786857014.8086762,
+    "ast_hash": "ce2f34f0806bdff423a686cebbf6624d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\.dart_tool\\extension_discovery\\vs_code.json": {
+    "mtime": 1787345085.1294892,
+    "ast_hash": "ce2f34f0806bdff423a686cebbf6624d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\angry.json": {
+    "mtime": 1786569927.2537198,
+    "ast_hash": "0afa6756f1171d9dba82b7d94813133e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\haha.json": {
+    "mtime": 1786569927.269651,
+    "ast_hash": "045ff417725591a860b2fcff3927037f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\like.json": {
+    "mtime": 1786569927.2832239,
+    "ast_hash": "eb4e1824c6c400f20dcf4bc638da92c6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\like_old.json": {
+    "mtime": 1786569927.2958374,
+    "ast_hash": "e43bf261096904711e4b9da920fd9ad4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\love.json": {
+    "mtime": 1786569927.3114326,
+    "ast_hash": "71d569f2ad9f908d983c48a636935613",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\love_old.json": {
+    "mtime": 1786569927.3250165,
+    "ast_hash": "3e8d350d294619cfb5ea1ddbb24ab1c5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\sad.json": {
+    "mtime": 1786569927.3376255,
+    "ast_hash": "9a3112ddce60e72e6ea1626427117bee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie\\wow.json": {
+    "mtime": 1786569927.3496785,
+    "ast_hash": "c4ef47c5a48f1965076d4dd92b872880",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\angry.json": {
+    "mtime": 1786569927.3756313,
+    "ast_hash": "0afa6756f1171d9dba82b7d94813133e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\haha.json": {
+    "mtime": 1786569927.3904316,
+    "ast_hash": "045ff417725591a860b2fcff3927037f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\like.json": {
+    "mtime": 1786569927.403535,
+    "ast_hash": "e43bf261096904711e4b9da920fd9ad4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\love.json": {
+    "mtime": 1786569927.4173641,
+    "ast_hash": "3e8d350d294619cfb5ea1ddbb24ab1c5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\sad.json": {
+    "mtime": 1786569927.4311855,
+    "ast_hash": "9a3112ddce60e72e6ea1626427117bee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\lottie_old\\wow.json": {
+    "mtime": 1786569927.4432945,
+    "ast_hash": "c4ef47c5a48f1965076d4dd92b872880",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\lib\\flutter_facebook_reactions.dart": {
+    "mtime": 1786569927.5614495,
+    "ast_hash": "6e7bf80ee706b287819fe2a80fc628c9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\lib\\src\\facebook_social_bar.dart": {
+    "mtime": 1786569927.5886314,
+    "ast_hash": "4e1be61ff07f879cdb2d987c8675ee09",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\lib\\src\\reaction_type.dart": {
+    "mtime": 1786569927.59915,
+    "ast_hash": "25d33a2bb5c02a5f5d133212211064d8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\functions\\.eslintrc.js": {
+    "mtime": 1786569927.6218283,
+    "ast_hash": "e8e067cca11dbd2d45f75de51bf9ed5d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\functions\\index.js": {
+    "mtime": 1787346483.1178815,
+    "ast_hash": "0e39b573f34b4ae97c85aeea15490302",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\functions\\package.json": {
+    "mtime": 1786569927.6633368,
+    "ast_hash": "40e13a1de5b49b909565aefd0da4df36",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\gemeniapp\\ejemplo.tsx": {
+    "mtime": 1786569927.7008772,
+    "ast_hash": "8b74db2860dce5763d6adb82d0771aa5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Flutter\\flutter_export_environment.sh": {
+    "mtime": 1787603989.584595,
+    "ast_hash": "25b4b81f1502f2a86295071592130ac0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Flutter\\ephemeral\\flutter_lldb_helper.py": {
+    "mtime": 1787603989.571597,
+    "ast_hash": "98fc75412162af387e2e3461e4e58094",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\AppDelegate.swift": {
+    "mtime": 1786569928.1295469,
+    "ast_hash": "303ca46dbd58544be7b816861d70a27c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\GeneratedPluginRegistrant.h": {
+    "mtime": 1786570066.5311816,
+    "ast_hash": "decb9041b5e91a07e66f4664e5dac408",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\GeneratedPluginRegistrant.m": {
+    "mtime": 1787601974.4969301,
+    "ast_hash": "661777a2f364bbb888f0c352cebedb7b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Runner-Bridging-Header.h": {
+    "mtime": 1786569928.1648412,
+    "ast_hash": "e07862ac930ed4d8479185d52c6cc66d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Contents.json": {
+    "mtime": 1786569928.2060895,
+    "ast_hash": "c870f277d0c83d1af12f8dc2d368879a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\Contents.json": {
+    "mtime": 1786569928.5771215,
+    "ast_hash": "770f4f65e02ca2fc57f46f4f4148d15d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\RunnerTests\\RunnerTests.swift": {
+    "mtime": 1786569928.6952846,
+    "ast_hash": "a225a382d14d7b16b6f602a5c1d49331",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\firebase_options.dart": {
+    "mtime": 1786569928.7172482,
+    "ast_hash": "bde03c886b98bbbbac18e0169b2f21ac",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\main.dart": {
+    "mtime": 1788029069.442597,
+    "ast_hash": "009d216b058206e4dc61e786a59aef50",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\main_cartelera.dart": {
+    "mtime": 1787767248.596126,
+    "ast_hash": "142935b17a361a18bdb091b1dcd38a03",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\main_coyhaique_social.dart": {
+    "mtime": 1787767241.8882515,
+    "ast_hash": "f6b3dd3df55d1cfe2f2e4024fd7c5a8e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\config\\membership_levels_config.dart": {
+    "mtime": 1786569928.7514374,
+    "ast_hash": "96211c841138c20469736780f8150311",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\core.dart": {
+    "mtime": 1786569928.7729912,
+    "ast_hash": "e1e1a55ca5ef59e3f80f76c116908c81",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\constants\\app_constants.dart": {
+    "mtime": 1786845468.8728306,
+    "ast_hash": "2fa7e5ec83f61889dece5b090464bc1c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\enums\\app_enums.dart": {
+    "mtime": 1786569928.8205407,
+    "ast_hash": "f7d0b53bf3f16137d9c6a82eb75e86e9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\extensions\\extensions.dart": {
+    "mtime": 1786569928.8466775,
+    "ast_hash": "55a77d9550fe9a71271b677e61295b27",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\services\\analytics_service.dart": {
+    "mtime": 1786569928.8709767,
+    "ast_hash": "024acdc6baeb6d6ee5de174b5702509c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\services\\connectivity_service.dart": {
+    "mtime": 1786569928.8839483,
+    "ast_hash": "3c0526ff03dc0bb8f61f54fd47cb7bfa",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\services\\crashlytics_service.dart": {
+    "mtime": 1786569928.8960319,
+    "ast_hash": "b9c5aa768e1431f21f86be7cfd68baa1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\services\\haptic_service.dart": {
+    "mtime": 1786569928.9060793,
+    "ast_hash": "99abe2b3b5ccbb4fd257940eb09b7c88",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\theme\\streak_prestige_theme.dart": {
+    "mtime": 1787248139.581793,
+    "ast_hash": "fb88f26394ca912093894f174dd4212b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\utils\\app_logger.dart": {
+    "mtime": 1786569928.9269857,
+    "ast_hash": "22eb3612320f77a3400117fec54a01fa",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\utils\\rate_limiter.dart": {
+    "mtime": 1786569928.9380517,
+    "ast_hash": "570ca077adc2d1ad651ea1ed2d12d1d9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\utils\\retry_helper.dart": {
+    "mtime": 1786569928.9491262,
+    "ast_hash": "4aea66c37fd4fb9fdfe8bd95be927479",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\core\\utils\\validators.dart": {
+    "mtime": 1786569928.9589188,
+    "ast_hash": "ac670f8bb821010de542d93597d6cedb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\data\\mock_feed_data.dart": {
+    "mtime": 1786842583.1868901,
+    "ast_hash": "d2aa9807c8b914ff13d4f0d26403d0b2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\data\\repositories\\admin_casino_repository.dart": {
+    "mtime": 1786854150.2641125,
+    "ast_hash": "d8b5f54a330b0d477dbfdbfdd8b5683d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\data\\repositories\\appwrite_feed_repository.dart": {
+    "mtime": 1786569929.0117755,
+    "ast_hash": "f264b2f7b94f42a8e38ea4aabd62fb8c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\data\\repositories\\feed_repository.dart": {
+    "mtime": 1786569929.0238695,
+    "ast_hash": "2a0ae496ceed457834a887c86edfdd39",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\casino_model.dart": {
+    "mtime": 1787082148.3669195,
+    "ast_hash": "482eddbac5a463be4aac39484d8aef37",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\comment_model.dart": {
+    "mtime": 1786569929.055526,
+    "ast_hash": "b2a847739a454e0533317931640df036",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\feed_post_model.dart": {
+    "mtime": 1786857465.7709281,
+    "ast_hash": "5fe5ac607fcdcc7c3873b26caa87a7e3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\game_config_model.dart": {
+    "mtime": 1786569929.0771425,
+    "ast_hash": "57080ccbfe8d4356646b3118483b2720",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\gamification_model.dart": {
+    "mtime": 1786569929.0912526,
+    "ast_hash": "23983a6c75f4d7289d1f38fbdad2c11f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\notification_model.dart": {
+    "mtime": 1786569929.1013172,
+    "ast_hash": "9682b7d16e3d0bf907eb4d856b4cdd2a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\prize_model.dart": {
+    "mtime": 1787250515.0516284,
+    "ast_hash": "19146b911490027b7bffe2c2fb287be4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\reaction_type.dart": {
+    "mtime": 1786569929.1231863,
+    "ast_hash": "25d33a2bb5c02a5f5d133212211064d8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\user_model.dart": {
+    "mtime": 1787616492.025184,
+    "ast_hash": "8b10aaba7767c2ee5570bba89de9b25d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\models\\won_prize_model.dart": {
+    "mtime": 1787250336.3272438,
+    "ast_hash": "d3a07f85a27ef069870ff6562b1d35ca",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\navigation\\app_router.dart": {
+    "mtime": 1786907228.4803514,
+    "ast_hash": "69cc4d6f6c38ebce0757ffe567b8db77",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\navigation\\coyhaique_router.dart": {
+    "mtime": 1787459964.90032,
+    "ast_hash": "eb6c34a4119c0888f460fff8c0a0ddc0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\auth_provider.dart": {
+    "mtime": 1787623088.812207,
+    "ast_hash": "f3ca194a318ae82bbc5e8f0ff36ee532",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\casino_providers.dart": {
+    "mtime": 1786841043.716725,
+    "ast_hash": "abcb9d27bccd5afb4baadb89dfb49a20",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\feed_provider.dart": {
+    "mtime": 1787415518.4314396,
+    "ast_hash": "6fa77dd44ad01af5cd54c2f0528f8da6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\game_availability_provider.dart": {
+    "mtime": 1787619564.5831404,
+    "ast_hash": "763b42ed65aecb91734391da35870235",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\game_history_provider.dart": {
+    "mtime": 1787454511.2365613,
+    "ast_hash": "48f1465d997d2d1e4ef7ba72a9bc9676",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\gamification_provider.dart": {
+    "mtime": 1787767210.0053115,
+    "ast_hash": "e8f24095425aa9f77170835cbb10f2e1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\location_provider.dart": {
+    "mtime": 1787256195.932731,
+    "ast_hash": "c908fbd2e67f4d8b2fd96adc4dbd1115",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\match_game_provider.dart": {
+    "mtime": 1786569929.2651873,
+    "ast_hash": "a55b03cdf07c58b499a8fefcbf31213c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\notification_provider.dart": {
+    "mtime": 1787622462.589342,
+    "ast_hash": "72792fdb74a287b79442a7946a415f3b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\providers\\user_provider.dart": {
+    "mtime": 1787767198.8786798,
+    "ast_hash": "ea83c01da763cb85c35f1c5a5abc5cd7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\achievements_screen.dart": {
+    "mtime": 1787243555.47338,
+    "ast_hash": "999366ccbfb64304af73950158b9b34e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\all_casinos_screen.dart": {
+    "mtime": 1786838225.6335306,
+    "ast_hash": "88f736c96210efbb590e842f33fd6077",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\benefits_screen.dart": {
+    "mtime": 1786756753.0763369,
+    "ast_hash": "ef06d2d3da30ab5c54bb4768b6021519",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\cartelera_coyhaique_screen.dart": {
+    "mtime": 1786668951.1078012,
+    "ast_hash": "4fc8b01521069df49b6df4b6a2ba7c10",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\casino_detail_screen.dart": {
+    "mtime": 1787342512.0362196,
+    "ast_hash": "90e63b9f44b4571f43cba26bcd082e30",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\home_screen.dart": {
+    "mtime": 1787623411.05379,
+    "ast_hash": "7af7304f899ebee0a69c880a84a95f73",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\in_app_webview_screen.dart": {
+    "mtime": 1787342453.3303857,
+    "ast_hash": "76132a45b911af6ff35084edd2a77d82",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\my_prizes_screen.dart": {
+    "mtime": 1787449816.8862782,
+    "ast_hash": "23262a6b2199a3b66e5cc54f2b8ecfc3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\notification_detail_screen.dart": {
+    "mtime": 1787417764.2726486,
+    "ast_hash": "11168b8d374d068a81cdb4a4bc40ab9c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\prize_detail_screen.dart": {
+    "mtime": 1787250472.2962775,
+    "ast_hash": "728cc9a2aed766ef87d1044f264d79e0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\qr_scanner_screen.dart": {
+    "mtime": 1786569929.3911757,
+    "ast_hash": "73fc103426c5b45bc2c10d21e169bec9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\select_favorite_screen.dart": {
+    "mtime": 1786569929.4007528,
+    "ast_hash": "ce72572b45019566eee007049dc19472",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\settings_screen.dart": {
+    "mtime": 1787614026.5512776,
+    "ast_hash": "d011c39cd457c10ef2e77b9be851de6a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\slot_machine_screen.dart": {
+    "mtime": 1787449761.3878546,
+    "ast_hash": "71ef3d1dee1fb7aba438358d99ba2e91",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\spin_wheel_screen.dart": {
+    "mtime": 1787449740.4744647,
+    "ast_hash": "bb0c3776e44244fa1c43497ef9bacaad",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\splash_screen.dart": {
+    "mtime": 1787249010.0246892,
+    "ast_hash": "9804be0cff44533909cff9b12cf06df9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\stickers_gallery_screen.dart": {
+    "mtime": 1787243612.8656273,
+    "ast_hash": "87dead609db837fc07d0bed3ffb7def9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\wallet_screen.dart": {
+    "mtime": 1786756709.6680157,
+    "ast_hash": "f58a12c82349d17cca67eb5332ea40ad",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\admin\\admin_casinos_screen.dart": {
+    "mtime": 1786569929.4785244,
+    "ast_hash": "62bf61acf2088d7661f8d3f4b81bb179",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\admin\\admin_games_screen.dart": {
+    "mtime": 1786569929.4883788,
+    "ast_hash": "9d574a16bf6ce37dad43306b3f43492a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\admin\\casino_form_screen.dart": {
+    "mtime": 1786569929.4979455,
+    "ast_hash": "8f5ac9deb7e6b8d7bfdc1b466966086d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\admin\\game_config_form_screen.dart": {
+    "mtime": 1786569929.5095236,
+    "ast_hash": "57af9e2aaecb7973f2f25da10eb2bcc8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\auth\\biometric_lock_screen.dart": {
+    "mtime": 1786569929.5332315,
+    "ast_hash": "9b6e39c00c7d92df0e9dcea92b8441e1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\auth\\login_screen.dart": {
+    "mtime": 1787767890.6018827,
+    "ast_hash": "eb793db4794a18404d3424591345a090",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\coyhaique\\coyhaique_shell.dart": {
+    "mtime": 1786841912.1700556,
+    "ast_hash": "b3d58a0c6e3555e4e1a9d38beb7ea031",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\feed_screen.dart": {
+    "mtime": 1787329268.8340485,
+    "ast_hash": "ba2150978f8795bbb652873c15bc4954",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\post_detail_screen.dart": {
+    "mtime": 1787416006.905594,
+    "ast_hash": "24e70b255e16e6454d683da4b717795c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\widgets\\comments_modal.dart": {
+    "mtime": 1788029078.4126403,
+    "ast_hash": "04182784e304cdd8b546480ade84591e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\widgets\\comment_item.dart": {
+    "mtime": 1787331511.8388243,
+    "ast_hash": "99371e89538aeff628a1f50b4e9a6cb3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\widgets\\feed_item_widget.dart": {
+    "mtime": 1787413980.1313813,
+    "ast_hash": "7cccb24d61a8c0798b7aa7d68effd094",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\feed\\widgets\\reactions_detail_modal.dart": {
+    "mtime": 1787082209.8874295,
+    "ast_hash": "ba7ced943d3b3fb3b402f31606cb5bf3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\games\\match_game_screen.dart": {
+    "mtime": 1787450232.4511685,
+    "ast_hash": "7e1f39e9753db586b92ef9004cfcbf45",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\screens\\widgets\\casino_card.dart": {
+    "mtime": 1786569929.6929352,
+    "ast_hash": "6470eb6c97ee9404e300819f2b2c2ae0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\background_service_impl.dart": {
+    "mtime": 1786669707.6038954,
+    "ast_hash": "fccd09d953288424cbf30f1a8438d385",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\casino_service.dart": {
+    "mtime": 1787247006.3980763,
+    "ast_hash": "ee094d8f01a74eaf3dd1e889c1ee4978",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\coyhaique_location_service.dart": {
+    "mtime": 1787622462.579587,
+    "ast_hash": "fa41a934dfcaf781bf96af6aaf84203b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\daily_game_service.dart": {
+    "mtime": 1786569929.753951,
+    "ast_hash": "5857f2ead09f68bd7a6eef5aea3614ee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\dreams_mania_service.dart": {
+    "mtime": 1786569929.766085,
+    "ast_hash": "e0c2621b0f0f08d6927aee456518795c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\feed_media_cache_manager.dart": {
+    "mtime": 1786569929.7786858,
+    "ast_hash": "8ceacf747fa9f46d19e4374265c46cee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\feed_media_prefetch_service.dart": {
+    "mtime": 1787164536.4987514,
+    "ast_hash": "bb0c51a9f8d9e9df0dfd97f52555449b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\firebase_service.dart": {
+    "mtime": 1787771417.87614,
+    "ast_hash": "0aea4e4d69b166d58b80ff2b55bfc0e0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\gamification_service.dart": {
+    "mtime": 1787622462.5755813,
+    "ast_hash": "414250ee8aca54649e4bf3cfc888c292",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\location_service.dart": {
+    "mtime": 1786669631.5087142,
+    "ast_hash": "f1ac007c8ea0c10244ecbd968dfef5d1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\map_service.dart": {
+    "mtime": 1787333994.4668424,
+    "ast_hash": "dcc430ab5735ff8f2b83d8a0e52c0389",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\match_game_service.dart": {
+    "mtime": 1786569929.8500018,
+    "ast_hash": "818951cc5f2fb66acd32ae93ba6f7cdd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\messaging_service.dart": {
+    "mtime": 1787349022.6588092,
+    "ast_hash": "4e9448ccbb8bc48425c8ba1ad343f82c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\notification_service.dart": {
+    "mtime": 1787616492.0291855,
+    "ast_hash": "72f2eb41b152b761dea1c00cf90f3d10",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\onboarding_service.dart": {
+    "mtime": 1786569929.8835366,
+    "ast_hash": "cafc51868969b8b8fca2fef41f7fbf9b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\prize_service.dart": {
+    "mtime": 1787619564.5831404,
+    "ast_hash": "a41a69b47b6b593d1f9cf3b195fe6f82",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\real_notification_service.dart": {
+    "mtime": 1787605153.975968,
+    "ast_hash": "8381847a1ab2926082da74278bf24c76",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\sound_service.dart": {
+    "mtime": 1786569929.9146128,
+    "ast_hash": "bc9d01dcece6ec6cddd2110ff7376efe",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\spin_wheel_service.dart": {
+    "mtime": 1787250371.139747,
+    "ast_hash": "fd695febf22a90e6b8bcb2b4da3d69a8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\user_profile_service.dart": {
+    "mtime": 1786569929.934003,
+    "ast_hash": "dfa90c0e61fabea3c9db22d8d24ba71d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\api\\casino_api_service.dart": {
+    "mtime": 1786569929.9557202,
+    "ast_hash": "6772cc62d0d03a8cbfb58269ea51769f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\api\\user_api_service.dart": {
+    "mtime": 1787605146.7301416,
+    "ast_hash": "fa3c5b56744505c58ef8e655fc7fa159",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\appwrite\\appwrite_config.dart": {
+    "mtime": 1786569929.993999,
+    "ast_hash": "0297b2d114b269ec82af269dcafb1f62",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\services\\appwrite\\appwrite_service.dart": {
+    "mtime": 1786569930.0055673,
+    "ast_hash": "ef6358ed08932205faf8c42caf69c542",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\theme\\app_theme.dart": {
+    "mtime": 1787169209.431047,
+    "ast_hash": "c5fc5431c7a302f58a951a27ee17a833",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\utils\\share_helper.dart": {
+    "mtime": 1787459964.8750672,
+    "ast_hash": "1ce299f3eafd282db7f59cdf7bc58869",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\utils\\spanish_asset_picker_delegate.dart": {
+    "mtime": 1786569930.0589445,
+    "ast_hash": "f83ce5db9062608b2f8cc040fc52507f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\achievement_notification.dart": {
+    "mtime": 1786569930.0797958,
+    "ast_hash": "075df5d338ef483cf12c799a80bdba09",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\animated_bell.dart": {
+    "mtime": 1786837617.750867,
+    "ast_hash": "88c0d36dc2bdda7f6b2b574e780de738",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\app_drawer.dart": {
+    "mtime": 1787343249.318388,
+    "ast_hash": "3972cf3946ef1f4ae00ccf9dd17e4585",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\cached_image.dart": {
+    "mtime": 1786569930.1132631,
+    "ast_hash": "0c68282b2b290c023ba8600e27f19567",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\daily_bonus_dialog.dart": {
+    "mtime": 1787622462.5825784,
+    "ast_hash": "a0cc2c89b9a25e501de71ad9825795a6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\favorite_casino_placeholder.dart": {
+    "mtime": 1786569930.1339245,
+    "ast_hash": "dd348a9801823dd8f93bc77cb0782478",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\game_victory_dialog.dart": {
+    "mtime": 1787252581.1320176,
+    "ast_hash": "818d34ac64978c709c3f8480448d718e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\gamification_section.dart": {
+    "mtime": 1787622462.599522,
+    "ast_hash": "6f2810a604c792f3a1839eadfe30ecd0",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\glass_container.dart": {
+    "mtime": 1786569930.166928,
+    "ast_hash": "55b75e4f559b88cf23627406a8e8f48e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\global_confetti_widget.dart": {
+    "mtime": 1787415557.6461117,
+    "ast_hash": "b98eef75a5348095045f218e70aa20fd",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\guest_access_widget.dart": {
+    "mtime": 1786569930.1780095,
+    "ast_hash": "c49c4cbcc6d04db097fbdc73cd02931c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\like_button.dart": {
+    "mtime": 1786569930.188067,
+    "ast_hash": "f2ba38868ed3d500c4cdbaad0348ef5d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\location_upgrade_banner.dart": {
+    "mtime": 1786669658.1424978,
+    "ast_hash": "3e759913889df068bc1f72cfa9ba6300",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\loyalty_card_widget.dart": {
+    "mtime": 1786756703.9174113,
+    "ast_hash": "baaee9f51f3c19d6bf00885b6899127a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\notifications_modal.dart": {
+    "mtime": 1786837251.377742,
+    "ast_hash": "98df559753cd7eadd3efe513fbf4bbe5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\notification_bell_icon.dart": {
+    "mtime": 1786569930.219748,
+    "ast_hash": "aacf20cc12f94f964f9c3450d04a8459",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\offline_banner.dart": {
+    "mtime": 1786569930.241409,
+    "ast_hash": "a37bbe67f787d559231269756929d5be",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\scaffold_with_nav_bar.dart": {
+    "mtime": 1786841917.6901538,
+    "ast_hash": "9b3f339a109232c9255ee2d39820fa64",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\skeleton_loader.dart": {
+    "mtime": 1786569930.263804,
+    "ast_hash": "a7e23ecee99ee5d36d13854aa5e9d97c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\social_post_card.dart": {
+    "mtime": 1786569930.2758882,
+    "ast_hash": "f5ffa52337858c79b82cc3fa0a90a0c6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\spin_wheel_widget.dart": {
+    "mtime": 1786569930.2854326,
+    "ast_hash": "74b6a791d08a86a2f7252d94b347231e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\dreams_mania\\dreams_mania_dialog.dart": {
+    "mtime": 1787449794.711586,
+    "ast_hash": "21dfda44511a932de56c8e98dd27bd46",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\lib\\widgets\\dreams_mania\\victory_card_dialog.dart": {
+    "mtime": 1786569930.3163826,
+    "ast_hash": "f8ce09b2671c5772bd6a5f4590516ce3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\test\\widget_test.dart": {
+    "mtime": 1787767899.0183032,
+    "ast_hash": "f08d3d6c7930bc59a9e1731d1415797f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\test\\core\\validators_test.dart": {
+    "mtime": 1786569930.441905,
+    "ast_hash": "6f975f05780d57d2fe8690e2c1f9f25a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\manifest.json": {
+    "mtime": 1786569930.495013,
+    "ast_hash": "56128fc6ec7568b99d6fc24cfa34a218",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\flutter\\generated_plugin_registrant.cc": {
+    "mtime": 1787164812.7718518,
+    "ast_hash": "1c580ec3f629f1b673292aaf0db5b610",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\flutter\\generated_plugin_registrant.h": {
+    "mtime": 1786569930.664906,
+    "ast_hash": "0ea33875f9f8e118f9c2ded03e2e2835",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\flutter_window.cpp": {
+    "mtime": 1786569930.7389438,
+    "ast_hash": "9b92b95a9eecce25e3e9d356688d0cb6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\flutter_window.h": {
+    "mtime": 1786569930.759295,
+    "ast_hash": "79bea736711adda00c49419a39a4a0b4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\main.cpp": {
+    "mtime": 1786569930.772527,
+    "ast_hash": "bb829b4dff4b50e151a4984d24111424",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\resource.h": {
+    "mtime": 1786569930.7785485,
+    "ast_hash": "c8f809a4f8d3f2f625e358fd90f72fee",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\utils.cpp": {
+    "mtime": 1786569930.8116746,
+    "ast_hash": "9b5697b276c8ad67a02ec12ad2c09851",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\utils.h": {
+    "mtime": 1786569930.8229322,
+    "ast_hash": "c741fb9cddbf3a62f4688b6cca39ddcc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\win32_window.cpp": {
+    "mtime": 1786569930.8385928,
+    "ast_hash": "928e86a2be27eca688669dce6c9177d9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\win32_window.h": {
+    "mtime": 1786569930.8504553,
+    "ast_hash": "5a4cf051798d7e6931ee0405a4523c8f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\analysis.txt": {
+    "mtime": 1786569923.11082,
+    "ast_hash": "25d9313685915656abf81b2559ba5c08",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\analysis_options.yaml": {
+    "mtime": 1787165672.4477024,
+    "ast_hash": "33d8d2f7b7af52c5eaf407230a2a91d6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\analysis_output.txt": {
+    "mtime": 1786569923.1345084,
+    "ast_hash": "411580b54acb1b6b8f47f254a282a909",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\analysis_result.txt": {
+    "mtime": 1786569923.1486194,
+    "ast_hash": "75f30847607fffaad85aa87fa1800aca",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\blueprint.md": {
+    "mtime": 1786569923.1603196,
+    "ast_hash": "f88207004e7dd0755d5cc2160f33320d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\COMMANDS_REFERENCE.md": {
+    "mtime": 1787771433.7198353,
+    "ast_hash": "c7eccd4728e333a25f0af5a782460888",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\DEPLOY_GUIDE.md": {
+    "mtime": 1787771456.6353638,
+    "ast_hash": "27921904a19c6739c1000e5e36dd3c36",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\devtools_options.yaml": {
+    "mtime": 1786569923.1845036,
+    "ast_hash": "f5b7ed0c3de00eefb1b59b1b55579562",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ESPECIFICACION_SISTEMA_DREAMSCLUB.md": {
+    "mtime": 1787538806.5297568,
+    "ast_hash": "f616b14608234beebdbd56d3fbd029ce",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_log.txt": {
+    "mtime": 1786569923.2127762,
+    "ast_hash": "035bf0e33ab671fe0925793cf57682a8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\GEMINI.md": {
+    "mtime": 1786569923.0433383,
+    "ast_hash": "5f3f4dbdd81920343f9d42c75fb7e610",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\MEJORAS_PROPUESTAS.md": {
+    "mtime": 1786569923.064925,
+    "ast_hash": "438a9af1dde59fbe71c2acaa65f55856",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\MIGRATION_GUIDE.md": {
+    "mtime": 1787772220.9543662,
+    "ast_hash": "f05f9d6aef08eb22be79cc84663c01c9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\PRESENTACION_DREAMSCLUB.md": {
+    "mtime": 1787538800.4811742,
+    "ast_hash": "e72cdee3ee2cfea70771d15867d46edc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\pubspec.yaml": {
+    "mtime": 1788028949.4663355,
+    "ast_hash": "df46d76650c771014fb076aae1b0dac2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\README.md": {
+    "mtime": 1787771465.48647,
+    "ast_hash": "845f565450a541410861ffa086923a38",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\READMEori.md": {
+    "mtime": 1787771474.371043,
+    "ast_hash": "a0c71626ced977f94ff84f2c6ec9d32c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\concordancia_eficiencia.md": {
+    "mtime": 1787242325.701879,
+    "ast_hash": "60955a8c303eb633e06dabd3ded9d03e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\flutter_expert_quality.md": {
+    "mtime": 1786907104.9780343,
+    "ast_hash": "5f16bff35debff71472a7bc59aac1003",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\graphify.md": {
+    "mtime": 1788028544.0783296,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\schema_consistency.md": {
+    "mtime": 1786853551.6017585,
+    "ast_hash": "69a2977a1351040b8efe125450b57700",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\rules\\secure_development.md": {
+    "mtime": 1788027614.090204,
+    "ast_hash": "0868f39b7a2603a3d56a66a32a621ea8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\skills\\deploy-astro-firebase\\SKILL.md": {
+    "mtime": 1787594679.632169,
+    "ast_hash": "25034064f710e387d3672352c0a6b3f1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\skills\\flutter-expert\\SKILL.md": {
+    "mtime": 1787450409.4762444,
+    "ast_hash": "c816f9e3fd976528ac1d252592407195",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\skills\\security-hardening\\SKILL.md": {
+    "mtime": 1788027628.765423,
+    "ast_hash": "f1e6ac248fc08c80c726b4cad0d7ae8f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\skills\\specifications-manager\\SKILL.md": {
+    "mtime": 1787082252.6988983,
+    "ast_hash": "8971abaca0349220b6d830c778fded4b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.agents\\workflows\\graphify.md": {
+    "mtime": 1788028544.0798788,
+    "ast_hash": "84de69efd46ab0b8430393bd4188f8f2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.gemini\\skills\\flutter_development.md": {
+    "mtime": 1786569923.3530774,
+    "ast_hash": "f4163a0ea221d2f73e927dd0c6d40756",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.gemini\\skills\\repo_management.md": {
+    "mtime": 1786569923.3647654,
+    "ast_hash": "58f45df09246ba3c7cb2e59c226ee163",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.gemini\\skills\\ui_mastery.md": {
+    "mtime": 1786569923.3758852,
+    "ast_hash": "1fc132f0e7f2e7d2c9e2ddee5f6ffa34",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\.github\\copilot-instructions.md": {
+    "mtime": 1786569923.398082,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\README.md": {
+    "mtime": 1786569926.6053836,
+    "ast_hash": "2b1930198ce302fcdf2d29f674dbfb99",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\.vercel\\README.txt": {
+    "mtime": 1787614341.9541783,
+    "ast_hash": "2b13c79d37d6ed82a3255b83b6815034",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\CHANGELOG.md": {
+    "mtime": 1787335561.0087595,
+    "ast_hash": "4d58fc7e7de08acf4304aaf6819c44fb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\pubspec.yaml": {
+    "mtime": 1787335578.8222516,
+    "ast_hash": "d49cacb61bc7fded9ea427bec188f809",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\README.md": {
+    "mtime": 1786569927.1864805,
+    "ast_hash": "f15a1937c8d610f6149c4fad566a609d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\README.md": {
+    "mtime": 1786569928.6298487,
+    "ast_hash": "e175e436acacf76c814d83532d0b662c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\scratch\\repo\\README.md": {
+    "mtime": 1787452652.2993324,
+    "ast_hash": "61c217426ac8499ada63054cf72ef757",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\index.html": {
+    "mtime": 1788028621.1747053,
+    "ast_hash": "67b4f085bdaabc82c4c733b868b5ad1a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\CMakeLists.txt": {
+    "mtime": 1786569930.6063502,
+    "ast_hash": "816bcbee21abc88a0efff3ee88ab9499",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\flutter\\CMakeLists.txt": {
+    "mtime": 1786569930.631462,
+    "ast_hash": "0c500410e3259a9a053797dc1c28070e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\windows\\runner\\CMakeLists.txt": {
+    "mtime": 1786569930.7119396,
+    "ast_hash": "e99a99b5cc82a168fc557eb23b8d5a96",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher_foreground.png": {
+    "mtime": 1786569925.0600522,
+    "ast_hash": "b19d996269b109d74b06e2792c4e5e2d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher_foreground.png": {
+    "mtime": 1786569925.0917602,
+    "ast_hash": "e894a99f59d0f968f10b94b3144f086e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1786569925.1542354,
+    "ast_hash": "48b3524fd7f74c5fe869820b81a7d171",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1786569925.18778,
+    "ast_hash": "a6420a2c32699ced9b9aaca864a93524",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_launcher_foreground.png": {
+    "mtime": 1786569925.2251623,
+    "ast_hash": "59243da589e28a521ed2ba20d7180bf4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png": {
+    "mtime": 1786569925.3126018,
+    "ast_hash": "ae26f5a388f4b6015d9cc0fc374b7b6e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png": {
+    "mtime": 1786569925.3424923,
+    "ast_hash": "ac1b7744010f5f0a496cba359452ea4a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png": {
+    "mtime": 1786569925.375946,
+    "ast_hash": "88ecaab994393a107670744046203b3d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png": {
+    "mtime": 1786569925.4095144,
+    "ast_hash": "dbc552feeb7f655918a91fd173f56943",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png": {
+    "mtime": 1786569925.44578,
+    "ast_hash": "cac3d517e26bda5d0ab059431ce5bfbe",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\app_icon.png": {
+    "mtime": 1786569925.690871,
+    "ast_hash": "fcd50cb608672df047fbd667cd29b75e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\coy-1.jpg": {
+    "mtime": 1786569925.7058887,
+    "ast_hash": "41d55199412a82638b9db672315e8f45",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\coyhaique.jpg": {
+    "mtime": 1786569925.723615,
+    "ast_hash": "e22abdf8d14a57a4bc5cc1d2cc6e909c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\coyhaique_megamenu.jpg": {
+    "mtime": 1786569925.7412443,
+    "ast_hash": "e4be2441371082b2e341ceb3cc570c0d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\fachada-monticello.jpg": {
+    "mtime": 1786569925.7589655,
+    "ast_hash": "0e71bb296d0f1066b41f7d4b90b0b01e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\iqq-1.jpg": {
+    "mtime": 1786569925.7770963,
+    "ast_hash": "d78eed267ffbafb072f03cea24a1abdc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\iqq.jpg": {
+    "mtime": 1786569925.7919688,
+    "ast_hash": "f14ec8bcff44f6472b86fc6e55bc4d69",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\iquique_homedestinos.jpg": {
+    "mtime": 1786569925.813545,
+    "ast_hash": "0192b2ae4b0be916d035a282e37acdaa",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\logo-dreams.png": {
+    "mtime": 1786569925.8314507,
+    "ast_hash": "bd792a66b00b55f1a53da6640ecdf815",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\logo-dreams.svg": {
+    "mtime": 1786569925.8471487,
+    "ast_hash": "aad59c0febcac0e6785315ac92a010ff",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\monticello.jpg": {
+    "mtime": 1786569925.8682952,
+    "ast_hash": "01838e781b365c23653c8098b3621763",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\My-Post-2021-11-11T170113.239.png": {
+    "mtime": 1786569925.6663082,
+    "ast_hash": "50ff86a0911f89399949716b3dc913eb",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\novedades_hero.jpg": {
+    "mtime": 1786569925.8920121,
+    "ast_hash": "77460b6ad419a1d6f8898a620d11cba7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\perfil_imagen.png": {
+    "mtime": 1786569925.961116,
+    "ast_hash": "9d8ddcc36b0df3fa77ed21f7cabfbbb3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\placeholder.jpg": {
+    "mtime": 1786569925.9781125,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\pta-a-1.jpg": {
+    "mtime": 1786569925.9945915,
+    "ast_hash": "8f4e1af2364a8cb4769f3f9fd07e8992",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\pto-v-2.jpg": {
+    "mtime": 1786569926.012784,
+    "ast_hash": "3b8dbf400c774f02b51ea2457f4d43dc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\puertovaras_megamenu.jpg": {
+    "mtime": 1786569926.053544,
+    "ast_hash": "61185fa05fb9412664a5dfbb084face4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\puerto_varas.jpg": {
+    "mtime": 1786569926.031168,
+    "ast_hash": "8727ff3d2c3fb581f28ec7793e923491",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\punta_arenas.jpg": {
+    "mtime": 1786569926.0708032,
+    "ast_hash": "efe0245c5dca510649b543a768f98550",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\talca.jpg": {
+    "mtime": 1786854955.5051563,
+    "ast_hash": "8328a5250eda2960297bc96eeede8dbf",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\temuco-1.jpg": {
+    "mtime": 1786569926.0875885,
+    "ast_hash": "dab5b7a9c9d4efb231a18054f6639307",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\temuco.jpg": {
+    "mtime": 1786569926.103803,
+    "ast_hash": "8d9065bbc9425ffc032a2b644a03a086",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\temuco_megamenu-1.jpg": {
+    "mtime": 1786569926.1245284,
+    "ast_hash": "47f731df21ca50804a82a545072d9a8e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\valdivia.jpg": {
+    "mtime": 1786569926.1410341,
+    "ast_hash": "051d9568cb8f1fedf4c06169acbb0de1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\valdivia_homedestinos.jpg": {
+    "mtime": 1786569926.1559064,
+    "ast_hash": "90fe902f8cffbc7e9c7a60417a589940",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\vld-1.jpg": {
+    "mtime": 1786569926.176602,
+    "ast_hash": "95c1d0a368b4b724e5804636d5b2f85d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_cat_jackpot.jpg": {
+    "mtime": 1787169738.9080741,
+    "ast_hash": "88693eb3a718876319fbc8a8c397cb61",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_cat_mate.jpg": {
+    "mtime": 1787169729.507582,
+    "ast_hash": "2ca3c01ba7af79546d2a7acdcd04aaf5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_cat_poker.jpg": {
+    "mtime": 1787169684.3323982,
+    "ast_hash": "be938bf5572f133f7c3a16febbadf4c3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_cat_roulette.jpg": {
+    "mtime": 1787169752.8511512,
+    "ast_hash": "4a8cbeb9e4693766797017ea918d89bc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_chip.jpg": {
+    "mtime": 1786843721.803339,
+    "ast_hash": "85008a12219275b85c6053f3811f95e3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_crown.jpg": {
+    "mtime": 1786843730.5207922,
+    "ast_hash": "36e73f542d6df333e5b998a68468190a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_slot.jpg": {
+    "mtime": 1786843737.970249,
+    "ast_hash": "bee208b88d0904b44de5ab25749734b5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_streak_1.jpg": {
+    "mtime": 1787168650.5601552,
+    "ast_hash": "8f248da42075d9f9939fca51cd86b7c9",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_streak_14.jpg": {
+    "mtime": 1787168687.8869758,
+    "ast_hash": "5888b561ad8f52c225c72d4ed18c0dd5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_streak_3.jpg": {
+    "mtime": 1787168664.525422,
+    "ast_hash": "e7546e9675975c758961317fcc497e69",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_streak_30.jpg": {
+    "mtime": 1787168912.9294126,
+    "ast_hash": "09726f5a5aed0ea86bf1bf4383ede6cf",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\images\\stickers\\sticker_streak_7.jpg": {
+    "mtime": 1787168675.8373456,
+    "ast_hash": "cb1d917522573e51b70885563fcf80cc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\public\\favicon.svg": {
+    "mtime": 1786569926.7394712,
+    "ast_hash": "8c13f40658976ea1dfb8ba37a8be0e8d",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\public\\presentacion_dreams_club.jpg": {
+    "mtime": 1786848655.1020012,
+    "ast_hash": "c385c9c882665f90c1668d6ba7e139dc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\public\\stickers\\corona_vip_3d.jpg": {
+    "mtime": 1786843730.5207922,
+    "ast_hash": "36e73f542d6df333e5b998a68468190a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\public\\stickers\\ficha_casino_3d.jpg": {
+    "mtime": 1786843721.803339,
+    "ast_hash": "85008a12219275b85c6053f3811f95e3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\dreams-admin\\public\\stickers\\tragamonedas_3d.jpg": {
+    "mtime": 1786843737.970249,
+    "ast_hash": "bee208b88d0904b44de5ab25749734b5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\errores\\Screenshot_20251117_223308.jpg": {
+    "mtime": 1786569927.0524254,
+    "ast_hash": "2be7852e1557ffdc22589a881d370be1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\errores\\Screenshot_20251117_223323.jpg": {
+    "mtime": 1786569927.0866435,
+    "ast_hash": "5a8715919887d83f3b82cc4b27edccfc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\errores\\Screenshot_20251117_223357.jpg": {
+    "mtime": 1786569927.1163018,
+    "ast_hash": "95227855779e0c2b5f0258ddb93dc4a5",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\errores\\Screenshot_20251117_223710.jpg": {
+    "mtime": 1786569927.1390073,
+    "ast_hash": "99932b1f96227ae218d7dff2e264fc59",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\errores\\Screenshot_20251117_223722.jpg": {
+    "mtime": 1786569927.1651618,
+    "ast_hash": "26b486166118258a8bc634e8053ae9ea",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\infografia\\casino_map_screen.png": {
+    "mtime": 1786569927.7551012,
+    "ast_hash": "ff3a38c35e057856baec6cc0033e2b76",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\infografia\\dreamsclub_infographic.png": {
+    "mtime": 1786569927.8242009,
+    "ast_hash": "0fdb7d7930c0736b5e10244daaa50104",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\infografia\\dreams_mania_screen.png": {
+    "mtime": 1786569927.7924423,
+    "ast_hash": "e87299f815572d04f7b51d0790beb761",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-1024x1024@1x.png": {
+    "mtime": 1786569928.2394376,
+    "ast_hash": "9b00db50acead3f950b4cde93e8729f7",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-20x20@1x.png": {
+    "mtime": 1786569928.2511199,
+    "ast_hash": "3ff6c63b7f6960c7fb83995d3d28ea22",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-20x20@2x.png": {
+    "mtime": 1786569928.2628107,
+    "ast_hash": "105e610f81b6898dfcd5faedd029180f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-20x20@3x.png": {
+    "mtime": 1786569928.278828,
+    "ast_hash": "a5a5ec5b56320436a300d4880770834a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-29x29@1x.png": {
+    "mtime": 1786569928.300427,
+    "ast_hash": "6be1b904ca4bcba6ae708491c29febba",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-29x29@2x.png": {
+    "mtime": 1786569928.3106036,
+    "ast_hash": "4591e3baf309b27075d35dcfa027fbc2",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-29x29@3x.png": {
+    "mtime": 1786569928.3304217,
+    "ast_hash": "afb150f4532588c0763be7d4f3527bfc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-40x40@1x.png": {
+    "mtime": 1786569928.3422532,
+    "ast_hash": "105e610f81b6898dfcd5faedd029180f",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-40x40@2x.png": {
+    "mtime": 1786569928.3605263,
+    "ast_hash": "250560a8a18874f77323d64547b62a8a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-40x40@3x.png": {
+    "mtime": 1786569928.3744614,
+    "ast_hash": "59849cc558d0dd34c4ccc00dce7463e4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-50x50@1x.png": {
+    "mtime": 1786569928.390382,
+    "ast_hash": "8e00f63a1acb46fc4e960b37f4aa29cc",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-50x50@2x.png": {
+    "mtime": 1786569928.4099379,
+    "ast_hash": "7bca3600ba1f3c5b45f7f9c33dafdabf",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-57x57@1x.png": {
+    "mtime": 1786569928.4219875,
+    "ast_hash": "56e48654563811d484cc232c9a9f1e13",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-57x57@2x.png": {
+    "mtime": 1786569928.4378057,
+    "ast_hash": "f801be5af9c992c45f6b1b0b7fdbdfe6",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-60x60@2x.png": {
+    "mtime": 1786569928.4535005,
+    "ast_hash": "59849cc558d0dd34c4ccc00dce7463e4",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-60x60@3x.png": {
+    "mtime": 1786569928.4728482,
+    "ast_hash": "d5a51a4714b262d654ad70c20fc8cc7a",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-72x72@1x.png": {
+    "mtime": 1786569928.4849982,
+    "ast_hash": "ae26f5a388f4b6015d9cc0fc374b7b6e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-72x72@2x.png": {
+    "mtime": 1786569928.5007372,
+    "ast_hash": "dbc552feeb7f655918a91fd173f56943",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-76x76@1x.png": {
+    "mtime": 1786569928.5164661,
+    "ast_hash": "8d43e9ade4d135108f785905dcfde0be",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-76x76@2x.png": {
+    "mtime": 1786569928.5342672,
+    "ast_hash": "bf8c2a50f8ad4b580bdad953d7af01f8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\AppIcon.appiconset\\Icon-App-83.5x83.5@2x.png": {
+    "mtime": 1786569928.5492752,
+    "ast_hash": "56a4f2394ed882dc7d9d8f7771e9e636",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\LaunchImage.png": {
+    "mtime": 1786569928.5896952,
+    "ast_hash": "978c1bee49d7ad5fc1a4d81099b13e18",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\LaunchImage@2x.png": {
+    "mtime": 1786569928.6061819,
+    "ast_hash": "978c1bee49d7ad5fc1a4d81099b13e18",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\LaunchImage@3x.png": {
+    "mtime": 1786569928.6218517,
+    "ast_hash": "978c1bee49d7ad5fc1a4d81099b13e18",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\propuesta\\Screenshot_20251216_222600_Copec.jpg": {
+    "mtime": 1786569930.3605826,
+    "ast_hash": "018be07fae756184cae3c07afd4f81f1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\propuesta\\Screenshot_20251217_083304_Instagram.jpg": {
+    "mtime": 1786569930.3957329,
+    "ast_hash": "5048b0b8f774ee955c21522087c1839e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\favicon.png": {
+    "mtime": 1786569930.4654703,
+    "ast_hash": "5dcef449791fa27946b3d35ad8803796",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\icons\\Icon-192.png": {
+    "mtime": 1786569930.514398,
+    "ast_hash": "ac9a721a12bbc803b44f645561ecb1e1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\icons\\Icon-512.png": {
+    "mtime": 1786569930.5288036,
+    "ast_hash": "96e752610906ba2a93c65f8abe1645f1",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\icons\\Icon-maskable-192.png": {
+    "mtime": 1786569930.5452833,
+    "ast_hash": "c457ef57daa1d16f64b27b786ec2ea3c",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\web\\icons\\Icon-maskable-512.png": {
+    "mtime": 1786569930.5564222,
+    "ast_hash": "301a7604d45b3e739efc881eb04896ea",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\coins.wav": {
+    "mtime": 1786569926.3381462,
+    "ast_hash": "cf81c32b9e6e2dfc77e42f55b431c7be",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\coins_back.wav": {
+    "mtime": 1786569926.3565197,
+    "ast_hash": "e2aa065e4391012c54d4aa42509c7bb3",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\levelup.wav": {
+    "mtime": 1786569926.3812547,
+    "ast_hash": "5854f2762719b1c4271fd1b21f41a619",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\sound_box_down.mp3": {
+    "mtime": 1786569926.3973966,
+    "ast_hash": "c4d9310b6f4efad031b63cbcd8c9258e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\sound_box_up.mp3": {
+    "mtime": 1786569926.421618,
+    "ast_hash": "ff0fdcb1245318c63ec7d4d7ddefb7a8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\sound_focus.mp3": {
+    "mtime": 1786569926.437292,
+    "ast_hash": "ccf0ddc44269838eb514e07f31ea9020",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\sound_pick.mp3": {
+    "mtime": 1786569926.4549544,
+    "ast_hash": "eb3b9abeb1bed74623b8690a24ae8c0b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\sound_short_press_like.mp3": {
+    "mtime": 1786569926.4721105,
+    "ast_hash": "1ebd24cc9ef7426405d8e82f5037fc54",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\spin.wav": {
+    "mtime": 1786569926.5161157,
+    "ast_hash": "ab5a5659735580a8b7653915658af9ac",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\assets\\sounds\\win.wav": {
+    "mtime": 1786569926.5602393,
+    "ast_hash": "af119fd9f2fe12a52518e2c098622a93",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\sounds\\sound_box_down.mp3": {
+    "mtime": 1786569927.4738266,
+    "ast_hash": "c4d9310b6f4efad031b63cbcd8c9258e",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\sounds\\sound_box_up.mp3": {
+    "mtime": 1786569927.4894352,
+    "ast_hash": "ff0fdcb1245318c63ec7d4d7ddefb7a8",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\sounds\\sound_focus.mp3": {
+    "mtime": 1786569927.5052106,
+    "ast_hash": "ccf0ddc44269838eb514e07f31ea9020",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\sounds\\sound_pick.mp3": {
+    "mtime": 1786569927.5079515,
+    "ast_hash": "eb3b9abeb1bed74623b8690a24ae8c0b",
+    "semantic_hash": ""
+  },
+  "E:\\DreamsClub-master\\DreamsClub-master\\flutter_facebook_reactions\\assets\\sounds\\sound_short_press_like.mp3": {
+    "mtime": 1786569927.5368867,
+    "ast_hash": "1ebd24cc9ef7426405d8e82f5037fc54",
+    "semantic_hash": ""
+  }
+}

@@ -109,21 +109,16 @@ flutter build ios --release
 
 ### Configuración de Producción
 
-#### Credenciales de Supabase
+#### Credenciales de Producción
 
-En producción, usa variables de entorno:
+En producción, configura tus variables de entorno o constantes de configuración de manera segura:
 
 ```dart
-// lib/config/supabase_config.dart
-class SupabaseConfig {
-  static const String supabaseUrl = String.fromEnvironment(
-    'SUPABASE_URL',
-    defaultValue: 'https://tu-proyecto.supabase.co',
-  );
-  
-  static const String supabaseAnonKey = String.fromEnvironment(
-    'SUPABASE_ANON_KEY',
-    defaultValue: 'tu-anon-key',
+// lib/config/app_config.dart
+class AppConfig {
+  static const String apiUrl = String.fromEnvironment(
+    'API_URL',
+    defaultValue: 'https://tu-servidor-api.com',
   );
 }
 ```
@@ -132,8 +127,7 @@ Build con variables:
 
 ```bash
 flutter build apk --release \
-  --dart-define=SUPABASE_URL=https://tu-proyecto.supabase.co \
-  --dart-define=SUPABASE_ANON_KEY=tu-anon-key
+  --dart-define=API_URL=https://tu-servidor-api.com
 ```
 
 ## 🌐 Deploy del Panel Admin (Next.js)
@@ -168,11 +162,7 @@ vercel --prod
 2. Ve a [Vercel](https://vercel.com)
 3. Click en "Import Project"
 4. Selecciona tu repositorio
-5. Configura las variables de entorno:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-6. Click en "Deploy"
+5. Configura las variables de entorno necesarias para la API (por ejemplo, `NEXT_PUBLIC_API_URL`).
 
 #### 3. Configurar dominio personalizado (opcional)
 
@@ -272,101 +262,17 @@ sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d admin.dreamsclub.cl
 ```
 
-## 🗄️ Configuración de Supabase en Producción
-
-### 1. Row Level Security (RLS)
-
-Habilita RLS para todas las tablas sensibles:
-
-```sql
--- Habilitar RLS
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.reactions ENABLE ROW LEVEL SECURITY;
-
--- Política: Los usuarios pueden ver su propio perfil
-CREATE POLICY "Users can view own profile"
-ON public.users FOR SELECT
-USING (auth.uid() = id);
-
--- Política: Los usuarios pueden actualizar su propio perfil
-CREATE POLICY "Users can update own profile"
-ON public.users FOR UPDATE
-USING (auth.uid() = id);
-
--- Política: Todos pueden ver comentarios
-CREATE POLICY "Comments are viewable by everyone"
-ON public.comments FOR SELECT
-USING (true);
-
--- Política: Los usuarios pueden crear comentarios
-CREATE POLICY "Users can create comments"
-ON public.comments FOR INSERT
-WITH CHECK (auth.uid() = user_id);
-```
-
-### 2. Storage Buckets
-
-Crea buckets para imágenes:
-
-1. Ve a Storage en Supabase
-2. Crea buckets:
-   - `events-images`
-   - `promotions-images`
-   - `profile-images`
-3. Configura políticas de acceso público si es necesario
-
-### 3. Edge Functions (opcional)
-
-Para lógica de backend adicional:
-
-```bash
-# Instalar Supabase CLI
-npm install -g supabase
-
-# Login
-supabase login
-
-# Crear función
-supabase functions new mi-funcion
-
-# Deploy
-supabase functions deploy mi-funcion
-```
-
 ## 🔐 Seguridad en Producción
 
 ### Checklist de Seguridad
 
-- [ ] **RLS habilitado** en todas las tablas sensibles
+- [ ] **HTTPS** habilitado en el panel admin y servidor API
 - [ ] **Variables de entorno** configuradas correctamente
-- [ ] **HTTPS** habilitado en el panel admin
-- [ ] **Service Role Key** solo en backend, nunca en Flutter
-- [ ] **Anon Key** con políticas RLS restrictivas
-- [ ] **CORS** configurado en Supabase
-- [ ] **Rate limiting** habilitado en Supabase
-- [ ] **Logs** de errores configurados
-- [ ] **Backups** automáticos de base de datos
-- [ ] **Monitoreo** de uso y costos
-
-### Configurar CORS en Supabase
-
-1. Ve a Settings → API
-2. En "CORS origins", agrega:
-   - URL de producción de la app (si es web)
-   - URL del panel admin
-   - `http://localhost:3000` (solo para desarrollo)
-
-## 📊 Monitoreo y Analytics
-
-### Supabase Analytics
-
-1. Ve a Logs en Supabase Dashboard
-2. Revisa:
-   - Query performance
-   - API requests
-   - Storage usage
-   - Database size
+- [ ] **CORS** configurado de manera restrictiva en el servidor API
+- [ ] **Rate Limiting** habilitado para evitar abuso en la API
+- [ ] **Backups** automáticos de base de datos y media configurados
+- [ ] **Logs** de errores activos y monitoreados
+- [ ] **Monitoreo** de uso de CPU, memoria y almacenamiento de tu servidor VPS
 
 ### Errores en Flutter
 
@@ -467,9 +373,7 @@ jobs:
       - name: Build
         working-directory: ./dreams-admin
         run: npm run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.API_URL }}
       
       # Deploy a Vercel automáticamente
       - name: Deploy to Vercel
@@ -485,7 +389,7 @@ jobs:
 
 ### Flutter App
 - [ ] Build de producción exitoso
-- [ ] Supabase configurado con credenciales de producción
+- [ ] Backend/API configurado con credenciales de producción
 - [ ] Keystore configurado y guardado de forma segura
 - [ ] Permisos de Android/iOS revisados
 - [ ] Testing en dispositivos reales
@@ -502,16 +406,14 @@ jobs:
 - [ ] HTTPS habilitado
 - [ ] Acceso restringido a administradores
 
-### Supabase
-- [ ] Schema ejecutado sin errores
-- [ ] RLS habilitado y políticas configuradas
-- [ ] Storage buckets creados
-- [ ] CORS configurado
+### Backend y Base de Datos
+- [ ] Esquema de base de datos migrado correctamente
+- [ ] Permisos y políticas de seguridad configurados
+- [ ] Storage buckets / proveedor de media creados y configurados
 - [ ] Backups automáticos habilitados
-- [ ] Límites de uso revisados
 
 ---
 
 **¡Listo para producción!** 🎉
 
-Para soporte post-deploy, consulta los logs de Supabase y las herramientas de monitoreo de tu plataforma de hosting.
+Para soporte post-deploy, consulta los logs de tu servidor API autoalojado y las herramientas de monitoreo de tu plataforma de hosting.

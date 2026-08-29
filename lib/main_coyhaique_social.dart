@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 import 'package:casinoloyalty_flutter/services/firebase_service.dart';
 import 'package:casinoloyalty_flutter/navigation/coyhaique_router.dart';
@@ -33,7 +35,14 @@ void main() async {
       FirebaseService.initialize(),
     ]);
 
-    runApp(const ProviderScope(child: CoyhaiqueSocialApp()));
+    final prefs = await SharedPreferences.getInstance();
+
+    runApp(ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const CoyhaiqueSocialApp(),
+    ));
   }, (error, stack) {
     AppLogger.fatal('Zone Error', error, stack);
   });

@@ -2,15 +2,6 @@
 
 Aplicación móvil Flutter para el programa de lealtad de Dreams Casino. Permite a los usuarios encontrar casinos cercanos, jugar mini-juegos, participar en eventos virales y gestionar su membresía digital.
 
-## 🚀 Nueva Característica: Integración con Supabase + Admin Panel
-
-El proyecto ahora incluye:
-- ✅ **Backend Supabase** completo con 14 tablas y funciones SQL
-- ✅ **Servicios API** en Flutter para conectar con Supabase
-- ✅ **Panel de Administración Web** (Next.js) para gestionar contenido
-- ✅ **Documentación completa** de setup, migración y deploy
-
-📚 **[Ver Guía de Configuración Completa →](SUPABASE_SETUP.md)**
 
 ## 🎯 Características Principales
 
@@ -153,24 +144,12 @@ flutter build ios --release
 
 ## 🗄️ Backend y Administración
 
-### Supabase Backend
-- **14 tablas** con relaciones completas
-- **Funciones SQL** para lógica de negocio
-- **Row Level Security** para protección de datos
-- **Realtime** para actualizaciones en vivo
-
-### Panel de Administración (Next.js)
-- **Dashboard visual** con navegación intuitiva
-- **CRUD completo** para eventos, promociones, restaurantes, etc.
-- **UI moderna** con Tailwind CSS y dark mode
-- **TypeScript** para type safety
+El backend de la aplicación móvil y el panel de administración web se sustentan sobre **Firebase** (Firestore, Auth, Storage, Cloud Functions y FCM).
 
 📚 **Documentación:**
-- [Setup de Supabase](SUPABASE_SETUP.md) - Configuración completa
-- [Guía de Migración](MIGRATION_GUIDE.md) - Migrar de datos locales a Supabase
-- [Guía de Deploy](DEPLOY_GUIDE.md) - Deploy a producción
-- [Referencia de Comandos](COMMANDS_REFERENCE.md) - Comandos útiles
-- [Resumen de Integración](INTEGRATION_SUMMARY.md) - Overview completo
+- [Guía de Migración](MIGRATION_GUIDE.md) - Guía detallada para migrar de Firebase a Strapi, Appwrite o PocketBase (self-hosted).
+- [Guía de Deploy](DEPLOY_GUIDE.md) - Deploy a producción de la aplicación y el panel administrativo.
+- [Referencia de Comandos](COMMANDS_REFERENCE.md) - Comandos útiles para desarrollo, testing y builds.
 
 ## 🎨 Niveles de Usuario
 
@@ -212,7 +191,7 @@ npm install
 
 # Configurar credenciales
 cp .env.local.example .env.local
-# Editar .env.local con tus credenciales de Supabase
+# Editar .env.local con tus credenciales de Firebase / Appwrite
 
 # Iniciar servidor
 npm run dev

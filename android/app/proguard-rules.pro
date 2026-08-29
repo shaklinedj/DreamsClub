@@ -18,3 +18,13 @@
 
 # Workmanager
 -dontwarn com.google.common.util.concurrent.ListenableFuture
+
+# Native Methods & JNI
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Preserve line numbers for obfuscated Crashlytics stack traces
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+

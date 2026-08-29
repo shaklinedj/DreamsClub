@@ -81,6 +81,7 @@ dependencies:
   giphy_get: ^3.6.1+1
   package_info_plus: ^9.0.1
   open_filex: ^4.7.0
+  flutter_dotenv: ^6.0.1
 
 
 
@@ -96,6 +97,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/images/
     - assets/images/stickers/
     - assets/sounds/

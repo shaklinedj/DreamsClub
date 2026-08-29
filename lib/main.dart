@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 import 'package:casinoloyalty_flutter/navigation/coyhaique_router.dart';
 import 'package:casinoloyalty_flutter/theme/app_theme.dart';
@@ -22,13 +24,17 @@ import 'package:casinoloyalty_flutter/widgets/global_confetti_widget.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 import 'package:casinoloyalty_flutter/core/services/analytics_service.dart';
 import 'package:casinoloyalty_flutter/core/services/crashlytics_service.dart';
-
-// import 'package:casinoloyalty_flutter/services/firebase_service.dart'; // Comentado para trabajar con datos mock
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   // Capturar errores de la zona
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      AppLogger.warning('No .env file found in assets, using fallback values');
+    }
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -64,8 +70,16 @@ void main() async {
     await FirebaseService.initialize();
     AppLogger.info('✅ Firebase Core inicializado');
 
+    // Pre-inicializar SharedPreferences de forma síncrona para la hidratación
+    final prefs = await SharedPreferences.getInstance();
+
     // Renderizar la UI inmediatamente
-    runApp(const ProviderScope(child: DreamsLoyaltyApp()));
+    runApp(ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const DreamsLoyaltyApp(),
+    ));
 
     // Inicializaciones secundarias en segundo plano (sin congelar el inicio)
     Future.microtask(() async {

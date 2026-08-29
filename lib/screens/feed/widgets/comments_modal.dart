@@ -13,9 +13,15 @@ import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/models/comment_model.dart';
 import 'package:casinoloyalty_flutter/screens/feed/widgets/comment_item.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 
-const _kGiphyApiKey = 'GlVGYHkr3WSBnllca54iNt0yFbjz7L65'; // Giphy SDK key
+String get _kGiphyApiKey =>
+    dotenv.env['GIPHY_API_KEY'] ??
+    const String.fromEnvironment(
+      'GIPHY_API_KEY',
+      defaultValue: 'GlVGYHkr3WSBnllca54iNt0yFbjz7L65',
+    ); // Giphy SDK key
 
 ImageProvider _resolveAvatar(String? path) {
   if (path == null || path.isEmpty) {

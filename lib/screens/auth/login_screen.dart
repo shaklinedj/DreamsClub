@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +24,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   bool _isLoading = false;
   bool _obscurePassword = true;
+
+  String? _rememberedEmail;
+  String? _rememberedName;
+  String? _rememberedPhoto;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRememberedUser();
+  }
+
+  Future<void> _loadRememberedUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _rememberedEmail = prefs.getString('last_logged_in_email');
+        _rememberedName = prefs.getString('last_logged_in_name');
+        _rememberedPhoto = prefs.getString('last_logged_in_photo');
+        if (_rememberedEmail != null && _rememberedEmail!.isNotEmpty) {
+          _emailController.text = _rememberedEmail!;
+        }
+      });
+    } catch (_) {}
+  }
 
   @override
   void dispose() {
@@ -409,6 +434,74 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                               ),
                             ),
                             const SizedBox(height: 24),
+
+                            // Quick access card (estilo Facebook)
+                            if (_isLogin && _rememberedEmail != null && _rememberedEmail!.isNotEmpty) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _emailController.text = _rememberedEmail!;
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFD4AF37).withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: const Color(0xFFD4AF37).withValues(alpha: 0.25),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 22,
+                                        backgroundColor: const Color(0xFF1B1430),
+                                        backgroundImage: _rememberedPhoto != null &&
+                                                _rememberedPhoto!.isNotEmpty
+                                            ? (_rememberedPhoto!.startsWith('assets/')
+                                                ? AssetImage(_rememberedPhoto!) as ImageProvider
+                                                : NetworkImage(_rememberedPhoto!))
+                                            : const AssetImage('assets/images/logo-dreams.png'),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _rememberedName != null && _rememberedName!.isNotEmpty
+                                                  ? '¿Eres tú, $_rememberedName?'
+                                                  : 'Cuenta recordada',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              _rememberedEmail!,
+                                              style: TextStyle(
+                                                color: Colors.white.withValues(alpha: 0.6),
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: Color(0xFFD4AF37),
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             // Register-specific field: Name
                             if (!_isLogin) ...[

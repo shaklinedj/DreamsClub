@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 .vercel
 .env*
+
+# Service Account Keys & Secrets
+*.json
+!package.json
+!tsconfig.json

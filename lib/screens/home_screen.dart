@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:casinoloyalty_flutter/providers/game_availability_provider.dart';
 import 'package:casinoloyalty_flutter/services/app_update_service.dart';
@@ -75,13 +74,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         final data = doc.data();
         if (data != null) {
           final latestVersion = data['latestVersion']?.toString();
-          final downloadUrl = data['downloadUrl']?.toString() ??
-              'https://dreams-casino-app.web.app/download';
 
           if (latestVersion != null &&
               _isNewerVersion(latestVersion, currentVersion)) {
             if (!mounted) return;
 
+            // URL directa desde GitHub Releases (única fuente)
             final directApkUrl =
                 'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v$latestVersion/DreamsApp-v$latestVersion.apk';
 
@@ -93,6 +91,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 int progressPercentage = 0;
                 String statusMessage =
                     'Hay una nueva versión de Dreams Club disponible (v$latestVersion).';
+                bool hasError = false;
 
                 return StatefulBuilder(
                   builder: (context, setDialogState) {
@@ -124,10 +123,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         children: [
                           Text(
                             statusMessage,
-                            style: const TextStyle(
-                                color: Colors.white70, fontSize: 14),
+                            style: TextStyle(
+                              color: hasError
+                                  ? Colors.redAccent
+                                  : Colors.white70,
+                              fontSize: 14,
+                            ),
                           ),
-                          if (isDownloading) ...[
+                          if (isDownloading && !hasError) ...[
                             const SizedBox(height: 16),
                             LinearProgressIndicator(
                               value: progressPercentage > 0
@@ -151,29 +154,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ],
                       ),
                       actions: [
-                        if (!isDownloading) ...[
+                        if (!isDownloading || hasError) ...[
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text(
-                              'Más tarde',
-                              style: TextStyle(color: Colors.white38),
+                            child: Text(
+                              hasError ? 'Cerrar' : 'Más tarde',
+                              style:
+                                  const TextStyle(color: Colors.white38),
                             ),
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFD4AF37),
-                              foregroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                          if (!hasError)
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFD4AF37),
+                                foregroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              if (AppUpdateService
-                                  .instance.isInAppApkSupported) {
+                              onPressed: () async {
                                 setDialogState(() {
                                   isDownloading = true;
+                                  hasError = false;
                                   statusMessage =
-                                      'Descargando actualización en segundo plano... Por favor no cierres la app.';
+                                      'Descargando desde GitHub... Por favor no cierres la app.';
                                 });
 
                                 AppUpdateService.instance
@@ -183,66 +187,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     setDialogState(() {
                                       switch (event.status) {
                                         case OtaStatus.DOWNLOADING:
-                                          progressPercentage = int.tryParse(
-                                                  event.value ?? '0') ??
-                                              progressPercentage;
+                                          progressPercentage =
+                                              int.tryParse(
+                                                      event.value ?? '0') ??
+                                                  progressPercentage;
                                           break;
                                         case OtaStatus.INSTALLING:
                                           statusMessage =
-                                              '¡Descarga completada! Abriendo instalador de Android...';
+                                              '¡Descarga completada! Abriendo instalador...';
                                           progressPercentage = 100;
                                           break;
                                         case OtaStatus.ALREADY_RUNNING_ERROR:
                                           statusMessage =
-                                              'La descarga ya está en ejecución.';
+                                              'Ya hay una descarga en progreso.';
                                           break;
                                         case OtaStatus
                                             .PERMISSION_NOT_GRANTED_ERROR:
-                                          statusMessage =
-                                              'Permiso denegado. Abriendo descarga web...';
+                                          hasError = true;
                                           isDownloading = false;
-                                          launchUrl(Uri.parse(downloadUrl),
-                                              mode: LaunchMode
-                                                  .externalApplication);
+                                          statusMessage =
+                                              'Permiso de instalación denegado. Ve a Ajustes y habilita "Instalar apps desconocidas".';
                                           break;
                                         default:
                                           if (progressPercentage >= 95) {
                                             statusMessage =
-                                                'Instalando paquete en tu dispositivo...';
+                                                'Instalando en tu dispositivo...';
                                             progressPercentage = 100;
-                                          } else {
-                                            statusMessage =
-                                                'Procesando paquete de instalación...';
                                           }
                                           break;
                                       }
                                     });
                                   },
-                                  onError: (error) {
+                                  onError: (_) {
                                     setDialogState(() {
+                                      hasError = true;
                                       isDownloading = false;
                                       statusMessage =
-                                          'Error al descargar. Redirigiendo a web...';
+                                          'Error al descargar la actualización. Inténtalo más tarde.';
                                     });
-                                    launchUrl(Uri.parse(downloadUrl),
-                                        mode: LaunchMode.externalApplication);
                                   },
                                 );
-                              } else {
-                                final launched = await launchUrl(
-                                  Uri.parse(downloadUrl),
-                                  mode: LaunchMode.externalApplication,
-                                );
-                                if (launched && context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                              }
-                            },
-                            child: const Text(
-                              'Actualizar ahora',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              },
+                              child: const Text(
+                                'Actualizar ahora',
+                                style:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
                         ],
                       ],
                     );
@@ -255,6 +246,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } catch (_) {}
   }
+
 
   @override
   Widget build(BuildContext context) {

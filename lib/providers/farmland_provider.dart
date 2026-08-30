@@ -95,7 +95,7 @@ class FarmlandNotifier extends StateNotifier<FarmlandState> {
     if (count >= 3) return 0; // Límite diario por animal
 
     currentPets[animalId] = count + 1;
-    final rewardWater = 2;
+    const rewardWater = 2;
 
     final updatedState = state.copyWith(
       waterDrops: state.waterDrops + rewardWater,

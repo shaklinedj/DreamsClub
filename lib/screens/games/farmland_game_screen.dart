@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:casinoloyalty_flutter/models/farmland_model.dart';
 import 'package:casinoloyalty_flutter/providers/farmland_provider.dart';
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 
 class FarmlandGameScreen extends ConsumerStatefulWidget {
   const FarmlandGameScreen({super.key});
@@ -26,7 +25,6 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
 
   bool _isWatering = false;
   String? _animalSpeechBubble;
-  String? _speechAnimalId;
   Timer? _speechTimer;
   Timer? _clockTimer;
 
@@ -126,6 +124,7 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
 
     HapticFeedback.heavyImpact();
     final ok = await ref.read(farmlandProvider.notifier).useFertilizer();
+    if (!mounted) return;
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -151,7 +150,6 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
 
     _speechTimer?.cancel();
     setState(() {
-      _speechAnimalId = animalId;
       _animalSpeechBubble = waterGained > 0
           ? '$sound ¡Gracias! +$waterGained 💧'
           : '$sound (Ya descansé por hoy)';
@@ -160,7 +158,6 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
     _speechTimer = Timer(const Duration(seconds: 3), () {
       if (mounted) {
         setState(() {
-          _speechAnimalId = null;
           _animalSpeechBubble = null;
         });
       }
@@ -180,8 +177,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
             Expanded(
               child: Text(
                 '¡Sin agua suficiente! Reclama el cubo o completa tareas.',
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -554,7 +551,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
         color: const Color(0xFF222F46),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isCompleted ? Colors.white10 : Colors.blue.withValues(alpha: 0.3),
+          color:
+              isCompleted ? Colors.white10 : Colors.blue.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -581,7 +579,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                 ),
                 Text(
                   '+$reward Gotas de Agua 💧',
-                  style: const TextStyle(color: Colors.cyanAccent, fontSize: 12),
+                  style:
+                      const TextStyle(color: Colors.cyanAccent, fontSize: 12),
                 ),
               ],
             ),
@@ -599,7 +598,9 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                 ? null
                 : () async {
                     await onClaim();
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   },
             child: Text(isCompleted ? 'Listo' : 'Reclamar'),
           ),
@@ -611,7 +612,6 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
   @override
   Widget build(BuildContext context) {
     final farmland = ref.watch(farmlandProvider);
-    final user = ref.watch(userProvider);
     final currentCrop = farmland.currentCropInfo;
 
     return Scaffold(
@@ -670,7 +670,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                 animation: _cloudController,
                 builder: (context, child) {
                   final screenW = MediaQuery.of(context).size.width;
-                  final xOffset = (_cloudController.value * (screenW + 150)) - 80;
+                  final xOffset =
+                      (_cloudController.value * (screenW + 150)) - 80;
                   return Positioned(
                     top: 40,
                     left: xOffset % (screenW + 100) - 50,
@@ -678,9 +679,13 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                       opacity: 0.85,
                       child: Row(
                         children: [
-                          Icon(Icons.cloud, color: Colors.white.withValues(alpha: 0.9), size: 48),
+                          Icon(Icons.cloud,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              size: 48),
                           const SizedBox(width: 40),
-                          Icon(Icons.cloud, color: Colors.white.withValues(alpha: 0.7), size: 36),
+                          Icon(Icons.cloud,
+                              color: Colors.white.withValues(alpha: 0.7),
+                              size: 36),
                         ],
                       ),
                     ),
@@ -747,7 +752,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                               colors: [Color(0xFF0284C7), Color(0xFF0369A1)],
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.cyanAccent, width: 1.5),
+                            border: Border.all(
+                                color: Colors.cyanAccent, width: 1.5),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.cyan.withValues(alpha: 0.4),
@@ -786,7 +792,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                             decoration: BoxDecoration(
                               color: const Color(0xFF1E293B),
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: Colors.amber, width: 1.5),
+                              border:
+                                  Border.all(color: Colors.amber, width: 1.5),
                             ),
                             child: Row(
                               children: [
@@ -902,7 +909,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                             top: 60,
                             left: 40,
                             right: 40,
-                            child: _buildSpeechBubbleWidget(_animalSpeechBubble!),
+                            child:
+                                _buildSpeechBubbleWidget(_animalSpeechBubble!),
                           ),
                       ],
                     ),
@@ -1038,7 +1046,10 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                               height: 62,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                                  colors: [
+                                    Color(0xFF8B5CF6),
+                                    Color(0xFF6D28D9)
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(18),
                                 border: Border.all(
@@ -1078,7 +1089,10 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                               height: 62,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFF0284C7), Color(0xFF0369A1)],
+                                  colors: [
+                                    Color(0xFF0284C7),
+                                    Color(0xFF0369A1)
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
@@ -1230,7 +1244,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text('Brote Tierno',
-                  style: TextStyle(color: Colors.lightGreenAccent, fontSize: 11)),
+                  style:
+                      TextStyle(color: Colors.lightGreenAccent, fontSize: 11)),
             ),
           ],
         );
@@ -1247,7 +1262,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text('Planta en Crecimiento',
-                  style: TextStyle(color: Colors.lightGreenAccent, fontSize: 11)),
+                  style:
+                      TextStyle(color: Colors.lightGreenAccent, fontSize: 11)),
             ),
           ],
         );
@@ -1363,7 +1379,8 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
-          BoxShadow(color: Colors.black38, blurRadius: 10, offset: Offset(0, 4)),
+          BoxShadow(
+              color: Colors.black38, blurRadius: 10, offset: Offset(0, 4)),
         ],
       ),
       child: Text(
@@ -1490,7 +1507,9 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
         const SizedBox(width: 4),
         const Text('🌾 Molino',
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12)),
       ],
     );
   }

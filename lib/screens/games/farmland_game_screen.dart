@@ -597,10 +597,9 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
             onPressed: isCompleted
                 ? null
                 : () async {
+                    final nav = Navigator.of(context);
                     await onClaim();
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
+                    nav.pop();
                   },
             child: Text(isCompleted ? 'Listo' : 'Reclamar'),
           ),
@@ -1407,12 +1406,12 @@ class _FarmlandGameScreenState extends ConsumerState<FarmlandGameScreen>
           ),
         ),
         const SizedBox(height: 8),
-        Row(
+        const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.water_drop, color: Colors.cyan.shade200, size: 20),
+            Icon(Icons.water_drop, color: Color(0xFF67E8F9), size: 20),
             Icon(Icons.water_drop, color: Colors.cyanAccent, size: 28),
-            Icon(Icons.water_drop, color: Colors.cyan.shade200, size: 20),
+            Icon(Icons.water_drop, color: Color(0xFF67E8F9), size: 20),
           ],
         ),
       ],

@@ -1,7 +1,7 @@
 name: casinoloyalty_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.14+40
+version: 1.0.15+41
 
 environment:
   sdk: '>=3.4.0 <4.0.0'

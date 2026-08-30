@@ -87,6 +87,13 @@ class GameConfigRepository {
         requiresLocation: false,
         frequency: GameFrequency.unlimited,
       ),
+      const GameConfig(
+        gameId: 'dreams_farmland',
+        title: 'La Granja Dreams',
+        isActive: true,
+        requiresLocation: false,
+        frequency: GameFrequency.unlimited,
+      ),
     ];
   }
 
@@ -141,9 +148,10 @@ final gameAvailabilityProvider =
 
   final defaultConfig = GameConfig(
     gameId: gameId,
-    title: 'Juego',
-    isActive: false,
+    title: gameId == 'dreams_farmland' ? 'La Granja Dreams' : 'Juego',
+    isActive: true,
     requiresLocation: false,
+    frequency: GameFrequency.unlimited,
   );
 
   if (historyAsync.isLoading || rulesAsync.isLoading) {

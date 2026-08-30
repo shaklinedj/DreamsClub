@@ -1,16 +1,16 @@
-# Graph Report - DreamsClub-master  (2026-08-29)
+# Graph Report - DreamsClub-master  (2026-08-30)
 
 ## Corpus Check
-- 326 files · ~1,031,047 words
+- 335 files · ~1,034,206 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2628 nodes · 3072 edges · 273 communities (239 shown, 34 thin omitted)
+- 2677 nodes · 3126 edges · 281 communities (245 shown, 36 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6fcf1abe`
+- Built from commit: `641e6cd5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -201,6 +201,7 @@
 - [[_COMMUNITY_Community 185|Community 185]]
 - [[_COMMUNITY_Community 187|Community 187]]
 - [[_COMMUNITY_Community 188|Community 188]]
+- [[_COMMUNITY_Community 189|Community 189]]
 - [[_COMMUNITY_Community 190|Community 190]]
 - [[_COMMUNITY_Community 191|Community 191]]
 - [[_COMMUNITY_Community 192|Community 192]]
@@ -243,20 +244,24 @@
 - [[_COMMUNITY_Community 235|Community 235]]
 - [[_COMMUNITY_Community 236|Community 236]]
 - [[_COMMUNITY_Community 237|Community 237]]
+- [[_COMMUNITY_Community 272|Community 272]]
 - [[_COMMUNITY_Community 273|Community 273]]
 - [[_COMMUNITY_Community 274|Community 274]]
+- [[_COMMUNITY_Community 275|Community 275]]
+- [[_COMMUNITY_Community 276|Community 276]]
+- [[_COMMUNITY_Community 277|Community 277]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `package:flutter/material.dart` - 73 edges
-2. `package:flutter_riverpod/flutter_riverpod.dart` - 56 edges
-3. `package:casinoloyalty_flutter/providers/user_provider.dart` - 36 edges
-4. `package:go_router/go_router.dart` - 31 edges
-5. `package:cloud_firestore/cloud_firestore.dart` - 26 edges
-6. `dart:async` - 19 edges
+1. `package:flutter/material.dart` - 74 edges
+2. `package:flutter_riverpod/flutter_riverpod.dart` - 58 edges
+3. `package:casinoloyalty_flutter/providers/user_provider.dart` - 38 edges
+4. `package:go_router/go_router.dart` - 32 edges
+5. `package:cloud_firestore/cloud_firestore.dart` - 28 edges
+6. `dart:async` - 21 edges
 7. `../../layouts/AdminLayout.astro` - 18 edges
 8. `package:shared_preferences/shared_preferences.dart` - 18 edges
-9. `package:casinoloyalty_flutter/core/utils/app_logger.dart` - 17 edges
-10. `🚀 Mejoras Propuestas para DreamsClub` - 15 edges
+9. `package:casinoloyalty_flutter/core/utils/app_logger.dart` - 18 edges
+10. `package:casinoloyalty_flutter/providers/auth_provider.dart` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `OnCreate()` --calls--> `GetClientArea()`  [INFERRED]
@@ -268,7 +273,7 @@
 - `wWinMain()` --calls--> `GetCommandLineArguments()`  [INFERRED]
   windows/runner/main.cpp → windows/runner/utils.cpp
 
-## Communities (273 total, 34 thin omitted)
+## Communities (281 total, 36 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.04
@@ -287,8 +292,8 @@ Cohesion: 0.05
 Nodes (37): Activar Dreams Manía (Modo Desarrollo), Admin Panel, Análisis de Código, 🏗️ Arquitectura y Tecnologías, 🗄️ Backend y Administración, Build de Producción, 🎯 Características Principales, code:block1 (lib/) (+29 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.1
-Nodes (20): build, _buildEmptyState, _buildPrizeCard, Center, Color, Container, dispose, Divider (+12 more)
+Cohesion: 0.05
+Nodes (35): copyWith, WonPrize, build, _buildEmptyState, _buildPrizeCard, Center, Color, Container (+27 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.06
@@ -307,8 +312,8 @@ Cohesion: 0.07
 Nodes (27): registerPlugins, package:audioplayers_web/audioplayers_web.dart, package:cloud_firestore_web/cloud_firestore_web.dart, package:cloud_functions_web/cloud_functions_web.dart, package:connectivity_plus/src/connectivity_plus_web.dart, package:device_info_plus/src/device_info_plus_web.dart, package:firebase_analytics_web/firebase_analytics_web.dart, package:firebase_app_check_web/firebase_app_check_web.dart (+19 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.11
-Nodes (18): build, DreamsLoyaltyApp, _ErrorBoundary, ErrorWidget, GlobalConfettiWidget, _initializeFirebaseServices, main, Material (+10 more)
+Cohesion: 0.08
+Nodes (26): build, CoyhaiqueSocialApp, main, runZonedGuarded, build, DreamsLoyaltyApp, _ErrorBoundary, ErrorWidget (+18 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.07
@@ -348,19 +353,19 @@ Nodes (21): dependencies, astro, @astrojs/react, firebase, firebase-admin, googl
 
 ### Community 19 - "Community 19"
 Cohesion: 0.06
-Nodes (41): AuthRouterNotifier, CasinoDetailScreen, CasinoFormScreen, FeedScreen, GameConfigFormScreen, GoRouter, PostDetailScreen, PrizeDetailScreen (+33 more)
+Nodes (42): AuthRouterNotifier, CasinoDetailScreen, CasinoFormScreen, FeedScreen, GameConfigFormScreen, GoRouter, PostDetailScreen, PrizeDetailScreen (+34 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.09
 Nodes (21): dependencies, firebase-admin, firebase-functions, @google-cloud/functions-framework, description, devDependencies, eslint, eslint-config-google (+13 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.09
-Nodes (21): Duration, GameAvailability, GameConfig, GameConfigRepository, PrizeService, GameHistoryNotifier, catchChip, copyWith (+13 more)
+Cohesion: 0.11
+Nodes (17): catchChip, copyWith, dispose, DreamsManiaService, DreamsManiaState, reset, _startActivePhase, startGame (+9 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.17
-Nodes (10): dart:async, operation, retryOperation, AppUpdateService, OtaUpdate, CoyhaiqueLocationService, LocationCheckResult, package:flutter/foundation.dart (+2 more)
+Cohesion: 0.22
+Nodes (7): DefaultFirebaseOptions, UnsupportedError, AppUpdateService, OtaUpdate, package:firebase_core/firebase_core.dart, package:flutter/foundation.dart, package:ota_update/ota_update.dart
 
 ### Community 23 - "Community 23"
 Cohesion: 0.1
@@ -371,8 +376,8 @@ Cohesion: 0.1
 Nodes (20): AssetImage, build, _buildSectionHeader, dispose, Divider, Exception, FileImage, initState (+12 more)
 
 ### Community 25 - "Community 25"
-Cohesion: 0.1
-Nodes (20): build, Card, _Comment, Divider, GestureDetector, _getReactionTypeFromString, _handleReaction, initState (+12 more)
+Cohesion: 0.08
+Nodes (23): build, _buildBucketWidget, _buildCropVisualWidget, Container, dispose, FarmlandGameScreen, _FarmlandGameScreenState, _FarmlandTasksModal (+15 more)
 
 ### Community 26 - "Community 26"
 Cohesion: 0.12
@@ -396,7 +401,7 @@ Nodes (18): admin, batch, CASINO_IDS, casinoData, casinoRef, functions, lastVisi
 
 ### Community 31 - "Community 31"
 Cohesion: 0.33
-Nodes (5): cancelAll, _checkBirthdayNotification, RealNotificationService, _showWelcomeNotificationOnce, package:casinoloyalty_flutter/services/notification_service.dart
+Nodes (5): dispose, FarmlandNotifier, _initListen, _saveToFirestore, package:casinoloyalty_flutter/models/farmland_model.dart
 
 ### Community 32 - "Community 32"
 Cohesion: 0.11
@@ -447,20 +452,20 @@ Cohesion: 0.12
 Nodes (9): CarteleraItem, ../../layouts/AdminLayout.astro, ../components/AuthGuard, ../../components/carteleras/CarteleraManager, ../components/CashierRedemption, ../../components/FeedForm, ../components/NotificationManager, ../../components/StickerForm (+1 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.04
-Nodes (43): _applyGravity, _completeLevel, copyWith, _fillEmptySpaces, _generateGrid, _hasMatchAt, MatchGameNotifier, MatchGameState (+35 more)
+Cohesion: 0.2
+Nodes (8): GameHistoryNotifier, build, Container, GuestAccessWidget, Icon, MembershipGuard, SizedBox, package:casinoloyalty_flutter/providers/auth_provider.dart
 
 ### Community 45 - "Community 45"
-Cohesion: 0.13
-Nodes (14): build, CircularProgressIndicator, Color, DailyBonusDialog, _DailyBonusDialogState, dispose, _executeClaim, Icon (+6 more)
+Cohesion: 0.1
+Nodes (20): build, Card, _Comment, Divider, GestureDetector, _getReactionTypeFromString, _handleReaction, initState (+12 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.13
 Nodes (14): build, _buildBody, _buildSkeleton, Center, dispose, FeedItemWidget, FeedScreen, _FeedScreenState (+6 more)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.2
-Nodes (7): DailyGameService, clearPendingPoints, getLevelConfig, LevelConfig, MatchGameService, OnboardingService, package:shared_preferences/shared_preferences.dart
+Cohesion: 0.33
+Nodes (5): Function, listenToLiveBroadcasts, NotificationService, package:flutter_local_notifications/flutter_local_notifications.dart, package:timezone/timezone.dart
 
 ### Community 48 - "Community 48"
 Cohesion: 0.12
@@ -479,8 +484,8 @@ Cohesion: 0.04
 Nodes (42): addAchievementNotification, addNotification, addProximityNotification, dispose, isNotificationRemoved, _listenToFirestoreNotifications, _loadInitialNotifications, markAsRead (+34 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.05
-Nodes (38): AchievementsNotifier, _calculateMultiplier, DailyMission, DailyMissionsNotifier, getStreakReward, _listenToUserUpdates, StreakNotifier, _syncWithFirebase (+30 more)
+Cohesion: 0.08
+Nodes (23): AchievementsNotifier, _calculateMultiplier, DailyMission, DailyMissionsNotifier, getStreakReward, _listenToUserUpdates, StreakNotifier, _syncWithFirebase (+15 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.13
@@ -491,8 +496,8 @@ Cohesion: 0.17
 Nodes (11): dispose, _initFromCacheSynchronously, _initRealtimeListener, _loadFromCache, _loadFromFirestore, _saveToCache, _syncProfileAcrossDatabase, UnimplementedError (+3 more)
 
 ### Community 55 - "Community 55"
-Cohesion: 0.22
-Nodes (8): build, CoyhaiqueSocialApp, main, runZonedGuarded, package:casinoloyalty_flutter/services/firebase_service.dart, package:casinoloyalty_flutter/theme/app_theme.dart, package:intl/date_symbol_data_local.dart, package:timezone/data/latest.dart
+Cohesion: 0.17
+Nodes (9): build, CarteleraApp, main, MaterialApp, DailyGameService, OnboardingService, package:casinoloyalty_flutter/firebase_options.dart, package:casinoloyalty_flutter/screens/cartelera_coyhaique_screen.dart (+1 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.25
@@ -563,12 +568,12 @@ Cohesion: 0.15
 Nodes (12): build, _buildFilterTab, Center, Column, Container, Divider, GestureDetector, ListTile (+4 more)
 
 ### Community 73 - "Community 73"
-Cohesion: 0.15
-Nodes (12): build, dispose, GameVictoryDialog, _GameVictoryDialogState, _handleShare, _handleViewPrizes, initState, SizedBox (+4 more)
+Cohesion: 0.25
+Nodes (7): Duration, GameAvailability, GameConfig, GameConfigRepository, PrizeService, package:casinoloyalty_flutter/models/game_config_model.dart, package:casinoloyalty_flutter/providers/game_history_provider.dart
 
 ### Community 74 - "Community 74"
-Cohesion: 0.12
-Nodes (15): build, dispose, Icon, _onSpinComplete, Scaffold, _showPrizeDialog, SizedBox, SpinWheelScreen (+7 more)
+Cohesion: 0.15
+Nodes (12): build, dispose, Icon, _onSpinComplete, Scaffold, _showPrizeDialog, SizedBox, SpinWheelScreen (+4 more)
 
 ### Community 75 - "Community 75"
 Cohesion: 0.3
@@ -591,8 +596,8 @@ Cohesion: 0.17
 Nodes (11): Calidad, code:dart (// Visita válida (primera del día o 24h desde la última)), 🎯 CONCLUSIÓN, ✅ MEJORAS IMPLEMENTADAS, 🚀 Mejoras Propuestas para DreamsClub, 📈 MÉTRICAS DE ÉXITO, Prioridades Inmediatas:, Rendimiento (+3 more)
 
 ### Community 80 - "Community 80"
-Cohesion: 0.33
-Nodes (5): canExecute, clear, operation, RateLimiter, reset
+Cohesion: 0.14
+Nodes (11): AnalyticsService, _categorizeQRContent, _logEvent, operation, retryOperation, clearPendingPoints, getLevelConfig, LevelConfig (+3 more)
 
 ### Community 81 - "Community 81"
 Cohesion: 0.17
@@ -615,8 +620,8 @@ Cohesion: 0.17
 Nodes (11): analytics, AppLogger, debug, error, fatal, gamification, info, location (+3 more)
 
 ### Community 86 - "Community 86"
-Cohesion: 0.5
-Nodes (3): copyWith, _parseUserLevel, User
+Cohesion: 0.25
+Nodes (7): BiometricLockScreen, _BiometricLockScreenState, build, dispose, initState, Scaffold, SizedBox
 
 ### Community 87 - "Community 87"
 Cohesion: 0.17
@@ -631,8 +636,8 @@ Cohesion: 0.17
 Nodes (10): CasinoApiService, Exception, Exception, _parseLevelFromString, User, UserApiService, _userFromJson, ../firebase_service.dart (+2 more)
 
 ### Community 90 - "Community 90"
-Cohesion: 0.18
-Nodes (9): AnalyticsService, _categorizeQRContent, _logEvent, ConnectivityNotifier, dispose, _updateState, package:casinoloyalty_flutter/core/utils/app_logger.dart, package:connectivity_plus/connectivity_plus.dart (+1 more)
+Cohesion: 0.12
+Nodes (15): build, _buildInputField, Color, Column, dispose, Duration, Icon, initState (+7 more)
 
 ### Community 91 - "Community 91"
 Cohesion: 0.18
@@ -647,8 +652,8 @@ Cohesion: 0.18
 Nodes (11): 5.1 Extraer Constantes Mágicas, 5.2 Documentación de Código, 5.3 Reducir Complejidad Ciclomática, 5.4 Usar Enums en lugar de Strings, 🧹 5. CÓDIGO LIMPIO Y MANTENIBILIDAD, code:dart (// lib/services/location_service.dart:7), code:dart (// lib/core/constants/app_constants.dart), code:dart (/// Servicio para gestionar la ubicación del usuario y detec) (+3 more)
 
 ### Community 94 - "Community 94"
-Cohesion: 0.5
-Nodes (3): BackgroundServiceImpl, backgroundServiceOnStart, package:flutter_background_service/flutter_background_service.dart
+Cohesion: 0.04
+Nodes (44): CoyhaiqueLocationService, LocationCheckResult, build, CircularProgressIndicator, Color, DailyBonusDialog, _DailyBonusDialogState, dispose (+36 more)
 
 ### Community 95 - "Community 95"
 Cohesion: 0.18
@@ -659,12 +664,12 @@ Cohesion: 0.18
 Nodes (10): build, dispose, GlobalConfettiWidget, _GlobalConfettiWidgetState, IgnorePointer, initState, _showUnlockDialog, SizedBox (+2 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.33
-Nodes (5): Function, listenToLiveBroadcasts, NotificationService, package:flutter_local_notifications/flutter_local_notifications.dart, package:timezone/timezone.dart
+Cohesion: 0.13
+Nodes (14): _applyGravity, _completeLevel, copyWith, _fillEmptySpaces, _generateGrid, _hasMatchAt, MatchGameNotifier, MatchGameState (+6 more)
 
 ### Community 98 - "Community 98"
-Cohesion: 0.18
-Nodes (8): Comment, GameConfig, _parseFrequency, Exception, FirebaseService, ../firebase_options.dart, package:cloud_firestore/cloud_firestore.dart, package:firebase_storage/firebase_storage.dart
+Cohesion: 0.14
+Nodes (10): Comment, copyWith, FarmlandState, GameConfig, _parseFrequency, Exception, FirebaseService, ../firebase_options.dart (+2 more)
 
 ### Community 99 - "Community 99"
 Cohesion: 0.18
@@ -703,16 +708,16 @@ Cohesion: 0.2
 Nodes (9): darken, lighten, orDefault, RegExp, showErrorSnackBar, showSnackBar, showSuccessSnackBar, split (+1 more)
 
 ### Community 108 - "Community 108"
-Cohesion: 0.13
-Nodes (10): Color, AppConstants, Color, build, Dialog, SizedBox, VictoryCardDialog, build (+2 more)
+Cohesion: 0.11
+Nodes (13): Color, AppConstants, Color, copyWith, _parseUserLevel, User, build, Center (+5 more)
 
 ### Community 109 - "Community 109"
 Cohesion: 0.33
-Nodes (5): dart:convert, GameRulesConfig, generateRedemptionCode, PrizeService, _savePrizesLocally
+Nodes (5): build_end, build_start, code_assets, data_assets, dependencies
 
 ### Community 110 - "Community 110"
 Cohesion: 0.22
-Nodes (7): appwrite_config.dart, AppwriteFeedRepository, AppwriteService, package:appwrite/appwrite.dart, package:casinoloyalty_flutter/data/repositories/feed_repository.dart, package:casinoloyalty_flutter/services/appwrite/appwrite_config.dart, package:casinoloyalty_flutter/services/appwrite/appwrite_service.dart
+Nodes (7): AppwriteFeedRepository, FeedRepository, package:casinoloyalty_flutter/data/repositories/feed_repository.dart, package:casinoloyalty_flutter/models/comment_model.dart, package:casinoloyalty_flutter/models/feed_post_model.dart, package:casinoloyalty_flutter/services/appwrite/appwrite_config.dart, package:casinoloyalty_flutter/services/appwrite/appwrite_service.dart
 
 ### Community 111 - "Community 111"
 Cohesion: 0.39
@@ -763,12 +768,12 @@ Cohesion: 0.22
 Nodes (8): build, CasinoCard, Scaffold, SelectFavoriteScreen, SnackBar, UserProfileService, package:casinoloyalty_flutter/screens/widgets/casino_card.dart, package:casinoloyalty_flutter/services/user_profile_service.dart
 
 ### Community 123 - "Community 123"
-Cohesion: 0.14
-Nodes (12): dart:ui, build, Container, GlassContainer, build, GestureDetector, _NavBarItem, Scaffold (+4 more)
+Cohesion: 0.22
+Nodes (8): build, GestureDetector, _NavBarItem, Scaffold, ScaffoldWithNavBar, _ScaffoldWithNavBarState, SizedBox, package:casinoloyalty_flutter/widgets/app_drawer.dart
 
 ### Community 124 - "Community 124"
-Cohesion: 0.4
-Nodes (4): Exception, launchUrl, MapService, package:url_launcher/url_launcher.dart
+Cohesion: 0.22
+Nodes (7): Exception, launchUrl, MapService, launchUrl, ShareHelper, package:share_plus/share_plus.dart, package:url_launcher/url_launcher.dart
 
 ### Community 125 - "Community 125"
 Cohesion: 0.22
@@ -811,8 +816,8 @@ Cohesion: 0.25
 Nodes (8): 3.1 Manejo Global de Errores, 3.2 Validación de Permisos Mejorada, 3.3 Retry Logic para Operaciones de Red, 🛡️ 3. MANEJO DE ERRORES Y ROBUSTEZ, code:dart (// lib/main.dart), code:dart (// lib/services/location_service.dart:88), code:dart (Future<Result<Position, LocationError>> getCurrentLocation()), code:dart (// lib/core/utils/retry_helper.dart)
 
 ### Community 135 - "Community 135"
-Cohesion: 0.5
-Nodes (3): launchUrl, ShareHelper, package:share_plus/share_plus.dart
+Cohesion: 0.4
+Nodes (4): dart:ui, build, Container, GlassContainer
 
 ### Community 138 - "Community 138"
 Cohesion: 0.25
@@ -851,8 +856,8 @@ Cohesion: 0.29
 Nodes (6): build, InAppWebViewScreen, _InAppWebViewScreenState, Scaffold, package:flutter_inappwebview/flutter_inappwebview.dart, package:go_router/go_router.dart
 
 ### Community 147 - "Community 147"
-Cohesion: 0.22
-Nodes (6): FeedRepository, FeedMediaPrefetchService, _formatUrl, package:casinoloyalty_flutter/models/comment_model.dart, package:casinoloyalty_flutter/models/feed_post_model.dart, package:casinoloyalty_flutter/services/feed_media_cache_manager.dart
+Cohesion: 0.5
+Nodes (3): FeedMediaPrefetchService, _formatUrl, package:casinoloyalty_flutter/services/feed_media_cache_manager.dart
 
 ### Community 148 - "Community 148"
 Cohesion: 0.33
@@ -895,8 +900,8 @@ Cohesion: 0.33
 Nodes (6): code:block10 (// From Screen A to Screen B), code:block11 (// From Screen B back to Screen A), code:block12 (// Replace current screen with a new one (e.g., after login)), code:shell (flutter pub add go_router), code:block14 (// In main.dart or a dedicated router.dart file), **Routing and Navigation**
 
 ### Community 158 - "Community 158"
-Cohesion: 0.33
-Nodes (5): copyWith, FeedPost, _parseMediaType, _parsePostType, package:flutter_facebook_reactions/flutter_facebook_reactions.dart
+Cohesion: 0.4
+Nodes (4): build, Dialog, SizedBox, VictoryCardDialog
 
 ### Community 159 - "Community 159"
 Cohesion: 0.33
@@ -987,8 +992,8 @@ Cohesion: 0.4
 Nodes (5): 8.1 Tests Unitarios, 8.2 Widget Tests, 🧪 8. TESTING, code:dart (// test/services/location_service_test.dart), code:dart (// test/widgets/location_upgrade_banner_test.dart)
 
 ### Community 184 - "Community 184"
-Cohesion: 0.4
-Nodes (4): build, Center, FavoriteCasinoPlaceholder, SizedBox
+Cohesion: 0.33
+Nodes (5): dart:convert, GameRulesConfig, generateRedemptionCode, PrizeService, _savePrizesLocally
 
 ### Community 185 - "Community 185"
 Cohesion: 0.25
@@ -1001,6 +1006,10 @@ Nodes (4): args, command, mcpServers, firebase
 ### Community 188 - "Community 188"
 Cohesion: 0.4
 Nodes (4): images, info, author, version
+
+### Community 189 - "Community 189"
+Cohesion: 0.33
+Nodes (5): canExecute, clear, operation, RateLimiter, reset
 
 ### Community 190 - "Community 190"
 Cohesion: 0.4
@@ -1015,8 +1024,8 @@ Cohesion: 0.4
 Nodes (4): 1. Cuándo actualizar las especificaciones, 2. Estructura del Documento de Especificaciones, 3. Protocolo de Registro de Cambios, Specifications Manager Skill & Workflow
 
 ### Community 193 - "Community 193"
-Cohesion: 0.4
-Nodes (4): build, Card, CasinoCard, SizedBox
+Cohesion: 0.22
+Nodes (7): AdminCasinoRepository, seedInitialCasinos, build, Card, CasinoCard, SizedBox, package:casinoloyalty_flutter/models/casino_model.dart
 
 ### Community 194 - "Community 194"
 Cohesion: 0.4
@@ -1031,45 +1040,53 @@ Cohesion: 0.5
 Nodes (3): FeedMediaCacheManager, package:casinoloyalty_flutter/core/constants/app_constants.dart, package:flutter_cache_manager/flutter_cache_manager.dart
 
 ### Community 198 - "Community 198"
-Cohesion: 0.15
-Nodes (12): AnimatedBuilder, build, didUpdateWidget, dispose, Function, initState, paint, shouldRepaint (+4 more)
+Cohesion: 0.33
+Nodes (5): copyWith, FeedPost, _parseMediaType, _parsePostType, package:flutter_facebook_reactions/flutter_facebook_reactions.dart
 
 ### Community 201 - "Community 201"
 Cohesion: 0.5
 Nodes (3): 1. Verificación Automática, 2. Buenas Prácticas Modernas (Flutter 3.x / Dart 3.x), Flutter Expert Skill & Workflow
 
 ### Community 204 - "Community 204"
-Cohesion: 0.13
-Nodes (12): dart:math, copyWith, WonPrize, _calculateDistanceKm, CasinoService, Exception, createWonPrize, SpinWheelService (+4 more)
+Cohesion: 0.18
+Nodes (9): dart:math, _calculateDistanceKm, CasinoService, Exception, createWonPrize, SpinWheelService, WonPrize, package:casinoloyalty_flutter/models/won_prize_model.dart (+1 more)
 
 ### Community 205 - "Community 205"
 Cohesion: 0.5
 Nodes (3): ExpandedNodes, PreviewInSolutionExplorer, SelectedNode
 
+### Community 272 - "Community 272"
+Cohesion: 0.4
+Nodes (4): MessagingService, package:casinoloyalty_flutter/services/notification_service.dart, package:firebase_auth/firebase_auth.dart, package:firebase_messaging/firebase_messaging.dart
+
 ### Community 273 - "Community 273"
-Cohesion: 0.18
-Nodes (9): DefaultFirebaseOptions, UnsupportedError, build, CarteleraApp, main, MaterialApp, package:casinoloyalty_flutter/firebase_options.dart, package:casinoloyalty_flutter/screens/cartelera_coyhaique_screen.dart (+1 more)
+Cohesion: 0.2
+Nodes (8): dart:async, ConnectivityNotifier, dispose, _updateState, BackgroundServiceImpl, backgroundServiceOnStart, package:connectivity_plus/connectivity_plus.dart, package:flutter_background_service/flutter_background_service.dart
 
 ### Community 274 - "Community 274"
-Cohesion: 0.22
-Nodes (7): AdminCasinoRepository, seedInitialCasinos, Function, LocationService, resetSessionVisits, stopLocationMonitoring, package:casinoloyalty_flutter/models/casino_model.dart
+Cohesion: 0.4
+Nodes (4): Function, LocationService, resetSessionVisits, stopLocationMonitoring
+
+### Community 275 - "Community 275"
+Cohesion: 0.5
+Nodes (3): appwrite_config.dart, AppwriteService, package:appwrite/appwrite.dart
 
 ## Knowledge Gaps
-- **1749 isolated node(s):** `rules`, `indexes`, `rules`, `functions`, `public` (+1744 more)
+- **1787 isolated node(s):** `rules`, `indexes`, `rules`, `functions`, `public` (+1782 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **34 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `package:flutter/material.dart` connect `Community 108` to `Community 2`, `Community 4`, `Community 9`, `Community 10`, `Community 138`, `Community 140`, `Community 12`, `Community 14`, `Community 139`, `Community 273`, `Community 146`, `Community 19`, `Community 17`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 32`, `Community 33`, `Community 38`, `Community 39`, `Community 40`, `Community 44`, `Community 45`, `Community 46`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 55`, `Community 184`, `Community 185`, `Community 59`, `Community 60`, `Community 61`, `Community 64`, `Community 65`, `Community 193`, `Community 198`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 86`, `Community 87`, `Community 88`, `Community 94`, `Community 95`, `Community 96`, `Community 106`, `Community 107`, `Community 117`, `Community 121`, `Community 122`, `Community 123`, `Community 127`?**
-  _High betweenness centrality (0.094) - this node is a cross-community bridge._
-- **Why does `package:flutter_riverpod/flutter_riverpod.dart` connect `Community 21` to `Community 2`, `Community 4`, `Community 9`, `Community 140`, `Community 12`, `Community 14`, `Community 273`, `Community 17`, `Community 19`, `Community 23`, `Community 24`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 31`, `Community 32`, `Community 33`, `Community 38`, `Community 39`, `Community 40`, `Community 44`, `Community 45`, `Community 46`, `Community 49`, `Community 51`, `Community 52`, `Community 54`, `Community 55`, `Community 60`, `Community 61`, `Community 62`, `Community 64`, `Community 65`, `Community 71`, `Community 74`, `Community 87`, `Community 90`, `Community 96`, `Community 122`, `Community 123`, `Community 125`, `Community 127`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
-- **Why does `package:casinoloyalty_flutter/providers/user_provider.dart` connect `Community 21` to `Community 2`, `Community 4`, `Community 9`, `Community 12`, `Community 14`, `Community 273`, `Community 17`, `Community 23`, `Community 24`, `Community 26`, `Community 27`, `Community 28`, `Community 31`, `Community 32`, `Community 38`, `Community 40`, `Community 44`, `Community 45`, `Community 46`, `Community 49`, `Community 51`, `Community 52`, `Community 55`, `Community 62`, `Community 64`, `Community 65`, `Community 71`, `Community 74`, `Community 87`, `Community 127`?**
+- **Why does `package:flutter/material.dart` connect `Community 108` to `Community 2`, `Community 4`, `Community 135`, `Community 9`, `Community 10`, `Community 138`, `Community 140`, `Community 12`, `Community 14`, `Community 139`, `Community 17`, `Community 146`, `Community 19`, `Community 273`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 158`, `Community 32`, `Community 33`, `Community 38`, `Community 39`, `Community 40`, `Community 44`, `Community 45`, `Community 46`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 55`, `Community 185`, `Community 59`, `Community 60`, `Community 61`, `Community 64`, `Community 65`, `Community 193`, `Community 71`, `Community 72`, `Community 74`, `Community 86`, `Community 87`, `Community 88`, `Community 90`, `Community 94`, `Community 95`, `Community 96`, `Community 106`, `Community 107`, `Community 117`, `Community 121`, `Community 122`, `Community 123`, `Community 127`?**
+  _High betweenness centrality (0.089) - this node is a cross-community bridge._
+- **Why does `package:flutter_riverpod/flutter_riverpod.dart` connect `Community 21` to `Community 2`, `Community 4`, `Community 9`, `Community 140`, `Community 12`, `Community 14`, `Community 273`, `Community 17`, `Community 19`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 31`, `Community 32`, `Community 33`, `Community 38`, `Community 39`, `Community 40`, `Community 44`, `Community 46`, `Community 49`, `Community 51`, `Community 52`, `Community 54`, `Community 55`, `Community 60`, `Community 61`, `Community 62`, `Community 64`, `Community 65`, `Community 71`, `Community 73`, `Community 74`, `Community 86`, `Community 87`, `Community 90`, `Community 94`, `Community 96`, `Community 97`, `Community 122`, `Community 123`, `Community 125`, `Community 127`?**
+  _High betweenness centrality (0.054) - this node is a cross-community bridge._
+- **Why does `package:casinoloyalty_flutter/providers/user_provider.dart` connect `Community 21` to `Community 2`, `Community 4`, `Community 9`, `Community 12`, `Community 14`, `Community 17`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 31`, `Community 32`, `Community 38`, `Community 40`, `Community 46`, `Community 49`, `Community 51`, `Community 52`, `Community 55`, `Community 62`, `Community 64`, `Community 65`, `Community 71`, `Community 73`, `Community 74`, `Community 87`, `Community 94`, `Community 97`, `Community 127`?**
   _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **What connects `rules`, `indexes`, `rules` to the rest of the system?**
-  _1750 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1788 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.04 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

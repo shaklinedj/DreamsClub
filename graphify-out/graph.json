@@ -1053,7 +1053,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "package_connectivity_plus_connectivity_plus_dart",
-      "community": 90,
+      "community": 273,
       "norm_label": "package:connectivity_plus/connectivity_plus.dart"
     },
     {
@@ -1125,7 +1125,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "package_share_plus_share_plus_dart",
-      "community": 135,
+      "community": 124,
       "norm_label": "package:share_plus/share_plus.dart"
     },
     {
@@ -1369,6 +1369,114 @@
       "source_location": "L1",
       "id": "dart_tool_flutter_build_19127920a23adb1e149c663eab7d92d5_recorded_uses_json",
       "community": 245,
+      "norm_label": "recorded_uses.json"
+    },
+    {
+      "label": "build_hooks_result.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/build_hooks_result.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_build_hooks_result_json",
+      "community": 278,
+      "norm_label": "build_hooks_result.json"
+    },
+    {
+      "label": "link_hooks_result.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "community": 109,
+      "norm_label": "link_hooks_result.json"
+    },
+    {
+      "label": "build_start",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_build_start",
+      "community": 109,
+      "norm_label": "build_start"
+    },
+    {
+      "label": "build_end",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_build_end",
+      "community": 109,
+      "norm_label": "build_end"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_dependencies",
+      "community": 109,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "code_assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_code_assets",
+      "community": 109,
+      "norm_label": "code_assets"
+    },
+    {
+      "label": "data_assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_data_assets",
+      "community": 109,
+      "norm_label": "data_assets"
+    },
+    {
+      "label": "native_assets.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/native_assets.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_native_assets_json",
+      "community": 276,
+      "norm_label": "native_assets.json"
+    },
+    {
+      "label": "format-version",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/native_assets.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_native_assets_format_version",
+      "community": 276,
+      "norm_label": "format-version"
+    },
+    {
+      "label": "native-assets",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/native_assets.json",
+      "source_location": "L1",
+      "id": "24d57b4fcf9137f6993f7ab34aa15f51_native_assets_native_assets",
+      "community": 276,
+      "norm_label": "native-assets"
+    },
+    {
+      "label": "outputs.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/outputs.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_outputs_json",
+      "community": 279,
+      "norm_label": "outputs.json"
+    },
+    {
+      "label": "recorded_uses.json",
+      "file_type": "code",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/recorded_uses.json",
+      "source_location": "L1",
+      "id": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_recorded_uses_json",
+      "community": 280,
       "norm_label": "recorded_uses.json"
     },
     {
@@ -6652,7 +6760,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "package_lottie_lottie_dart",
-      "community": 25,
+      "community": 45,
       "norm_label": "package:lottie/lottie.dart"
     },
     {
@@ -7408,7 +7516,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "lib_firebase_options_dart",
-      "community": 273,
+      "community": 22,
       "norm_label": "firebase_options.dart"
     },
     {
@@ -7417,7 +7525,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_firebase_options_dart_defaultfirebaseoptions",
-      "community": 273,
+      "community": 22,
       "norm_label": "defaultfirebaseoptions"
     },
     {
@@ -7426,7 +7534,7 @@
       "source_file": "lib/firebase_options.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_firebase_options_dart_unsupportederror",
-      "community": 273,
+      "community": 22,
       "norm_label": "unsupportederror"
     },
     {
@@ -7435,7 +7543,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_firebase_core_firebase_core_dart",
-      "community": 273,
+      "community": 22,
       "norm_label": "package:firebase_core/firebase_core.dart"
     },
     {
@@ -7561,7 +7669,7 @@
       "source_file": "lib/widgets/dreams_mania/dreams_mania_dialog.dart",
       "source_location": null,
       "id": "dart_async",
-      "community": 22,
+      "community": 273,
       "norm_label": "dart:async"
     },
     {
@@ -7570,7 +7678,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_firebase_service_dart",
-      "community": 55,
+      "community": 9,
       "norm_label": "package:casinoloyalty_flutter/services/firebase_service.dart"
     },
     {
@@ -7597,7 +7705,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_intl_date_symbol_data_local_dart",
-      "community": 55,
+      "community": 9,
       "norm_label": "package:intl/date_symbol_data_local.dart"
     },
     {
@@ -7606,7 +7714,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "package_timezone_data_latest_dart",
-      "community": 55,
+      "community": 9,
       "norm_label": "package:timezone/data/latest.dart"
     },
     {
@@ -7615,7 +7723,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_shared_preferences_shared_preferences_dart",
-      "community": 47,
+      "community": 55,
       "norm_label": "package:shared_preferences/shared_preferences.dart"
     },
     {
@@ -7642,7 +7750,7 @@
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_theme_app_theme_dart",
-      "community": 55,
+      "community": 9,
       "norm_label": "package:casinoloyalty_flutter/theme/app_theme.dart"
     },
     {
@@ -7660,7 +7768,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_notification_service_dart",
-      "community": 31,
+      "community": 272,
       "norm_label": "package:casinoloyalty_flutter/services/notification_service.dart"
     },
     {
@@ -7705,7 +7813,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_core_utils_app_logger_dart",
-      "community": 90,
+      "community": 80,
       "norm_label": "package:casinoloyalty_flutter/core/utils/app_logger.dart"
     },
     {
@@ -7741,7 +7849,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "lib_main_cartelera_dart",
-      "community": 273,
+      "community": 55,
       "norm_label": "main_cartelera.dart"
     },
     {
@@ -7750,7 +7858,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_cartelera_dart_carteleraapp",
-      "community": 273,
+      "community": 55,
       "norm_label": "carteleraapp"
     },
     {
@@ -7759,7 +7867,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_cartelera_dart_main",
-      "community": 273,
+      "community": 55,
       "norm_label": "main"
     },
     {
@@ -7768,7 +7876,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_cartelera_dart_build",
-      "community": 273,
+      "community": 55,
       "norm_label": "build"
     },
     {
@@ -7777,7 +7885,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_cartelera_dart_materialapp",
-      "community": 273,
+      "community": 55,
       "norm_label": "materialapp"
     },
     {
@@ -7786,7 +7894,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_firebase_options_dart",
-      "community": 273,
+      "community": 55,
       "norm_label": "package:casinoloyalty_flutter/firebase_options.dart"
     },
     {
@@ -7795,7 +7903,7 @@
       "source_file": "lib/main_cartelera.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_screens_cartelera_coyhaique_screen_dart",
-      "community": 273,
+      "community": 55,
       "norm_label": "package:casinoloyalty_flutter/screens/cartelera_coyhaique_screen.dart"
     },
     {
@@ -7804,7 +7912,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "lib_main_coyhaique_social_dart",
-      "community": 55,
+      "community": 9,
       "norm_label": "main_coyhaique_social.dart"
     },
     {
@@ -7813,7 +7921,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_coyhaiquesocialapp",
-      "community": 55,
+      "community": 9,
       "norm_label": "coyhaiquesocialapp"
     },
     {
@@ -7822,7 +7930,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_main",
-      "community": 55,
+      "community": 9,
       "norm_label": "main"
     },
     {
@@ -7831,7 +7939,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_runzonedguarded",
-      "community": 55,
+      "community": 9,
       "norm_label": "runzonedguarded"
     },
     {
@@ -7840,7 +7948,7 @@
       "source_file": "lib/main_coyhaique_social.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_main_coyhaique_social_dart_build",
-      "community": 55,
+      "community": 9,
       "norm_label": "build"
     },
     {
@@ -8110,7 +8218,7 @@
       "source_file": "lib/core/services/analytics_service.dart",
       "source_location": null,
       "id": "lib_core_services_analytics_service_dart",
-      "community": 90,
+      "community": 80,
       "norm_label": "analytics_service.dart"
     },
     {
@@ -8119,7 +8227,7 @@
       "source_file": "lib/core/services/analytics_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_analytics_service_dart_analyticsservice",
-      "community": 90,
+      "community": 80,
       "norm_label": "analyticsservice"
     },
     {
@@ -8128,7 +8236,7 @@
       "source_file": "lib/core/services/analytics_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_analytics_service_dart_logevent",
-      "community": 90,
+      "community": 80,
       "norm_label": "_logevent"
     },
     {
@@ -8137,7 +8245,7 @@
       "source_file": "lib/core/services/analytics_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_analytics_service_dart_categorizeqrcontent",
-      "community": 90,
+      "community": 80,
       "norm_label": "_categorizeqrcontent"
     },
     {
@@ -8146,7 +8254,7 @@
       "source_file": "lib/core/services/analytics_service.dart",
       "source_location": null,
       "id": "package_firebase_analytics_firebase_analytics_dart",
-      "community": 90,
+      "community": 80,
       "norm_label": "package:firebase_analytics/firebase_analytics.dart"
     },
     {
@@ -8155,7 +8263,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "lib_core_services_connectivity_service_dart",
-      "community": 90,
+      "community": 273,
       "norm_label": "connectivity_service.dart"
     },
     {
@@ -8164,7 +8272,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_connectivitynotifier",
-      "community": 90,
+      "community": 273,
       "norm_label": "connectivitynotifier"
     },
     {
@@ -8173,7 +8281,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_updatestate",
-      "community": 90,
+      "community": 273,
       "norm_label": "_updatestate"
     },
     {
@@ -8182,7 +8290,7 @@
       "source_file": "lib/core/services/connectivity_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_services_connectivity_service_dart_dispose",
-      "community": 90,
+      "community": 273,
       "norm_label": "dispose"
     },
     {
@@ -8443,7 +8551,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "lib_core_utils_rate_limiter_dart",
-      "community": 80,
+      "community": 189,
       "norm_label": "rate_limiter.dart"
     },
     {
@@ -8452,7 +8560,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_ratelimiter",
-      "community": 80,
+      "community": 189,
       "norm_label": "ratelimiter"
     },
     {
@@ -8461,7 +8569,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_operation",
-      "community": 80,
+      "community": 189,
       "norm_label": "operation"
     },
     {
@@ -8470,7 +8578,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_canexecute",
-      "community": 80,
+      "community": 189,
       "norm_label": "canexecute"
     },
     {
@@ -8479,7 +8587,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_reset",
-      "community": 80,
+      "community": 189,
       "norm_label": "reset"
     },
     {
@@ -8488,7 +8596,7 @@
       "source_file": "lib/core/utils/rate_limiter.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_rate_limiter_dart_clear",
-      "community": 80,
+      "community": 189,
       "norm_label": "clear"
     },
     {
@@ -8497,7 +8605,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "lib_core_utils_retry_helper_dart",
-      "community": 22,
+      "community": 80,
       "norm_label": "retry_helper.dart"
     },
     {
@@ -8506,7 +8614,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_retry_helper_dart_operation",
-      "community": 22,
+      "community": 80,
       "norm_label": "operation"
     },
     {
@@ -8515,7 +8623,7 @@
       "source_file": "lib/core/utils/retry_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_core_utils_retry_helper_dart_retryoperation",
-      "community": 22,
+      "community": 80,
       "norm_label": "retryoperation"
     },
     {
@@ -8551,7 +8659,7 @@
       "source_file": "lib/data/mock_feed_data.dart",
       "source_location": null,
       "id": "lib_data_mock_feed_data_dart",
-      "community": 147,
+      "community": 110,
       "norm_label": "mock_feed_data.dart"
     },
     {
@@ -8560,7 +8668,7 @@
       "source_file": "lib/services/feed_media_prefetch_service.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_feed_post_model_dart",
-      "community": 147,
+      "community": 110,
       "norm_label": "package:casinoloyalty_flutter/models/feed_post_model.dart"
     },
     {
@@ -8569,7 +8677,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "lib_data_repositories_admin_casino_repository_dart",
-      "community": 274,
+      "community": 193,
       "norm_label": "admin_casino_repository.dart"
     },
     {
@@ -8578,7 +8686,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_admin_casino_repository_dart_admincasinorepository",
-      "community": 274,
+      "community": 193,
       "norm_label": "admincasinorepository"
     },
     {
@@ -8587,7 +8695,7 @@
       "source_file": "lib/data/repositories/admin_casino_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_admin_casino_repository_dart_seedinitialcasinos",
-      "community": 274,
+      "community": 193,
       "norm_label": "seedinitialcasinos"
     },
     {
@@ -8605,7 +8713,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_casino_model_dart",
-      "community": 274,
+      "community": 193,
       "norm_label": "package:casinoloyalty_flutter/models/casino_model.dart"
     },
     {
@@ -8632,7 +8740,7 @@
       "source_file": "lib/services/appwrite/appwrite_service.dart",
       "source_location": null,
       "id": "package_appwrite_appwrite_dart",
-      "community": 110,
+      "community": 275,
       "norm_label": "package:appwrite/appwrite.dart"
     },
     {
@@ -8650,7 +8758,7 @@
       "source_file": "lib/screens/feed/widgets/comment_item.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_comment_model_dart",
-      "community": 147,
+      "community": 110,
       "norm_label": "package:casinoloyalty_flutter/models/comment_model.dart"
     },
     {
@@ -8677,7 +8785,7 @@
       "source_file": "lib/data/repositories/feed_repository.dart",
       "source_location": null,
       "id": "lib_data_repositories_feed_repository_dart",
-      "community": 147,
+      "community": 110,
       "norm_label": "feed_repository.dart"
     },
     {
@@ -8686,7 +8794,7 @@
       "source_file": "lib/data/repositories/feed_repository.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_data_repositories_feed_repository_dart_feedrepository",
-      "community": 147,
+      "community": 110,
       "norm_label": "feedrepository"
     },
     {
@@ -8726,12 +8834,39 @@
       "norm_label": "comment"
     },
     {
+      "label": "farmland_model.dart",
+      "file_type": "code",
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "id": "lib_models_farmland_model_dart",
+      "community": 98,
+      "norm_label": "farmland_model.dart"
+    },
+    {
+      "label": "FarmlandState",
+      "file_type": "code",
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_models_farmland_model_dart_farmlandstate",
+      "community": 98,
+      "norm_label": "farmlandstate"
+    },
+    {
+      "label": "copyWith",
+      "file_type": "code",
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_models_farmland_model_dart_copywith",
+      "community": 98,
+      "norm_label": "copywith"
+    },
+    {
       "label": "feed_post_model.dart",
       "file_type": "code",
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "id": "lib_models_feed_post_model_dart",
-      "community": 158,
+      "community": 198,
       "norm_label": "feed_post_model.dart"
     },
     {
@@ -8740,7 +8875,7 @@
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_feed_post_model_dart_feedpost",
-      "community": 158,
+      "community": 198,
       "norm_label": "feedpost"
     },
     {
@@ -8749,7 +8884,7 @@
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_feed_post_model_dart_copywith",
-      "community": 158,
+      "community": 198,
       "norm_label": "copywith"
     },
     {
@@ -8758,7 +8893,7 @@
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_feed_post_model_dart_parsemediatype",
-      "community": 158,
+      "community": 198,
       "norm_label": "_parsemediatype"
     },
     {
@@ -8767,7 +8902,7 @@
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_feed_post_model_dart_parseposttype",
-      "community": 158,
+      "community": 198,
       "norm_label": "_parseposttype"
     },
     {
@@ -8776,7 +8911,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "package_flutter_facebook_reactions_flutter_facebook_reactions_dart",
-      "community": 158,
+      "community": 198,
       "norm_label": "package:flutter_facebook_reactions/flutter_facebook_reactions.dart"
     },
     {
@@ -8920,7 +9055,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "lib_models_user_model_dart",
-      "community": 86,
+      "community": 108,
       "norm_label": "user_model.dart"
     },
     {
@@ -8929,7 +9064,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_user",
-      "community": 86,
+      "community": 108,
       "norm_label": "user"
     },
     {
@@ -8938,7 +9073,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_copywith",
-      "community": 86,
+      "community": 108,
       "norm_label": "copywith"
     },
     {
@@ -8947,7 +9082,7 @@
       "source_file": "lib/models/user_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_user_model_dart_parseuserlevel",
-      "community": 86,
+      "community": 108,
       "norm_label": "_parseuserlevel"
     },
     {
@@ -8956,7 +9091,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "lib_models_won_prize_model_dart",
-      "community": 204,
+      "community": 4,
       "norm_label": "won_prize_model.dart"
     },
     {
@@ -8965,7 +9100,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_won_prize_model_dart_wonprize",
-      "community": 204,
+      "community": 4,
       "norm_label": "wonprize"
     },
     {
@@ -8974,7 +9109,7 @@
       "source_file": "lib/models/won_prize_model.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_models_won_prize_model_dart_copywith",
-      "community": 204,
+      "community": 4,
       "norm_label": "copywith"
     },
     {
@@ -8983,7 +9118,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_prize_model_dart",
-      "community": 204,
+      "community": 4,
       "norm_label": "package:casinoloyalty_flutter/models/prize_model.dart"
     },
     {
@@ -9230,6 +9365,15 @@
       "norm_label": "package:casinoloyalty_flutter/screens/games/match_game_screen.dart"
     },
     {
+      "label": "package:casinoloyalty_flutter/screens/games/farmland_game_screen.dart",
+      "file_type": "code",
+      "source_file": "lib/navigation/coyhaique_router.dart",
+      "source_location": null,
+      "id": "package_casinoloyalty_flutter_screens_games_farmland_game_screen_dart",
+      "community": 19,
+      "norm_label": "package:casinoloyalty_flutter/screens/games/farmland_game_screen.dart"
+    },
+    {
       "label": "package:casinoloyalty_flutter/screens/admin/admin_casinos_screen.dart",
       "file_type": "code",
       "source_file": "lib/navigation/app_router.dart",
@@ -9289,7 +9433,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_models_game_config_model_dart",
-      "community": 21,
+      "community": 73,
       "norm_label": "package:casinoloyalty_flutter/models/game_config_model.dart"
     },
     {
@@ -9496,7 +9640,7 @@
       "source_file": "lib/widgets/dreams_mania/dreams_mania_dialog.dart",
       "source_location": null,
       "id": "package_firebase_auth_firebase_auth_dart",
-      "community": 74,
+      "community": 272,
       "norm_label": "package:firebase_auth/firebase_auth.dart"
     },
     {
@@ -9525,6 +9669,60 @@
       "id": "package_casinoloyalty_flutter_services_casino_service_dart",
       "community": 21,
       "norm_label": "package:casinoloyalty_flutter/services/casino_service.dart"
+    },
+    {
+      "label": "farmland_provider.dart",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "lib_providers_farmland_provider_dart",
+      "community": 31,
+      "norm_label": "farmland_provider.dart"
+    },
+    {
+      "label": "FarmlandNotifier",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_farmlandnotifier",
+      "community": 31,
+      "norm_label": "farmlandnotifier"
+    },
+    {
+      "label": "_initListen",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_initlisten",
+      "community": 31,
+      "norm_label": "_initlisten"
+    },
+    {
+      "label": "dispose",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_dispose",
+      "community": 31,
+      "norm_label": "dispose"
+    },
+    {
+      "label": "_saveToFirestore",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_savetofirestore",
+      "community": 31,
+      "norm_label": "_savetofirestore"
+    },
+    {
+      "label": "package:casinoloyalty_flutter/models/farmland_model.dart",
+      "file_type": "code",
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "id": "package_casinoloyalty_flutter_models_farmland_model_dart",
+      "community": 31,
+      "norm_label": "package:casinoloyalty_flutter/models/farmland_model.dart"
     },
     {
       "label": "feed_provider.dart",
@@ -9631,7 +9829,7 @@
       "source_file": "lib/widgets/app_drawer.dart",
       "source_location": null,
       "id": "dart_convert",
-      "community": 109,
+      "community": 184,
       "norm_label": "dart:convert"
     },
     {
@@ -9640,7 +9838,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "lib_providers_game_availability_provider_dart",
-      "community": 21,
+      "community": 73,
       "norm_label": "game_availability_provider.dart"
     },
     {
@@ -9649,7 +9847,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameavailability",
-      "community": 21,
+      "community": 73,
       "norm_label": "gameavailability"
     },
     {
@@ -9658,7 +9856,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameconfigrepository",
-      "community": 21,
+      "community": 73,
       "norm_label": "gameconfigrepository"
     },
     {
@@ -9667,7 +9865,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_gameconfig",
-      "community": 21,
+      "community": 73,
       "norm_label": "gameconfig"
     },
     {
@@ -9676,7 +9874,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_prizeservice",
-      "community": 21,
+      "community": 73,
       "norm_label": "prizeservice"
     },
     {
@@ -9685,7 +9883,7 @@
       "source_file": "lib/providers/game_availability_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_availability_provider_dart_duration",
-      "community": 21,
+      "community": 73,
       "norm_label": "duration"
     },
     {
@@ -9694,7 +9892,7 @@
       "source_file": "test/widget_test.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_providers_game_history_provider_dart",
-      "community": 21,
+      "community": 73,
       "norm_label": "package:casinoloyalty_flutter/providers/game_history_provider.dart"
     },
     {
@@ -9712,7 +9910,7 @@
       "source_file": "lib/providers/game_history_provider.dart",
       "source_location": null,
       "id": "lib_providers_game_history_provider_dart",
-      "community": 21,
+      "community": 44,
       "norm_label": "game_history_provider.dart"
     },
     {
@@ -9721,7 +9919,7 @@
       "source_file": "lib/providers/game_history_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_game_history_provider_dart_gamehistorynotifier",
-      "community": 21,
+      "community": 44,
       "norm_label": "gamehistorynotifier"
     },
     {
@@ -9901,7 +10099,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "lib_providers_match_game_provider_dart",
-      "community": 44,
+      "community": 97,
       "norm_label": "match_game_provider.dart"
     },
     {
@@ -9910,7 +10108,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchgamestate",
-      "community": 44,
+      "community": 97,
       "norm_label": "matchgamestate"
     },
     {
@@ -9919,7 +10117,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchresult",
-      "community": 44,
+      "community": 97,
       "norm_label": "matchresult"
     },
     {
@@ -9928,7 +10126,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_matchgamenotifier",
-      "community": 44,
+      "community": 97,
       "norm_label": "matchgamenotifier"
     },
     {
@@ -9937,7 +10135,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_copywith",
-      "community": 44,
+      "community": 97,
       "norm_label": "copywith"
     },
     {
@@ -9946,7 +10144,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_generategrid",
-      "community": 44,
+      "community": 97,
       "norm_label": "_generategrid"
     },
     {
@@ -9955,7 +10153,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_randomgem",
-      "community": 44,
+      "community": 97,
       "norm_label": "_randomgem"
     },
     {
@@ -9964,7 +10162,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_hasmatchat",
-      "community": 44,
+      "community": 97,
       "norm_label": "_hasmatchat"
     },
     {
@@ -9973,7 +10171,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_processmatches",
-      "community": 44,
+      "community": 97,
       "norm_label": "_processmatches"
     },
     {
@@ -9982,7 +10180,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_completelevel",
-      "community": 44,
+      "community": 97,
       "norm_label": "_completelevel"
     },
     {
@@ -9991,7 +10189,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_applygravity",
-      "community": 44,
+      "community": 97,
       "norm_label": "_applygravity"
     },
     {
@@ -10000,7 +10198,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_fillemptyspaces",
-      "community": 44,
+      "community": 97,
       "norm_label": "_fillemptyspaces"
     },
     {
@@ -10009,7 +10207,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_startnextlevel",
-      "community": 44,
+      "community": 97,
       "norm_label": "startnextlevel"
     },
     {
@@ -10018,7 +10216,7 @@
       "source_file": "lib/providers/match_game_provider.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_providers_match_game_provider_dart_restartlevel",
-      "community": 44,
+      "community": 97,
       "norm_label": "restartlevel"
     },
     {
@@ -10036,7 +10234,7 @@
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_match_game_service_dart",
-      "community": 44,
+      "community": 97,
       "norm_label": "package:casinoloyalty_flutter/services/match_game_service.dart"
     },
     {
@@ -12250,7 +12448,7 @@
       "source_file": "lib/widgets/global_confetti_widget.dart",
       "source_location": null,
       "id": "package_confetti_confetti_dart",
-      "community": 73,
+      "community": 94,
       "norm_label": "package:confetti/confetti.dart"
     },
     {
@@ -13294,7 +13492,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "lib_screens_auth_biometric_lock_screen_dart",
-      "community": 44,
+      "community": 86,
       "norm_label": "biometric_lock_screen.dart"
     },
     {
@@ -13303,7 +13501,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_biometriclockscreen",
-      "community": 44,
+      "community": 86,
       "norm_label": "biometriclockscreen"
     },
     {
@@ -13312,7 +13510,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_biometriclockscreenstate",
-      "community": 44,
+      "community": 86,
       "norm_label": "_biometriclockscreenstate"
     },
     {
@@ -13321,7 +13519,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_initstate",
-      "community": 44,
+      "community": 86,
       "norm_label": "initstate"
     },
     {
@@ -13330,7 +13528,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_dispose",
-      "community": 44,
+      "community": 86,
       "norm_label": "dispose"
     },
     {
@@ -13339,7 +13537,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_build",
-      "community": 44,
+      "community": 86,
       "norm_label": "build"
     },
     {
@@ -13348,7 +13546,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_scaffold",
-      "community": 44,
+      "community": 86,
       "norm_label": "scaffold"
     },
     {
@@ -13357,7 +13555,7 @@
       "source_file": "lib/screens/auth/biometric_lock_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_biometric_lock_screen_dart_sizedbox",
-      "community": 44,
+      "community": 86,
       "norm_label": "sizedbox"
     },
     {
@@ -13366,7 +13564,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "lib_screens_auth_login_screen_dart",
-      "community": 44,
+      "community": 90,
       "norm_label": "login_screen.dart"
     },
     {
@@ -13375,7 +13573,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_loginscreen",
-      "community": 44,
+      "community": 90,
       "norm_label": "loginscreen"
     },
     {
@@ -13384,7 +13582,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_loginscreenstate",
-      "community": 44,
+      "community": 90,
       "norm_label": "_loginscreenstate"
     },
     {
@@ -13393,7 +13591,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_initstate",
-      "community": 44,
+      "community": 90,
       "norm_label": "initstate"
     },
     {
@@ -13402,7 +13600,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_dispose",
-      "community": 44,
+      "community": 90,
       "norm_label": "dispose"
     },
     {
@@ -13411,7 +13609,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_showforgotpassworddialog",
-      "community": 44,
+      "community": 90,
       "norm_label": "_showforgotpassworddialog"
     },
     {
@@ -13420,7 +13618,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_text",
-      "community": 44,
+      "community": 90,
       "norm_label": "text"
     },
     {
@@ -13429,7 +13627,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_sizedbox",
-      "community": 44,
+      "community": 90,
       "norm_label": "sizedbox"
     },
     {
@@ -13438,7 +13636,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_icon",
-      "community": 44,
+      "community": 90,
       "norm_label": "icon"
     },
     {
@@ -13447,7 +13645,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_snackbar",
-      "community": 44,
+      "community": 90,
       "norm_label": "snackbar"
     },
     {
@@ -13456,7 +13654,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_build",
-      "community": 44,
+      "community": 90,
       "norm_label": "build"
     },
     {
@@ -13465,7 +13663,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_scaffold",
-      "community": 44,
+      "community": 90,
       "norm_label": "scaffold"
     },
     {
@@ -13474,7 +13672,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_color",
-      "community": 44,
+      "community": 90,
       "norm_label": "color"
     },
     {
@@ -13483,7 +13681,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_duration",
-      "community": 44,
+      "community": 90,
       "norm_label": "duration"
     },
     {
@@ -13492,7 +13690,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_buildinputfield",
-      "community": 44,
+      "community": 90,
       "norm_label": "_buildinputfield"
     },
     {
@@ -13501,7 +13699,7 @@
       "source_file": "lib/screens/auth/login_screen.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_auth_login_screen_dart_column",
-      "community": 44,
+      "community": 90,
       "norm_label": "column"
     },
     {
@@ -14581,7 +14779,7 @@
       "source_file": "lib/widgets/scaffold_with_nav_bar.dart",
       "source_location": null,
       "id": "dart_ui",
-      "community": 123,
+      "community": 135,
       "norm_label": "dart:ui"
     },
     {
@@ -14635,7 +14833,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_sound_service_dart",
-      "community": 45,
+      "community": 94,
       "norm_label": "package:casinoloyalty_flutter/services/sound_service.dart"
     },
     {
@@ -14763,6 +14961,222 @@
       "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_feed_widgets_reactions_detail_modal_dart_sizedbox",
       "community": 72,
       "norm_label": "sizedbox"
+    },
+    {
+      "label": "farmland_game_screen.dart",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "lib_screens_games_farmland_game_screen_dart",
+      "community": 25,
+      "norm_label": "farmland_game_screen.dart"
+    },
+    {
+      "label": "FarmlandGameScreen",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandgamescreen",
+      "community": 25,
+      "norm_label": "farmlandgamescreen"
+    },
+    {
+      "label": "_FarmlandGameScreenState",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandgamescreenstate",
+      "community": 25,
+      "norm_label": "_farmlandgamescreenstate"
+    },
+    {
+      "label": "_FarmlandTasksModal",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandtasksmodal",
+      "community": 25,
+      "norm_label": "_farmlandtasksmodal"
+    },
+    {
+      "label": "_TaskTile",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_tasktile",
+      "community": 25,
+      "norm_label": "_tasktile"
+    },
+    {
+      "label": "initState",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_initstate",
+      "community": 25,
+      "norm_label": "initstate"
+    },
+    {
+      "label": "dispose",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_dispose",
+      "community": 25,
+      "norm_label": "dispose"
+    },
+    {
+      "label": "_onWaterPressed",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_onwaterpressed",
+      "community": 25,
+      "norm_label": "_onwaterpressed"
+    },
+    {
+      "label": "_showNoWaterSnackBar",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_shownowatersnackbar",
+      "community": 25,
+      "norm_label": "_shownowatersnackbar"
+    },
+    {
+      "label": "_showHarvestDialog",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_showharvestdialog",
+      "community": 25,
+      "norm_label": "_showharvestdialog"
+    },
+    {
+      "label": "Icon",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_icon",
+      "community": 25,
+      "norm_label": "icon"
+    },
+    {
+      "label": "SizedBox",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_sizedbox",
+      "community": 25,
+      "norm_label": "sizedbox"
+    },
+    {
+      "label": "Text",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_text",
+      "community": 25,
+      "norm_label": "text"
+    },
+    {
+      "label": "_openTasksModal",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_opentasksmodal",
+      "community": 25,
+      "norm_label": "_opentasksmodal"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_build",
+      "community": 25,
+      "norm_label": "build"
+    },
+    {
+      "label": "Scaffold",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_scaffold",
+      "community": 25,
+      "norm_label": "scaffold"
+    },
+    {
+      "label": "Spacer",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_spacer",
+      "community": 25,
+      "norm_label": "spacer"
+    },
+    {
+      "label": "_buildCropVisualWidget",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_buildcropvisualwidget",
+      "community": 25,
+      "norm_label": "_buildcropvisualwidget"
+    },
+    {
+      "label": "Container",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_container",
+      "community": 25,
+      "norm_label": "container"
+    },
+    {
+      "label": "_getCropStageTitle",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_getcropstagetitle",
+      "community": 25,
+      "norm_label": "_getcropstagetitle"
+    },
+    {
+      "label": "_buildBucketWidget",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_buildbucketwidget",
+      "community": 25,
+      "norm_label": "_buildbucketwidget"
+    },
+    {
+      "label": "GestureDetector",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_gesturedetector",
+      "community": 25,
+      "norm_label": "gesturedetector"
+    },
+    {
+      "label": "SnackBar",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_snackbar",
+      "community": 25,
+      "norm_label": "snackbar"
+    },
+    {
+      "label": "package:casinoloyalty_flutter/providers/farmland_provider.dart",
+      "file_type": "code",
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "id": "package_casinoloyalty_flutter_providers_farmland_provider_dart",
+      "community": 25,
+      "norm_label": "package:casinoloyalty_flutter/providers/farmland_provider.dart"
     },
     {
       "label": "match_game_screen.dart",
@@ -15067,7 +15481,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "lib_services_background_service_impl_dart",
-      "community": 94,
+      "community": 273,
       "norm_label": "background_service_impl.dart"
     },
     {
@@ -15076,7 +15490,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_background_service_impl_dart_backgroundserviceimpl",
-      "community": 94,
+      "community": 273,
       "norm_label": "backgroundserviceimpl"
     },
     {
@@ -15085,7 +15499,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_background_service_impl_dart_backgroundserviceonstart",
-      "community": 94,
+      "community": 273,
       "norm_label": "backgroundserviceonstart"
     },
     {
@@ -15094,7 +15508,7 @@
       "source_file": "lib/services/background_service_impl.dart",
       "source_location": null,
       "id": "package_flutter_background_service_flutter_background_service_dart",
-      "community": 94,
+      "community": 273,
       "norm_label": "package:flutter_background_service/flutter_background_service.dart"
     },
     {
@@ -15139,7 +15553,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "lib_services_coyhaique_location_service_dart",
-      "community": 22,
+      "community": 94,
       "norm_label": "coyhaique_location_service.dart"
     },
     {
@@ -15148,7 +15562,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_coyhaique_location_service_dart_locationcheckresult",
-      "community": 22,
+      "community": 94,
       "norm_label": "locationcheckresult"
     },
     {
@@ -15157,7 +15571,7 @@
       "source_file": "lib/services/coyhaique_location_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_coyhaique_location_service_dart_coyhaiquelocationservice",
-      "community": 22,
+      "community": 94,
       "norm_label": "coyhaiquelocationservice"
     },
     {
@@ -15166,7 +15580,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "package_geolocator_geolocator_dart",
-      "community": 22,
+      "community": 94,
       "norm_label": "package:geolocator/geolocator.dart"
     },
     {
@@ -15175,7 +15589,7 @@
       "source_file": "lib/services/daily_game_service.dart",
       "source_location": null,
       "id": "lib_services_daily_game_service_dart",
-      "community": 47,
+      "community": 55,
       "norm_label": "daily_game_service.dart"
     },
     {
@@ -15184,7 +15598,7 @@
       "source_file": "lib/services/daily_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_daily_game_service_dart_dailygameservice",
-      "community": 47,
+      "community": 55,
       "norm_label": "dailygameservice"
     },
     {
@@ -15589,7 +16003,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "lib_services_match_game_service_dart",
-      "community": 47,
+      "community": 80,
       "norm_label": "match_game_service.dart"
     },
     {
@@ -15598,7 +16012,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_matchgameservice",
-      "community": 47,
+      "community": 80,
       "norm_label": "matchgameservice"
     },
     {
@@ -15607,7 +16021,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_levelconfig",
-      "community": 47,
+      "community": 80,
       "norm_label": "levelconfig"
     },
     {
@@ -15616,7 +16030,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_clearpendingpoints",
-      "community": 47,
+      "community": 80,
       "norm_label": "clearpendingpoints"
     },
     {
@@ -15625,7 +16039,7 @@
       "source_file": "lib/services/match_game_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_match_game_service_dart_getlevelconfig",
-      "community": 47,
+      "community": 80,
       "norm_label": "getlevelconfig"
     },
     {
@@ -15634,7 +16048,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "lib_services_messaging_service_dart",
-      "community": 74,
+      "community": 272,
       "norm_label": "messaging_service.dart"
     },
     {
@@ -15643,7 +16057,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_messaging_service_dart_messagingservice",
-      "community": 74,
+      "community": 272,
       "norm_label": "messagingservice"
     },
     {
@@ -15652,7 +16066,7 @@
       "source_file": "lib/services/messaging_service.dart",
       "source_location": null,
       "id": "package_firebase_messaging_firebase_messaging_dart",
-      "community": 74,
+      "community": 272,
       "norm_label": "package:firebase_messaging/firebase_messaging.dart"
     },
     {
@@ -15661,7 +16075,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "lib_services_notification_service_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "notification_service.dart"
     },
     {
@@ -15670,7 +16084,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_notification_service_dart_notificationservice",
-      "community": 97,
+      "community": 47,
       "norm_label": "notificationservice"
     },
     {
@@ -15679,7 +16093,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_notification_service_dart_function",
-      "community": 97,
+      "community": 47,
       "norm_label": "function"
     },
     {
@@ -15688,7 +16102,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_notification_service_dart_listentolivebroadcasts",
-      "community": 97,
+      "community": 47,
       "norm_label": "listentolivebroadcasts"
     },
     {
@@ -15697,7 +16111,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "package_flutter_local_notifications_flutter_local_notifications_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "package:flutter_local_notifications/flutter_local_notifications.dart"
     },
     {
@@ -15706,7 +16120,7 @@
       "source_file": "lib/services/notification_service.dart",
       "source_location": null,
       "id": "package_timezone_timezone_dart",
-      "community": 97,
+      "community": 47,
       "norm_label": "package:timezone/timezone.dart"
     },
     {
@@ -15715,7 +16129,7 @@
       "source_file": "lib/services/onboarding_service.dart",
       "source_location": null,
       "id": "lib_services_onboarding_service_dart",
-      "community": 47,
+      "community": 55,
       "norm_label": "onboarding_service.dart"
     },
     {
@@ -15724,7 +16138,7 @@
       "source_file": "lib/services/onboarding_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_onboarding_service_dart_onboardingservice",
-      "community": 47,
+      "community": 55,
       "norm_label": "onboardingservice"
     },
     {
@@ -15733,7 +16147,7 @@
       "source_file": "lib/services/prize_service.dart",
       "source_location": null,
       "id": "lib_services_prize_service_dart",
-      "community": 109,
+      "community": 184,
       "norm_label": "prize_service.dart"
     },
     {
@@ -15742,7 +16156,7 @@
       "source_file": "lib/services/prize_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_prize_service_dart_gamerulesconfig",
-      "community": 109,
+      "community": 184,
       "norm_label": "gamerulesconfig"
     },
     {
@@ -15751,7 +16165,7 @@
       "source_file": "lib/services/prize_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_prize_service_dart_prizeservice",
-      "community": 109,
+      "community": 184,
       "norm_label": "prizeservice"
     },
     {
@@ -15760,7 +16174,7 @@
       "source_file": "lib/services/prize_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_prize_service_dart_generateredemptioncode",
-      "community": 109,
+      "community": 184,
       "norm_label": "generateredemptioncode"
     },
     {
@@ -15769,7 +16183,7 @@
       "source_file": "lib/services/prize_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_prize_service_dart_saveprizeslocally",
-      "community": 109,
+      "community": 184,
       "norm_label": "_saveprizeslocally"
     },
     {
@@ -15778,7 +16192,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "lib_services_real_notification_service_dart",
-      "community": 31,
+      "community": 21,
       "norm_label": "real_notification_service.dart"
     },
     {
@@ -15787,7 +16201,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_real_notification_service_dart_realnotificationservice",
-      "community": 31,
+      "community": 21,
       "norm_label": "realnotificationservice"
     },
     {
@@ -15796,7 +16210,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_real_notification_service_dart_showwelcomenotificationonce",
-      "community": 31,
+      "community": 21,
       "norm_label": "_showwelcomenotificationonce"
     },
     {
@@ -15805,7 +16219,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_real_notification_service_dart_checkbirthdaynotification",
-      "community": 31,
+      "community": 21,
       "norm_label": "_checkbirthdaynotification"
     },
     {
@@ -15814,7 +16228,7 @@
       "source_file": "lib/services/real_notification_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_real_notification_service_dart_cancelall",
-      "community": 31,
+      "community": 21,
       "norm_label": "cancelall"
     },
     {
@@ -16030,7 +16444,7 @@
       "source_file": "lib/services/appwrite/appwrite_service.dart",
       "source_location": null,
       "id": "lib_services_appwrite_appwrite_service_dart",
-      "community": 110,
+      "community": 275,
       "norm_label": "appwrite_service.dart"
     },
     {
@@ -16039,7 +16453,7 @@
       "source_file": "lib/services/appwrite/appwrite_service.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_services_appwrite_appwrite_service_dart_appwriteservice",
-      "community": 110,
+      "community": 275,
       "norm_label": "appwriteservice"
     },
     {
@@ -16048,7 +16462,7 @@
       "source_file": "lib/services/appwrite/appwrite_service.dart",
       "source_location": null,
       "id": "appwrite_config_dart",
-      "community": 110,
+      "community": 275,
       "norm_label": "appwrite_config.dart"
     },
     {
@@ -16120,7 +16534,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "lib_utils_share_helper_dart",
-      "community": 135,
+      "community": 124,
       "norm_label": "share_helper.dart"
     },
     {
@@ -16129,7 +16543,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_utils_share_helper_dart_sharehelper",
-      "community": 135,
+      "community": 124,
       "norm_label": "sharehelper"
     },
     {
@@ -16138,7 +16552,7 @@
       "source_file": "lib/utils/share_helper.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_utils_share_helper_dart_launchurl",
-      "community": 135,
+      "community": 124,
       "norm_label": "launchurl"
     },
     {
@@ -16588,7 +17002,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "lib_widgets_daily_bonus_dialog_dart",
-      "community": 45,
+      "community": 94,
       "norm_label": "daily_bonus_dialog.dart"
     },
     {
@@ -16597,7 +17011,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_dailybonusdialog",
-      "community": 45,
+      "community": 94,
       "norm_label": "dailybonusdialog"
     },
     {
@@ -16606,7 +17020,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_dailybonusdialogstate",
-      "community": 45,
+      "community": 94,
       "norm_label": "_dailybonusdialogstate"
     },
     {
@@ -16615,7 +17029,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_initstate",
-      "community": 45,
+      "community": 94,
       "norm_label": "initstate"
     },
     {
@@ -16624,7 +17038,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_dispose",
-      "community": 45,
+      "community": 94,
       "norm_label": "dispose"
     },
     {
@@ -16633,7 +17047,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_executeclaim",
-      "community": 45,
+      "community": 94,
       "norm_label": "_executeclaim"
     },
     {
@@ -16642,7 +17056,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_openstickers",
-      "community": 45,
+      "community": 94,
       "norm_label": "_openstickers"
     },
     {
@@ -16651,7 +17065,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_build",
-      "community": 45,
+      "community": 94,
       "norm_label": "build"
     },
     {
@@ -16660,7 +17074,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_stack",
-      "community": 45,
+      "community": 94,
       "norm_label": "stack"
     },
     {
@@ -16669,7 +17083,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_text",
-      "community": 45,
+      "community": 94,
       "norm_label": "text"
     },
     {
@@ -16678,7 +17092,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_sizedbox",
-      "community": 45,
+      "community": 94,
       "norm_label": "sizedbox"
     },
     {
@@ -16687,7 +17101,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_circularprogressindicator",
-      "community": 45,
+      "community": 94,
       "norm_label": "circularprogressindicator"
     },
     {
@@ -16696,7 +17110,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_icon",
-      "community": 45,
+      "community": 94,
       "norm_label": "icon"
     },
     {
@@ -16705,7 +17119,7 @@
       "source_file": "lib/widgets/daily_bonus_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_daily_bonus_dialog_dart_color",
-      "community": 45,
+      "community": 94,
       "norm_label": "color"
     },
     {
@@ -16714,7 +17128,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "package_casinoloyalty_flutter_services_coyhaique_location_service_dart",
-      "community": 52,
+      "community": 94,
       "norm_label": "package:casinoloyalty_flutter/services/coyhaique_location_service.dart"
     },
     {
@@ -16723,7 +17137,7 @@
       "source_file": "lib/widgets/favorite_casino_placeholder.dart",
       "source_location": null,
       "id": "lib_widgets_favorite_casino_placeholder_dart",
-      "community": 184,
+      "community": 108,
       "norm_label": "favorite_casino_placeholder.dart"
     },
     {
@@ -16732,7 +17146,7 @@
       "source_file": "lib/widgets/favorite_casino_placeholder.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_favorite_casino_placeholder_dart_favoritecasinoplaceholder",
-      "community": 184,
+      "community": 108,
       "norm_label": "favoritecasinoplaceholder"
     },
     {
@@ -16741,7 +17155,7 @@
       "source_file": "lib/widgets/favorite_casino_placeholder.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_favorite_casino_placeholder_dart_build",
-      "community": 184,
+      "community": 108,
       "norm_label": "build"
     },
     {
@@ -16750,7 +17164,7 @@
       "source_file": "lib/widgets/favorite_casino_placeholder.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_favorite_casino_placeholder_dart_center",
-      "community": 184,
+      "community": 108,
       "norm_label": "center"
     },
     {
@@ -16759,7 +17173,7 @@
       "source_file": "lib/widgets/favorite_casino_placeholder.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_favorite_casino_placeholder_dart_sizedbox",
-      "community": 184,
+      "community": 108,
       "norm_label": "sizedbox"
     },
     {
@@ -16768,7 +17182,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "lib_widgets_game_victory_dialog_dart",
-      "community": 73,
+      "community": 94,
       "norm_label": "game_victory_dialog.dart"
     },
     {
@@ -16777,7 +17191,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_gamevictorydialog",
-      "community": 73,
+      "community": 94,
       "norm_label": "gamevictorydialog"
     },
     {
@@ -16786,7 +17200,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_gamevictorydialogstate",
-      "community": 73,
+      "community": 94,
       "norm_label": "_gamevictorydialogstate"
     },
     {
@@ -16795,7 +17209,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_initstate",
-      "community": 73,
+      "community": 94,
       "norm_label": "initstate"
     },
     {
@@ -16804,7 +17218,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_dispose",
-      "community": 73,
+      "community": 94,
       "norm_label": "dispose"
     },
     {
@@ -16813,7 +17227,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_handleshare",
-      "community": 73,
+      "community": 94,
       "norm_label": "_handleshare"
     },
     {
@@ -16822,7 +17236,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_handleviewprizes",
-      "community": 73,
+      "community": 94,
       "norm_label": "_handleviewprizes"
     },
     {
@@ -16831,7 +17245,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_build",
-      "community": 73,
+      "community": 94,
       "norm_label": "build"
     },
     {
@@ -16840,7 +17254,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_stack",
-      "community": 73,
+      "community": 94,
       "norm_label": "stack"
     },
     {
@@ -16849,7 +17263,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_sizedbox",
-      "community": 73,
+      "community": 94,
       "norm_label": "sizedbox"
     },
     {
@@ -16858,7 +17272,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_text",
-      "community": 73,
+      "community": 94,
       "norm_label": "text"
     },
     {
@@ -16867,7 +17281,7 @@
       "source_file": "lib/widgets/game_victory_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_game_victory_dialog_dart_snackbar",
-      "community": 73,
+      "community": 94,
       "norm_label": "snackbar"
     },
     {
@@ -16876,7 +17290,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "lib_widgets_gamification_section_dart",
-      "community": 52,
+      "community": 94,
       "norm_label": "gamification_section.dart"
     },
     {
@@ -16885,7 +17299,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_gamificationsection",
-      "community": 52,
+      "community": 94,
       "norm_label": "gamificationsection"
     },
     {
@@ -16894,7 +17308,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_streakcard",
-      "community": 52,
+      "community": 94,
       "norm_label": "_streakcard"
     },
     {
@@ -16903,7 +17317,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_streakcardstate",
-      "community": 52,
+      "community": 94,
       "norm_label": "_streakcardstate"
     },
     {
@@ -16912,7 +17326,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_miniachievementslist",
-      "community": 52,
+      "community": 94,
       "norm_label": "_miniachievementslist"
     },
     {
@@ -16921,7 +17335,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_build",
-      "community": 52,
+      "community": 94,
       "norm_label": "build"
     },
     {
@@ -16930,7 +17344,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_column",
-      "community": 52,
+      "community": 94,
       "norm_label": "column"
     },
     {
@@ -16939,7 +17353,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_sizedbox",
-      "community": 52,
+      "community": 94,
       "norm_label": "sizedbox"
     },
     {
@@ -16948,7 +17362,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_stack",
-      "community": 52,
+      "community": 94,
       "norm_label": "stack"
     },
     {
@@ -16957,7 +17371,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_snackbar",
-      "community": 52,
+      "community": 94,
       "norm_label": "snackbar"
     },
     {
@@ -16966,7 +17380,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_text",
-      "community": 52,
+      "community": 94,
       "norm_label": "text"
     },
     {
@@ -16975,7 +17389,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_padding",
-      "community": 52,
+      "community": 94,
       "norm_label": "padding"
     },
     {
@@ -16984,7 +17398,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_icon",
-      "community": 52,
+      "community": 94,
       "norm_label": "icon"
     },
     {
@@ -16993,7 +17407,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_center",
-      "community": 52,
+      "community": 94,
       "norm_label": "center"
     },
     {
@@ -17002,7 +17416,7 @@
       "source_file": "lib/widgets/gamification_section.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_gamification_section_dart_container",
-      "community": 52,
+      "community": 94,
       "norm_label": "container"
     },
     {
@@ -17011,7 +17425,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "lib_widgets_glass_container_dart",
-      "community": 123,
+      "community": 135,
       "norm_label": "glass_container.dart"
     },
     {
@@ -17020,7 +17434,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_glasscontainer",
-      "community": 123,
+      "community": 135,
       "norm_label": "glasscontainer"
     },
     {
@@ -17029,7 +17443,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_build",
-      "community": 123,
+      "community": 135,
       "norm_label": "build"
     },
     {
@@ -17038,7 +17452,7 @@
       "source_file": "lib/widgets/glass_container.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_glass_container_dart_container",
-      "community": 123,
+      "community": 135,
       "norm_label": "container"
     },
     {
@@ -17875,7 +18289,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "lib_widgets_social_post_card_dart",
-      "community": 25,
+      "community": 45,
       "norm_label": "social_post_card.dart"
     },
     {
@@ -17884,7 +18298,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_socialpostcard",
-      "community": 25,
+      "community": 45,
       "norm_label": "socialpostcard"
     },
     {
@@ -17893,7 +18307,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_socialpostcardstate",
-      "community": 25,
+      "community": 45,
       "norm_label": "_socialpostcardstate"
     },
     {
@@ -17902,7 +18316,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_comment",
-      "community": 25,
+      "community": 45,
       "norm_label": "_comment"
     },
     {
@@ -17911,7 +18325,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_shareoption",
-      "community": 25,
+      "community": 45,
       "norm_label": "_shareoption"
     },
     {
@@ -17920,7 +18334,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_getreactiontypefromstring",
-      "community": 25,
+      "community": 45,
       "norm_label": "_getreactiontypefromstring"
     },
     {
@@ -17929,7 +18343,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_initstate",
-      "community": 25,
+      "community": 45,
       "norm_label": "initstate"
     },
     {
@@ -17938,7 +18352,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_handlereaction",
-      "community": 25,
+      "community": 45,
       "norm_label": "_handlereaction"
     },
     {
@@ -17947,7 +18361,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_showshareoptions",
-      "community": 25,
+      "community": 45,
       "norm_label": "_showshareoptions"
     },
     {
@@ -17956,7 +18370,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_sizedbox",
-      "community": 25,
+      "community": 45,
       "norm_label": "sizedbox"
     },
     {
@@ -17965,7 +18379,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_text",
-      "community": 25,
+      "community": 45,
       "norm_label": "text"
     },
     {
@@ -17974,7 +18388,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_snackbar",
-      "community": 25,
+      "community": 45,
       "norm_label": "snackbar"
     },
     {
@@ -17983,7 +18397,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_build",
-      "community": 25,
+      "community": 45,
       "norm_label": "build"
     },
     {
@@ -17992,7 +18406,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_card",
-      "community": 25,
+      "community": 45,
       "norm_label": "card"
     },
     {
@@ -18001,7 +18415,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_positioned",
-      "community": 25,
+      "community": 45,
       "norm_label": "positioned"
     },
     {
@@ -18010,7 +18424,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_divider",
-      "community": 25,
+      "community": 45,
       "norm_label": "divider"
     },
     {
@@ -18019,7 +18433,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_listtile",
-      "community": 25,
+      "community": 45,
       "norm_label": "listtile"
     },
     {
@@ -18028,7 +18442,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_textstyle",
-      "community": 25,
+      "community": 45,
       "norm_label": "textstyle"
     },
     {
@@ -18037,7 +18451,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_social_post_card_dart_gesturedetector",
-      "community": 25,
+      "community": 45,
       "norm_label": "gesturedetector"
     },
     {
@@ -18046,7 +18460,7 @@
       "source_file": "lib/widgets/social_post_card.dart",
       "source_location": null,
       "id": "utils_share_helper_dart",
-      "community": 25,
+      "community": 45,
       "norm_label": "../utils/share_helper.dart"
     },
     {
@@ -18055,7 +18469,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "lib_widgets_spin_wheel_widget_dart",
-      "community": 198,
+      "community": 4,
       "norm_label": "spin_wheel_widget.dart"
     },
     {
@@ -18064,7 +18478,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_spinwheelwidget",
-      "community": 198,
+      "community": 4,
       "norm_label": "spinwheelwidget"
     },
     {
@@ -18073,7 +18487,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_spinwheelwidgetstate",
-      "community": 198,
+      "community": 4,
       "norm_label": "_spinwheelwidgetstate"
     },
     {
@@ -18082,7 +18496,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_wheelpainter",
-      "community": 198,
+      "community": 4,
       "norm_label": "wheelpainter"
     },
     {
@@ -18091,7 +18505,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_function",
-      "community": 198,
+      "community": 4,
       "norm_label": "function"
     },
     {
@@ -18100,7 +18514,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_initstate",
-      "community": 198,
+      "community": 4,
       "norm_label": "initstate"
     },
     {
@@ -18109,7 +18523,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_dispose",
-      "community": 198,
+      "community": 4,
       "norm_label": "dispose"
     },
     {
@@ -18118,7 +18532,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_didupdatewidget",
-      "community": 198,
+      "community": 4,
       "norm_label": "didupdatewidget"
     },
     {
@@ -18127,7 +18541,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_startspin",
-      "community": 198,
+      "community": 4,
       "norm_label": "_startspin"
     },
     {
@@ -18136,7 +18550,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_build",
-      "community": 198,
+      "community": 4,
       "norm_label": "build"
     },
     {
@@ -18145,7 +18559,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_animatedbuilder",
-      "community": 198,
+      "community": 4,
       "norm_label": "animatedbuilder"
     },
     {
@@ -18154,7 +18568,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_paint",
-      "community": 198,
+      "community": 4,
       "norm_label": "paint"
     },
     {
@@ -18163,7 +18577,7 @@
       "source_file": "lib/widgets/spin_wheel_widget.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_spin_wheel_widget_dart_shouldrepaint",
-      "community": 198,
+      "community": 4,
       "norm_label": "shouldrepaint"
     },
     {
@@ -18316,7 +18730,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "lib_widgets_dreams_mania_victory_card_dialog_dart",
-      "community": 108,
+      "community": 158,
       "norm_label": "victory_card_dialog.dart"
     },
     {
@@ -18325,7 +18739,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_victorycarddialog",
-      "community": 108,
+      "community": 158,
       "norm_label": "victorycarddialog"
     },
     {
@@ -18334,7 +18748,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_build",
-      "community": 108,
+      "community": 158,
       "norm_label": "build"
     },
     {
@@ -18343,7 +18757,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_dialog",
-      "community": 108,
+      "community": 158,
       "norm_label": "dialog"
     },
     {
@@ -18352,7 +18766,7 @@
       "source_file": "lib/widgets/dreams_mania/victory_card_dialog.dart",
       "source_location": null,
       "id": "e_dreamsclub_master_dreamsclub_master_lib_widgets_dreams_mania_victory_card_dialog_dart_sizedbox",
-      "community": 108,
+      "community": 158,
       "norm_label": "sizedbox"
     },
     {
@@ -22921,6 +23335,33 @@
     {
       "label": "SKILL.md",
       "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L1",
+      "id": "agents_skills_graphify_skill_md",
+      "community": 277,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "Skill: Graphify Navigation",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L6",
+      "id": "graphify_skill_skill_graphify_navigation",
+      "community": 277,
+      "norm_label": "skill: graphify navigation"
+    },
+    {
+      "label": "Instrucciones de uso",
+      "file_type": "document",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L10",
+      "id": "graphify_skill_instrucciones_de_uso",
+      "community": 277,
+      "norm_label": "instrucciones de uso"
+    },
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
       "source_file": ".agents/skills/security-hardening/SKILL.md",
       "source_location": "L1",
       "id": "agents_skills_security_hardening_skill_md",
@@ -25211,6 +25652,76 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_build_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_build_end",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_code_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/link_hooks_result.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_link_hooks_result_data_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/native_assets.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_native_assets_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_native_assets_format_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".dart_tool/flutter_build/24d57b4fcf9137f6993f7ab34aa15f51/native_assets.json",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "dart_tool_flutter_build_24d57b4fcf9137f6993f7ab34aa15f51_native_assets_json",
+      "target": "24d57b4fcf9137f6993f7ab34aa15f51_native_assets_native_assets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".dart_tool/flutter_build/75095a7cade057aa93c5f81a74f6626a/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
@@ -25424,9 +25935,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_start",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_start"
     },
     {
       "relation": "contains",
@@ -25434,9 +25945,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_end",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_build_end"
     },
     {
       "relation": "contains",
@@ -25444,9 +25955,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_dependencies",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_dependencies"
     },
     {
       "relation": "contains",
@@ -25454,9 +25965,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_code_assets",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_code_assets"
     },
     {
       "relation": "contains",
@@ -25464,9 +25975,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/link_hooks_result.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_data_assets",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_link_hooks_result_data_assets"
     },
     {
       "relation": "contains",
@@ -25474,9 +25985,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_native_assets_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_format_version",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_format_version"
     },
     {
       "relation": "contains",
@@ -25484,9 +25995,9 @@
       "source_file": ".dart_tool/flutter_build/ed92e6bbe0cb414fe57aed27b4430c94/native_assets.json",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "dart_tool_flutter_build_ed92e6bbe0cb414fe57aed27b4430c94_native_assets_json",
-      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_native_assets",
-      "confidence_score": 1.0
+      "target": "ed92e6bbe0cb414fe57aed27b4430c94_native_assets_native_assets"
     },
     {
       "relation": "contains",
@@ -32230,6 +32741,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "package_flutter_material_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "weight": 1.0,
@@ -33880,6 +34401,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "dart_async"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/providers/feed_provider.dart",
       "source_location": null,
       "weight": 1.0,
@@ -33934,6 +34465,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_auth_biometric_lock_screen_dart",
+      "target": "dart_async"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
       "target": "dart_async"
     },
     {
@@ -34084,6 +34625,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_providers_casino_providers_dart",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
       "target": "package_flutter_riverpod_flutter_riverpod_dart"
     },
     {
@@ -34424,6 +34975,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_feed_widgets_feed_item_widget_dart",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
       "target": "package_flutter_riverpod_flutter_riverpod_dart"
     },
     {
@@ -34800,6 +35361,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "package_go_router_go_router_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/screens/games/match_game_screen.dart",
       "source_location": null,
       "weight": 1.0,
@@ -35090,6 +35661,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "package_casinoloyalty_flutter_providers_user_provider_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/providers/feed_provider.dart",
       "source_location": null,
       "weight": 1.0,
@@ -35324,6 +35905,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_screens_feed_widgets_feed_item_widget_dart",
+      "target": "package_casinoloyalty_flutter_providers_user_provider_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
       "target": "package_casinoloyalty_flutter_providers_user_provider_dart"
     },
     {
@@ -35624,6 +36215,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_providers_auth_provider_dart",
+      "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
       "target": "package_casinoloyalty_flutter_core_utils_app_logger_dart"
     },
     {
@@ -36730,6 +37331,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_models_farmland_model_dart",
+      "target": "package_cloud_firestore_cloud_firestore_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/models/feed_post_model.dart",
       "source_location": null,
       "weight": 1.0,
@@ -36764,6 +37375,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_providers_auth_provider_dart",
+      "target": "package_cloud_firestore_cloud_firestore_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
       "target": "package_cloud_firestore_cloud_firestore_dart"
     },
     {
@@ -37205,6 +37826,26 @@
       "weight": 1.0,
       "source": "lib_models_comment_model_dart",
       "target": "e_dreamsclub_master_dreamsclub_master_lib_models_comment_model_dart_comment"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_models_farmland_model_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_models_farmland_model_dart_farmlandstate"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/models/farmland_model.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_models_farmland_model_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_models_farmland_model_dart_copywith"
     },
     {
       "relation": "defines",
@@ -37774,6 +38415,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_navigation_app_router_dart",
+      "target": "package_casinoloyalty_flutter_screens_games_farmland_game_screen_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/navigation/app_router.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_navigation_app_router_dart",
       "target": "package_casinoloyalty_flutter_screens_admin_admin_casinos_screen_dart"
     },
     {
@@ -38014,6 +38665,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_navigation_coyhaique_router_dart",
+      "target": "package_casinoloyalty_flutter_screens_games_farmland_game_screen_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/navigation/coyhaique_router.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_navigation_coyhaique_router_dart",
       "target": "package_casinoloyalty_flutter_screens_auth_login_screen_dart"
     },
     {
@@ -38090,6 +38751,16 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "package_casinoloyalty_flutter_providers_auth_provider_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "lib/providers/feed_provider.dart",
       "source_location": null,
       "weight": 1.0,
@@ -38104,6 +38775,16 @@
       "source_location": null,
       "weight": 1.0,
       "source": "lib_providers_game_history_provider_dart",
+      "target": "package_casinoloyalty_flutter_providers_auth_provider_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/gamification_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_gamification_provider_dart",
       "target": "package_casinoloyalty_flutter_providers_auth_provider_dart"
     },
     {
@@ -38585,6 +39266,56 @@
       "weight": 1.0,
       "source": "lib_providers_casino_providers_dart",
       "target": "package_casinoloyalty_flutter_services_casino_service_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_farmlandnotifier"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_initlisten"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_dispose"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_providers_farmland_provider_dart_savetofirestore"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/providers/farmland_provider.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_providers_farmland_provider_dart",
+      "target": "package_casinoloyalty_flutter_models_farmland_model_dart"
     },
     {
       "relation": "defines",
@@ -45105,6 +45836,236 @@
       "weight": 1.0,
       "source": "lib_screens_feed_widgets_reactions_detail_modal_dart",
       "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_feed_widgets_reactions_detail_modal_dart_sizedbox"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandgamescreen"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandgamescreenstate"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_farmlandtasksmodal"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_tasktile"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_initstate"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_dispose"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_onwaterpressed"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_shownowatersnackbar"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_showharvestdialog"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_icon"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_sizedbox"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_text"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_opentasksmodal"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_build"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_scaffold"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_spacer"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_buildcropvisualwidget"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_container"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_getcropstagetitle"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_buildbucketwidget"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_gesturedetector"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "e_dreamsclub_master_dreamsclub_master_lib_screens_games_farmland_game_screen_dart_snackbar"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/screens/games/farmland_game_screen.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "lib_screens_games_farmland_game_screen_dart",
+      "target": "package_casinoloyalty_flutter_providers_farmland_provider_dart"
     },
     {
       "relation": "defines",
@@ -53733,6 +54694,26 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "agents_skills_graphify_skill_md",
+      "target": "graphify_skill_skill_graphify_navigation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".agents/skills/graphify/SKILL.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "graphify_skill_skill_graphify_navigation",
+      "target": "graphify_skill_instrucciones_de_uso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".agents/skills/security-hardening/SKILL.md",
       "source_location": "L8",
       "weight": 1.0,
@@ -54432,5 +55413,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6fcf1abeea916d0a688c2ff04160ccf40077388a"
+  "built_at_commit": "641e6cd57d8f71ecd5f50c32095eeacac8cba91a"
 }

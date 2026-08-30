@@ -134,7 +134,15 @@ class User {
     return User(
       name: map['name'] ?? '',
       email: map['email'] ?? '',
-      profileImageUrl: map['profile_image_url'] ?? '',
+      profileImageUrl: (map['profile_image_url'] as String?)?.isNotEmpty == true
+          ? map['profile_image_url']
+          : (map['photoUrl'] as String?)?.isNotEmpty == true
+              ? map['photoUrl']
+              : (map['photoURL'] as String?)?.isNotEmpty == true
+                  ? map['photoURL']
+                  : (map['avatar_url'] as String?)?.isNotEmpty == true
+                      ? map['avatar_url']
+                      : '',
       level: _parseUserLevel(map['level']),
       points: pointsVal,
       balance: map['balance']?.toInt() ?? 0,

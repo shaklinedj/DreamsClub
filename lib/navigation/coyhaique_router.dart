@@ -18,6 +18,7 @@ import 'package:casinoloyalty_flutter/screens/home_screen.dart';
 import 'package:casinoloyalty_flutter/screens/spin_wheel_screen.dart';
 import 'package:casinoloyalty_flutter/screens/slot_machine_screen.dart';
 import 'package:casinoloyalty_flutter/screens/games/match_game_screen.dart';
+import 'package:casinoloyalty_flutter/screens/games/farmland_game_screen.dart';
 import 'package:casinoloyalty_flutter/screens/notification_detail_screen.dart';
 import 'package:casinoloyalty_flutter/screens/my_prizes_screen.dart';
 import 'package:casinoloyalty_flutter/screens/prize_detail_screen.dart';
@@ -204,6 +205,10 @@ final coyhaiqueRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/match-game',
         builder: (context, state) => const MatchGameScreen(),
+      ),
+      GoRoute(
+        path: '/farmland',
+        builder: (context, state) => const FarmlandGameScreen(),
       ),
       GoRoute(
         path: '/notification-detail/:id',

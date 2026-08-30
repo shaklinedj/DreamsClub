@@ -16,6 +16,7 @@ import 'package:casinoloyalty_flutter/screens/benefits_screen.dart';
 import 'package:casinoloyalty_flutter/screens/slot_machine_screen.dart';
 import 'package:casinoloyalty_flutter/screens/spin_wheel_screen.dart';
 import 'package:casinoloyalty_flutter/screens/games/match_game_screen.dart';
+import 'package:casinoloyalty_flutter/screens/games/farmland_game_screen.dart';
 import 'package:casinoloyalty_flutter/screens/admin/admin_casinos_screen.dart';
 import 'package:casinoloyalty_flutter/screens/admin/casino_form_screen.dart';
 import 'package:casinoloyalty_flutter/screens/admin/admin_games_screen.dart';
@@ -119,6 +120,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/match-game',
         builder: (context, state) => const MatchGameScreen(),
+      ),
+      GoRoute(
+        path: '/farmland',
+        builder: (context, state) => const FarmlandGameScreen(),
       ),
 
       GoRoute(

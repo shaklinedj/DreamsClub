@@ -3,6 +3,7 @@ import 'package:casinoloyalty_flutter/models/gamification_model.dart';
 import 'package:casinoloyalty_flutter/models/user_model.dart'; // Import this!
 import 'package:casinoloyalty_flutter/services/gamification_service.dart';
 import 'package:casinoloyalty_flutter/providers/user_provider.dart';
+import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
 
 // ============================================================================
 // LOGROS - Enfocados 100% en DREAMS COYHAIQUE, RACHAS Y RECOMPENSAS DIGITALES
@@ -265,6 +266,8 @@ class AchievementsNotifier extends StateNotifier<List<Achievement>> {
 
 final achievementsProvider =
     StateNotifierProvider<AchievementsNotifier, List<Achievement>>((ref) {
+  // Watch UID to re-instantiate and reload achievements on login/user switch
+  ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
   return AchievementsNotifier(ref);
 });
 

@@ -55,6 +55,19 @@ class GamificationService {
     final userRef = _userRef;
     if (userRef == null) return;
     try {
+      if (field.contains('.')) {
+        final parts = field.split('.');
+        if (parts.length == 2) {
+          final parentKey = parts[0];
+          final childKey = parts[1];
+          await userRef.set({
+            parentKey: {
+              childKey: value,
+            }
+          }, SetOptions(merge: true));
+          return;
+        }
+      }
       await userRef.set({field: value}, SetOptions(merge: true));
     } catch (_) {
       // La caché local sigue disponible cuando no hay red.
@@ -91,18 +104,34 @@ class GamificationService {
   // ========== LOGROS ==========
   Future<Map<String, dynamic>> getAchievementData(String achievementId) async {
     final prefs = await SharedPreferences.getInstance();
-    final cloudAchievements = await _readCloud('gamificationAchievements');
-    if (cloudAchievements.available &&
-        cloudAchievements.value is Map &&
-        cloudAchievements.value[achievementId] is Map) {
-      final cloudData = Map<String, dynamic>.from(
-        cloudAchievements.value[achievementId] as Map,
-      );
-      await prefs.setString(
-        _cacheKey('${_achievementsKeyPrefix}_$achievementId'),
-        json.encode(cloudData),
-      );
-      return cloudData;
+    final userRef = _userRef;
+    if (userRef != null) {
+      try {
+        final snapshot = await userRef.get();
+        final docData = snapshot.data();
+        if (docData != null) {
+          final cloudAchievements = docData['gamificationAchievements'];
+          if (cloudAchievements is Map && cloudAchievements[achievementId] is Map) {
+            final cloudData = Map<String, dynamic>.from(
+              cloudAchievements[achievementId] as Map,
+            );
+            await prefs.setString(
+              _cacheKey('${_achievementsKeyPrefix}_$achievementId'),
+              json.encode(cloudData),
+            );
+            return cloudData;
+          }
+          final legacyKey = 'gamificationAchievements.$achievementId';
+          if (docData[legacyKey] is Map) {
+            final cloudData = Map<String, dynamic>.from(docData[legacyKey] as Map);
+            await prefs.setString(
+              _cacheKey('${_achievementsKeyPrefix}_$achievementId'),
+              json.encode(cloudData),
+            );
+            return cloudData;
+          }
+        }
+      } catch (_) {}
     }
     final String? data =
         prefs.getString(_cacheKey('${_achievementsKeyPrefix}_$achievementId'));
@@ -449,17 +478,34 @@ class GamificationService {
   // ========== MISIONES DIARIAS ==========
   Future<Map<String, dynamic>> getMissionData(String missionId) async {
     final prefs = await SharedPreferences.getInstance();
-    final cloudMissions = await _readCloud('gamificationMissions');
-    if (cloudMissions.available &&
-        cloudMissions.value is Map &&
-        cloudMissions.value[missionId] is Map) {
-      final cloudData =
-          Map<String, dynamic>.from(cloudMissions.value[missionId] as Map);
-      await prefs.setString(
-        _cacheKey('${_missionsKeyPrefix}_$missionId'),
-        json.encode(cloudData),
-      );
-      return cloudData;
+    final userRef = _userRef;
+    if (userRef != null) {
+      try {
+        final snapshot = await userRef.get();
+        final docData = snapshot.data();
+        if (docData != null) {
+          final cloudMissions = docData['gamificationMissions'];
+          if (cloudMissions is Map && cloudMissions[missionId] is Map) {
+            final cloudData = Map<String, dynamic>.from(
+              cloudMissions[missionId] as Map,
+            );
+            await prefs.setString(
+              _cacheKey('${_missionsKeyPrefix}_$missionId'),
+              json.encode(cloudData),
+            );
+            return cloudData;
+          }
+          final legacyKey = 'gamificationMissions.$missionId';
+          if (docData[legacyKey] is Map) {
+            final cloudData = Map<String, dynamic>.from(docData[legacyKey] as Map);
+            await prefs.setString(
+              _cacheKey('${_missionsKeyPrefix}_$missionId'),
+              json.encode(cloudData),
+            );
+            return cloudData;
+          }
+        }
+      } catch (_) {}
     }
     final String? data =
         prefs.getString(_cacheKey('${_missionsKeyPrefix}_$missionId'));

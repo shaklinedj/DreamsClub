@@ -388,6 +388,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       imagePath: 'assets/images/games/match_bg.png',
                       route: '/match-game',
                     ),
+                    const SizedBox(height: 16),
+                    // La Granja Dreams (Farmland Temu)
+                    const _SmartGameLauncher(
+                      gameId: 'dreams_farmland',
+                      defaultTitle: 'LA GRANJA DREAMS',
+                      subtitle: '¡Riega, cultiva y gana puntos!',
+                      icon: Icons.agriculture_rounded,
+                      color: Colors.lightGreenAccent,
+                      imagePath: 'assets/images/games/farmland_bg.png',
+                      route: '/farmland',
+                    ),
                   ],
                 ),
               ],

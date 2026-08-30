@@ -214,6 +214,8 @@ class _GameConfigCard extends StatelessWidget {
         return Icons.view_column;
       case 'dreams_match':
         return Icons.grid_view_rounded;
+      case 'dreams_farmland':
+        return Icons.agriculture_rounded;
       default:
         return Icons.games;
     }

@@ -150,9 +150,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (!data.containsKey('name') && derivedName.isNotEmpty) {
         updates['name'] = derivedName;
       }
-      final existingPhoto = data['profile_image_url'] as String?;
+      final existingPhoto = data['profile_image_url'] as String? ??
+          data['photoUrl'] as String? ??
+          data['photoURL'] as String? ??
+          data['avatar_url'] as String?;
       if (existingPhoto == null || existingPhoto.isEmpty) {
-        updates['profile_image_url'] = 'assets/images/logo-dreams.png';
+        final authPhoto = user.photoURL;
+        if (authPhoto != null && authPhoto.isNotEmpty) {
+          updates['profile_image_url'] = authPhoto;
+        } else {
+          updates['profile_image_url'] = 'assets/images/logo-dreams.png';
+        }
+      } else if (!data.containsKey('profile_image_url') ||
+          (data['profile_image_url'] as String).isEmpty) {
+        updates['profile_image_url'] = existingPhoto;
       }
 
       final legacyDailyBonus = data['dailyBonus'];

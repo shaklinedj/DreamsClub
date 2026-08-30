@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_facebook_reactions/flutter_facebook_reactions.dart';
 import 'package:casinoloyalty_flutter/models/feed_post_model.dart';
 import 'package:casinoloyalty_flutter/models/comment_model.dart';
-import 'package:casinoloyalty_flutter/models/user_model.dart';
 import 'package:casinoloyalty_flutter/providers/auth_provider.dart';
-import 'package:casinoloyalty_flutter/providers/user_provider.dart';
 import 'package:casinoloyalty_flutter/core/utils/app_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
@@ -76,9 +74,10 @@ class FeedNotifier extends StateNotifier<List<FeedPost>> {
   }
 
   void updateCurrentUser(String userId) {
-    if (userId.isEmpty || userId == _currentUserId) return;
+    if (userId.isEmpty) return;
     _currentUserId = userId;
     _listenToUserReactions(userId);
+    _applyReactionsToState();
   }
 
   Future<void> loadPosts({String? casinoId, bool isRefresh = true}) async {
@@ -158,7 +157,13 @@ class FeedNotifier extends StateNotifier<List<FeedPost>> {
     }
 
     state = _rawPosts.map((post) {
-      final myReaction = _userReactions[post.id] ?? post.reactionType;
+      ReactionType? docReaction;
+      if (_currentUserId.isNotEmpty) {
+        final cleanId = _cleanKey(_currentUserId);
+        final reactionStr = post.userReactions[_currentUserId] ?? post.userReactions[cleanId];
+        docReaction = FeedPost.parseReactionType(reactionStr);
+      }
+      final myReaction = _userReactions[post.id] ?? docReaction ?? post.reactionType;
       return post.copyWith(
         reactionType: myReaction,
         clearReaction: myReaction == null,
@@ -462,29 +467,19 @@ class FeedNotifier extends StateNotifier<List<FeedPost>> {
 }
 
 final feedProvider = StateNotifierProvider<FeedNotifier, List<FeedPost>>((ref) {
+  final authUid = ref.watch(authProvider.select((state) => state.firebaseUser?.uid));
   final notifier = FeedNotifier();
 
-  // Escuchar cambios de usuario/autenticación para mantener el stream sincronizado
-  ref.listen<User?>(userProvider, (previous, next) {
-    final authUid = ref.read(authProvider).firebaseUser?.uid;
-    final id = (authUid != null && authUid.isNotEmpty)
-        ? authUid
-        : (next != null && next.email.isNotEmpty ? next.email : (next?.name ?? ''));
-    if (id.isNotEmpty) {
-      notifier.updateCurrentUser(id);
+  if (authUid != null && authUid.isNotEmpty) {
+    notifier.updateCurrentUser(authUid);
+  }
+
+  ref.listen<AuthState>(authProvider, (prev, next) {
+    final uid = next.firebaseUser?.uid;
+    if (uid != null && uid.isNotEmpty) {
+      notifier.updateCurrentUser(uid);
     }
   });
-
-  // Identificación inicial
-  final authUid = ref.read(authProvider).firebaseUser?.uid;
-  final user = ref.read(userProvider);
-  final initialId = (authUid != null && authUid.isNotEmpty)
-      ? authUid
-      : (user.email.isNotEmpty ? user.email : user.name);
-
-  if (initialId.isNotEmpty) {
-    notifier.updateCurrentUser(initialId);
-  }
 
   return notifier;
 });

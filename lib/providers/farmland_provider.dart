@@ -64,12 +64,53 @@ class FarmlandNotifier extends StateNotifier<FarmlandState> {
     }
   }
 
+  /// Cambiar de cultivo (si el actual está en 0% o completado)
+  Future<bool> selectCrop(CropInfo crop) async {
+    final updatedState = state.copyWith(
+      cropId: crop.id,
+      cropType: crop.name,
+      rewardPoints: crop.rewardPoints,
+    );
+    await _saveToFirestore(updatedState);
+    return true;
+  }
+
+  /// Usar fertilizante (+5% de progreso inmediato)
+  Future<bool> useFertilizer() async {
+    if (state.fertilizerCount <= 0 || state.cropProgress >= 100.0) return false;
+
+    final newProgress = (state.cropProgress + 5.0).clamp(0.0, 100.0);
+    final updatedState = state.copyWith(
+      cropProgress: newProgress,
+      fertilizerCount: state.fertilizerCount - 1,
+    );
+    await _saveToFirestore(updatedState);
+    return true;
+  }
+
+  /// Acariciar o alimentar a un animal de la granja (otorga +2 gotas de agua, max 3 veces por día por animal)
+  Future<int> petAnimal(String animalId) async {
+    final currentPets = Map<String, int>.from(state.animalPetCount);
+    final count = currentPets[animalId] ?? 0;
+    if (count >= 3) return 0; // Límite diario por animal
+
+    currentPets[animalId] = count + 1;
+    final rewardWater = 2;
+
+    final updatedState = state.copyWith(
+      waterDrops: state.waterDrops + rewardWater,
+      animalPetCount: currentPets,
+    );
+    await _saveToFirestore(updatedState);
+    return rewardWater;
+  }
+
   /// Regar el cultivo actual consumiendo 10 gotas de agua
   Future<bool> waterCrop() async {
     if (state.waterDrops < 10) return false;
     if (state.cropProgress >= 100.0) return false;
 
-    // Curva psicológica de progreso (Farmland mechanics)
+    // Curva de progreso dinámica y gratificante
     double increment;
     final current = state.cropProgress;
     if (current < 30.0) {
@@ -77,13 +118,13 @@ class FarmlandNotifier extends StateNotifier<FarmlandState> {
     } else if (current < 60.0) {
       increment = 5.0;
     } else if (current < 85.0) {
-      increment = 2.0;
+      increment = 2.5;
     } else if (current < 95.0) {
-      increment = 0.5;
+      increment = 1.0;
     } else if (current < 99.0) {
-      increment = 0.2;
+      increment = 0.5;
     } else {
-      increment = 0.1;
+      increment = 0.2;
     }
 
     final newProgress = (current + increment).clamp(0.0, 100.0);
@@ -147,31 +188,19 @@ class FarmlandNotifier extends StateNotifier<FarmlandState> {
     // 1. Entregar puntos Dreams al usuario
     await _ref.read(userProvider.notifier).addPoints(state.rewardPoints);
 
-    // 2. Definir siguiente cultivo y recompensa
+    // 2. Incrementar nivel y recompensas
     final nextLevel = state.level + 1;
     final totalH = state.totalHarvests + 1;
-    String nextCrop;
-    int nextReward;
 
-    switch (totalH % 3) {
-      case 1:
-        nextCrop = 'Manzana Dreams';
-        nextReward = 750;
-        break;
-      case 2:
-        nextCrop = 'Trébol de la Suerte';
-        nextReward = 1000;
-        break;
-      default:
-        nextCrop = 'Trigo Dorado';
-        nextReward = 500;
-        break;
-    }
+    // Obtener siguiente cultivo disponible
+    final nextCrop = kAvailableCrops[(totalH) % kAvailableCrops.length];
 
     final updatedState = state.copyWith(
       cropProgress: 0.0,
-      cropType: nextCrop,
-      rewardPoints: nextReward,
+      cropId: nextCrop.id,
+      cropType: nextCrop.name,
+      rewardPoints: nextCrop.rewardPoints,
+      fertilizerCount: state.fertilizerCount + 1, // Bonus de fertilizante al cosechar
       totalHarvests: totalH,
       level: nextLevel,
     );

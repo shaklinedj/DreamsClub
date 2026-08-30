@@ -38,6 +38,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  bool _isNewerVersion(String latest, String current) {
+    try {
+      final cleanLatest = latest.trim();
+      final cleanCurrent = current.trim();
+      if (cleanLatest == cleanCurrent) return false;
+
+      final lParts = cleanLatest.split('+')[0].split('.').map((e) => int.tryParse(e) ?? 0).toList();
+      final cParts = cleanCurrent.split('+')[0].split('.').map((e) => int.tryParse(e) ?? 0).toList();
+
+      for (int i = 0; i < 3; i++) {
+        final l = i < lParts.length ? lParts[i] : 0;
+        final c = i < cParts.length ? cParts[i] : 0;
+        if (l > c) return true;
+        if (l < c) return false;
+      }
+
+      if (cleanLatest.contains('+') && cleanCurrent.contains('+')) {
+        final lBuild = int.tryParse(cleanLatest.split('+')[1]) ?? 0;
+        final cBuild = int.tryParse(cleanCurrent.split('+')[1]) ?? 0;
+        return lBuild > cBuild;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<void> _checkForUpdates() async {
     try {
       final packageInfo = await PackageInfo.fromPlatform();
@@ -51,20 +78,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         final data = doc.data();
         if (data != null) {
           final latestVersion = data['latestVersion']?.toString();
-          final downloadUrl = data['downloadUrl']?.toString() ?? 'https://dreams-casino-app.web.app/download';
-          
-          if (latestVersion != null && latestVersion != currentVersion) {
+          final downloadUrl = data['downloadUrl']?.toString() ??
+              'https://dreams-casino-app.web.app/download';
+
+          if (latestVersion != null &&
+              _isNewerVersion(latestVersion, currentVersion)) {
             if (!mounted) return;
 
-            final directApkUrl = 'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v$latestVersion/DreamsApp-v$latestVersion.apk';
-            
+            final directApkUrl =
+                'https://github.com/shaklinedj/DreamsClub-Release/releases/download/v$latestVersion/DreamsApp-v$latestVersion.apk';
+
             showDialog(
               context: context,
               barrierDismissible: false,
               builder: (context) {
                 bool isDownloading = false;
                 int progressPercentage = 0;
-                String statusMessage = 'Hay una nueva versión de Dreams Club disponible (v$latestVersion).';
+                String statusMessage =
+                    'Hay una nueva versión de Dreams Club disponible (v$latestVersion).';
 
                 return StatefulBuilder(
                   builder: (context, setDialogState) {
@@ -72,13 +103,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       backgroundColor: const Color(0xFF1E1E2C),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
-                        side: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
+                        side: const BorderSide(
+                            color: Color(0xFFD4AF37), width: 1.5),
                       ),
                       title: Row(
                         children: [
                           const Text('🚀 ', style: TextStyle(fontSize: 20)),
                           Text(
-                            isDownloading ? 'Descargando Actualización' : 'Actualización Disponible',
+                            isDownloading
+                                ? 'Descargando Actualización'
+                                : 'Actualización Disponible',
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -93,12 +127,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         children: [
                           Text(
                             statusMessage,
-                            style: const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           if (isDownloading) ...[
                             const SizedBox(height: 16),
                             LinearProgressIndicator(
-                              value: progressPercentage > 0 ? progressPercentage / 100.0 : null,
+                              value: progressPercentage > 0
+                                  ? progressPercentage / 100.0
+                                  : null,
                               backgroundColor: Colors.white10,
                               color: const Color(0xFFD4AF37),
                             ),
@@ -134,35 +171,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              if (AppUpdateService.instance.isInAppApkSupported) {
+                              if (AppUpdateService
+                                  .instance.isInAppApkSupported) {
                                 setDialogState(() {
                                   isDownloading = true;
-                                  statusMessage = 'Descargando actualización en segundo plano... Por favor no cierres la app.';
+                                  statusMessage =
+                                      'Descargando actualización en segundo plano... Por favor no cierres la app.';
                                 });
 
-                                AppUpdateService.instance.downloadAndInstallApk(directApkUrl).listen(
+                                AppUpdateService.instance
+                                    .downloadAndInstallApk(directApkUrl)
+                                    .listen(
                                   (OtaEvent event) {
                                     setDialogState(() {
                                       switch (event.status) {
                                         case OtaStatus.DOWNLOADING:
-                                          progressPercentage = int.tryParse(event.value ?? '0') ?? progressPercentage;
+                                          progressPercentage = int.tryParse(
+                                                  event.value ?? '0') ??
+                                              progressPercentage;
                                           break;
                                         case OtaStatus.INSTALLING:
-                                          statusMessage = '¡Descarga completada! Abriendo instalador de Android...';
+                                          statusMessage =
+                                              '¡Descarga completada! Abriendo instalador de Android...';
                                           progressPercentage = 100;
                                           break;
                                         case OtaStatus.ALREADY_RUNNING_ERROR:
-                                          statusMessage = 'La descarga ya está en ejecución.';
+                                          statusMessage =
+                                              'La descarga ya está en ejecución.';
                                           break;
-                                        case OtaStatus.PERMISSION_NOT_GRANTED_ERROR:
-                                          statusMessage = 'Permiso de instalación denegado. Abriendo navegador...';
+                                        case OtaStatus
+                                            .PERMISSION_NOT_GRANTED_ERROR:
+                                          statusMessage =
+                                              'Permiso denegado. Abriendo descarga web...';
                                           isDownloading = false;
-                                          launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                          launchUrl(Uri.parse(downloadUrl),
+                                              mode: LaunchMode
+                                                  .externalApplication);
                                           break;
                                         default:
-                                          statusMessage = 'Error en la descarga. Abriendo navegador web...';
-                                          isDownloading = false;
-                                          launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                          // Si no es un error fatal, no redirigir automáticamente
+                                          if (progressPercentage >= 95) {
+                                            statusMessage =
+                                                'Instalando paquete en tu dispositivo...';
+                                            progressPercentage = 100;
+                                          } else {
+                                            statusMessage =
+                                                'Procesando paquete de instalación...';
+                                          }
                                           break;
                                       }
                                     });
@@ -170,9 +225,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   onError: (error) {
                                     setDialogState(() {
                                       isDownloading = false;
-                                      statusMessage = 'Error al descargar. Redirigiendo a web...';
+                                      statusMessage =
+                                          'Error al descargar. Redirigiendo a web...';
                                     });
-                                    launchUrl(Uri.parse(downloadUrl), mode: LaunchMode.externalApplication);
+                                    launchUrl(Uri.parse(downloadUrl),
+                                        mode: LaunchMode.externalApplication);
                                   },
                                 );
                               } else {
